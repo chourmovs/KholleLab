@@ -1,9 +1,10 @@
 FROM node:22-alpine AS build
 WORKDIR /app
+RUN corepack enable && corepack install --global pnpm@10.34.5
 COPY package.json ./
-RUN npm install --no-audit --no-fund
+RUN pnpm install --no-frozen-lockfile
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 FROM nginx:1.27-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf

@@ -46,8 +46,10 @@ Frontend:
 
 ```bash
 cd frontend
-npm install
-npm run dev
+corepack enable
+corepack install --global pnpm@10.34.5
+pnpm install
+pnpm run dev
 ```
 
 The Vite dev server proxies `/api` to `http://localhost:8000`.
@@ -60,7 +62,7 @@ Every pull request must keep these commands green:
 python -m compileall -q backend/app
 ruff check backend
 pytest -q backend/tests
-cd frontend && npm run typecheck && npm run test -- --run && npm run build
+cd frontend && pnpm run typecheck && pnpm run test -- --run && pnpm run build
 docker compose config
 docker compose up -d --build
 ./scripts/smoke.sh
