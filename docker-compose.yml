@@ -45,7 +45,16 @@ services:
       backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/"]
+      # Use the Node runtime already present in the image rather than relying on
+      # Alpine's optional wget applet. 127.0.0.1 also avoids localhost/IPv6
+      # resolution differences between Docker runner environments.
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))",
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
