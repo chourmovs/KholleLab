@@ -70,3 +70,16 @@ docker compose config
 ## Périmètre PR1
 
 Cette version fournit l'UI responsive, KaTeX, la connectivité et l'infrastructure. Elle n'inclut volontairement ni authentification, ni banque d'exercices réelle, ni correction, ni évaluation LLM.
+
+## Corpus PR2
+
+Les exercices sont des fichiers YAML versionnés sous `problems/`, validés strictement au démarrage puis chargés une seule fois en mémoire. PostgreSQL est réservé aux futures données utilisateur. L'API publique fournit le catalogue (`GET /api/problems`) et le détail (`GET /api/problems/{id}`), mais ne transmet jamais `reference_solution`.
+
+Commandes utiles :
+
+```bash
+make test              # tests backend et frontend
+make validate-corpus   # validation des YAML avec le chargeur de production
+make build             # construction Compose
+make smoke             # pile complète et assertions HTTP
+```

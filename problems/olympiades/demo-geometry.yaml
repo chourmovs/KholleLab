@@ -1,0 +1,20 @@
+id: olympiades-demo-002
+title: "Médianes d’un triangle"
+level: premiere
+difficulty: 2
+estimated_minutes: 25
+topics:
+  - geometry
+source:
+  type: internal
+  name: Khollelab demo corpus
+statement: |
+  Dans un triangle, montrer que les trois médianes sont concourantes.
+reference_solution: |
+  En coordonnées vectorielles, leur point commun est \[G=(A+B+C)/3.\]
+hints:
+  - level: 1
+    text: |
+      Introduis le barycentre des trois sommets.
+tags:
+  - demo

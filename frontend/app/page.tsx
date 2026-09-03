@@ -1,12 +1,3 @@
 "use client";
-import { useEffect, useState } from "react";
-import { AppHeader } from "@/components/app-header";
-import { BlackboardPanel } from "@/components/blackboard-panel";
-import { ProblemPanel } from "@/components/problem-panel";
-import { ProfessorPanel } from "@/components/professor-panel";
-
-export default function Home() {
-  const [online, setOnline] = useState<boolean>();
-  useEffect(() => { fetch("/api/health", { cache: "no-store" }).then((r) => setOnline(r.ok)).catch(() => setOnline(false)); }, []);
-  return <main><div className="shell"><AppHeader online={online} /><div className="workspace"><ProblemPanel /><BlackboardPanel /></div><ProfessorPanel /></div><footer>Khollelab · prototype 0.1.0</footer></main>;
-}
+import {useCallback,useEffect,useState} from "react";import {AppHeader} from "@/components/app-header";import {BlackboardPanel} from "@/components/blackboard-panel";import {ProblemPanel} from "@/components/problem-panel";import {ProblemSelector} from "@/components/problem-selector";import {ProfessorPanel} from "@/components/professor-panel";import {getProblem,getProblems} from "@/lib/api";import type {ProblemDetail,ProblemSummary} from "@/lib/types";
+export default function Home(){const[problems,setProblems]=useState<ProblemSummary[]>([]);const[selected,setSelected]=useState("");const[problem,setProblem]=useState<ProblemDetail>();const[state,setState]=useState<"loading"|"ready"|"empty"|"error">("loading");const load=useCallback(async(showLoading=true)=>{if(showLoading)setState("loading");try{const catalogue=await getProblems();setProblems(catalogue);if(!catalogue.length){setState("empty");return}const first=catalogue[0].id;setSelected(first);setProblem(await getProblem(first));setState("ready")}catch{setState("error")}},[]);useEffect(()=>{queueMicrotask(()=>void load(false))},[load]);async function select(id:string){setSelected(id);setState("loading");try{setProblem(await getProblem(id));setState("ready")}catch{setState("error")}}return <main><div className="shell"><AppHeader online={state!=="error"}/>{problems.length>0&&<ProblemSelector problems={problems} selected={selected} onSelect={id=>void select(id)}/>}<div className="workspace">{state==="loading"?<section className="panel problem state">Chargement de la colle…</section>:state==="empty"?<section className="panel problem state">Aucun exercice disponible.</section>:state==="error"?<section className="panel problem state">Impossible de charger les exercices.<button onClick={()=>void load()}>Réessayer</button></section>:problem&&<ProblemPanel problem={problem}/>}<BlackboardPanel/></div><ProfessorPanel/></div><footer>Khollelab · prototype 0.2.0</footer></main>}

@@ -1,1 +1,1 @@
-export function ProfessorPanel() { return <aside className="professor"><div><span>PROFESSEUR</span><small>En retrait</small></div><blockquote>« Le professeur n’interviendra que lorsque ce sera utile. »</blockquote></aside>; }
+export function ProfessorPanel(){return <aside className="professor"><div><span>PROFESSEUR</span><small>En retrait</small></div><blockquote>Le professeur observe votre raisonnement.</blockquote></aside>}

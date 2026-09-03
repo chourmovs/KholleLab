@@ -1,0 +1,2 @@
+const labels:Record<string,string>={algebra:"Algèbre",analysis:"Analyse",arithmetic:"Arithmétique",combinatorics:"Combinatoire",geometry:"Géométrie",inequalities:"Inégalités",probability:"Probabilités",sequences:"Suites",functions:"Fonctions","complex-numbers":"Nombres complexes",logic:"Logique"};
+export function TopicBadge({topic}:{topic:string}){return <span className="topic badge">{labels[topic]??topic}</span>}
