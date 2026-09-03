@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Request, status
 
 from app.core.version import APP_NAME, APP_VERSION
 from app.api.problems import router as problems_router
+from app.api.attempts import router as attempts_router
 from app.services import health
 
 router = APIRouter(prefix="/api")
@@ -24,3 +25,4 @@ def get_version() -> dict[str, str]:
 
 
 router.include_router(problems_router)
+router.include_router(attempts_router)
