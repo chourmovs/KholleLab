@@ -1,6 +1,3 @@
-"use client";
-import katex from "katex";
-export function ProblemPanel() {
-  const formula = katex.renderToString("f(x)=x+\\frac{1}{x}\\geq 2", { throwOnError: false, displayMode: true });
-  return <section className="panel problem"><div className="eyebrow">01 — Énoncé</div><h1>Une inégalité élémentaire</h1><p>Montrer que, pour tout <em>x &gt; 0</em> :</p><div className="formula" dangerouslySetInnerHTML={{ __html: formula }} /><p className="aside">Un premier exercice pour prendre place au tableau. La résolution interactive arrivera prochainement.</p></section>;
-}
+import type { ProblemDetail } from "@/lib/types";
+import {DifficultyBadge} from "./difficulty-badge";import {TopicBadge} from "./topic-badge";import {SourceBadge} from "./source-badge";import {MathContent} from "./math-content";
+export function ProblemPanel({problem}:{problem:ProblemDetail}){return <section className="panel problem"><div className="eyebrow">Énoncé</div><h1>{problem.title}</h1>{problem.subtitle&&<p>{problem.subtitle}</p>}<div className="problem-meta"><span className="badge">{problem.level.replace("premiere","Première").replace("terminale","Terminale")}</span><DifficultyBadge difficulty={problem.difficulty}/>{problem.estimatedMinutes&&<span className="badge">~{problem.estimatedMinutes} min</span>}</div><div className="topics">{problem.topics.map(topic=><TopicBadge key={topic} topic={topic}/>)}</div><SourceBadge source={problem.source} year={problem.year}/><MathContent content={problem.statement}/></section>}

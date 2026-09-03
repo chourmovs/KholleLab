@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     database_url: str = Field(description="SQLAlchemy database URL supplied by the environment")
     cors_origins: str = "http://localhost:3000"
+    problems_dir: str = "../problems"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

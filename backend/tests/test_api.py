@@ -1,22 +1,15 @@
+from pathlib import Path
 from fastapi.testclient import TestClient
-
+from app.core.config import settings
 from app.main import app
+settings.problems_dir = str(Path(__file__).resolve().parents[2] / 'problems')
 
-client = TestClient(app)
+def test_health_reports_database_and_corpus(monkeypatch):
+    monkeypatch.setattr('app.services.health.database_is_available', lambda: True)
+    with TestClient(app) as client:
+        body=client.get('/api/health').json()
+    assert body == {'status':'ok','service':'khollelab-api','database':'ok','problem_corpus':'ok','problem_count':5}
 
-
-def test_health_reports_database(monkeypatch) -> None:
-    monkeypatch.setattr("app.services.health.database_is_available", lambda: True)
-    response = client.get("/api/health")
-    assert response.status_code == 200
-    assert response.json() == {
-        "status": "ok",
-        "service": "khollelab-api",
-        "database": "ok",
-    }
-
-
-def test_health_fails_when_database_is_unavailable(monkeypatch) -> None:
-    monkeypatch.setattr("app.services.health.database_is_available", lambda: False)
-    assert client.get("/api/health").status_code == 503
-
+def test_health_fails_when_database_is_unavailable(monkeypatch):
+    monkeypatch.setattr('app.services.health.database_is_available', lambda: False)
+    with TestClient(app) as client: assert client.get('/api/health').status_code == 503

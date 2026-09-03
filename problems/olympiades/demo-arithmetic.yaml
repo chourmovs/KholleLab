@@ -1,0 +1,20 @@
+id: olympiades-demo-004
+title: "Carrés modulo huit"
+level: olympiades
+difficulty: 4
+estimated_minutes: 35
+topics:
+  - arithmetic
+source:
+  type: internal
+  name: Khollelab demo corpus
+statement: |
+  Démontrer que le carré de tout entier impair est congru à \(1\) modulo \(8\).
+reference_solution: |
+  Écrire \(n=2k+1\). Alors \(n^2-1=4k(k+1)\), produit divisible par \(8\).
+hints:
+  - level: 1
+    text: |
+      Deux entiers consécutifs contiennent toujours un entier pair.
+tags:
+  - demo

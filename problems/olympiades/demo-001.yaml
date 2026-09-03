@@ -1,0 +1,21 @@
+id: olympiades-demo-001
+title: "Une somme et son inverse"
+level: premiere
+difficulty: 1
+estimated_minutes: 20
+topics:
+  - algebra
+  - inequalities
+source:
+  type: internal
+  name: Khollelab demo corpus
+statement: |
+  Soit \(x>0\). Montrer que \[x+\frac{1}{x}\geq2.\]
+reference_solution: |
+  On écrit \[(\sqrt{x}-1/\sqrt{x})^2\geq0.\]
+hints:
+  - level: 1
+    text: |
+      Peut-on faire apparaître un carré positif ?
+tags:
+  - demo

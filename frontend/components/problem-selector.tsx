@@ -1,0 +1,2 @@
+import type { ProblemSummary } from "@/lib/types";
+export function ProblemSelector({problems,selected,onSelect}:{problems:ProblemSummary[];selected:string;onSelect:(id:string)=>void}){return <label className="selector"><span>Exercice</span><select aria-label="Choisir un exercice" value={selected} onChange={event=>onSelect(event.target.value)}>{problems.map(problem=><option key={problem.id} value={problem.id}>{problem.title} · {problem.level} · {problem.difficulty}/5</option>)}</select></label>}

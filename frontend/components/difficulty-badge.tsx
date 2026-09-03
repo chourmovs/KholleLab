@@ -1,0 +1,2 @@
+const labels=["","accessible","modérée","stimulante","difficile","très difficile"];
+export function DifficultyBadge({difficulty}:{difficulty:number}){return <span className="badge difficulty" aria-label={`Difficulté ${difficulty} sur 5, ${labels[difficulty]}`}><span aria-hidden="true">{"★".repeat(difficulty)}{"☆".repeat(5-difficulty)}</span><span className="sr-only">Difficulté : {labels[difficulty]}</span></span>}
