@@ -62,7 +62,7 @@ Every pull request must keep these commands green:
 python -m compileall -q backend/app
 ruff check backend
 pytest -q backend/tests
-cd frontend && pnpm run typecheck && pnpm run test -- --run && pnpm run build
+cd frontend && pnpm run typecheck && pnpm run test && pnpm run build
 docker compose config
 docker compose up -d --build
 ./scripts/smoke.sh

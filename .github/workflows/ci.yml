@@ -42,7 +42,7 @@ jobs:
         run: pnpm run typecheck
       - name: Unit tests
         working-directory: frontend
-        run: pnpm run test -- --run
+        run: pnpm run test
       - name: Production build
         working-directory: frontend
         run: pnpm run build
