@@ -4,8 +4,8 @@ import os
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-api = os.getenv("SMOKE_API_URL", "http://localhost:8000/api")
-frontend = os.getenv("SMOKE_FRONTEND_URL", "http://localhost:3000")
+frontend = os.getenv("SMOKE_FRONTEND_URL", "http://frontend:3000")
+api = os.getenv("SMOKE_API_URL", f"{frontend}/api")
 
 
 def get_json(url: str):

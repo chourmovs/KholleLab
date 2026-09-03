@@ -29,6 +29,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: docker compose build
       - run: docker compose up -d --wait
-      - run: python scripts/smoke.py
+      # The Compose stack intentionally publishes no host ports. Run the smoke
+      # client inside the Compose network, where the `frontend` DNS name exists.
+      - run: docker compose exec -T backend python - < scripts/smoke.py
       - if: always()
         run: docker compose logs && docker compose down -v
