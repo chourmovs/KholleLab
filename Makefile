@@ -8,4 +8,4 @@ build:
 	docker compose build
 smoke:
 	docker compose up -d --wait
-	python scripts/smoke.py; status=$$?; docker compose down -v; exit $$status
+	docker compose exec -T backend python - < scripts/smoke.py; status=$$?; docker compose down -v; exit $$status
