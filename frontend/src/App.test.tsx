@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { test, vi } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import App from './App'
 
 vi.mock('tldraw', () => ({
