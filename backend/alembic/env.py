@@ -4,6 +4,7 @@ from alembic import context
 
 from app.core.config import settings
 from app.db.base import Base
+from app.models import Attempt  # noqa: F401
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url)
@@ -27,4 +28,3 @@ def run_migrations_online() -> None:
 
 
 run_migrations_offline() if context.is_offline_mode() else run_migrations_online()
-
