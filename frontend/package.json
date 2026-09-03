@@ -1,0 +1,31 @@
+{
+  "name": "khollelab-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "katex": "^0.16.22",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tldraw": "5.3.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/katex": "^0.16.7",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "6.1.1",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.9.2",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  }
+}
