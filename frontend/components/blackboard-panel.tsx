@@ -1,0 +1,1 @@
+export function BlackboardPanel() { return <section className="panel board"><div className="eyebrow">Tableau</div><div className="empty"><span>∴</span><p>Votre raisonnement apparaîtra ici</p><small>Espace de travail disponible dans une prochaine colle</small></div></section>; }
