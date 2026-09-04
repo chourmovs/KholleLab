@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
-from app.domain.problem import Level, SourceInfo, Topic
+from app.domain.problem import Level, ProblemResources, SourceInfo, Topic
 
 
 class PublicModel(BaseModel):
@@ -22,3 +22,4 @@ class ProblemCatalogueItem(PublicModel):
 class ProblemPublicDetail(ProblemCatalogueItem):
     statement: str
     hint_levels: tuple[int, ...]
+    resources: ProblemResources | None = None

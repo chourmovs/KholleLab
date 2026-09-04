@@ -18,3 +18,20 @@ hints:
       Deux entiers consécutifs contiennent toujours un entier pair.
 tags:
   - demo
+resources:
+  course_points:
+    - title: "Carrés et congruences"
+      summary: |
+        Si \(n=2k+1\), alors
+
+        \[n^2-1=4k(k+1).\]
+
+        Parmi deux entiers consécutifs, l'un est pair.
+      topics:
+        - arithmetic
+  videos:
+    - title: "Introduction aux congruences"
+      provider: youtube
+      url: "https://www.youtube.com/watch?v=bdMfjfT0lKk"
+      author: "Khan Academy"
+      duration_minutes: 8

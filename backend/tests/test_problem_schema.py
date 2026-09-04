@@ -28,3 +28,18 @@ def test_duplicate_hints():
 def test_invalid_hint_level():
     data=valid_problem(); data["hints"][0]["level"]=6
     with pytest.raises(ValidationError): Problem.model_validate(data)
+
+def test_valid_pedagogical_resources():
+    data=valid_problem(); data["resources"]={"course_points":[{"title":"Rappel","summary":"\\(a+b\\)","topics":["algebra"]}],"videos":[{"title":"Une vidéo","provider":"youtube","url":"https://youtu.be/abc123","duration_minutes":8}]}
+    resources=Problem.model_validate(data).resources
+    assert resources and resources.course_points[0].title == "Rappel"
+
+@pytest.mark.parametrize("resource", [
+    {"course_points":[{"title":" ","summary":"Contenu"}]},
+    {"videos":[{"title":"Vidéo","provider":"youtube","url":"not-a-url"}]},
+    {"videos":[{"title":"Vidéo","provider":"youtube","url":"https://example.com/video"}]},
+    {"videos":[{"title":"Vidéo","provider":"youtube","url":"https://youtube.com/watch?v=x","duration_minutes":0}]},
+])
+def test_invalid_pedagogical_resource(resource):
+    data=valid_problem(); data["resources"]=resource
+    with pytest.raises(ValidationError): Problem.model_validate(data)

@@ -1,7 +1,7 @@
 from enum import StrEnum
-from typing import Annotated
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, model_validator
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, StringConstraints, model_validator
 
 
 NonEmpty = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
@@ -45,6 +45,31 @@ class Hint(StrictModel):
     text: NonEmpty
 
 
+class CoursePoint(StrictModel):
+    title: NonEmpty
+    summary: NonEmpty
+    topics: tuple[NonEmpty, ...] = ()
+
+
+class VideoResource(StrictModel):
+    title: NonEmpty
+    provider: Literal["youtube"]
+    url: HttpUrl
+    author: NonEmpty | None = None
+    duration_minutes: int | None = Field(default=None, gt=0)
+
+    @model_validator(mode="after")
+    def require_youtube_url(self) -> "VideoResource":
+        if self.url.host not in {"youtube.com", "www.youtube.com", "youtu.be"}:
+            raise ValueError("youtube resources must use a YouTube URL")
+        return self
+
+
+class ProblemResources(StrictModel):
+    course_points: tuple[CoursePoint, ...] = ()
+    videos: tuple[VideoResource, ...] = ()
+
+
 class Problem(StrictModel):
     id: str = Field(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")
     title: NonEmpty
@@ -61,6 +86,7 @@ class Problem(StrictModel):
     authors: tuple[NonEmpty, ...] = ()
     tags: tuple[NonEmpty, ...] = ()
     notes: NonEmpty | None = None
+    resources: ProblemResources | None = None
 
     @model_validator(mode="after")
     def unique_hint_levels(self) -> "Problem":
