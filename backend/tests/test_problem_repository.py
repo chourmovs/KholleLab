@@ -2,7 +2,7 @@ from pathlib import Path
 import pytest
 from app.services.problem_repository import ProblemCorpusError, ProblemRepository
 
-VALID='''id: demo-001\ntitle: Demo\nstatement: Test\nlevel: premiere\ndifficulty: 1\ntopics: [algebra]\nsource: {type: internal, name: Tests}\nreference_solution: Solution\n'''
+VALID='''id: demo-001\ntitle: Demo\nstatement: Test\ncurriculum: {level: premiere, difficulty: 1}\ntopics: [algebra]\nsource: {type: internal, name: Tests}\nreference_solution: Solution\n'''
 
 def test_recursive_and_deterministic(tmp_path: Path):
     (tmp_path/'b/c').mkdir(parents=True); (tmp_path/'a').mkdir()

@@ -1,0 +1,23 @@
+id: maths-spe-differential-equations-002
+title: Équation différentielle
+statement: Résoudre $y''+y=0$.
+curriculum:
+  level: maths-spe
+  difficulty: 2
+topics:
+- differential-equations
+prerequisites:
+- linear-differential-equations
+skills:
+- equation-solving
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

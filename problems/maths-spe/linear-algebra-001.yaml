@@ -1,0 +1,23 @@
+id: maths-spe-linear-algebra-001
+title: Diagonalisation
+statement: Diagonaliser la matrice $\begin{pmatrix}2&1\\0&2\end{pmatrix}$ si possible.
+curriculum:
+  level: maths-spe
+  difficulty: 1
+topics:
+- linear-algebra
+prerequisites:
+- eigenvalues
+skills:
+- proof
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

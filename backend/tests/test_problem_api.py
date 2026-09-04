@@ -16,3 +16,7 @@ def test_public_problem_api_never_exposes_solution():
         assert {'id','title','statement','hint_levels'} <= detail.json().keys()
         assert 'reference_solution' not in detail.json()
         assert client.get('/api/problems/does-not-exist').status_code == 404
+        selection=client.get('/api/problems/select?level=terminale&difficulty=2')
+        assert selection.status_code == 200
+        assert selection.json()['problem']['curriculum']['level'] == 'terminale'
+        assert 'reference_solution' not in selection.text

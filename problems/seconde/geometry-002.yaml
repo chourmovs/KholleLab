@@ -1,0 +1,23 @@
+id: seconde-geometry-002
+title: Distance dans le plan
+statement: Calculer la distance entre $A(1,2)$ et $B(4,6)$.
+curriculum:
+  level: seconde
+  difficulty: 2
+topics:
+- geometry
+prerequisites:
+- pythagorean-theorem
+skills:
+- calculation
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

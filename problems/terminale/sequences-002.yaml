@@ -1,0 +1,23 @@
+id: terminale-sequences-002
+title: Convergence d’une suite
+statement: Soit $u_n=1+1/n$. Déterminer sa limite.
+curriculum:
+  level: terminale
+  difficulty: 2
+topics:
+- sequences
+prerequisites:
+- sequence-limits
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

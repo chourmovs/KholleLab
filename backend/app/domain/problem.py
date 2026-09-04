@@ -7,11 +7,15 @@ from pydantic import BaseModel, ConfigDict, Field, HttpUrl, StringConstraints, m
 NonEmpty = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
 
-class Level(StrEnum):
+class CurriculumLevel(StrEnum):
+    SECONDE = "seconde"
     PREMIERE = "premiere"
     TERMINALE = "terminale"
-    OLYMPIADES = "olympiades"
-    CONCOURS_GENERAL = "concours-general"
+    MATHS_SUP = "maths-sup"
+    MATHS_SPE = "maths-spe"
+
+
+CURRICULUM_ORDER = [level.value for level in CurriculumLevel]
 
 
 class Topic(StrEnum):
@@ -26,6 +30,31 @@ class Topic(StrEnum):
     FUNCTIONS = "functions"
     COMPLEX_NUMBERS = "complex-numbers"
     LOGIC = "logic"
+    EQUATIONS = "equations"
+    TRIGONOMETRY = "trigonometry"
+    DERIVATIVES = "derivatives"
+    INTEGRALS = "integrals"
+    LIMITS = "limits"
+    LINEAR_ALGEBRA = "linear-algebra"
+    POLYNOMIALS = "polynomials"
+    DIFFERENTIAL_EQUATIONS = "differential-equations"
+
+
+class Skill(StrEnum):
+    CALCULATION = "calculation"
+    PROOF = "proof"
+    REASONING = "reasoning"
+    MODELING = "modeling"
+    SIGN_ANALYSIS = "sign-analysis"
+    GRAPH_READING = "graph-reading"
+    EQUATION_SOLVING = "equation-solving"
+    INEQUALITY_SOLVING = "inequality-solving"
+    INDUCTION = "induction"
+    CONTRADICTION = "contradiction"
+    CASE_ANALYSIS = "case-analysis"
+    CONSTRUCTION = "construction"
+    ESTIMATION = "estimation"
+    OPTIMIZATION = "optimization"
 
 
 class StrictModel(BaseModel):
@@ -70,13 +99,20 @@ class ProblemResources(StrictModel):
     videos: tuple[VideoResource, ...] = ()
 
 
+class CurriculumInfo(StrictModel):
+    level: CurriculumLevel
+    difficulty: int = Field(ge=1, le=5)
+
+
 class Problem(StrictModel):
     id: str = Field(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")
     title: NonEmpty
     statement: NonEmpty
-    level: Level
-    difficulty: int = Field(ge=1, le=5)
+    curriculum: CurriculumInfo
     topics: tuple[Topic, ...] = Field(min_length=1)
+    prerequisites: tuple[Annotated[str, StringConstraints(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")], ...] = ()
+    skills: tuple[Skill, ...] = ()
+    recommended_after: tuple[Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")], ...] = ()
     source: SourceInfo
     reference_solution: NonEmpty
     subtitle: NonEmpty | None = None

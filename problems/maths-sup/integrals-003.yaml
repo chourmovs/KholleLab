@@ -1,0 +1,23 @@
+id: maths-sup-integrals-003
+title: Intégration par parties
+statement: Calculer $\int_0^1 xe^x\,dx$.
+curriculum:
+  level: maths-sup
+  difficulty: 3
+topics:
+- integrals
+prerequisites:
+- integration-by-parts
+skills:
+- calculation
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

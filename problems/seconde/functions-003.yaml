@@ -1,0 +1,23 @@
+id: seconde-functions-003
+title: Variations affines
+statement: Étudier les variations de $f(x)=-2x+5$.
+curriculum:
+  level: seconde
+  difficulty: 3
+topics:
+- functions
+prerequisites:
+- affine-functions
+skills:
+- reasoning
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

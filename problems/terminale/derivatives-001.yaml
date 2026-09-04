@@ -1,0 +1,23 @@
+id: terminale-derivatives-001
+title: Tangente à une courbe
+statement: Déterminer la tangente à $f(x)=x^2$ au point d’abscisse 1.
+curriculum:
+  level: terminale
+  difficulty: 1
+topics:
+- derivatives
+prerequisites:
+- derivative-definition
+skills:
+- calculation
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo
