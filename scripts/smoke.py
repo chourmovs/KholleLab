@@ -51,13 +51,13 @@ assert "reference_solution" not in detail
 print("[PASS] Problem detail and private reference solution")
 attempt = send_json(f"{api}/attempts", "POST", {"problem_id": catalogue[0]["id"]}, 201)
 assert attempt["status"] == "draft" and attempt["revision"] == 0
-solution = """On pose $x > 0$.
+solution = """On considère \\(x \\in \\mathbb{R}\\).
 
-Comme
 $$
-(\\sqrt{x}-1/\\sqrt{x})^2 \\geq 0,
+f(x)=\\frac{x^2-1}{x+1}
 $$
-on obtient le résultat."""
+
+Pour \\(x\\neq-1\\), on obtient le résultat."""
 saved = send_json(f"{api}/attempts/{attempt['id']}", "PATCH", {"solution_markdown": solution, "elapsed_seconds": 12, "expected_revision": 0})
 assert saved["revision"] == 1 and get_json(f"{api}/attempts/{attempt['id']}")["solution_markdown"] == solution
 assert send_json(f"{api}/attempts/{attempt['id']}", "PATCH", {"solution_markdown": "stale", "elapsed_seconds": 12, "expected_revision": 0}, 409)["error"] == "attempt_conflict"
