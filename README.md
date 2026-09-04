@@ -90,7 +90,7 @@ The backend-only examiner uses runtime variables `LLM_PROVIDER`, `LLM_MODEL`,
 
 ## Inférence locale
 
-Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b6745`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
+Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b5350`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
 
 Au premier démarrage, `model-download` consulte les métadonnées Hugging Face pour résoudre exactement la quantification demandée, télécharge vers `model.gguf.part`, puis effectue un renommage atomique dans le volume `llm_models`. Les redémarrages et redéploiements réutilisent ce volume (ne lancez pas `docker compose down -v`). `HF_TOKEN` est facultatif pour de futurs modèles restreints et n'est jamais journalisé. Un échec laisse le backend et le frontend utilisables et l'état d'inférence devient `unavailable`.
 

@@ -28,7 +28,7 @@ services:
     restart: "no"
 
   inference:
-    image: ghcr.io/ggml-org/llama.cpp:server-b6745
+    image: ghcr.io/ggml-org/llama.cpp:server-b5350
     expose:
       - "8080"
     volumes:
