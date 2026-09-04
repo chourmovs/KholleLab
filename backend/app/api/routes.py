@@ -1,3 +1,5 @@
+import time
+import httpx
 from fastapi import APIRouter, HTTPException, Request, status
 
 from app.core.version import APP_NAME, APP_VERSION
@@ -12,15 +14,31 @@ router = APIRouter(prefix="/api")
 
 
 @router.get("/health")
-def get_health(request: Request) -> dict[str, str | int]:
+async def get_health(request: Request) -> dict[str, str | int]:
     if not health.database_is_available():
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail={"status": "error", "service": "khollelab-api", "database": "unavailable"},
         )
     repository = request.app.state.problem_repository
-    configured = settings.llm_provider == "fake" or bool(settings.openai_api_key)
-    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "llm": "configured" if configured else "unconfigured"}
+    inference = await get_inference_status()
+    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference["status"]}
+
+@router.get("/inference/status")
+async def get_inference_status() -> dict[str, str | float]:
+    base = {"provider": settings.llm_provider, "model": settings.local_llm_model.rsplit("/", 1)[-1].removesuffix("-GGUF") if settings.llm_provider == "local" else settings.llm_model, "engine": "llama.cpp" if settings.llm_provider == "local" else settings.llm_provider, "quantization": settings.local_llm_quant if settings.llm_provider == "local" else ""}
+    if settings.llm_provider not in {"local", "fake", "openai"}:
+        return {**base, "status": "error"}
+    if settings.llm_provider != "local":
+        return {**base, "status": "disabled"}
+    started = time.perf_counter()
+    try:
+        async with httpx.AsyncClient(timeout=min(5, settings.local_llm_timeout_seconds)) as client:
+            response = await client.get(f"{settings.local_llm_base_url.removesuffix('/v1').rstrip('/')}/health")
+            response.raise_for_status()
+        return {**base, "status": "ready", "latency_ms": round((time.perf_counter()-started)*1000, 1)}
+    except (httpx.HTTPError, ValueError):
+        return {**base, "status": "unavailable"}
 
 
 @router.get("/curriculum")

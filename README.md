@@ -87,3 +87,21 @@ make smoke             # pile complète et assertions HTTP
 The backend-only examiner uses runtime variables `LLM_PROVIDER`, `LLM_MODEL`,
 `OPENAI_API_KEY`, and `LLM_TIMEOUT_SECONDS` (default 90). CI and smoke tests use
 `LLM_PROVIDER=fake`. Never expose the key as a build-time or `NEXT_PUBLIC_` variable.
+
+## Inférence locale
+
+Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b6745`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
+
+Au premier démarrage, `model-download` consulte les métadonnées Hugging Face pour résoudre exactement la quantification demandée, télécharge vers `model.gguf.part`, puis effectue un renommage atomique dans le volume `llm_models`. Les redémarrages et redéploiements réutilisent ce volume (ne lancez pas `docker compose down -v`). `HF_TOKEN` est facultatif pour de futurs modèles restreints et n'est jamais journalisé. Un échec laisse le backend et le frontend utilisables et l'état d'inférence devient `unavailable`.
+
+La configuration backend comprend `LLM_PROVIDER` (`fake`, `openai` ou `local`), `LOCAL_LLM_BASE_URL`, `LOCAL_LLM_MODEL`, `LOCAL_LLM_HF_REPO`, `LOCAL_LLM_QUANT`, `LOCAL_LLM_CONTEXT_SIZE` (8192), `LOCAL_LLM_THREADS` (6), `LOCAL_LLM_BATCH_SIZE`, `LOCAL_LLM_PARALLEL` (1) et `LOCAL_LLM_TIMEOUT_SECONDS`. Le modèle et la quantification peuvent être remplacés sans modifier les services métier. En CI, conservez `LLM_PROVIDER=fake` afin de ne jamais télécharger le modèle.
+
+Diagnostics manuels depuis un environnement capable de joindre les noms Compose :
+
+```bash
+make inference-status
+make inference-test
+make inference-bench
+```
+
+Le benchmark couvre calcul, équation, contre-exemple et question tutorale. Il affiche latence, tokens et tokens/s lorsque l'usage est fourni, sans seuil de performance CI.

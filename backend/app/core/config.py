@@ -13,6 +13,18 @@ class Settings(BaseSettings):
     llm_model: str = ""
     openai_api_key: str | None = None
     llm_timeout_seconds: float = Field(default=90, gt=0)
+    local_llm_base_url: str = "http://inference:8080/v1"
+    local_llm_model: str = "Qwen/Qwen3-4B-GGUF"
+    local_llm_hf_repo: str = "Qwen/Qwen3-4B-GGUF"
+    local_llm_quant: str = "Q4_K_M"
+    local_llm_context_size: int = Field(default=8192, gt=0)
+    local_llm_threads: int = Field(default=6, gt=0)
+    local_llm_batch_size: int = Field(default=512, gt=0)
+    local_llm_parallel: int = Field(default=1, gt=0)
+    local_llm_temperature: float = Field(default=0.2, ge=0)
+    local_llm_top_p: float = Field(default=0.9, gt=0, le=1)
+    local_llm_max_tokens: int = Field(default=512, gt=0)
+    local_llm_timeout_seconds: float = Field(default=90, gt=0)
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
