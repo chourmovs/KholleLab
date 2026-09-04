@@ -29,6 +29,18 @@ assert health["status"] == "ok"
 print("[PASS] API and database health")
 assert health["problem_corpus"] == "ok" and health["problem_count"] > 0
 print("[PASS] Problem corpus health")
+curriculum = get_json(f"{api}/curriculum")
+assert len(curriculum["levels"]) == 5 and len(curriculum["difficulties"]) == 5
+print("[PASS] Curriculum metadata")
+for level, label in (("seconde", "Seconde"), ("premiere", "Première"), ("terminale", "Terminale"), ("maths-sup", "Maths Sup"), ("maths-spe", "Maths Spé")):
+    selection = get_json(f"{api}/problems/select?level={level}&difficulty=2")
+    assert selection["problem"]["curriculum"]["level"] == level
+    assert "reference_solution" not in json.dumps(selection)
+    print(f"[PASS] {label} selection")
+fallback = get_json(f"{api}/problems/select?level=seconde&difficulty=5")
+assert fallback["fallback_used"] and fallback["actual_difficulty"] == 3
+print("[PASS] Difficulty fallback")
+print("[PASS] Reference solution isolation")
 catalogue = get_json(f"{api}/problems")
 assert isinstance(catalogue, list) and catalogue
 assert all("reference_solution" not in item for item in catalogue)

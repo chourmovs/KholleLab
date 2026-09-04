@@ -4,13 +4,13 @@ from app.domain.problem import Problem
 
 
 def valid_problem():
-    return {"id":"olympiades-2012-003","title":"Titre","statement":"Énoncé","level":"premiere","difficulty":2,"topics":["algebra"],"source":{"type":"internal","name":"Tests"},"reference_solution":"Solution","hints":[{"level":1,"text":"Indice"}]}
+    return {"id":"olympiades-2012-003","title":"Titre","statement":"Énoncé","curriculum":{"level":"premiere","difficulty":2},"topics":["algebra"],"prerequisites":[],"skills":["proof"],"source":{"type":"internal","name":"Tests"},"reference_solution":"Solution","hints":[{"level":1,"text":"Indice"}]}
 
 
 def test_valid_problem(): assert Problem.model_validate(valid_problem()).id == "olympiades-2012-003"
 @pytest.mark.parametrize("difficulty", [0, 6])
 def test_invalid_difficulty(difficulty):
-    data=valid_problem(); data["difficulty"]=difficulty
+    data=valid_problem(); data["curriculum"]["difficulty"]=difficulty
     with pytest.raises(ValidationError): Problem.model_validate(data)
 @pytest.mark.parametrize("identifier", ["has space", "Uppercase-001"])
 def test_invalid_id(identifier):

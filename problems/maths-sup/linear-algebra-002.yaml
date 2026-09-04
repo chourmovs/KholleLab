@@ -1,0 +1,23 @@
+id: maths-sup-linear-algebra-002
+title: Noyau d’une application
+statement: Déterminer le noyau de $(x,y)\mapsto x+y$.
+curriculum:
+  level: maths-sup
+  difficulty: 2
+topics:
+- linear-algebra
+prerequisites:
+- vector-spaces
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

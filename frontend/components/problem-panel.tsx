@@ -25,9 +25,10 @@ export function ProblemPanel({problem}:{problem:ProblemDetail}) {
   return <section className="panel problem">
     <div className="eyebrow">Énoncé</div><h1>{problem.title}</h1>
     {problem.subtitle&&<p>{problem.subtitle}</p>}
-    <div className="problem-meta"><span className="badge">{problem.level.replace("premiere","Première").replace("terminale","Terminale")}</span><DifficultyBadge difficulty={problem.difficulty}/>{problem.estimatedMinutes&&<span className="badge">~{problem.estimatedMinutes} min</span>}</div>
+    <div className="problem-meta"><span className="badge">Niveau : {problem.curriculum.level}</span><DifficultyBadge difficulty={problem.curriculum.difficulty}/>{problem.estimatedMinutes&&<span className="badge">~{problem.estimatedMinutes} min</span>}</div>
     <div className="topics">{problem.topics.map(topic=><TopicBadge key={topic} topic={topic}/>)}</div>
     <SourceBadge source={problem.source} year={problem.year}/><MathContent content={problem.statement}/>
+    {!!problem.prerequisites.length&&<details className="prerequisites"><summary>Prérequis</summary><p>Prérequis conseillés :</p><ul>{problem.prerequisites.map(item=><li key={item}>{item.replaceAll("-"," ")}</li>)}</ul></details>}
     {(course||video)&&<div className="resource-actions" aria-label="Ressources pédagogiques">{course&&<button onClick={()=>show("course")}>📘 Point de cours</button>}{video&&<button onClick={()=>show("video")}>▶ Vidéo{video.duration_minutes?` ${video.duration_minutes} min`:""}</button>}</div>}
     {open==="course"&&course&&<div className="resource-modal" role="dialog" aria-modal="true" aria-label="Point de cours"><button className="resource-close" aria-label="Fermer" onClick={()=>setOpen(undefined)}>×</button><div className="eyebrow">Point de cours</div><h2>{course.title}</h2><MathContent content={course.summary}/></div>}
     {open==="video"&&video&&<div className="resource-modal video-resource" role="dialog" aria-modal="true" aria-label="Vidéo"><button className="resource-close" aria-label="Fermer" onClick={()=>setOpen(undefined)}>×</button><div className="eyebrow">Vidéo</div><h2>▶ {video.title}</h2><p>{[video.author,video.duration_minutes&&`${video.duration_minutes} min`].filter(Boolean).join(" · ")}</p><a href={video.url} target="_blank" rel="noopener noreferrer">Voir la vidéo</a></div>}

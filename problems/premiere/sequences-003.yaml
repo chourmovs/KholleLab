@@ -1,0 +1,23 @@
+id: premiere-sequences-003
+title: Suite arithmétique
+statement: Soit $u_0=2$ et $u_{n+1}=u_n+3$. Exprimer $u_n$.
+curriculum:
+  level: premiere
+  difficulty: 3
+topics:
+- sequences
+prerequisites:
+- arithmetic-sequences
+skills:
+- proof
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo

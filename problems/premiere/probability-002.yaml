@@ -1,0 +1,24 @@
+id: premiere-probability-002
+title: Tirage de boules
+statement: Une urne contient trois boules rouges et deux bleues. Calculer la probabilité
+  de tirer une rouge.
+curriculum:
+  level: premiere
+  difficulty: 2
+topics:
+- probability
+prerequisites:
+- fraction-rules
+skills:
+- modeling
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab demo corpus
+reference_solution: Une solution détaillée est obtenue en appliquant directement les
+  résultats du cours.
+hints:
+- level: 1
+  text: Identifier le résultat du cours adapté.
+tags:
+- demo
