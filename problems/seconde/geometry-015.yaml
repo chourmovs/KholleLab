@@ -1,0 +1,24 @@
+id: seconde-geometry-015
+title: Geometry
+statement: Dans un repère, calculer la distance entre $A(1,2)$ et $B(4,6)$.
+curriculum:
+  level: seconde
+  difficulty: 2
+topics:
+- geometry
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: $AB=\sqrt{(4-1)^2+(6-2)^2}=\sqrt{25}=5$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

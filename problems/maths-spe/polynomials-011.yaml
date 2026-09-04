@@ -1,0 +1,24 @@
+id: maths-spe-polynomials-011
+title: Polynomials
+statement: Montrer que $X^2+X+1$ divise $X^3-1$.
+curriculum:
+  level: maths-spe
+  difficulty: 2
+topics:
+- polynomials
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: L’identité $X^3-1=(X-1)(X^2+X+1)$ donne immédiatement la divisibilité.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

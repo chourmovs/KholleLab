@@ -1,0 +1,25 @@
+id: premiere-inequalities-017
+title: Inequalities
+statement: Résoudre $x^2-4x-5>0$.
+curriculum:
+  level: premiere
+  difficulty: 3
+topics:
+- inequalities
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: 'Le trinôme a pour racines $-1$ et $5$ et un coefficient dominant
+  positif : solution $]-\infty,-1[\cup]5,+\infty[$.'
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

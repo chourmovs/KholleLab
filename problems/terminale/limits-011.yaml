@@ -1,0 +1,24 @@
+id: terminale-limits-011
+title: Limits
+statement: Calculer $\lim_{x\to+\infty}(3x^2-x)/(x^2+1)$.
+curriculum:
+  level: terminale
+  difficulty: 2
+topics:
+- limits
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: En divisant par $x^2$, la limite est $3$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

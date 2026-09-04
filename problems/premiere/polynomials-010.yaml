@@ -1,0 +1,24 @@
+id: premiere-polynomials-010
+title: Polynomials
+statement: Résoudre $x^2-7x+12=0$.
+curriculum:
+  level: premiere
+  difficulty: 1
+topics:
+- polynomials
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: 'On factorise $(x-3)(x-4)=0$ : les solutions sont $3$ et $4$.'
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

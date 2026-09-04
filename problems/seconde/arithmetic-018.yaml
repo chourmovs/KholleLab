@@ -1,0 +1,25 @@
+id: seconde-arithmetic-018
+title: Arithmetic
+statement: Démontrer que la somme de deux entiers impairs est paire.
+curriculum:
+  level: seconde
+  difficulty: 3
+topics:
+- arithmetic
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Écrire les entiers $2k+1$ et $2l+1$. Leur somme vaut $2(k+l+1)$,
+  elle est donc paire.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

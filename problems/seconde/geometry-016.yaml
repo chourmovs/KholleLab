@@ -1,0 +1,24 @@
+id: seconde-geometry-016
+title: Geometry
+statement: Déterminer le milieu du segment joignant $A(-2,3)$ à $B(6,-1)$.
+curriculum:
+  level: seconde
+  difficulty: 2
+topics:
+- geometry
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Le milieu a pour coordonnées $(({-2+6})/2,(3-1)/2)=(2,1)$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

@@ -1,0 +1,24 @@
+id: premiere-trigonometry-014
+title: Trigonometry
+statement: Résoudre $\cos x=1/2$ sur $[0,2\pi]$.
+curriculum:
+  level: premiere
+  difficulty: 1
+topics:
+- trigonometry
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Les solutions sont $x=\pi/3$ et $x=5\pi/3$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

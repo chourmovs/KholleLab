@@ -1,0 +1,5 @@
+import type {ReactNode} from "react";
+export function WorkspaceLayout({statement,blackboard,tools}:{statement:ReactNode;blackboard:ReactNode;tools:ReactNode}){return <div className="workspace-layout"><div className="statement-pane">{statement}</div><div className="blackboard-pane">{blackboard}</div>{tools}</div>}
+export function BlackboardToolRail(){const items=[
+ ["⌨","Clavier scientifique","quick-palette",false],["📘","Point de cours","",true],["▶","Vidéo","",true],["💡","Indice — bientôt disponible","",true],["👨‍🏫","Professeur — disponible après présentation","debrief",true],["👁","Aperçu","copy-preview",false],["✓","Présenter la solution","submit-solution",false]
+] as const;return <nav className="tool-rail" aria-label="Outils du tableau">{items.map(([icon,label,target,disabled])=><button key={label} type="button" title={label} aria-label={label} disabled={disabled} onClick={()=>target&&document.getElementById(target)?.scrollIntoView({behavior:"smooth",block:"nearest"})}>{icon}</button>)}</nav>}

@@ -1,0 +1,25 @@
+id: premiere-geometry-016
+title: Geometry
+statement: Montrer que les vecteurs $u=(2,3)$ et $v=(-6,4)$ sont orthogonaux.
+curriculum:
+  level: premiere
+  difficulty: 2
+topics:
+- geometry
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Le produit scalaire vaut $2(-6)+3(4)=0$, donc les vecteurs sont
+  orthogonaux.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

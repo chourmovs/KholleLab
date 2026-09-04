@@ -1,0 +1,24 @@
+id: seconde-functions-012
+title: Functions
+statement: Pour $f(x)=-2x+7$, déterminer l’antécédent de $1$.
+curriculum:
+  level: seconde
+  difficulty: 2
+topics:
+- functions
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Résoudre $-2x+7=1$ donne $-2x=-6$, donc l’antécédent est $3$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

@@ -1,0 +1,25 @@
+id: maths-spe-differential-equations-012
+title: Differential Equations
+statement: Résoudre $y'+2y=0$ avec $y(0)=3$.
+curriculum:
+  level: maths-spe
+  difficulty: 2
+topics:
+- differential-equations
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Les solutions sont $y(x)=Ce^{-2x}$. La condition initiale impose
+  $C=3$, donc $y(x)=3e^{-2x}$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

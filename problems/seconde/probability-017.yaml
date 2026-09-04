@@ -1,0 +1,25 @@
+id: seconde-probability-017
+title: Probability
+statement: Une urne contient 3 boules rouges et 2 bleues. Calculer la probabilité
+  de tirer une rouge.
+curriculum:
+  level: seconde
+  difficulty: 3
+topics:
+- probability
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Il y a 3 issues favorables sur 5 équiprobables, donc $P(R)=3/5$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

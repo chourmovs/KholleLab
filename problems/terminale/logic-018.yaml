@@ -1,0 +1,25 @@
+id: terminale-logic-018
+title: Logic
+statement: Montrer que l’équation $x^3+x=1$ admet une unique solution réelle.
+curriculum:
+  level: terminale
+  difficulty: 3
+topics:
+- logic
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: $f(x)=x^3+x-1$ est continue, strictement croissante car $f'(x)=3x^2+1>0$,
+  et change de signe entre 0 et 1.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic
