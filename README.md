@@ -82,3 +82,8 @@ make validate-corpus   # validation des YAML avec le chargeur de production
 make build             # construction Compose
 make smoke             # pile complète et assertions HTTP
 ```
+
+## LLM examiner runtime configuration
+The backend-only examiner uses runtime variables `LLM_PROVIDER`, `LLM_MODEL`,
+`OPENAI_API_KEY`, and `LLM_TIMEOUT_SECONDS` (default 90). CI and smoke tests use
+`LLM_PROVIDER=fake`. Never expose the key as a build-time or `NEXT_PUBLIC_` variable.

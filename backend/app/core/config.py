@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     database_url: str = Field(description="SQLAlchemy database URL supplied by the environment")
     cors_origins: str = "http://localhost:3000"
     problems_dir: str = "../problems"
+    llm_provider: str = "fake"
+    llm_model: str = ""
+    openai_api_key: str | None = None
+    llm_timeout_seconds: float = Field(default=90, gt=0)
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

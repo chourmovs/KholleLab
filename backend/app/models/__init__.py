@@ -2,3 +2,7 @@
 from app.models.attempt import Attempt, AttemptStatus
 
 __all__ = ["Attempt", "AttemptStatus"]
+from app.models.attempt import Attempt
+from app.models.evaluation import Evaluation
+
+__all__ = ["Attempt", "Evaluation"]
