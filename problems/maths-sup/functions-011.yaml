@@ -1,0 +1,25 @@
+id: maths-sup-functions-011
+title: Functions
+statement: Montrer que la composée de deux injections est injective.
+curriculum:
+  level: maths-sup
+  difficulty: 2
+topics:
+- functions
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Si $(g\circ f)(x)=(g\circ f)(y)$, l’injectivité de $g$ donne $f(x)=f(y)$,
+  puis celle de $f$ donne $x=y$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

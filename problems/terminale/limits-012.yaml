@@ -1,0 +1,25 @@
+id: terminale-limits-012
+title: Limits
+statement: Calculer $\lim_{x\to0}(e^x-1)/x$.
+curriculum:
+  level: terminale
+  difficulty: 2
+topics:
+- limits
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Cette limite est le nombre dérivé de l’exponentielle en 0, donc
+  vaut $1$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

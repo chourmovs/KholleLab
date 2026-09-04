@@ -1,0 +1,25 @@
+id: maths-sup-complex-numbers-014
+title: Complex Numbers
+statement: Déterminer les racines cubiques de l’unité.
+curriculum:
+  level: maths-sup
+  difficulty: 1
+topics:
+- complex-numbers
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Elles sont $1$, $e^{2i\pi/3}$ et $e^{4i\pi/3}$, obtenues par les
+  arguments $2k\pi/3$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

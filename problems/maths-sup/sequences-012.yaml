@@ -1,0 +1,24 @@
+id: maths-sup-sequences-012
+title: Sequences
+statement: Étudier la suite $u_n=(-1)^n/n$ pour $n\geq1$.
+curriculum:
+  level: maths-sup
+  difficulty: 2
+topics:
+- sequences
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 20
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: $|u_n|=1/n\to0$; par encadrement, $u_n\to0$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

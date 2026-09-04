@@ -1,0 +1,24 @@
+id: premiere-sequences-013
+title: Sequences
+statement: Soit $v_1=5$ et $v_{n+1}=v_n+3$. Exprimer $v_n$ pour $n\geq1$.
+curriculum:
+  level: premiere
+  difficulty: 3
+topics:
+- sequences
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 25
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: La suite est arithmétique de raison 3, donc $v_n=5+3(n-1)=3n+2$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

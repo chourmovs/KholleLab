@@ -1,0 +1,26 @@
+id: maths-sup-logic-010
+title: Logic
+statement: Écrire la négation de « pour tout réel $x$, il existe un entier $n$ tel
+  que $n>x$ ».
+curriculum:
+  level: maths-sup
+  difficulty: 1
+topics:
+- logic
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: 'La négation est : il existe un réel $x$ tel que, pour tout entier
+  $n$, $n\leq x$.'
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

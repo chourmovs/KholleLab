@@ -6,7 +6,7 @@ VALID='''id: demo-001\ntitle: Demo\nstatement: Test\ncurriculum: {level: premier
 
 def test_recursive_and_deterministic(tmp_path: Path):
     (tmp_path/'b/c').mkdir(parents=True); (tmp_path/'a').mkdir()
-    (tmp_path/'b/c/two.yaml').write_text(VALID.replace('demo-001','demo-002'))
+    (tmp_path/'b/c/two.yaml').write_text(VALID.replace('demo-001','demo-002').replace('statement: Test','statement: Autre test'))
     (tmp_path/'a/one.yaml').write_text(VALID)
     repo=ProblemRepository(tmp_path); repo.load()
     assert [p.id for p in repo.list()] == ['demo-001','demo-002']
@@ -21,3 +21,7 @@ def test_invalid_yaml(tmp_path: Path):
 def test_invalid_domain(tmp_path: Path):
     (tmp_path/'bad.yaml').write_text(VALID.replace('difficulty: 1','difficulty: 9'))
     with pytest.raises(ProblemCorpusError, match='difficulty'): ProblemRepository(tmp_path).load()
+
+def test_duplicate_normalized_statement(tmp_path: Path):
+    (tmp_path/'a.yaml').write_text(VALID); (tmp_path/'b.yaml').write_text(VALID.replace('demo-001','demo-002').replace('statement: Test','statement:   TEST  '))
+    with pytest.raises(ProblemCorpusError, match='duplicate normalized statement'): ProblemRepository(tmp_path).load()

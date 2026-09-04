@@ -1,0 +1,25 @@
+id: terminale-derivatives-010
+title: Derivatives
+statement: Déterminer les extrema de $f(x)=x^3-3x$ sur $[-2,2]$.
+curriculum:
+  level: terminale
+  difficulty: 1
+topics:
+- derivatives
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: $f'(x)=3(x^2-1)$; on compare $f(-2),f(-1),f(1),f(2)$ pour obtenir
+  le minimum $-2$ et le maximum $2$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

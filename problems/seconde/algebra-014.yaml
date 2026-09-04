@@ -1,0 +1,24 @@
+id: seconde-algebra-014
+title: Algebra
+statement: Factoriser $x^2-9$.
+curriculum:
+  level: seconde
+  difficulty: 1
+topics:
+- algebra
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: 'Identité remarquable : $x^2-9=(x-3)(x+3)$.'
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic

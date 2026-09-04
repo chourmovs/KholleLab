@@ -1,4 +1,6 @@
 from pathlib import Path
+import re
+import unicodedata
 
 import yaml
 from pydantic import ValidationError
@@ -19,6 +21,7 @@ class ProblemRepository:
     def load(self) -> None:
         loaded: dict[str, Problem] = {}
         origins: dict[str, Path] = {}
+        statements: dict[str, Path] = {}
         for path in sorted(self.root.glob("**/*.yaml")):
             try:
                 raw = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -37,8 +40,17 @@ class ProblemRepository:
                     f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\n"
                     f"duplicate ID (already defined in {origins[problem.id]})"
                 )
+            normalized = re.sub(
+                r"\s+", " ", unicodedata.normalize("NFKC", problem.statement).casefold()
+            ).strip()
+            if normalized in statements:
+                raise ProblemCorpusError(
+                    f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\n"
+                    f"duplicate normalized statement (already defined in {statements[normalized]})"
+                )
             loaded[problem.id] = problem
             origins[problem.id] = path
+            statements[normalized] = path
         self._problems = tuple(loaded[key] for key in sorted(loaded))
         self._by_id = dict(loaded)
 

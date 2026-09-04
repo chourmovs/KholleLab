@@ -1,0 +1,25 @@
+id: maths-spe-linear-algebra-010
+title: Linear Algebra
+statement: Déterminer le rang de la famille $((1,0,1),(0,1,1),(1,1,2))$.
+curriculum:
+  level: maths-spe
+  difficulty: 1
+topics:
+- linear-algebra
+prerequisites:
+- course-basics
+skills:
+- reasoning
+estimated_minutes: 15
+source:
+  type: internal
+  name: Khollelab synthetic corpus
+  year: 2026
+reference_solution: Le troisième vecteur est la somme des deux premiers, qui sont
+  libres. Le rang vaut donc $2$.
+hints:
+- level: 1
+  text: Identifier le résultat du cours pertinent et détailler chaque étape.
+tags:
+- progressive
+- synthetic
