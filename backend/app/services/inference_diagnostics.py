@@ -16,6 +16,19 @@ def configured_identity() -> dict:
             "deep_model": deep_name, "deep_backend": deep_backend}
 
 
+def cached_status() -> str:
+    """Return capability state without performing any network I/O.
+
+    Application health checks must remain independent of the remote provider.
+    The richer status endpoint is responsible for refreshing this cache.
+    """
+    if settings.llm_provider != "huggingface":
+        return "disabled"
+    if not settings.hf_token:
+        return "error"
+    return _cache[1].get("status", "unavailable") if _cache else "unavailable"
+
+
 async def diagnose(*, force=False) -> dict:
     global _cache
     identity = configured_identity()
@@ -24,7 +37,9 @@ async def diagnose(*, force=False) -> dict:
     if not settings.hf_token:
         return {**identity, "status":"error", "reason":"HF_TOKEN_MISSING", "checks":{"provider_config":"fail","router":"not_run","authentication":"fail","structured_output":"not_run"}}
     now = time.monotonic()
-    if not force and _cache and now-_cache[0] < 45: return _cache[1]
+    if not force and _cache:
+        ttl = 60 if _cache[1].get("status") == "ready" else 15
+        if now-_cache[0] < ttl: return _cache[1]
     result = {**identity,"status":"unavailable","reason":"connection_failed","checks":{"provider_config":"pass","router":"fail","authentication":"not_run","structured_output":"not_tested"}}
     started=time.perf_counter()
     try:

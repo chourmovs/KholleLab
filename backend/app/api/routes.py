@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, Query, Request, status
 
 from app.core.version import APP_NAME, APP_VERSION
 from app.api.problems import router as problems_router
@@ -8,25 +8,31 @@ from app.core.config import settings
 from app.services import health
 from app.api.diagnostics import router as diagnostics_router
 from app.domain.problem import CURRICULUM_ORDER
-from app.services.inference_diagnostics import diagnose
+from app.services.inference_diagnostics import cached_status, diagnose
+from app.schemas.evaluation import HealthResponse, InferenceStatusResponse
+from app.core.logging import component_logger
 
 router = APIRouter(prefix="/api")
 
 
-@router.get("/health")
-async def get_health(request: Request) -> dict[str, str | int]:
+@router.get("/health", response_model=HealthResponse)
+async def get_health(request: Request):
     if not health.database_is_available():
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail={"status": "error", "service": "khollelab-api", "database": "unavailable"},
         )
     repository = request.app.state.problem_repository
-    inference = await get_inference_status()
-    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference["status"]}
+    try:
+        inference = cached_status()
+    except Exception:
+        component_logger("application").exception("Inference diagnostic failed during health check")
+        inference = "error"
+    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference}
 
-@router.get("/inference/status")
-async def get_inference_status() -> dict[str, str | float]:
-    result = await diagnose()
+@router.get("/inference/status", response_model=InferenceStatusResponse)
+async def get_inference_status(refresh: bool = Query(False)):
+    result = await diagnose(force=refresh)
     return {key:value for key,value in result.items() if key != "checks"}
 
 
