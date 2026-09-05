@@ -94,7 +94,7 @@ Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API c
 
 Au premier démarrage, llama.cpp résout nativement `Qwen/Qwen3-4B-GGUF:Q4_K_M` avec `-hf`. `LLAMA_CACHE=/models/cache` place le GGUF téléchargé dans le volume nommé `llm_models`; les redémarrages et redéploiements réutilisent donc ce cache (ne lancez pas `docker compose down -v`). `HF_TOKEN` reste facultatif pour les dépôts restreints. L'acquisition et le chargement apparaissent dans `docker compose logs -f inference` (dépôt et quantification demandés, cache manquant/téléchargement, chargement du modèle, puis serveur HTTP prêt). L'application ne déduit jamais l'état depuis ces logs : le backend interroge `/health`.
 
-La configuration backend comprend `LLM_PROVIDER` (`fake`, `openai` ou `local`), `LOCAL_LLM_BASE_URL`, `LOCAL_LLM_MODEL`, `LOCAL_LLM_HF_REPO`, `LOCAL_LLM_QUANT`, `LOCAL_LLM_CONTEXT_SIZE` (8192), `LOCAL_LLM_THREADS` (6), `LOCAL_LLM_BATCH_SIZE`, `LOCAL_LLM_PARALLEL` (1) et `LOCAL_LLM_TIMEOUT_SECONDS`. Le modèle et la quantification peuvent être remplacés sans modifier les services métier. En CI, conservez `LLM_PROVIDER=fake` afin de ne jamais télécharger le modèle.
+La configuration backend comprend `LLM_PROVIDER` (`fake`, `openai` ou `local`), `LOCAL_LLM_BASE_URL`, `LOCAL_LLM_MODEL`, `LOCAL_LLM_HF_REPO`, `LOCAL_LLM_QUANT`, `LOCAL_LLM_CONTEXT_SIZE` (8192), `LOCAL_LLM_THREADS` (6), `LOCAL_LLM_BATCH_SIZE`, `LOCAL_LLM_PARALLEL` (1) et `LOCAL_LLM_TIMEOUT_SECONDS`. **Coolify/production doit définir `LLM_PROVIDER=local`** (valeur recommandée et valeur Compose par défaut). Utilisez `LLM_PROVIDER=fake` explicitement en CI uniquement afin de ne jamais télécharger le modèle.
 
 Pour vérifier la persistance après le premier chargement :
 

@@ -2,6 +2,8 @@ name: CI
 on: [push, pull_request]
 jobs:
   backend:
+    env:
+      LLM_PROVIDER: fake
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +24,8 @@ jobs:
       - run: cd frontend && npm test
       - run: cd frontend && npm run build
   integration:
+    env:
+      LLM_PROVIDER: fake
     needs: [backend, frontend]
     runs-on: ubuntu-latest
     timeout-minutes: 15

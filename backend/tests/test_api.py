@@ -31,6 +31,7 @@ def test_local_inference_loading_is_a_non_blocking_starting_state(monkeypatch):
     assert inference == {
         'provider': 'local', 'status': 'starting', 'model': 'Qwen3-4B',
         'quantization': 'Q4_K_M', 'backend': 'llama.cpp',
+        'reason': 'model_loading', 'latency_ms': inference['latency_ms'],
     }
     assert health_body['status'] == 'ok'
     assert health_body['inference'] == 'starting'

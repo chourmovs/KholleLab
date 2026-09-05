@@ -17,13 +17,15 @@ function recordConsultation(problemId:string, kind:ResourceKind) {
   } catch { /* Analytics must never block access to curated help. */ }
 }
 
-export function ProblemPanel({problem}:{problem:ProblemDetail}) {
+export function CollapsibleProblemPanel({problem}:{problem:ProblemDetail}) {
   const [open,setOpen]=useState<ResourceKind>();
+  const [expanded,setExpanded]=useState(true);
   const course=problem.resources?.course_points[0];
   const video=problem.resources?.videos[0];
   function show(kind:ResourceKind) { recordConsultation(problem.id,kind); setOpen(kind); }
-  return <section className="panel problem">
-    <div className="eyebrow">Énoncé</div><h1>{problem.title}</h1>
+  return <section className="panel problem collapsible-problem">
+    <button className="problem-toggle" aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><span>{expanded?"▾":"▸"} ÉNONCÉ</span><strong>{problem.title}</strong><span>Niveau {problem.curriculum.level==="premiere"?"Première":problem.curriculum.level} · Difficulté {problem.curriculum.difficulty} · {problem.topics[0]}{problem.estimatedMinutes?` · ~${problem.estimatedMinutes} min`:""}</span></button>
+    {expanded&&<div className="problem-body">
     {problem.subtitle&&<p>{problem.subtitle}</p>}
     <div className="problem-meta"><span className="badge">Niveau : {problem.curriculum.level}</span><DifficultyBadge difficulty={problem.curriculum.difficulty}/>{problem.estimatedMinutes&&<span className="badge">~{problem.estimatedMinutes} min</span>}</div>
     <div className="topics">{problem.topics.map(topic=><TopicBadge key={topic} topic={topic}/>)}</div>
@@ -31,6 +33,7 @@ export function ProblemPanel({problem}:{problem:ProblemDetail}) {
     {!!problem.prerequisites.length&&<details className="prerequisites"><summary>Prérequis</summary><p>Prérequis conseillés :</p><ul>{problem.prerequisites.map(item=><li key={item}>{item.replaceAll("-"," ")}</li>)}</ul></details>}
     {(course||video)&&<div className="resource-actions" aria-label="Ressources pédagogiques">{course&&<button onClick={()=>show("course")}>📘 Point de cours</button>}{video&&<button onClick={()=>show("video")}>▶ Vidéo{video.duration_minutes?` ${video.duration_minutes} min`:""}</button>}</div>}
     {open==="course"&&course&&<div className="resource-modal" role="dialog" aria-modal="true" aria-label="Point de cours"><button className="resource-close" aria-label="Fermer" onClick={()=>setOpen(undefined)}>×</button><div className="eyebrow">Point de cours</div><h2>{course.title}</h2><MathContent content={course.summary}/></div>}
-    {open==="video"&&video&&<div className="resource-modal video-resource" role="dialog" aria-modal="true" aria-label="Vidéo"><button className="resource-close" aria-label="Fermer" onClick={()=>setOpen(undefined)}>×</button><div className="eyebrow">Vidéo</div><h2>▶ {video.title}</h2><p>{[video.author,video.duration_minutes&&`${video.duration_minutes} min`].filter(Boolean).join(" · ")}</p><a href={video.url} target="_blank" rel="noopener noreferrer">Voir la vidéo</a></div>}
+    {open==="video"&&video&&<div className="resource-modal video-resource" role="dialog" aria-modal="true" aria-label="Vidéo"><button className="resource-close" aria-label="Fermer" onClick={()=>setOpen(undefined)}>×</button><div className="eyebrow">Vidéo</div><h2>▶ {video.title}</h2><p>{[video.author,video.duration_minutes&&`${video.duration_minutes} min`].filter(Boolean).join(" · ")}</p><a href={video.url} target="_blank" rel="noopener noreferrer">Voir la vidéo</a></div>}</div>}
   </section>
 }
+export const ProblemPanel=CollapsibleProblemPanel;
