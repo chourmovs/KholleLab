@@ -5,26 +5,12 @@ from pathlib import Path
 from typing import Any
 import yaml
 from pydantic import BaseModel, Field, model_validator
+from app.schemas.tutor import StudentState, ErrorCategory, InterventionType, TutorAssessment
 
 class CurriculumLevel(str,Enum):
     SECONDE="seconde"; PREMIERE="premiere"; TERMINALE="terminale"; MATHS_SUP="maths-sup"; MATHS_SPE="maths-spe"
 class TaskType(str,Enum):
     VALID_PROGRESS="valid_progress"; MATHEMATICAL_ERROR="mathematical_error"; MISSING_JUSTIFICATION="missing_justification"; STUDENT_BLOCKED="student_blocked"; COURSE_GAP="course_gap"; WRONG_STRATEGY="wrong_strategy"; ALTERNATIVE_VALID_METHOD="alternative_valid_method"; FALSE_CLAIM="false_claim"; ALMOST_COMPLETE="almost_complete"; PROMPT_INJECTION="prompt_injection"
-class StudentState(str,Enum):
-    PROGRESSING="progressing"; BLOCKED="blocked"; ERROR="error"; MISSING_JUSTIFICATION="missing_justification"; COMPLETE="complete"
-class ErrorCategory(str,Enum):
-    NONE="none"; ALGEBRA="algebra"; CALCULATION="calculation"; LOGIC="logic"; DOMAIN="domain"; THEOREM="theorem"; RIGOR="rigor"; STRATEGY="strategy"; OTHER="other"
-class InterventionType(str,Enum):
-    SILENCE="silence"; ENCOURAGEMENT="encouragement"; SOCRATIC_QUESTION="socratic_question"; DIRECTION="direction"; COURSE_REMINDER="course_reminder"; HINT="hint"; CORRECTION="correction"
-class TutorAssessment(BaseModel):
-    student_state:StudentState; intervention_needed:bool; error_detected:bool; error_category:ErrorCategory
-    confidence:float=Field(ge=0,le=1); intervention_type:InterventionType; intervention:str|None=None
-    reveals_answer:bool=False; estimated_help_level:int=Field(ge=0,le=5)
-    @model_validator(mode="after")
-    def consistent(self):
-        if self.intervention_needed and not (self.intervention or "").strip(): raise ValueError("an intervention is required")
-        if self.intervention_type==InterventionType.SILENCE and self.intervention: raise ValueError("silence cannot contain intervention text")
-        return self
 class Curriculum(BaseModel): level:CurriculumLevel; difficulty:int=Field(ge=1,le=5); topic:str
 class Problem(BaseModel): statement:str=Field(min_length=1)
 class StudentWork(BaseModel): solution:str
