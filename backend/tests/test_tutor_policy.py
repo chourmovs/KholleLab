@@ -1,4 +1,5 @@
 import inspect
+import pytest
 from app.benchmark import models as benchmark_models
 from app.schemas.tutor import TutorAssessment, TutorTrigger
 from app.services.tutor import apply_policy
@@ -29,3 +30,20 @@ def test_spoiler_and_auto_level_guards():
 def test_reference_solution_is_not_part_of_safe_payload():
     source=inspect.getsource(__import__("app.services.tutor",fromlist=["TutorAssessmentService"]).TutorAssessmentService.assess)
     assert 'problem.reference_solution' not in source
+
+from pydantic import ValidationError
+from app.schemas.tutor import ResourceNeed, TutorResourceSignal
+from app.services.tutor import sanitize_resource_signal
+
+def test_resource_signal_contract_rejects_inconsistent_or_prose_values():
+    with pytest.raises(ValidationError):
+        TutorResourceSignal(needed=False,need="course_gap",topics=[])
+    with pytest.raises(ValidationError):
+        TutorResourceSignal(needed=True,need="course_gap",topics=["long free-form prose"])
+    with pytest.raises(ValidationError):
+        TutorResourceSignal(needed=True,need="method_gap",topics=["a","b","c","d"])
+
+def test_resource_signal_is_intersected_with_server_vocabulary():
+    signal=TutorResourceSignal(needed=True,need=ResourceNeed.COURSE_GAP,topics=["derivatives","fake-secret-resource"],skills=["sign-analysis"])
+    safe=sanitize_resource_signal(signal,{"themes":["derivatives"],"prerequis":[],"competences":["sign-analysis"],"tags":[]})
+    assert safe.topics==["derivatives"] and safe.skills==["sign-analysis"]

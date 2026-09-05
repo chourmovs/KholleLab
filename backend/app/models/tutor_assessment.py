@@ -13,4 +13,6 @@ class TutorAssessmentRecord(Base):
     student_state:Mapped[str]=mapped_column(String(32)); intervention_needed:Mapped[bool]=mapped_column(Boolean); intervention_type:Mapped[str]=mapped_column(String(32)); intervention:Mapped[str|None]=mapped_column(Text)
     confidence:Mapped[float]=mapped_column(Float); error_category:Mapped[str]=mapped_column(String(32)); reveals_answer:Mapped[bool]=mapped_column(Boolean)
     provider:Mapped[str]=mapped_column(String(64)); model:Mapped[str]=mapped_column(String(255)); backend:Mapped[str]=mapped_column(String(64)); client_request_id:Mapped[str]=mapped_column(String(100))
+    recommended_resource_id:Mapped[str|None]=mapped_column(String(64),nullable=True)
+    resource_need:Mapped[str|None]=mapped_column(String(32),nullable=True)
     created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=lambda:datetime.now(timezone.utc),index=True)
