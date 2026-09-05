@@ -4,6 +4,7 @@ jobs:
   backend:
     env:
       LLM_PROVIDER: fake
+      DIAGNOSTICS_ENABLED: "false"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +27,7 @@ jobs:
   integration:
     env:
       LLM_PROVIDER: fake
+      DIAGNOSTICS_ENABLED: "false"
     needs: [backend, frontend]
     runs-on: ubuntu-latest
     timeout-minutes: 15

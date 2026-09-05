@@ -1,43 +1,36 @@
 #!/usr/bin/env python3
-"""Diagnose private local inference from a deployment host or Compose backend."""
-import json
-import os
-import time
-import urllib.error
-import urllib.request
-
-backend = os.getenv("BACKEND_URL", "http://localhost:8000/api").rstrip("/")
-inference = os.getenv("LOCAL_LLM_BASE_URL", "http://inference:8080/v1").rstrip("/")
-
-def get(url: str):
-    started = time.perf_counter()
+"""Run sequential, dependency-aware checks against private llama.cpp inference."""
+import json, os, socket, time, urllib.error, urllib.parse, urllib.request
+base = os.getenv("LOCAL_LLM_BASE_URL", "http://inference:8080/v1").rstrip("/")
+parsed = urllib.parse.urlparse(base); host, port = parsed.hostname or "inference", parsed.port or 8080
+model = os.getenv("LOCAL_LLM_MODEL", "Qwen/Qwen3-4B-GGUF")
+def row(label, state, detail=""): print(f"{label:<19}{state:<6}{detail}")
+def request(url, body=None, timeout=10):
+    data=json.dumps(body).encode() if body else None; req=urllib.request.Request(url,data=data,headers={"Content-Type":"application/json"} if data else {})
+    started=time.perf_counter()
     try:
-        with urllib.request.urlopen(url, timeout=10) as response:
-            return response.status, json.load(response), (time.perf_counter() - started) * 1000
-    except urllib.error.HTTPError as exc:
-        return exc.code, None, (time.perf_counter() - started) * 1000
-    except (urllib.error.URLError, TimeoutError):
-        return None, None, (time.perf_counter() - started) * 1000
-
-status_code, status, latency = get(f"{backend}/inference/status")
-provider = (status or {}).get("provider", os.getenv("LLM_PROVIDER", "unknown"))
-print(f"Provider: {provider}")
-print(f"Backend status: {(status or {}).get('status', f'HTTP {status_code or "unreachable"}')}")
-health_code, _, health_latency = get(f"{inference.removesuffix('/v1')}/health")
-print(f"llama.cpp health: {health_code or 'UNREACHABLE'}")
-models_code, models, _ = get(f"{inference}/models")
-model = (status or {}).get("model")
-if models_code == 200 and models and models.get("data"):
-    model = models["data"][0].get("id", model)
-print(f"Model: {model or 'unknown'}")
-completion = "SKIP (model not ready)"
-if (status or {}).get("status") == "ready":
-    body = json.dumps({"model": model, "prompt": "Reply OK", "max_tokens": 4}).encode()
-    request = urllib.request.Request(f"{inference}/completions", data=body, headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req,timeout=timeout) as response: return response.status,json.load(response),time.perf_counter()-started
+    except urllib.error.HTTPError as exc: return exc.code,None,time.perf_counter()-started
+    except (urllib.error.URLError,TimeoutError,json.JSONDecodeError): return None,None,time.perf_counter()-started
+print("KHOLLELAB INFERENCE DIAGNOSTIC\n")
+provider=os.getenv("LLM_PROVIDER","local"); row("Provider config","PASS" if provider=="local" else "FAIL",provider)
+try: socket.getaddrinfo(host,port); dns=True; row("DNS inference","PASS")
+except socket.gaierror: dns=False; row("DNS inference","FAIL")
+tcp=False
+if dns:
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            completion = "PASS" if response.status == 200 else f"FAIL ({response.status})"
-    except (urllib.error.URLError, TimeoutError):
-        completion = "FAIL"
-print(f"Completion: {completion}")
-print(f"Latency: {health_latency if health_code else latency:.1f} ms")
+        with socket.create_connection((host,port),timeout=3): pass
+        tcp=True; row("TCP 8080","PASS")
+    except OSError: row("TCP 8080","FAIL")
+else: row("TCP 8080","SKIP")
+if tcp:
+    code,_,latency=request(base.removesuffix("/v1")+"/health"); health_ok=code==200; row("Health","PASS" if health_ok else "FAIL",code or "unreachable")
+else: latency=0; health_ok=False; row("Health","SKIP")
+if health_ok:
+    code,data,_=request(base+"/models"); models_ok=code==200; shown=((data or {}).get("data") or [{}])[0].get("id",""); row("Models","PASS" if models_ok else "FAIL",shown or code)
+else: models_ok=False; row("Models","SKIP")
+if models_ok:
+    code,data,latency=request(base+"/chat/completions",{"model":model,"messages":[{"role":"user","content":"Réponds uniquement par 56 : combien font 7 × 8 ?"}],"temperature":0,"max_tokens":16},90)
+    preview=(((data or {}).get("choices") or [{}])[0].get("message") or {}).get("content","").strip(); row("Completion","PASS" if code==200 and "56" in preview else "FAIL",preview[:80])
+else: row("Completion","SKIP")
+row("Latency","",f"{latency:.2f} s")
