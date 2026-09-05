@@ -47,6 +47,9 @@ class Settings(BaseSettings):
     tutor_stalled_seconds: int = 90
     tutor_max_auto_assessments_per_attempt: int = 12
     tutor_auto_max_help_level: int = 3
+    tutor_resource_recommendations_enabled: bool = True
+    tutor_resource_auto_min_confidence: float = Field(default=.90, ge=0, le=1)
+    tutor_resource_manual_min_confidence: float = Field(default=.85, ge=0, le=1)
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

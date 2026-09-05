@@ -57,11 +57,11 @@ def submit(attempt_id: uuid.UUID, body: AttemptSubmit, db: Session = Depends(ses
 
 @router.post("/{attempt_id}/tutor/assess",response_model=TutorResponse)
 async def tutor_assess(attempt_id:uuid.UUID,body:TutorRequest,request:Request,db:Session=Depends(session)):
-    try:return await TutorAssessmentService(db,request.app.state.problem_repository,provider_from_settings()).assess(attempt_id,body)
+    try:return await TutorAssessmentService(db,request.app.state.problem_repository,request.app.state.resource_repository,request.app.state.resource_resolver,provider_from_settings()).assess(attempt_id,body)
     except TutorError as exc:return error(exc.code,"Le professeur ne peut pas intervenir pour le moment.",exc.status)
     except RemoteLLMError as exc:return error("tutor_unavailable","Professeur temporairement indisponible.",503,provider_error=exc.code)
 
 @router.get("/{attempt_id}/tutor/latest",response_model=TutorResponse|None)
 def tutor_latest(attempt_id:uuid.UUID,request:Request,db:Session=Depends(session)):
     if not AttemptRepository(db).get(attempt_id):return error("attempt_not_found","Attempt does not exist.",404)
-    return TutorAssessmentService(db,request.app.state.problem_repository,provider_from_settings()).latest(attempt_id)
+    return TutorAssessmentService(db,request.app.state.problem_repository,request.app.state.resource_repository,request.app.state.resource_resolver,provider_from_settings()).latest(attempt_id)
