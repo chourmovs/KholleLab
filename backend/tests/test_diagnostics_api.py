@@ -40,7 +40,7 @@ def test_logs_redact_secrets(monkeypatch, tmp_path):
 def test_log_sources_are_fixed_and_tail_is_bounded(monkeypatch, tmp_path):
     configure(monkeypatch, tmp_path)
     (tmp_path / "khollelab.log").write_text("\n".join(f"line-{n}" for n in range(600)))
-    (tmp_path / "llama.log").write_text("model loaded\n")
+    (tmp_path / "inference.log").write_text("model loaded\n")
     headers = {"X-Diagnostics-Token": "correct-horse-battery-staple"}
     with TestClient(app) as client:
         application = client.get("/api/diagnostics/logs?source=application&lines=500", headers=headers)
@@ -48,7 +48,7 @@ def test_log_sources_are_fixed_and_tail_is_bounded(monkeypatch, tmp_path):
         assert application.status_code == 200
         assert len(application.json()["lines"]) == 500
         assert application.json()["lines"][0] == "line-101"
-        assert inference.json()["lines"] == ["model loaded"]
+        assert inference.json()["lines"][0] == "model loaded"
         assert client.get("/api/diagnostics/logs?source=../secret", headers=headers).status_code == 422
         assert client.get("/api/diagnostics/logs?source=/etc/passwd", headers=headers).status_code == 422
         assert client.get("/api/diagnostics/logs?source=application&lines=501", headers=headers).status_code == 422

@@ -30,6 +30,9 @@ def configure_logging() -> None:
             backtrace=False,
             diagnose=False,
         )
+        logger.add(directory / "inference.log", filter=lambda record: record["extra"].get("component") == "inference",
+                   level=settings.log_level, format=FORMAT, rotation=settings.log_rotation,
+                   retention=settings.log_retention, backtrace=False, diagnose=False)
     except OSError as exc:
         logger.bind(component="application").warning(
             "Runtime file logging unavailable path={} error_type={}; continuing with STDERR",

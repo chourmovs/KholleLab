@@ -14,7 +14,7 @@ from app.core.logging import configure_logging, component_logger
 async def lifespan(app: FastAPI):
     configure_logging()
     component_logger("application").info("Startup version={} env={}", APP_VERSION, settings.app_env)
-    component_logger("inference").info("Provider={} model={} quant={}", settings.llm_provider, settings.local_llm_model.rsplit('/', 1)[-1].removesuffix('-GGUF'), settings.local_llm_quant)
+    component_logger("inference").info("Provider={} family={}", settings.llm_provider, settings.llm_model_family.value)
     repository = ProblemRepository(settings.problems_dir)
     repository.load()
     app.state.problem_repository = repository

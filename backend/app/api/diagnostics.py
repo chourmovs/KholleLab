@@ -1,15 +1,15 @@
 import hmac
 import re
-import time
 from collections import deque
 from enum import Enum
 from pathlib import Path
 
-import httpx
 from fastapi import APIRouter, Header, HTTPException, Query, status
+from pydantic import BaseModel
 
 from app.core.config import settings
-from app.services.inference_diagnostics import diagnose, public_model_name
+from app.services.inference_diagnostics import diagnose
+from app.providers.llm import HuggingFaceProvider, ModelRole, RemoteLLMError, model_identity
 
 router = APIRouter(prefix="/diagnostics", tags=["diagnostics"])
 
@@ -51,7 +51,7 @@ async def inference_diagnostic(x_diagnostics_token: str | None = Header(default=
 @router.get("/logs")
 def logs(source: LogSource, lines: int = Query(200, ge=1, le=500), x_diagnostics_token: str | None = Header(default=None)):
     authorize(x_diagnostics_token)
-    filenames = {LogSource.application: "khollelab.log", LogSource.inference: "llama.log"}
+    filenames = {LogSource.application: "khollelab.log", LogSource.inference: "inference.log"}
     path = Path(settings.runtime_logs_dir) / filenames[source]
     if not path.is_file():
         return {"source": source, "lines": [], "available": False}
@@ -60,24 +60,16 @@ def logs(source: LogSource, lines: int = Query(200, ge=1, le=500), x_diagnostics
     return {"source": source, "lines": [redact_log_line(line.rstrip("\n")) for line in tail], "available": True}
 
 
+class DiagnosticAnswer(BaseModel):
+    answer: str
+
 @router.post("/inference/test")
-async def test_completion(x_diagnostics_token: str | None = Header(default=None)):
+async def test_completion(role: ModelRole = Query(ModelRole.FAST), x_diagnostics_token: str | None = Header(default=None)):
     authorize(x_diagnostics_token)
-    if settings.llm_provider != "local":
-        raise HTTPException(status_code=409, detail="Local provider is not configured")
-    started = time.perf_counter()
-    payload = {"model": settings.local_llm_model, "messages": [{"role": "user", "content": "Réponds uniquement par 56 : combien font 7 × 8 ?"}], "temperature": 0, "max_tokens": 16}
+    if settings.llm_provider != "huggingface": raise HTTPException(status_code=409, detail="Hugging Face provider is not configured")
+    prompt = "Pose une seule question courte pour aider un élève à résoudre 3x-7=11, sans donner la réponse." if role is ModelRole.FAST else "Réponds uniquement avec la valeur de x dans 3x-7=11."
     try:
-        async with httpx.AsyncClient(timeout=settings.local_llm_timeout_seconds) as client:
-            response = await client.post(f"{settings.local_llm_base_url.rstrip('/')}/chat/completions", json=payload)
-            response.raise_for_status()
-            preview = response.json()["choices"][0]["message"]["content"].strip()[:80]
-    except httpx.TimeoutException:
-        return {"status": "fail", "reason": "timeout", "error_code": "LOCAL_LLM_TIMEOUT"}
-    except httpx.ConnectError:
-        return {"status": "fail", "reason": "connection_refused", "error_code": "LOCAL_LLM_UNAVAILABLE"}
-    except httpx.HTTPStatusError:
-        return {"status": "fail", "reason": "http_error", "error_code": "LOCAL_LLM_HTTP_ERROR"}
-    except (httpx.RequestError, KeyError, ValueError, TypeError):
-        return {"status": "fail", "reason": "invalid_response", "error_code": "LOCAL_LLM_INVALID_JSON"}
-    return {"status": "pass" if "56" in preview else "fail", "latency_ms": round((time.perf_counter()-started)*1000, 1), "response_preview": preview, "model": public_model_name()}
+        provider=HuggingFaceProvider(); result=await provider.structured_response(instructions="Réponds au format JSON demandé.",input_text=prompt,response_model=DiagnosticAnswer,role=role)
+    except RemoteLLMError as exc: return {"status":"fail","error_code":exc.code}
+    info=provider.last_request or {}; name, backend=model_identity(info.get("model",provider.model))
+    return {"status":"pass","model":name,"provider":backend,"latency_ms":info.get("latency_ms"),"tokens":info.get("total_tokens"),"estimated_cost_usd":None,"response_preview":result.answer[:80]}

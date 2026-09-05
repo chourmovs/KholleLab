@@ -4,7 +4,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 from .scoring import aggregate
 
-def build_report(results,model="Qwen/Qwen3-4B-GGUF",quantization="Q4_K_M"):
+def build_report(results,model="unknown",quantization=""):
     levels={}
     for level in sorted({r.case.curriculum.level.value for r in results}): levels[level]=aggregate([r for r in results if r.case.curriculum.level.value==level])
     cases=[{"id":r.case.id,"level":r.case.curriculum.level.value,"task_type":r.case.task_type.value,"expected_state":r.case.expected.state.value,"actual_state":r.assessment.student_state.value,"expected_intervention":r.case.expected.intervention_type.value,"actual_intervention":r.assessment.intervention_type.value,"confidence":r.assessment.confidence,"latency_ms":round(r.latency_ms,2),"tokens_per_second":r.tokens_per_second,"intervention":r.assessment.intervention,"passed":r.score.passed,"failure_reasons":[k for k,v in vars(r.score).items() if not v]} for r in results]

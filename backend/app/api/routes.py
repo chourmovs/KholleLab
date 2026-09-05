@@ -1,5 +1,3 @@
-import time
-import httpx
 from fastapi import APIRouter, HTTPException, Request, status
 
 from app.core.version import APP_NAME, APP_VERSION
@@ -10,6 +8,7 @@ from app.core.config import settings
 from app.services import health
 from app.api.diagnostics import router as diagnostics_router
 from app.domain.problem import CURRICULUM_ORDER
+from app.services.inference_diagnostics import diagnose
 
 router = APIRouter(prefix="/api")
 
@@ -27,23 +26,8 @@ async def get_health(request: Request) -> dict[str, str | int]:
 
 @router.get("/inference/status")
 async def get_inference_status() -> dict[str, str | float]:
-    base = {"provider": settings.llm_provider, "model": settings.local_llm_model.rsplit("/", 1)[-1].removesuffix("-GGUF") if settings.llm_provider == "local" else settings.llm_model, "backend": "llama.cpp" if settings.llm_provider == "local" else settings.llm_provider, "quantization": settings.local_llm_quant if settings.llm_provider == "local" else ""}
-    if settings.llm_provider not in {"local", "fake", "openai"}:
-        return {**base, "status": "error", "reason": "invalid_configuration"}
-    if settings.llm_provider != "local":
-        return {**base, "status": "disabled", "reason": "provider_disabled"}
-    started = time.perf_counter()
-    try:
-        async with httpx.AsyncClient(timeout=min(5, settings.local_llm_timeout_seconds)) as client:
-            response = await client.get(f"{settings.local_llm_base_url.removesuffix('/v1').rstrip('/')}/health")
-        latency = round((time.perf_counter()-started)*1000, 1)
-        if response.status_code == 200:
-            return {**base, "status": "ready", "latency_ms": latency, "reason": None}
-        if response.status_code == 503:
-            return {**base, "status": "starting", "latency_ms": latency, "reason": "model_loading"}
-        return {**base, "status": "error", "latency_ms": latency, "reason": "unexpected_http_status"}
-    except (httpx.RequestError, ValueError):
-        return {**base, "status": "unavailable", "reason": "connection_failed"}
+    result = await diagnose()
+    return {key:value for key,value in result.items() if key != "checks"}
 
 
 @router.get("/curriculum")

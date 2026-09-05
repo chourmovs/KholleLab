@@ -2,6 +2,11 @@ from functools import lru_cache
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from enum import Enum
+
+class ModelFamily(str, Enum):
+    QWEN = "qwen"
+    GEMMA = "gemma"
 
 
 class Settings(BaseSettings):
@@ -9,22 +14,20 @@ class Settings(BaseSettings):
     database_url: str = Field(description="SQLAlchemy database URL supplied by the environment")
     cors_origins: str = "http://localhost:3000"
     problems_dir: str = "../problems"
-    llm_provider: str = "fake"
+    llm_provider: str = "huggingface"
     llm_model: str = ""
     openai_api_key: str | None = None
     llm_timeout_seconds: float = Field(default=90, gt=0)
-    local_llm_base_url: str = "http://inference:8080/v1"
-    local_llm_model: str = "Qwen/Qwen3-4B-GGUF"
-    local_llm_hf_repo: str = "Qwen/Qwen3-4B-GGUF"
-    local_llm_quant: str = "Q4_K_M"
-    local_llm_context_size: int = Field(default=8192, gt=0)
-    local_llm_threads: int = Field(default=6, gt=0)
-    local_llm_batch_size: int = Field(default=512, gt=0)
-    local_llm_parallel: int = Field(default=1, gt=0)
-    local_llm_temperature: float = Field(default=0.2, ge=0)
-    local_llm_top_p: float = Field(default=0.9, gt=0, le=1)
-    local_llm_max_tokens: int = Field(default=512, gt=0)
-    local_llm_timeout_seconds: float = Field(default=90, gt=0)
+    hf_token: str | None = None
+    hf_router_base_url: str = "https://router.huggingface.co/v1"
+    llm_model_family: ModelFamily = ModelFamily.QWEN
+    hf_qwen_fast_model: str = "Qwen/Qwen3-8B:nscale"
+    hf_qwen_deep_model: str = "Qwen/Qwen3-32B:nscale"
+    hf_gemma_fast_model: str = "google/gemma-3-12b-it:deepinfra"
+    hf_gemma_deep_model: str = "google/gemma-3-27b-it:deepinfra"
+    hf_timeout_seconds: float = Field(default=60, gt=0)
+    hf_fast_max_tokens: int = Field(default=192, gt=0)
+    hf_deep_max_tokens: int = Field(default=768, gt=0)
     log_level: str = "INFO"
     log_rotation: str = "10 MB"
     log_retention: str = "7 days"

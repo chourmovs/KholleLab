@@ -58,6 +58,8 @@ class EvaluationResult(StrictModel):
 class EvaluationResponse(BaseModel):
     provider: str | None = None
     model: str | None = None
+    model_family: str | None = None
+    inference_backend: str | None = None
     status: Literal["running", "completed", "failed"]
     verdict: str | None = None
     score: float | None = None
