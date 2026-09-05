@@ -1,0 +1,17 @@
+id: quadratic-discriminant-example
+type: example
+title: 'Exemple : résoudre un trinôme'
+statement: Résoudre $2x^2-5x+2=0$.
+solution: Ici $a=2$, $b=-5$ et $c=2$. Ainsi $\Delta=25-16=9$. Les deux racines sont $(5-3)/4=1/2$ et $(5+3)/4=2$. L’ensemble des solutions est donc $\{1/2,2\}$.
+curriculum_levels:
+- premiere
+topics:
+- polynomials
+- equations
+prerequisites:
+- course-basics
+skills:
+- calculation
+tags:
+- exemple-guide
+priority: 0

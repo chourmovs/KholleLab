@@ -1,0 +1,18 @@
+id: integration-by-parts
+type: course
+title: Intégration par parties
+summary: Transformer une intégrale en choisissant deux facteurs adaptés.
+content: Si $u$ et $v$ sont de classe $C^1$ sur $[a,b]$, alors $\int_a^b u v'=[uv]_a^b-\int_a^b u'v$. Le choix est utile lorsque dériver $u$ le simplifie et qu’une primitive de $v'$ est immédiate. On écrit explicitement $u$, $u'$, $v'$ et $v$, puis on traite avec soin le terme aux bornes. Pour une intégrale indéfinie, une constante s’ajoute. Il faut vérifier que la nouvelle intégrale est réellement plus simple que l’originale.
+curriculum_levels:
+- terminale
+- maths-sup
+topics:
+- integrals
+- analysis
+prerequisites:
+- antiderivatives
+skills:
+- calculation
+tags:
+- rappel
+priority: 0

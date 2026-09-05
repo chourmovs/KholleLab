@@ -4,12 +4,31 @@ from app.domain.problem import CurriculumLevel, Topic
 from app.schemas.problem import ProblemCatalogueItem, ProblemPublicDetail, ProblemSelectionResult
 from app.services.problem_selector import ProblemSelector
 from app.services.problem_repository import ProblemRepository
+from app.services.resource_resolver import ResourceContext, ResourceResolver
 
 router = APIRouter(prefix="/problems", tags=["problems"])
 
 
 def repository(request: Request) -> ProblemRepository:
     return request.app.state.problem_repository
+
+
+@router.get("/{problem_id}/resources")
+def resolve_problem_resources(problem_id: str, request: Request) -> dict:
+    problem = repository(request).get(problem_id)
+    if problem is None:
+        raise HTTPException(status_code=404, detail="Problem not found")
+    resolver: ResourceResolver = request.app.state.resource_resolver
+    matches = resolver.resolve(ResourceContext(
+        curriculum_level=problem.curriculum.level,
+        topics=problem.topics,
+        prerequisites=problem.prerequisites,
+        skills=problem.skills,
+        tags=problem.tags,
+        problem_id=problem.id,
+        explicit_resource_refs=problem.resource_refs,
+    ))
+    return {"problem_id": problem.id, "resources": [match.resource for match in matches]}
 
 
 @router.get("", response_model=list[ProblemCatalogueItem], response_model_exclude_none=True)

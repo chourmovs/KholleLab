@@ -1,0 +1,18 @@
+id: linear-map-kernel-image
+type: course
+title: Noyau et image d’une application linéaire
+summary: Interpréter et calculer les sous-espaces fondamentaux d’une application linéaire.
+content: Pour une application linéaire $f:E\to F$, le noyau est l’ensemble des vecteurs $x$ tels que $f(x)=0$ ; l’image est l’ensemble des vecteurs $f(x)$. En bases fixées, calculer le noyau revient à résoudre un système homogène, tandis que l’image est engendrée par les colonnes de la matrice. En dimension finie, le théorème du rang donne $\dim E=\dim(\ker f)+\dim(\operatorname{Im}f)$. Ainsi, $f$ est injective exactement lorsque son noyau est réduit à zéro.
+curriculum_levels:
+- maths-sup
+- maths-spe
+topics:
+- linear-algebra
+prerequisites:
+- vector-spaces
+skills:
+- calculation
+- proof
+tags:
+- rappel
+priority: 0

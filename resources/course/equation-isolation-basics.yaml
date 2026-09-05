@@ -1,0 +1,16 @@
+id: equation-isolation-basics
+type: course
+title: Isoler l’inconnue dans une équation
+summary: Transformer une équation sans changer ses solutions.
+content: 'Pour isoler l’inconnue, on effectue la même opération sur les deux membres. On commence par regrouper les termes contenant l’inconnue d’un côté et les constantes de l’autre. Une addition ou une soustraction est toujours réversible. Pour multiplier ou diviser, le facteur doit être non nul. On termine en vérifiant la valeur obtenue dans l’équation initiale : cette vérification détecte les erreurs de signe et confirme que la transformation a conservé l’égalité.'
+curriculum_levels:
+- seconde
+topics:
+- equations
+prerequisites:
+- course-basics
+skills:
+- equation-solving
+tags:
+- rappel
+priority: 0

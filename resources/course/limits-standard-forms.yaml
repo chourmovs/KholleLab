@@ -1,0 +1,19 @@
+id: limits-standard-forms
+type: course
+title: Formes usuelles de limites
+summary: Reconnaître les formes avant de transformer une expression.
+content: 'Avant de calculer une limite, on identifie séparément le comportement de chaque terme. Une forme comme $0/0$ ou $\infty/\infty$ est indéterminée : elle n’est pas un résultat et impose une transformation. Selon l’expression, on factorise par le terme dominant, on conjugue une expression avec une racine ou on utilise une limite de référence. Pour un quotient de polynômes à l’infini, les termes de plus haut degré gouvernent le comportement. Chaque équivalent ou simplification doit être employé dans son domaine de validité.'
+curriculum_levels:
+- terminale
+- maths-sup
+topics:
+- limits
+- analysis
+prerequisites:
+- function-basics
+skills:
+- calculation
+- reasoning
+tags:
+- rappel
+priority: 0

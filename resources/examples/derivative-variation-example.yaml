@@ -1,0 +1,18 @@
+id: derivative-variation-example
+type: example
+title: 'Exemple : variations par la dérivée'
+statement: Étudier les variations de $g(x)=x^3-3x$ sur $\mathbb R$.
+solution: On calcule $g'(x)=3x^2-3=3(x-1)(x+1)$. La dérivée est positive sur $]-\infty,-1]$ et $[1,+\infty[$, négative sur $[-1,1]$. Donc $g$ croît, puis décroît, puis croît. De plus $g(-1)=2$ et $g(1)=-2$.
+curriculum_levels:
+- premiere
+- terminale
+topics:
+- derivatives
+- functions
+prerequisites:
+- derivative-basics
+skills:
+- sign-analysis
+tags:
+- exemple-guide
+priority: 0

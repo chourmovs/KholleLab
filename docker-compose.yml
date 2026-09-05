@@ -23,6 +23,7 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://khollelab:khollelab-dev@postgres:5432/khollelab}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
       PROBLEMS_DIR: /problems
+      RESOURCES_DIR: /resources
       LLM_PROVIDER: ${LLM_PROVIDER:-huggingface}
       LLM_MODEL: ${LLM_MODEL:-gpt-5-mini}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
@@ -48,6 +49,8 @@ services:
       - "8000"
     volumes:
       - runtime_logs:/runtime-logs
+      - ./problems:/problems:ro
+      - ./resources:/resources:ro
     depends_on:
       postgres:
         condition: service_healthy

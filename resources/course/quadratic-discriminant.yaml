@@ -1,0 +1,18 @@
+id: quadratic-discriminant
+type: course
+title: Discriminant d’un trinôme
+summary: Déterminer les racines réelles d’un polynôme du second degré.
+content: Pour $ax^2+bx+c$ avec $a\ne0$, on calcule $\Delta=b^2-4ac$. Si $\Delta<0$, le trinôme n’a aucune racine réelle. Si $\Delta=0$, il possède la racine double $-b/(2a)$. Si $\Delta>0$, ses deux racines sont $(-b-\sqrt{\Delta})/(2a)$ et $(-b+\sqrt{\Delta})/(2a)$. Avant tout calcul, identifier soigneusement $a$, $b$ et $c$ évite les erreurs. Le signe du trinôme se déduit ensuite de $a$ et de la position des racines.
+curriculum_levels:
+- premiere
+topics:
+- polynomials
+- equations
+prerequisites:
+- course-basics
+skills:
+- calculation
+- sign-analysis
+tags:
+- rappel
+priority: 0

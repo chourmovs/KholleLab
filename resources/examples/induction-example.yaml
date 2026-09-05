@@ -1,0 +1,19 @@
+id: induction-example
+type: example
+title: 'Exemple : une somme par récurrence'
+statement: Montrer que $1+2+\cdots+n=n(n+1)/2$ pour tout entier $n\geq1$.
+solution: Au rang $1$, les deux membres valent $1$. Supposons la formule vraie au rang $n$. En ajoutant $n+1$, la somme vaut $n(n+1)/2+(n+1)=(n+1)(n+2)/2$, qui est la formule au rang suivant. Le principe de récurrence conclut pour tout $n\geq1$.
+curriculum_levels:
+- terminale
+- maths-sup
+topics:
+- logic
+- sequences
+prerequisites:
+- proof-basics
+skills:
+- induction
+- proof
+tags:
+- exemple-guide
+priority: 0

@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Query, Request, status
 
 from app.core.version import APP_NAME, APP_VERSION
 from app.api.problems import router as problems_router
+from app.api.resources import router as resources_router
 from app.api.attempts import router as attempts_router
 from app.api.evaluations import router as evaluations_router
 from app.core.config import settings
@@ -50,6 +51,7 @@ def get_version() -> dict[str, str]:
 
 
 router.include_router(problems_router)
+router.include_router(resources_router)
 router.include_router(attempts_router)
 router.include_router(evaluations_router)
 router.include_router(diagnostics_router)
