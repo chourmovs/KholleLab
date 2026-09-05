@@ -114,3 +114,24 @@ make inference-bench
 ```
 
 Le benchmark couvre calcul, équation, contre-exemple et question tutorale. Il affiche latence, tokens et tokens/s lorsque l'usage est fourni, sans seuil de performance CI.
+
+### Examiner providers and runtime diagnostics
+
+Before PR7, `LLM_PROVIDER=fake` was deterministic examiner plumbing, not mathematical
+inference. Its fixed fixture produced approximately `16/20` / `mostly_correct` so
+persistence, UX, and the evaluation workflow could be exercised without an LLM.
+Production now explicitly uses `LLM_PROVIDER=local`; CI and offline unit tests must
+explicitly select `fake`. The UI labels every fake result **Évaluation simulée**.
+
+Runtime diagnostics are disabled by default. Operators set
+`DIAGNOSTICS_ENABLED=true` and a strong `DIAGNOSTICS_TOKEN`, then use **LOGS** in the
+header. The token is entered by the operator, retained only in browser
+`sessionStorage`, and sent as `X-Diagnostics-Token`. Application and llama.cpp logs
+are separate, bounded views backed by the private `runtime_logs` volume; no Docker
+socket or arbitrary file access is used.
+
+The proposed `server-b10516` image tag was checked against GHCR on 2026-09-05 and
+returned `404`, so it has deliberately not been committed. The currently pinned
+`server-b5350` remains until a replacement can be pulled and its `-hf`, logging,
+Qwen model load, health, models, and completion paths can all be exercised on a
+Docker-capable runner. This prevents an unverified production runtime upgrade.

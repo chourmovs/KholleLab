@@ -8,5 +8,6 @@ pytest==8.4.1
 httpx==0.28.1
 PyYAML==6.0.2
 openai==1.107.2
+loguru==0.7.3
 
 pytest-asyncio==1.1.0

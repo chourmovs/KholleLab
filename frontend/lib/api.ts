@@ -3,6 +3,11 @@ type WireSummary={id:string;title:string;subtitle?:string;curriculum:{level:stri
 export const getCurriculum=()=>request<CurriculumMetadata>("/curriculum");
 export type InferenceStatus={provider:string;status:"disabled"|"starting"|"loading"|"ready"|"unavailable"|"error";model:string;backend:string;quantization:string;latency_ms?:number;reason?:"provider_disabled"|"connection_failed"|"model_loading"|"unexpected_http_status"|"invalid_configuration"|null};
 export const getInferenceStatus=()=>request<InferenceStatus>("/inference/status");
+export type InferenceDiagnostics={provider:string;model:string;quantization:string;status:string;reason:string|null;checks:{provider_config:string;dns:string;tcp:string;health:string;models_endpoint:string}};
+async function diagnosticRequest<T>(path:string,token:string,method="GET"):Promise<T>{const response=await fetch(`${API_BASE}${path}`,{method,headers:{Accept:"application/json","X-Diagnostics-Token":token}});if(!response.ok)throw new Error(response.status===401?"Jeton de diagnostics invalide.":`Diagnostic indisponible (${response.status})`);return response.json() as Promise<T>}
+export const getDiagnostics=(token:string)=>diagnosticRequest<InferenceDiagnostics>("/diagnostics/inference",token);
+export const getDiagnosticLogs=(source:"application"|"inference",token:string)=>diagnosticRequest<{source:string;lines:string[];available:boolean}>(`/diagnostics/logs?source=${source}&lines=200`,token);
+export const testInference=(token:string)=>diagnosticRequest<{status:string;latency_ms:number;response_preview:string}>("/diagnostics/inference/test",token,"POST");
 export async function selectProblem(level:string,difficulty:number,topic?:string,exclude?:string[]):Promise<SelectionResult>{const query=new URLSearchParams({level,difficulty:String(difficulty)});if(topic)query.append("topic",topic);exclude?.forEach(id=>query.append("exclude",id));const value=await request<{problem:WireDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean}>(`/problems/select?${query}`);return{...value,problem:value.problem?{...summary(value.problem),statement:value.problem.statement,hintLevels:value.problem.hint_levels,prerequisites:value.problem.prerequisites,skills:value.problem.skills,resources:value.problem.resources}:null}}
 
 import type { Attempt } from "./types";

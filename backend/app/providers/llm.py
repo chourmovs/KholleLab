@@ -7,6 +7,7 @@ from typing import Protocol
 import httpx
 from pydantic import BaseModel
 from app.core.config import settings
+from app.core.logging import component_logger
 from app.schemas.evaluation import *
 
 class LLMProvider(Protocol):
@@ -50,6 +51,9 @@ PROFILE_SETTINGS = {
 
 class LocalLLMError(RuntimeError):
     """A controlled local inference failure."""
+    def __init__(self, code: str, message: str):
+        self.code = code
+        super().__init__(message)
 
 class LocalLLMProvider:
     name = "local"
@@ -64,7 +68,8 @@ class LocalLLMProvider:
         self.last_latency_ms: float | None = None
 
     async def structured_response(self, *, instructions, input_text, response_model, profile=InferenceProfile.DEEP):
-        generation = PROFILE_SETTINGS[InferenceProfile(profile)]
+        profile = InferenceProfile(profile)
+        generation = PROFILE_SETTINGS[profile]
         payload = {
             "model": self.model,
             "messages": [
@@ -79,26 +84,47 @@ class LocalLLMProvider:
         owned = self._client is None
         client = self._client or httpx.AsyncClient(timeout=settings.local_llm_timeout_seconds)
         started = time.perf_counter()
+        log = component_logger("inference").bind(provider="local", model=self.model, profile=profile.value, operation="chat_completions")
         try:
             response = await client.post(f"{settings.local_llm_base_url.rstrip('/')}/chat/completions", json=payload)
             response.raise_for_status()
-            body = response.json()
+            try:
+                body = response.json()
+            except ValueError as exc:
+                raise LocalLLMError("invalid_json", "local inference returned invalid JSON") from exc
             choices = body.get("choices")
             if not choices:
-                raise LocalLLMError("local inference returned no choices")
+                raise LocalLLMError("empty_response", "local inference returned no choices")
             content = choices[0].get("message", {}).get("content")
             if not isinstance(content, str) or not content.strip():
-                raise LocalLLMError("local inference returned empty content")
+                raise LocalLLMError("empty_response", "local inference returned empty content")
             clean = content.strip()
             if clean.startswith("```"):
                 clean = clean.split("\n", 1)[-1].rsplit("```", 1)[0]
-            return response_model.model_validate(json.loads(clean))
-        except (httpx.TimeoutException, httpx.ConnectError) as exc:
-            raise LocalLLMError(f"local inference unavailable: {type(exc).__name__}") from exc
+            try:
+                result = response_model.model_validate(json.loads(clean))
+            except (ValueError, TypeError) as exc:
+                raise LocalLLMError("invalid_structured_output", "local inference returned a malformed structured response") from exc
+            log.info("Request complete http_status={} elapsed_ms={:.1f} structured_parsing=success", response.status_code, (time.perf_counter()-started)*1000)
+            return result
+        except httpx.TimeoutException as exc:
+            log.exception("Request failed error_code=timeout elapsed_ms={:.1f}", (time.perf_counter()-started)*1000)
+            raise LocalLLMError("timeout", "local inference unavailable: timed out") from exc
+        except httpx.ConnectError as exc:
+            detail = str(exc).lower()
+            code = "dns_error" if "name" in detail or "resolve" in detail else "connection_refused"
+            log.exception("Request failed error_code={} elapsed_ms={:.1f}", code, (time.perf_counter()-started)*1000)
+            raise LocalLLMError(code, "local inference unavailable") from exc
         except httpx.HTTPStatusError as exc:
-            raise LocalLLMError(f"local inference HTTP {exc.response.status_code}") from exc
-        except (ValueError, KeyError, TypeError) as exc:
-            raise LocalLLMError("local inference returned a malformed response") from exc
+            code = "http_4xx" if exc.response.status_code < 500 else "http_5xx"
+            log.exception("Request failed error_code={} http_status={} elapsed_ms={:.1f}", code, exc.response.status_code, (time.perf_counter()-started)*1000)
+            raise LocalLLMError(code, f"local inference HTTP {exc.response.status_code}") from exc
+        except LocalLLMError:
+            log.exception("Request failed structured_parsing=failure elapsed_ms={:.1f}", (time.perf_counter()-started)*1000)
+            raise
+        except (KeyError, TypeError) as exc:
+            log.exception("Request failed error_code=invalid_json elapsed_ms={:.1f}", (time.perf_counter()-started)*1000)
+            raise LocalLLMError("invalid_json", "local inference returned a malformed response") from exc
         finally:
             self.last_latency_ms = (time.perf_counter() - started) * 1000
             if owned:
