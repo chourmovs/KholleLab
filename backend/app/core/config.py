@@ -37,6 +37,14 @@ class Settings(BaseSettings):
     runtime_logs_dir: str = "/runtime-logs"
     diagnostics_enabled: bool = False
     diagnostics_token: str | None = None
+    proactive_tutor_enabled: bool = True
+    tutor_initial_grace_seconds: int = 45
+    tutor_idle_after_change_seconds: int = 6
+    tutor_min_assessment_interval_seconds: int = 25
+    tutor_intervention_cooldown_seconds: int = 45
+    tutor_stalled_seconds: int = 90
+    tutor_max_auto_assessments_per_attempt: int = 12
+    tutor_auto_max_help_level: int = 3
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

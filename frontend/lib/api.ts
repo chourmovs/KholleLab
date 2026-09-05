@@ -13,6 +13,7 @@ export async function selectProblem(level:string,difficulty:number,topic?:string
 
 import type { Attempt } from "./types";
 import type { Evaluation } from "./types";
+import type {TutorAssessment,TutorTrigger} from "./types";
 export class ApiError extends Error { constructor(public status:number, public payload?:{error?:string;current_revision?:number}){super(payload?.error??`API request failed (${status})`)} }
 async function attemptRequest(path:string,init?:RequestInit):Promise<Attempt>{const response=await fetch(`${API_BASE}${path}`,{...init,headers:{Accept:"application/json","Content-Type":"application/json",...init?.headers}});const data=await response.json();if(!response.ok)throw new ApiError(response.status,data);return data}
 export const createAttempt=(problemId:string)=>attemptRequest("/attempts",{method:"POST",body:JSON.stringify({problem_id:problemId})});
@@ -26,3 +27,6 @@ export const retryEvaluation=(id:string)=>evaluationRequest(`/attempts/${id}/eva
 
 export type ReferenceSolution={problem_id:string;title:string;reference_solution:string};
 export const getReferenceSolution=(id:string)=>request<ReferenceSolution>(`/attempts/${id}/reference-solution`);
+async function tutorRequest(path:string,init?:RequestInit):Promise<TutorAssessment|null>{const response=await fetch(`${API_BASE}${path}`,{...init,headers:{Accept:"application/json","Content-Type":"application/json"}});const data=await response.json();if(!response.ok)throw new ApiError(response.status,data);return data}
+export const assessTutor=(id:string,revision:number,trigger:TutorTrigger,level:number,clientRequestId=crypto.randomUUID())=>tutorRequest(`/attempts/${id}/tutor/assess`,{method:"POST",body:JSON.stringify({expected_revision:revision,trigger,requested_help_level:level,client_request_id:clientRequestId})});
+export const getLatestTutor=(id:string)=>tutorRequest(`/attempts/${id}/tutor/latest`);

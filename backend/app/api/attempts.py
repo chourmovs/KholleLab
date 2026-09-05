@@ -7,6 +7,9 @@ from app.repositories.attempt_repository import AttemptAlreadySubmitted, Attempt
 from app.schemas.attempt import AttemptCreate, AttemptResponse, AttemptSubmit, AttemptUpdate
 from app.services.attempt_service import AttemptService, ProblemNotFound
 from app.models.attempt import AttemptStatus
+from app.providers.llm import provider_from_settings, RemoteLLMError
+from app.schemas.tutor import TutorRequest, TutorResponse
+from app.services.tutor import TutorAssessmentService, TutorError
 
 router = APIRouter(prefix="/attempts", tags=["attempts"])
 def session():
@@ -51,3 +54,14 @@ def patch(attempt_id: uuid.UUID, body: AttemptUpdate, db: Session = Depends(sess
 def submit(attempt_id: uuid.UUID, body: AttemptSubmit, db: Session = Depends(session)):
     try: return AttemptRepository(db).submit(attempt_id, body.expected_revision)
     except (AttemptNotFound, AttemptAlreadySubmitted, AttemptConflict) as exc: return domain_error(exc)
+
+@router.post("/{attempt_id}/tutor/assess",response_model=TutorResponse)
+async def tutor_assess(attempt_id:uuid.UUID,body:TutorRequest,request:Request,db:Session=Depends(session)):
+    try:return await TutorAssessmentService(db,request.app.state.problem_repository,provider_from_settings()).assess(attempt_id,body)
+    except TutorError as exc:return error(exc.code,"Le professeur ne peut pas intervenir pour le moment.",exc.status)
+    except RemoteLLMError as exc:return error("tutor_unavailable","Professeur temporairement indisponible.",503,provider_error=exc.code)
+
+@router.get("/{attempt_id}/tutor/latest",response_model=TutorResponse|None)
+def tutor_latest(attempt_id:uuid.UUID,request:Request,db:Session=Depends(session)):
+    if not AttemptRepository(db).get(attempt_id):return error("attempt_not_found","Attempt does not exist.",404)
+    return TutorAssessmentService(db,request.app.state.problem_repository,provider_from_settings()).latest(attempt_id)
