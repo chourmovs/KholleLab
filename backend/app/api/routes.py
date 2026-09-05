@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.services import health
 from app.api.diagnostics import router as diagnostics_router
 from app.domain.problem import CURRICULUM_ORDER
-from app.services.inference_diagnostics import diagnose
+from app.services.inference_diagnostics import cached_status, diagnose
 from app.schemas.evaluation import HealthResponse, InferenceStatusResponse
 from app.core.logging import component_logger
 
@@ -24,7 +24,7 @@ async def get_health(request: Request):
         )
     repository = request.app.state.problem_repository
     try:
-        inference = (await diagnose())["status"]
+        inference = cached_status()
     except Exception:
         component_logger("application").exception("Inference diagnostic failed during health check")
         inference = "error"

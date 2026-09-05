@@ -16,6 +16,19 @@ def configured_identity() -> dict:
             "deep_model": deep_name, "deep_backend": deep_backend}
 
 
+def cached_status() -> str:
+    """Return capability state without performing any network I/O.
+
+    Application health checks must remain independent of the remote provider.
+    The richer status endpoint is responsible for refreshing this cache.
+    """
+    if settings.llm_provider != "huggingface":
+        return "disabled"
+    if not settings.hf_token:
+        return "error"
+    return _cache[1].get("status", "unavailable") if _cache else "unavailable"
+
+
 async def diagnose(*, force=False) -> dict:
     global _cache
     identity = configured_identity()

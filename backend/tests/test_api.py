@@ -35,9 +35,19 @@ def test_ready_inference_reason_none_serializes(monkeypatch):
 
 def test_health_survives_diagnostic_exception(monkeypatch):
     monkeypatch.setattr('app.services.health.database_is_available', lambda: True)
-    async def broken(**_): raise RuntimeError("diagnostic exploded")
-    monkeypatch.setattr("app.api.routes.diagnose",broken)
+    def broken(): raise RuntimeError("diagnostic exploded")
+    monkeypatch.setattr("app.api.routes.cached_status",broken)
     with TestClient(app) as client:
         response=client.get("/api/health")
     assert response.status_code==200
     assert response.json()["inference"]=="error"
+
+def test_health_never_waits_for_remote_diagnostic(monkeypatch):
+    monkeypatch.setattr('app.services.health.database_is_available', lambda: True)
+    monkeypatch.setattr("app.api.routes.cached_status",lambda: "unavailable")
+    async def must_not_run(**_): raise AssertionError("network diagnostic called")
+    monkeypatch.setattr("app.api.routes.diagnose",must_not_run)
+    with TestClient(app) as client:
+        response=client.get("/api/health")
+    assert response.status_code==200
+    assert response.json()["inference"]=="unavailable"

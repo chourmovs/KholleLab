@@ -5,6 +5,7 @@ Revises: 20260904_02
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 revision = "20260905_03"
 down_revision = "20260904_02"
@@ -12,8 +13,11 @@ branch_labels = None
 depends_on = None
 
 def upgrade():
-    stage = sa.Enum("queued", "candidate_audit", "adjudication", "finalizing", "completed", "failed", name="evaluation_stage")
-    stage.create(op.get_bind(), checkfirst=True)
+    values = ("queued", "candidate_audit", "adjudication", "finalizing", "completed", "failed")
+    postgresql.ENUM(*values, name="evaluation_stage").create(op.get_bind(), checkfirst=True)
+    # The type was created explicitly above so ALTER TABLE must only reference
+    # it.  Without create_type=False Alembic tries CREATE TYPE a second time.
+    stage = postgresql.ENUM(*values, name="evaluation_stage", create_type=False)
     op.add_column("evaluations", sa.Column("stage", stage, nullable=False, server_default="queued"))
     op.add_column("evaluations", sa.Column("progress", sa.Integer(), nullable=False, server_default="5"))
     op.add_column("evaluations", sa.Column("heartbeat_at", sa.DateTime(timezone=True)))
@@ -26,4 +30,4 @@ def downgrade():
     op.alter_column("evaluations", "started_at", nullable=False)
     for column in ("elapsed_ms", "recovery_count", "heartbeat_at", "progress", "stage"):
         op.drop_column("evaluations", column)
-    sa.Enum(name="evaluation_stage").drop(op.get_bind(), checkfirst=True)
+    postgresql.ENUM(name="evaluation_stage").drop(op.get_bind(), checkfirst=True)
