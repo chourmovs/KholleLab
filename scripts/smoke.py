@@ -66,6 +66,8 @@ assert submitted["status"] == "submitted" and "reference_solution" not in json.d
 assert send_json(f"{api}/attempts/{attempt['id']}", "PATCH", {"solution_markdown": "locked", "elapsed_seconds": 12, "expected_revision": 2}, 409)["error"] == "attempt_submitted"
 print("[PASS] Attempt lifecycle, concurrency, and correction isolation")
 with urlopen(frontend, timeout=10) as response:
-    assert "KHOLLELAB" in response.read().decode()
+    # The wordmark uses brand casing in the redesigned header. Keep this probe
+    # focused on the application identity rather than its visual text transform.
+    assert "KholleLab" in response.read().decode()
 print("[PASS] Frontend reachable")
 print("Smoke test passed.")

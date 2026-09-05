@@ -1,16 +1,22 @@
 import {expect,test} from "@playwright/test";
 
-const viewports=[{width:1366,height:768},{width:1440,height:900},{width:1920,height:1080},{width:2560,height:1440},{width:3840,height:2160},{width:390,height:844}];
-for(const viewport of viewports)test(`workspace occupies 90vw at ${viewport.width}x${viewport.height}`,async({page})=>{
-  await page.setViewportSize(viewport); await page.goto("/");
-  const workspace=page.locator("main"); await expect(workspace).toBeVisible();
-  const box=await workspace.boundingBox(); expect(box).not.toBeNull();
-  const ratio=box!.width/viewport.width; expect(ratio).toBeGreaterThanOrEqual(.88); expect(ratio).toBeLessThanOrEqual(.92);
+const viewports=[{width:1440,height:900},{width:1024,height:900},{width:390,height:844}];
+for(const viewport of viewports)test(`workspace remains structured at ${viewport.width}px`,async({page})=>{
+  await page.setViewportSize(viewport);await page.goto("/");
+  const main=page.locator("main");await expect(main).toBeVisible();
+  const box=await main.boundingBox();expect(box).not.toBeNull();expect(box!.width).toBeLessThanOrEqual(1722);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(viewport.width+2);
-  if(viewport.width>=1366){
-    const board=await page.locator(".blackboard-pane").boundingBox(); const statement=await page.locator(".statement-pane").boundingBox();
-    expect(board!.width).toBeGreaterThan(statement!.width); expect(board!.width/box!.width).toBeGreaterThan(.6);
+  await expect(page.getByRole("navigation",{name:"Outils du tableau"})).toBeVisible();
+  await expect(page.locator(".professor-pane")).toBeVisible();
+  if(viewport.width>=1200){
+    const board=await page.locator(".blackboard-pane").boundingBox();
+    const statement=await page.locator(".statement-pane").boundingBox();
+    const professor=await page.locator(".professor-pane").boundingBox();
+    expect(board!.width).toBeGreaterThan(statement!.width);expect(board!.width).toBeGreaterThan(professor!.width);
   }
-  if(viewport.width===2560)expect(box!.width).toBeGreaterThan(2200);
-  if(viewport.width===3840){expect(box!.width).toBeGreaterThan(3300); const statement=await page.locator(".statement-pane").boundingBox(); expect(statement!.width/box!.width).toBeLessThan(.25)}
+});
+
+test("l’énoncé compact se replie sans masquer l’espace de travail",async({page})=>{
+  await page.goto("/");const toggle=page.locator(".problem-toggle");
+  if(await toggle.count()){await expect(toggle).toHaveAttribute("aria-expanded","true");await toggle.click();await expect(toggle).toHaveAttribute("aria-expanded","false");await expect(page.locator(".blackboard-pane")).toBeVisible()}
 });
