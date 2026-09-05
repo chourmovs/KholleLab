@@ -6,6 +6,7 @@ from app.db.session import SessionLocal
 from app.repositories.attempt_repository import AttemptAlreadySubmitted, AttemptConflict, AttemptNotFound, AttemptRepository
 from app.schemas.attempt import AttemptCreate, AttemptResponse, AttemptSubmit, AttemptUpdate
 from app.services.attempt_service import AttemptService, ProblemNotFound
+from app.models.attempt import AttemptStatus
 
 router = APIRouter(prefix="/attempts", tags=["attempts"])
 def session():
@@ -23,6 +24,18 @@ def create(body: AttemptCreate, request: Request, db: Session = Depends(session)
 def get(attempt_id: uuid.UUID, db: Session = Depends(session)):
     value = AttemptRepository(db).get(attempt_id)
     return value if value else error("attempt_not_found", "Attempt does not exist.", 404)
+
+@router.get("/{attempt_id}/reference-solution")
+def reference_solution(attempt_id: uuid.UUID, request: Request, db: Session = Depends(session)):
+    attempt = AttemptRepository(db).get(attempt_id)
+    if not attempt:
+        return error("attempt_not_found", "Attempt does not exist.", 404)
+    if attempt.status != AttemptStatus.SUBMITTED:
+        return error("attempt_not_submitted", "Submit the attempt before viewing its correction.", 409)
+    problem = request.app.state.problem_repository.get(attempt.problem_id)
+    if not problem:
+        return error("problem_not_found", "Problem does not exist.", 404)
+    return {"problem_id": problem.id, "title": problem.title, "reference_solution": problem.reference_solution}
 
 def domain_error(exc):
     if isinstance(exc, AttemptNotFound): return error("attempt_not_found", "Attempt does not exist.", 404)

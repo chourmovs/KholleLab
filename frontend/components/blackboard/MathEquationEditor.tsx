@@ -17,7 +17,12 @@ export const MathEquationEditor = forwardRef<MathEquationEditorHandle, {
   const onChangeRef = useRef(onChange); onChangeRef.current = onChange;
   useImperativeHandle(forwardedRef, () => ({
     focus: () => field.current?.focus(),
-    insert: (latex) => { field.current?.executeCommand(["insert", latex, { insertionMode: "replaceSelection" }]); field.current?.focus(); },
+    insert: (latex) => {
+      const mf=field.current;if(!mf)return;
+      if(latex==="moveToPreviousChar"||latex==="moveToNextChar"||latex==="deleteBackward") mf.executeCommand(latex);
+      else mf.insert(latex,{insertionMode:"replaceSelection",selectionMode:"placeholder"});
+      mf.focus();
+    },
     getValue: () => field.current?.value ?? "",
   }), []);
   useEffect(() => {

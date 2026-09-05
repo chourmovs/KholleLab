@@ -46,6 +46,6 @@ class ExaminerService:
             return self.evaluations.fail(value,code)
 
 def public_evaluation(value):
-    data={"status":value.status.value,"error_code":value.error_code,"max_score":20}
+    data={"status":value.status.value,"error_code":value.error_code,"max_score":20,"provider":value.provider,"model":value.model}
     if value.result_json: data.update(value.result_json)
     return data
