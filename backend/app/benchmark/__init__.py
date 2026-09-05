@@ -1,0 +1,1 @@
+"""Pedagogical benchmark package."""

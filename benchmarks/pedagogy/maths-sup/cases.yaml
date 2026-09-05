@@ -1,0 +1,422 @@
+- id: maths-sup-logique-001
+  task_type: mathematical_error
+  quick: true
+  curriculum:
+    level: maths-sup
+    difficulty: 1
+    topic: logique
+  problem:
+    statement: Étudier ce problème de logique au niveau maths-sup et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-nombres-complexes-002
+  task_type: missing_justification
+  quick: true
+  curriculum:
+    level: maths-sup
+    difficulty: 2
+    topic: nombres complexes
+  problem:
+    statement: Étudier ce problème de nombres complexes au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’obtiens bien le résultat annoncé, donc la propriété est démontrée.
+  requested_help_level: 1
+  expected:
+    state: missing_justification
+    error_present: false
+    error_category: rigor
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-limites-003
+  task_type: student_blocked
+  quick: true
+  curriculum:
+    level: maths-sup
+    difficulty: 3
+    topic: limites
+  problem:
+    statement: Étudier ce problème de limites au niveau maths-sup et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-algebre-lineaire-004
+  task_type: course_gap
+  quick: true
+  curriculum:
+    level: maths-sup
+    difficulty: 4
+    topic: algèbre linéaire
+  problem:
+    statement: Étudier ce problème de algèbre linéaire au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: 'Je suis bloqué : je ne retrouve plus la propriété du cours qui relie
+      les objets de l’énoncé.'
+  requested_help_level: 3
+  expected:
+    state: blocked
+    error_present: false
+    error_category: theorem
+    intervention_type: course_reminder
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-demonstration-005
+  task_type: alternative_valid_method
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 5
+    topic: démonstration
+  problem:
+    statement: Étudier ce problème de démonstration au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Au lieu de la méthode habituelle, je reformule le problème puis j’établis
+      directement les deux implications. Les étapes sont équivalentes.
+  requested_help_level: 1
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: encouragement
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-applications-006
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 1
+    topic: applications
+  problem:
+    statement: Étudier ce problème de applications au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: maths-sup-matrices-007
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 2
+    topic: matrices
+  problem:
+    statement: Étudier ce problème de matrices au niveau maths-sup et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-polynomes-008
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 3
+    topic: polynômes
+  problem:
+    statement: Étudier ce problème de polynômes au niveau maths-sup et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-suites-009
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 4
+    topic: suites
+  problem:
+    statement: Étudier ce problème de suites au niveau maths-sup et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: maths-sup-continuite-010
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 5
+    topic: continuité
+  problem:
+    statement: Étudier ce problème de continuité au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-derivation-011
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 1
+    topic: dérivation
+  problem:
+    statement: Étudier ce problème de dérivation au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-integration-012
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 2
+    topic: intégration
+  problem:
+    statement: Étudier ce problème de intégration au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: maths-sup-espaces-vectoriels-013
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 3
+    topic: espaces vectoriels
+  problem:
+    statement: Étudier ce problème de espaces vectoriels au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-arithmetique-014
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 4
+    topic: arithmétique
+  problem:
+    statement: Étudier ce problème de arithmétique au niveau maths-sup et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-sup-equations-differentielles-015
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: maths-sup
+    difficulty: 5
+    topic: équations différentielles
+  problem:
+    statement: Étudier ce problème de équations différentielles au niveau maths-sup
+      et justifier soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []

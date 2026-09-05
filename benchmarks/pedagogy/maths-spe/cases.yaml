@@ -1,0 +1,286 @@
+- id: maths-spe-reduction-001
+  task_type: mathematical_error
+  quick: true
+  curriculum:
+    level: maths-spe
+    difficulty: 1
+    topic: réduction
+  problem:
+    statement: Étudier ce problème de réduction au niveau maths-spe et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-series-002
+  task_type: student_blocked
+  quick: true
+  curriculum:
+    level: maths-spe
+    difficulty: 2
+    topic: séries
+  problem:
+    statement: Étudier ce problème de séries au niveau maths-spe et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-equations-differentielles-003
+  task_type: valid_progress
+  quick: true
+  curriculum:
+    level: maths-spe
+    difficulty: 3
+    topic: équations différentielles
+  problem:
+    statement: Étudier ce problème de équations différentielles au niveau maths-spe
+      et justifier soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: maths-spe-polynomes-004
+  task_type: mathematical_error
+  quick: true
+  curriculum:
+    level: maths-spe
+    difficulty: 4
+    topic: polynômes
+  problem:
+    statement: Étudier ce problème de polynômes au niveau maths-spe et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-topologie-005
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: maths-spe
+    difficulty: 5
+    topic: topologie
+  problem:
+    statement: Étudier ce problème de topologie au niveau maths-spe et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-integrales-impropres-006
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-spe
+    difficulty: 1
+    topic: intégrales impropres
+  problem:
+    statement: Étudier ce problème de intégrales impropres au niveau maths-spe et
+      justifier soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-probabilites-007
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-spe
+    difficulty: 2
+    topic: probabilités
+  problem:
+    statement: Étudier ce problème de probabilités au niveau maths-spe et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-endomorphismes-008
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-spe
+    difficulty: 3
+    topic: endomorphismes
+  problem:
+    statement: Étudier ce problème de endomorphismes au niveau maths-spe et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-fonctions-de-plusieurs-variables-009
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-spe
+    difficulty: 4
+    topic: fonctions de plusieurs variables
+  problem:
+    statement: Étudier ce problème de fonctions de plusieurs variables au niveau maths-spe
+      et justifier soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: maths-spe-algebre-bilineaire-010
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: maths-spe
+    difficulty: 5
+    topic: algèbre bilinéaire
+  problem:
+    statement: Étudier ce problème de algèbre bilinéaire au niveau maths-spe et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?

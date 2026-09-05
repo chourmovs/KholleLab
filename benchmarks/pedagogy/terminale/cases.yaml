@@ -1,0 +1,707 @@
+- id: terminale-limites-001
+  task_type: valid_progress
+  quick: true
+  curriculum:
+    level: terminale
+    difficulty: 1
+    topic: limites
+  problem:
+    statement: Étudier ce problème de limites au niveau terminale et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: terminale-derivees-002
+  task_type: mathematical_error
+  quick: true
+  curriculum:
+    level: terminale
+    difficulty: 2
+    topic: dérivées
+  problem:
+    statement: Étudier ce problème de dérivées au niveau terminale et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-logarithme-003
+  task_type: missing_justification
+  quick: true
+  curriculum:
+    level: terminale
+    difficulty: 3
+    topic: logarithme
+  problem:
+    statement: Étudier ce problème de logarithme au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’obtiens bien le résultat annoncé, donc la propriété est démontrée.
+  requested_help_level: 1
+  expected:
+    state: missing_justification
+    error_present: false
+    error_category: rigor
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-exponentielle-004
+  task_type: student_blocked
+  quick: true
+  curriculum:
+    level: terminale
+    difficulty: 4
+    topic: exponentielle
+  problem:
+    statement: Étudier ce problème de exponentielle au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-integrales-005
+  task_type: course_gap
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 5
+    topic: intégrales
+  problem:
+    statement: Étudier ce problème de intégrales au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: 'Je suis bloqué : je ne retrouve plus la propriété du cours qui relie
+      les objets de l’énoncé.'
+  requested_help_level: 3
+  expected:
+    state: blocked
+    error_present: false
+    error_category: theorem
+    intervention_type: course_reminder
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-suites-006
+  task_type: alternative_valid_method
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 1
+    topic: suites
+  problem:
+    statement: Étudier ce problème de suites au niveau terminale et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Au lieu de la méthode habituelle, je reformule le problème puis j’établis
+      directement les deux implications. Les étapes sont équivalentes.
+  requested_help_level: 1
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: encouragement
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-probabilites-007
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 2
+    topic: probabilités
+  problem:
+    statement: Étudier ce problème de probabilités au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: terminale-equations-differentielles-008
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 3
+    topic: équations différentielles
+  problem:
+    statement: Étudier ce problème de équations différentielles au niveau terminale
+      et justifier soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-convexite-009
+  task_type: missing_justification
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 4
+    topic: convexité
+  problem:
+    statement: Étudier ce problème de convexité au niveau terminale et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: J’obtiens bien le résultat annoncé, donc la propriété est démontrée.
+  requested_help_level: 1
+  expected:
+    state: missing_justification
+    error_present: false
+    error_category: rigor
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-geometrie-espace-010
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 5
+    topic: géométrie espace
+  problem:
+    statement: Étudier ce problème de géométrie espace au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-recurrence-011
+  task_type: course_gap
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 1
+    topic: récurrence
+  problem:
+    statement: Étudier ce problème de récurrence au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: 'Je suis bloqué : je ne retrouve plus la propriété du cours qui relie
+      les objets de l’énoncé.'
+  requested_help_level: 3
+  expected:
+    state: blocked
+    error_present: false
+    error_category: theorem
+    intervention_type: course_reminder
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-primitives-012
+  task_type: alternative_valid_method
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 2
+    topic: primitives
+  problem:
+    statement: Étudier ce problème de primitives au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Au lieu de la méthode habituelle, je reformule le problème puis j’établis
+      directement les deux implications. Les étapes sont équivalentes.
+  requested_help_level: 1
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: encouragement
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-loi-binomiale-013
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 3
+    topic: loi binomiale
+  problem:
+    statement: Étudier ce problème de loi binomiale au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: terminale-variables-aleatoires-014
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 4
+    topic: variables aléatoires
+  problem:
+    statement: Étudier ce problème de variables aléatoires au niveau terminale et
+      justifier soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-continuite-015
+  task_type: missing_justification
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 5
+    topic: continuité
+  problem:
+    statement: Étudier ce problème de continuité au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’obtiens bien le résultat annoncé, donc la propriété est démontrée.
+  requested_help_level: 1
+  expected:
+    state: missing_justification
+    error_present: false
+    error_category: rigor
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-theoreme-des-valeurs-intermediaires-016
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 1
+    topic: théorème des valeurs intermédiaires
+  problem:
+    statement: Étudier ce problème de théorème des valeurs intermédiaires au niveau
+      terminale et justifier soigneusement chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-produit-scalaire-017
+  task_type: course_gap
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 2
+    topic: produit scalaire
+  problem:
+    statement: Étudier ce problème de produit scalaire au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: 'Je suis bloqué : je ne retrouve plus la propriété du cours qui relie
+      les objets de l’énoncé.'
+  requested_help_level: 3
+  expected:
+    state: blocked
+    error_present: false
+    error_category: theorem
+    intervention_type: course_reminder
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-combinatoire-018
+  task_type: alternative_valid_method
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 3
+    topic: combinatoire
+  problem:
+    statement: Étudier ce problème de combinatoire au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: Au lieu de la méthode habituelle, je reformule le problème puis j’établis
+      directement les deux implications. Les étapes sont équivalentes.
+  requested_help_level: 1
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: encouragement
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-fonctions-trigonometriques-019
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 4
+    topic: fonctions trigonométriques
+  problem:
+    statement: Étudier ce problème de fonctions trigonométriques au niveau terminale
+      et justifier soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
+- id: terminale-algorithmes-020
+  task_type: mathematical_error
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 5
+    topic: algorithmes
+  problem:
+    statement: Étudier ce problème de algorithmes au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’effectue le calcul et j’obtiens 2 + 3 = 6 ; je poursuis avec cette
+      valeur.
+  requested_help_level: 1
+  expected:
+    state: error
+    error_present: true
+    error_category: calculation
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: Le raisonnement contient une assertion ou une stratégie invalide.
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-limites-de-suites-021
+  task_type: missing_justification
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 1
+    topic: limites de suites
+  problem:
+    statement: Étudier ce problème de limites de suites au niveau terminale et justifier
+      soigneusement chaque étape.
+  student_state:
+    solution: J’obtiens bien le résultat annoncé, donc la propriété est démontrée.
+  requested_help_level: 1
+  expected:
+    state: missing_justification
+    error_present: false
+    error_category: rigor
+    intervention_type: socratic_question
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-equations-logarithmiques-022
+  task_type: student_blocked
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 2
+    topic: équations logarithmiques
+  problem:
+    statement: Étudier ce problème de équations logarithmiques au niveau terminale
+      et justifier soigneusement chaque étape.
+  student_state:
+    solution: Je ne sais pas par où commencer.
+  requested_help_level: 2
+  expected:
+    state: blocked
+    error_present: false
+    error_category: none
+    intervention_type: direction
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-aires-023
+  task_type: course_gap
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 3
+    topic: aires
+  problem:
+    statement: Étudier ce problème de aires au niveau terminale et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: 'Je suis bloqué : je ne retrouve plus la propriété du cours qui relie
+      les objets de l’énoncé.'
+  requested_help_level: 3
+  expected:
+    state: blocked
+    error_present: false
+    error_category: theorem
+    intervention_type: course_reminder
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-plans-024
+  task_type: alternative_valid_method
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 4
+    topic: plans
+  problem:
+    statement: Étudier ce problème de plans au niveau terminale et justifier soigneusement
+      chaque étape.
+  student_state:
+    solution: Au lieu de la méthode habituelle, je reformule le problème puis j’établis
+      directement les deux implications. Les étapes sont équivalentes.
+  requested_help_level: 1
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: encouragement
+    intervention_needed: true
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions:
+    - Peux-tu préciser la prochaine étape utile sans chercher à conclure immédiatement
+      ?
+- id: terminale-loi-des-grands-nombres-025
+  task_type: valid_progress
+  quick: false
+  curriculum:
+    level: terminale
+    difficulty: 5
+    topic: loi des grands nombres
+  problem:
+    statement: Étudier ce problème de loi des grands nombres au niveau terminale et
+      justifier soigneusement chaque étape.
+  student_state:
+    solution: Je commence par identifier les hypothèses puis je transforme l’expression
+      en conservant les équivalences. Cette première étape est correcte.
+  requested_help_level: 0
+  expected:
+    state: progressing
+    error_present: false
+    error_category: none
+    intervention_type: silence
+    intervention_needed: false
+  forbidden:
+    reveal_final_answer: true
+    forbidden_answers:
+    - résultat final = 42
+  reference:
+    error_description: null
+    acceptable_interventions: []
