@@ -46,8 +46,8 @@ export function DiagnosticsModal({ onClose, initialTab = "diagnostic" }: { onClo
     setError("");
   }
 
-  async function runTest() {
-    const value = await testInference(token);
+  async function runTest(role: "fast" | "deep") {
+    const value = await testInference(token, role);
     setCompletion(value.status === "pass"
       ? `PASS · ${value.latency_ms} ms · “${value.response_preview}”`
       : `FAIL · ${value.error_code || value.reason || "UNKNOWN"}`);
@@ -61,18 +61,17 @@ export function DiagnosticsModal({ onClose, initialTab = "diagnostic" }: { onClo
       <input id="diagnostics-token" type="password" autoComplete="off" value={tokenInput} onChange={event => setTokenInput(event.target.value)} autoFocus />
       <button type="submit">Accéder</button>
     </form> : <>
-      <p>IA locale : {diagnostic?.status === "ready" ? "● prête" : "⚠ indisponible"}</p>
-      <p>Provider : {diagnostic?.provider || "—"}<br />Modèle : {diagnostic?.model || "—"} · {diagnostic?.quantization || "—"}</p>
+      <p>IA distante : {diagnostic?.status === "ready" ? "● prête" : "⚠ indisponible"}</p>
+      <p>Provider : Hugging Face<br />Famille : {diagnostic?.family || "—"}<br />FAST : {diagnostic?.fast_model || "—"} · {diagnostic?.fast_backend || "—"}<br />DEEP : {diagnostic?.deep_model || "—"} · {diagnostic?.deep_backend || "—"}</p>
       <nav>{(["diagnostic", "application", "inference"] as Tab[]).map(value => <button className={tab === value ? "active" : ""} onClick={() => { setTab(value); void refresh(value, token, lineCount); }} key={value}>{value === "diagnostic" ? "Diagnostic" : value === "application" ? "Application" : "Inference"}</button>)}</nav>
       {error && <p role="alert" className="diagnostics-error">{error}</p>}
       {tab === "diagnostic" ? <div className="diagnostic-grid">
         <span>Provider config</span><b>{checks?.provider_config?.toUpperCase() || "—"}</b>
-        <span>DNS inference</span><b>{checks?.dns?.toUpperCase() || "—"}</b>
-        <span>TCP :8080</span><b>{checks?.tcp_8080?.toUpperCase() || "—"}</b>
-        <span>/health</span><b>{checks?.health?.toUpperCase() || "—"}</b>
-        <span>/v1/models</span><b>{checks?.models?.toUpperCase() || "—"}</b>
+        <span>HF router</span><b>{checks?.router?.toUpperCase() || "—"}</b>
+        <span>HF authentication</span><b>{checks?.authentication?.toUpperCase() || "—"}</b>
+        <span>Structured output</span><b>{checks?.structured_output?.toUpperCase() || "—"}</b>
         <span>Test inference</span><b>{completion}</b>
-        <button onClick={() => void runTest().catch(() => setCompletion("FAIL · UNAVAILABLE"))}>Tester l&apos;inférence</button>
+        <button onClick={() => void runTest("fast").catch(() => setCompletion("FAIL · UNAVAILABLE"))}>Tester FAST</button><button onClick={() => void runTest("deep").catch(() => setCompletion("FAIL · UNAVAILABLE"))}>Tester DEEP</button>
       </div> : <><div className="log-lines">Lignes : {[100, 200, 500].map(count => <button className={lineCount === count ? "active" : ""} key={count} onClick={() => { setLineCount(count); void refresh(tab, token, count); }}>{count}</button>)}</div><pre>{logs.length ? logs.join("\n") : "Aucun journal disponible."}</pre></>}
       <footer><button onClick={() => void refresh(tab, token, lineCount)}>Actualiser</button>{tab !== "diagnostic" && <button onClick={() => void navigator.clipboard.writeText(logs.join("\n"))}>Copier</button>}<button onClick={changeToken}>Changer le token</button></footer>
     </>}

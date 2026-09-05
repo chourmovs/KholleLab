@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from .models import *
 from .scoring import CaseScore,score_case
-from app.providers.llm import FakeLLMProvider,InferenceProfile
+from app.providers.llm import FakeLLMProvider,ModelRole
 PROMPT=Path(__file__).parents[1]/"prompts/tutor_assessment_v1.md"
 @dataclass
 class CaseResult:
@@ -12,7 +12,7 @@ class CaseResult:
 class TutorAssessmentService:
     async def assess(self,problem:str,student_solution:str,requested_help_level:int,provider,curriculum:str="inconnu")->TutorAssessment:
         payload=json.dumps({"problem":problem,"curriculum":curriculum,"student_solution":student_solution,"requested_help_level":requested_help_level},ensure_ascii=False)
-        return await provider.structured_response(instructions=PROMPT.read_text(),input_text=payload,response_model=TutorAssessment,profile=InferenceProfile.FAST)
+        return await provider.structured_response(instructions=PROMPT.read_text(),input_text=payload,response_model=TutorAssessment,role=ModelRole.FAST)
 class BenchmarkRunner:
     async def run_case(self,case,provider):
         started=time.perf_counter()

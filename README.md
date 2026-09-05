@@ -88,52 +88,27 @@ The backend-only examiner uses runtime variables `LLM_PROVIDER`, `LLM_MODEL`,
 `OPENAI_API_KEY`, and `LLM_TIMEOUT_SECONDS` (default 90). CI and smoke tests use
 `LLM_PROVIDER=fake`. Never expose the key as a build-time or `NEXT_PUBLIC_` variable.
 
-## Inférence locale
+## Inférence distante Hugging Face
 
-Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b10680`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
+La production utilise exclusivement `HuggingFaceProvider` via le routeur OpenAI-compatible `https://router.huggingface.co/v1`. Qwen (Nscale) est la famille par défaut; Gemma (DeepInfra) est sélectionnable côté serveur. Aucun compte Nscale ou DeepInfra séparé n'est nécessaire lorsque routage et facturation passent par Hugging Face.
 
-Au premier démarrage, llama.cpp résout nativement `Qwen/Qwen3-4B-GGUF:Q4_K_M` avec `-hf`. `LLAMA_CACHE=/models/cache` place le GGUF téléchargé dans le volume nommé `llm_models`; les redémarrages et redéploiements réutilisent donc ce cache (ne lancez pas `docker compose down -v`). `HF_TOKEN` reste facultatif pour les dépôts restreints. L'acquisition et le chargement apparaissent dans `docker compose logs -f inference` (dépôt et quantification demandés, cache manquant/téléchargement, chargement du modèle, puis serveur HTTP prêt). L'application ne déduit jamais l'état depuis ces logs : le backend interroge `/health`.
+Configuration Coolify backend :
 
-La configuration backend comprend `LLM_PROVIDER` (`fake`, `openai` ou `local`), `LOCAL_LLM_BASE_URL`, `LOCAL_LLM_MODEL`, `LOCAL_LLM_HF_REPO`, `LOCAL_LLM_QUANT`, `LOCAL_LLM_CONTEXT_SIZE` (8192), `LOCAL_LLM_THREADS` (6), `LOCAL_LLM_BATCH_SIZE`, `LOCAL_LLM_PARALLEL` (1) et `LOCAL_LLM_TIMEOUT_SECONDS`. **Coolify/production doit définir `LLM_PROVIDER=local`** (valeur recommandée et valeur Compose par défaut). Utilisez `LLM_PROVIDER=fake` explicitement en CI uniquement afin de ne jamais télécharger le modèle.
-
-Pour vérifier la persistance après le premier chargement :
-
-```bash
-docker compose exec inference find /models -maxdepth 4 -type f -ls
-docker compose restart inference
+```dotenv
+LLM_PROVIDER=huggingface
+HF_TOKEN=<secret>
+HF_ROUTER_BASE_URL=https://router.huggingface.co/v1
+LLM_MODEL_FAMILY=qwen
+HF_QWEN_FAST_MODEL=Qwen/Qwen3-8B:nscale
+HF_QWEN_DEEP_MODEL=Qwen/Qwen3-32B:nscale
+HF_GEMMA_FAST_MODEL=google/gemma-3-12b-it:deepinfra
+HF_GEMMA_DEEP_MODEL=google/gemma-3-27b-it:deepinfra
+HF_TIMEOUT_SECONDS=60
 ```
 
-Le redémarrage doit charger le fichier déjà présent sous `/models/cache` sans nouveau téléchargement. Le service `inference` démarre en parallèle : ni `backend` ni `frontend` n'en dépendent, et `/api/health` reste opérationnel pendant le téléchargement. `/api/inference/status` expose `starting` jusqu'à ce que `/health` réponde 200, puis `ready`.
+1. Créez un compte Hugging Face et configurez les crédits/la facturation Inference Providers.
+2. Créez un token fin avec la permission **“Make calls to Inference Providers”**, puis enregistrez-le comme secret runtime backend `HF_TOKEN` (jamais `NEXT_PUBLIC_*` ni build arg).
+3. Pour Gemma, ouvrez `google/gemma-3-12b-it` et `google/gemma-3-27b-it` connecté à Hugging Face et acceptez les conditions d'utilisation Google Gemma avant tout test.
+4. Choisissez `LLM_MODEL_FAMILY=qwen` ou `gemma`, puis redéployez le backend.
 
-Diagnostics manuels depuis un environnement capable de joindre les noms Compose :
-
-```bash
-make inference-status
-make inference-test
-make inference-bench
-```
-
-Le benchmark couvre calcul, équation, contre-exemple et question tutorale. Il affiche latence, tokens et tokens/s lorsque l'usage est fourni, sans seuil de performance CI.
-
-### Examiner providers and runtime diagnostics
-
-Before PR7, `LLM_PROVIDER=fake` was deterministic examiner plumbing, not mathematical
-inference. Its fixed fixture produced approximately `16/20` / `mostly_correct` so
-persistence, UX, and the evaluation workflow could be exercised without an LLM.
-Production now explicitly uses `LLM_PROVIDER=local`; CI and offline unit tests must
-explicitly select `fake`. The UI labels every fake result **Évaluation simulée**.
-
-Runtime diagnostics are disabled by default. Operators set
-`DIAGNOSTICS_ENABLED=true` and a strong `DIAGNOSTICS_TOKEN`, then use **LOGS** in the
-header. The token is entered by the operator, retained only in browser
-`sessionStorage`, and sent as `X-Diagnostics-Token`. Application and llama.cpp logs
-are separate, bounded views backed by the private `runtime_logs` volume; no Docker
-socket or arbitrary file access is used.
-
-The original runtime was `server-b5350`. No production container logs are available
-in this checkout, so the exact historical Coolify failure cannot responsibly be
-claimed from repository evidence. That build predates Qwen3 and was replaced by the
-immutable `server-b10680` tag, whose manifest was verified in GHCR on 2026-09-05.
-Run `scripts/diagnose_inference.py` and the frontend console after deployment to
-verify `-hf`, model loading, file logging, health, models, and completion on the real
-host. Registry verification is deliberately not presented as a real model-load test.
+CI utilise explicitement `LLM_PROVIDER=fake` et n'effectue aucun appel payant. Les tests réels sont volontaires : `python scripts/smoke_remote_inference.py` et `python scripts/bench_remote_models.py --quick --family all`. Les diagnostics protégés vérifient `/v1/models` sans génération payante et mettent le résultat en cache.
