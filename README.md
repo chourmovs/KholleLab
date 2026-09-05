@@ -92,9 +92,18 @@ The backend-only examiner uses runtime variables `LLM_PROVIDER`, `LLM_MODEL`,
 
 Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b5350`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
 
-Au premier démarrage, `model-download` consulte les métadonnées Hugging Face pour résoudre exactement la quantification demandée, télécharge vers `model.gguf.part`, puis effectue un renommage atomique dans le volume `llm_models`. Les redémarrages et redéploiements réutilisent ce volume (ne lancez pas `docker compose down -v`). `HF_TOKEN` est facultatif pour de futurs modèles restreints et n'est jamais journalisé. Un échec laisse le backend et le frontend utilisables et l'état d'inférence devient `unavailable`.
+Au premier démarrage, llama.cpp résout nativement `Qwen/Qwen3-4B-GGUF:Q4_K_M` avec `-hf`. `LLAMA_CACHE=/models/cache` place le GGUF téléchargé dans le volume nommé `llm_models`; les redémarrages et redéploiements réutilisent donc ce cache (ne lancez pas `docker compose down -v`). `HF_TOKEN` reste facultatif pour les dépôts restreints. L'acquisition et le chargement apparaissent dans `docker compose logs -f inference` (dépôt et quantification demandés, cache manquant/téléchargement, chargement du modèle, puis serveur HTTP prêt). L'application ne déduit jamais l'état depuis ces logs : le backend interroge `/health`.
 
 La configuration backend comprend `LLM_PROVIDER` (`fake`, `openai` ou `local`), `LOCAL_LLM_BASE_URL`, `LOCAL_LLM_MODEL`, `LOCAL_LLM_HF_REPO`, `LOCAL_LLM_QUANT`, `LOCAL_LLM_CONTEXT_SIZE` (8192), `LOCAL_LLM_THREADS` (6), `LOCAL_LLM_BATCH_SIZE`, `LOCAL_LLM_PARALLEL` (1) et `LOCAL_LLM_TIMEOUT_SECONDS`. Le modèle et la quantification peuvent être remplacés sans modifier les services métier. En CI, conservez `LLM_PROVIDER=fake` afin de ne jamais télécharger le modèle.
+
+Pour vérifier la persistance après le premier chargement :
+
+```bash
+docker compose exec inference find /models -maxdepth 4 -type f -ls
+docker compose restart inference
+```
+
+Le redémarrage doit charger le fichier déjà présent sous `/models/cache` sans nouveau téléchargement. Le service `inference` démarre en parallèle : ni `backend` ni `frontend` n'en dépendent, et `/api/health` reste opérationnel pendant le téléchargement. `/api/inference/status` expose `starting` jusqu'à ce que `/health` réponde 200, puis `ready`.
 
 Diagnostics manuels depuis un environnement capable de joindre les noms Compose :
 
