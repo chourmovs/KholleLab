@@ -1,44 +1,13 @@
 {
-  "version": "1.0",
-  "brand": [
-    "app-icon-192.png",
-    "app-icon-512.png",
-    "favicon-16.png",
-    "favicon-32.png",
-    "favicon.ico",
-    "khollelab-logo-horizontal.png",
-    "khollelab-logo-horizontal.svg",
-    "khollelab-mark.svg"
-  ],
-  "backgrounds": [
-    "chalkboard-texture.png",
-    "classroom-bg-dark.png",
-    "formula-pattern.svg",
-    "grid-overlay.svg"
-  ],
-  "header": [
-    "divider-wave.svg",
-    "header-decoration.svg",
-    "header-wave.svg"
-  ],
-  "professor": [
-    "professor-avatar.png",
-    "professor-avatar.svg"
-  ],
-  "icons": [
-    "clear.svg",
-    "correction.svg",
-    "easier.svg",
-    "evaluate.svg",
-    "harder.svg",
-    "hint.svg",
-    "home.svg",
-    "keyboard.svg",
-    "refresh.svg",
-    "settings.svg",
-    "shuffle.svg",
-    "silence.svg",
-    "stuck.svg",
-    "submit.svg"
+  "version": "9.3",
+  "iconSystem": "lucide-react",
+  "runtimeAssets": [
+    "backgrounds/chalkboard-texture.png",
+    "backgrounds/classroom-bg-dark.png",
+    "backgrounds/formula-pattern.svg",
+    "backgrounds/grid-overlay.svg",
+    "brand/khollelab-mark.svg",
+    "header/header-wave.svg",
+    "professor/professor-avatar.svg"
   ]
 }
