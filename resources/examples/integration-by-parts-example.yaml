@@ -1,0 +1,17 @@
+id: integration-by-parts-example
+type: example
+title: 'Exemple : intégrer par parties'
+statement: Calculer $\int_0^1 x e^x\,dx$.
+solution: On choisit $u(x)=x$ et $v'(x)=e^x$, donc $u'(x)=1$ et $v(x)=e^x$. La formule donne $[xe^x]_0^1-\int_0^1e^x\,dx=e-(e-1)=1$.
+curriculum_levels:
+- terminale
+- maths-sup
+topics:
+- integrals
+prerequisites:
+- antiderivatives
+skills:
+- calculation
+tags:
+- exemple-guide
+priority: 0

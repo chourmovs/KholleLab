@@ -1,0 +1,19 @@
+id: induction-principle
+type: course
+title: Principe de récurrence
+summary: Structurer une démonstration portant sur tous les entiers.
+content: 'Une preuve par récurrence comporte trois étapes. L’initialisation vérifie la propriété au premier rang. L’hérédité suppose la propriété vraie à un rang $n$ fixé, puis démontre qu’elle est vraie au rang $n+1$ ; l’hypothèse de récurrence doit être clairement nommée et effectivement utilisée. La conclusion invoque le principe de récurrence pour tous les rangs concernés. Une récurrence ne consiste jamais à vérifier quelques valeurs : l’étape d’hérédité fournit le passage général indispensable.'
+curriculum_levels:
+- terminale
+- maths-sup
+topics:
+- logic
+- sequences
+prerequisites:
+- proof-basics
+skills:
+- induction
+- proof
+tags:
+- rappel
+priority: 0

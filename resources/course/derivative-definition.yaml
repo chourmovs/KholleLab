@@ -1,0 +1,19 @@
+id: derivative-definition
+type: course
+title: Définition du nombre dérivé
+summary: Relier taux d’accroissement, tangente et nombre dérivé.
+content: 'Le nombre dérivé de $f$ en $a$ est, lorsqu’elle existe, la limite $f''(a)=\lim_{h\to0}(f(a+h)-f(a))/h$. Le quotient mesure la pente d’une sécante ; sa limite donne la pente de la tangente au point d’abscisse $a$. L’équation de cette tangente est $y=f(a)+f''(a)(x-a)$. Il faut distinguer l’existence de $f(a)$, la continuité et la dérivabilité : la dérivabilité implique la continuité, mais la réciproque est fausse.'
+curriculum_levels:
+- premiere
+- terminale
+topics:
+- derivatives
+- functions
+prerequisites:
+- function-basics
+skills:
+- reasoning
+- calculation
+tags:
+- rappel
+priority: 0

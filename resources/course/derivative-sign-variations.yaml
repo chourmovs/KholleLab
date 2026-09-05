@@ -1,0 +1,19 @@
+id: derivative-sign-variations
+type: course
+title: Signe de la dérivée et variations
+summary: Déduire les variations d’une fonction du signe de sa dérivée.
+content: 'Sur un intervalle où $f$ est dérivable, si $f''\geq0$, alors $f$ est croissante ; si $f''\leq0$, elle est décroissante. On détermine donc d’abord les zéros et le signe de $f''$, puis on reporte ces informations dans un tableau de variations. Les valeurs de $f$ aux bornes et aux points critiques complètent le tableau. Un zéro isolé de $f''$ ne provoque pas nécessairement un extremum : c’est le changement de signe de la dérivée qui permet de conclure.'
+curriculum_levels:
+- premiere
+- terminale
+topics:
+- derivatives
+- functions
+prerequisites:
+- derivative-basics
+skills:
+- sign-analysis
+- reasoning
+tags:
+- rappel
+priority: 0

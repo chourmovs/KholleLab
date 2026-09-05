@@ -7,6 +7,8 @@ from app.api.routes import router
 from app.core.config import settings
 from app.core.version import APP_NAME, APP_VERSION
 from app.services.problem_repository import ProblemRepository
+from app.services.resource_repository import ResourceRepository, validate_problem_resource_refs
+from app.services.resource_resolver import ResourceResolver
 from app.core.logging import configure_logging, component_logger
 
 
@@ -17,7 +19,12 @@ async def lifespan(app: FastAPI):
     component_logger("inference").info("Provider={} family={}", settings.llm_provider, settings.llm_model_family.value)
     repository = ProblemRepository(settings.problems_dir)
     repository.load()
+    resource_repository = ResourceRepository(settings.resources_dir)
+    resource_repository.load()
+    validate_problem_resource_refs(repository, resource_repository)
     app.state.problem_repository = repository
+    app.state.resource_repository = resource_repository
+    app.state.resource_resolver = ResourceResolver(resource_repository)
     yield
 
 

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     database_url: str = Field(description="SQLAlchemy database URL supplied by the environment")
     cors_origins: str = "http://localhost:3000"
     problems_dir: str = "../problems"
+    resources_dir: str = "../resources"
     llm_provider: str = "huggingface"
     llm_model: str = ""
     openai_api_key: str | None = None

@@ -1,0 +1,16 @@
+id: diagonalisation-example
+type: example
+title: 'Exemple : diagonaliser une matrice'
+statement: Diagonaliser $A=\begin{pmatrix}2&1\\0&3\end{pmatrix}$.
+solution: Les valeurs propres sont $2$ et $3$. Pour $2$, on peut choisir $(1,0)$ ; pour $3$, on peut choisir $(1,1)$. Ces vecteurs forment une base. Avec $P=\begin{pmatrix}1&1\\0&1\end{pmatrix}$ et $D=\operatorname{diag}(2,3)$, on obtient $A=PDP^{-1}$.
+curriculum_levels:
+- maths-spe
+topics:
+- linear-algebra
+prerequisites:
+- eigenvalues
+skills:
+- calculation
+tags:
+- exemple-guide
+priority: 0

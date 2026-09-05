@@ -1,0 +1,18 @@
+id: sequence-monotonicity
+type: course
+title: Monotonie d’une suite
+summary: Choisir une méthode pour étudier le sens de variation d’une suite.
+content: 'Pour étudier une suite $(u_n)$, on peut examiner le signe de $u_{n+1}-u_n$. Si les termes sont strictement positifs, le quotient $u_{n+1}/u_n$ peut être plus pratique : le comparer à $1$ donne le sens de variation. Pour une suite définie par $u_{n+1}=f(u_n)$, une récurrence permet souvent de conserver un intervalle stable, puis d’utiliser la monotonie de $f$. Toujours préciser à partir de quel rang les calculs et les inégalités sont valides.'
+curriculum_levels:
+- premiere
+- terminale
+topics:
+- sequences
+prerequisites:
+- sequence-basics
+skills:
+- reasoning
+- sign-analysis
+tags:
+- rappel
+priority: 0

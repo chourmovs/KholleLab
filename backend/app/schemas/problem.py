@@ -24,6 +24,7 @@ class ProblemPublicDetail(ProblemCatalogueItem):
     prerequisites: tuple[str, ...]
     skills: tuple[Skill, ...]
     resources: ProblemResources | None = None
+    resource_refs: tuple[str, ...] = ()
 
 
 class ProblemSelectionResult(PublicModel):

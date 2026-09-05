@@ -1,0 +1,17 @@
+id: matrix-diagonalisation
+type: course
+title: Diagonalisation d’une matrice
+summary: Relier valeurs propres, espaces propres et base de diagonalisation.
+content: Une matrice carrée $A$ est diagonalisable lorsqu’il existe une base formée de vecteurs propres. On calcule d’abord les valeurs propres, puis chaque espace propre $\ker(A-\lambda I)$. La somme des dimensions des espaces propres doit atteindre la taille de la matrice. Si c’est le cas, on place une base de vecteurs propres en colonnes d’une matrice inversible $P$ et l’on obtient $A=PDP^{-1}$, où $D$ contient les valeurs propres dans le même ordre que leurs vecteurs. Des valeurs propres toutes distinctes suffisent, sans être nécessaires.
+curriculum_levels:
+- maths-spe
+topics:
+- linear-algebra
+prerequisites:
+- eigenvalues
+skills:
+- calculation
+- reasoning
+tags:
+- rappel
+priority: 0

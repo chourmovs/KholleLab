@@ -2,8 +2,15 @@ export interface ProblemSource { type: string; name: string; year?: number; sess
 export interface Curriculum {level:string;difficulty:number}
 export interface ProblemSummary { id:string; title:string; subtitle?:string; curriculum:Curriculum; estimatedMinutes?:number; year?:number; topics:string[]; source:ProblemSource }
 export interface CoursePoint {title:string;summary:string;topics:string[]}
-export interface VideoResource {title:string;provider:"youtube";url:string;author?:string;duration_minutes?:number}
-export interface ProblemResources {course_points:CoursePoint[];videos:VideoResource[]}
+export type ResourceType="course"|"example"|"video";
+export interface ResourceMetadata {id:string;type:ResourceType;title:string;curriculum_levels:string[];topics:string[];prerequisites:string[];skills:string[];tags:string[];priority:number}
+export interface CourseResource extends ResourceMetadata {type:"course";summary:string;content:string}
+export interface ExampleResource extends ResourceMetadata {type:"example";statement:string;solution:string}
+export interface VideoResource extends ResourceMetadata {type:"video";provider:"youtube";url:string;author:string;duration_minutes:number}
+export type PedagogicalResource=CourseResource|ExampleResource|VideoResource;
+export interface ResolvedResourcesResponse {problem_id:string;resources:PedagogicalResource[]}
+export interface LegacyVideoResource {title:string;provider:"youtube";url:string;author?:string;duration_minutes?:number}
+export interface ProblemResources {course_points:CoursePoint[];videos:LegacyVideoResource[]}
 export interface ProblemDetail extends ProblemSummary { statement:string;hintLevels:number[];prerequisites:string[];skills:string[];resources?:ProblemResources }
 export interface CurriculumMetadata {levels:{id:string;label:string}[];difficulties:{id:number;label:string}[]}
 export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean}

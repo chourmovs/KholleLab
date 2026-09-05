@@ -123,6 +123,8 @@ class Problem(StrictModel):
     tags: tuple[NonEmpty, ...] = ()
     notes: NonEmpty | None = None
     resources: ProblemResources | None = None
+    # Legacy inline resources remain readable while the shared catalogue is adopted.
+    resource_refs: tuple[Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")], ...] = ()
 
     @model_validator(mode="after")
     def unique_hint_levels(self) -> "Problem":
