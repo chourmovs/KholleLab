@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from enum import Enum
 
@@ -26,7 +26,8 @@ class Settings(BaseSettings):
     hf_gemma_fast_model: str = "google/gemma-3-12b-it:deepinfra"
     hf_gemma_deep_model: str = "google/gemma-3-27b-it:deepinfra"
     hf_timeout_seconds: float = Field(default=60, gt=0)
-    hf_fast_max_tokens: int = Field(default=192, gt=0)
+    hf_fast_max_tokens: int = Field(default=512, gt=0)
+    hf_fast_retry_max_tokens: int = Field(default=768, gt=0)
     hf_examiner_audit_max_tokens: int = Field(default=1024, gt=0)
     hf_examiner_adjudication_max_tokens: int = Field(default=1536, gt=0)
     evaluation_worker_poll_seconds: float = Field(default=1, gt=0)
@@ -47,6 +48,12 @@ class Settings(BaseSettings):
     tutor_auto_max_help_level: int = 3
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    @model_validator(mode="after")
+    def validate_fast_token_budgets(self) -> "Settings":
+        if self.hf_fast_retry_max_tokens < self.hf_fast_max_tokens:
+            raise ValueError("HF_FAST_RETRY_MAX_TOKENS must be greater than or equal to HF_FAST_MAX_TOKENS")
+        return self
 
     @property
     def cors_origin_list(self) -> list[str]:

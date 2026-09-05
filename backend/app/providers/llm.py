@@ -83,13 +83,13 @@ class HuggingFaceProvider:
         schema = response_model.model_json_schema()
         started = time.perf_counter()
         if role is ModelRole.FAST:
-            initial_max_tokens, retry_max_tokens = settings.hf_fast_max_tokens, settings.hf_fast_max_tokens
+            initial_max_tokens, retry_max_tokens = settings.hf_fast_max_tokens, settings.hf_fast_retry_max_tokens
         elif response_model is CandidateAudit:
             initial_max_tokens, retry_max_tokens = settings.hf_examiner_audit_max_tokens, 1536
         else:
             initial_max_tokens, retry_max_tokens = settings.hf_examiner_adjudication_max_tokens, 2048
         log = component_logger("inference").bind(family=family.value, role=role.value, model=model, backend=backend)
-        log.info("request_started")
+        log.info("request_started initial_max_tokens={} retry_max_tokens={} max_tokens={}", initial_max_tokens, retry_max_tokens, initial_max_tokens)
         transient_attempt = 0
         truncation_retry = 0
         max_tokens = initial_max_tokens
@@ -107,7 +107,7 @@ class HuggingFaceProvider:
                 usage = response.usage
                 completion_tokens = getattr(usage, "completion_tokens", None)
                 if finish_reason in {"length", "max_tokens"}:
-                    log.warning("request_truncated finish_reason={} completion_tokens={} max_tokens={} schema_requested=true schema_validated=false", finish_reason, completion_tokens, max_tokens)
+                    log.warning("request_truncated finish_reason={} completion_tokens={} max_tokens={} retry_count={} schema_requested=true schema_validated=false", finish_reason, completion_tokens, max_tokens, truncation_retry)
                     if truncation_retry == 0 and retry_max_tokens > max_tokens:
                         log.info("structured_retry reason=truncated old_max_tokens={} new_max_tokens={}", max_tokens, retry_max_tokens)
                         truncation_retry, max_tokens = 1, retry_max_tokens
