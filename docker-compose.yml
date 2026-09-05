@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   inference:
-    image: ghcr.io/ggml-org/llama.cpp:server-b5350
+    image: ghcr.io/ggml-org/llama.cpp:server-b10680
     environment:
       LLAMA_CACHE: /models/cache
       HF_TOKEN: ${HF_TOKEN:-}

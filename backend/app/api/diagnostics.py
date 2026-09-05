@@ -1,4 +1,5 @@
 import hmac
+import re
 import time
 from collections import deque
 from enum import Enum
@@ -11,6 +12,21 @@ from app.core.config import settings
 from app.services.inference_diagnostics import diagnose, public_model_name
 
 router = APIRouter(prefix="/diagnostics", tags=["diagnostics"])
+
+# Redaction is deliberately applied again at the API boundary.  This protects
+# operators from accidental secret output produced by dependencies (not only
+# messages emitted by KholleLab itself).
+_REDACTIONS = (
+    (re.compile(r"(?i)\b(HF_TOKEN|OPENAI_API_KEY|X-Diagnostics-Token)\b\s*[:=]\s*([^\s,;]+)"), r"\1=[REDACTED]"),
+    (re.compile(r"(?i)\bAuthorization\s*:\s*(?:Bearer|Basic)\s+[^\s,;]+"), "Authorization: [REDACTED]"),
+    (re.compile(r"(?i)(postgres(?:ql)?(?:\+\w+)?://[^:\s/@]+:)([^@\s]+)(@)"), r"\1[REDACTED]\3"),
+)
+
+
+def redact_log_line(line: str) -> str:
+    for pattern, replacement in _REDACTIONS:
+        line = pattern.sub(replacement, line)
+    return line
 
 
 class LogSource(str, Enum):
@@ -41,7 +57,7 @@ def logs(source: LogSource, lines: int = Query(200, ge=1, le=500), x_diagnostics
         return {"source": source, "lines": [], "available": False}
     with path.open(encoding="utf-8", errors="replace") as stream:
         tail = list(deque(stream, maxlen=lines))
-    return {"source": source, "lines": [line.rstrip("\n") for line in tail], "available": True}
+    return {"source": source, "lines": [redact_log_line(line.rstrip("\n")) for line in tail], "available": True}
 
 
 @router.post("/inference/test")
@@ -56,6 +72,12 @@ async def test_completion(x_diagnostics_token: str | None = Header(default=None)
             response = await client.post(f"{settings.local_llm_base_url.rstrip('/')}/chat/completions", json=payload)
             response.raise_for_status()
             preview = response.json()["choices"][0]["message"]["content"].strip()[:80]
-    except (httpx.HTTPError, KeyError, ValueError, TypeError) as exc:
-        raise HTTPException(status_code=502, detail="Inference completion failed") from exc
+    except httpx.TimeoutException:
+        return {"status": "fail", "reason": "timeout", "error_code": "LOCAL_LLM_TIMEOUT"}
+    except httpx.ConnectError:
+        return {"status": "fail", "reason": "connection_refused", "error_code": "LOCAL_LLM_UNAVAILABLE"}
+    except httpx.HTTPStatusError:
+        return {"status": "fail", "reason": "http_error", "error_code": "LOCAL_LLM_HTTP_ERROR"}
+    except (httpx.RequestError, KeyError, ValueError, TypeError):
+        return {"status": "fail", "reason": "invalid_response", "error_code": "LOCAL_LLM_INVALID_JSON"}
     return {"status": "pass" if "56" in preview else "fail", "latency_ms": round((time.perf_counter()-started)*1000, 1), "response_preview": preview, "model": public_model_name()}

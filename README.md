@@ -90,7 +90,7 @@ The backend-only examiner uses runtime variables `LLM_PROVIDER`, `LLM_MODEL`,
 
 ## Inférence locale
 
-Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b5350`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
+Le backend FastAPI appelle exclusivement, sur le réseau Compose privé, l'API compatible OpenAI de **llama.cpp**, qui charge par défaut `Qwen/Qwen3-4B-GGUF` en `Q4_K_M` (Apache-2.0, environ 2,5 Go). L'image serveur est épinglée à `ghcr.io/ggml-org/llama.cpp:server-b10680`; aucun port hôte ni domaine Coolify ne doit être attribué à `inference`.
 
 Au premier démarrage, llama.cpp résout nativement `Qwen/Qwen3-4B-GGUF:Q4_K_M` avec `-hf`. `LLAMA_CACHE=/models/cache` place le GGUF téléchargé dans le volume nommé `llm_models`; les redémarrages et redéploiements réutilisent donc ce cache (ne lancez pas `docker compose down -v`). `HF_TOKEN` reste facultatif pour les dépôts restreints. L'acquisition et le chargement apparaissent dans `docker compose logs -f inference` (dépôt et quantification demandés, cache manquant/téléchargement, chargement du modèle, puis serveur HTTP prêt). L'application ne déduit jamais l'état depuis ces logs : le backend interroge `/health`.
 
@@ -130,8 +130,10 @@ header. The token is entered by the operator, retained only in browser
 are separate, bounded views backed by the private `runtime_logs` volume; no Docker
 socket or arbitrary file access is used.
 
-The proposed `server-b10516` image tag was checked against GHCR on 2026-09-05 and
-returned `404`, so it has deliberately not been committed. The currently pinned
-`server-b5350` remains until a replacement can be pulled and its `-hf`, logging,
-Qwen model load, health, models, and completion paths can all be exercised on a
-Docker-capable runner. This prevents an unverified production runtime upgrade.
+The original runtime was `server-b5350`. No production container logs are available
+in this checkout, so the exact historical Coolify failure cannot responsibly be
+claimed from repository evidence. That build predates Qwen3 and was replaced by the
+immutable `server-b10680` tag, whose manifest was verified in GHCR on 2026-09-05.
+Run `scripts/diagnose_inference.py` and the frontend console after deployment to
+verify `-hf`, model loading, file logging, health, models, and completion on the real
+host. Registry verification is deliberately not presented as a real model-load test.
