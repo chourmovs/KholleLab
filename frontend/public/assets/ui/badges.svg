@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200" fill="none">
+
+<rect width="800" height="200" fill="white"/>
+<g font-family="Arial,sans-serif" font-size="18">
+  <g>
+    <rect x="24" y="26" width="112" height="38" rx="19" fill="#8ACB99"/><text x="80" y="50" text-anchor="middle" fill="white">Seconde</text>
+    <rect x="148" y="26" width="122" height="38" rx="19" fill="#08231B"/><text x="209" y="50" text-anchor="middle" fill="white">Première</text>
+    <rect x="282" y="26" width="124" height="38" rx="19" fill="#3E6E5B"/><text x="344" y="50" text-anchor="middle" fill="white">Terminale</text>
+    <rect x="418" y="26" width="126" height="38" rx="19" fill="#163B2F"/><text x="481" y="50" text-anchor="middle" fill="white">Maths Sup</text>
+    <rect x="556" y="26" width="116" height="38" rx="19" fill="#71B88A"/><text x="614" y="50" text-anchor="middle" fill="white">Maths Spé</text>
+  </g>
+  <g>
+    <rect x="24" y="78" width="116" height="34" rx="17" fill="#7ABF8D"/><text x="82" y="100" text-anchor="middle" fill="white">1 Découverte</text>
+    <rect x="150" y="78" width="110" height="34" rx="17" fill="#4E8C6D"/><text x="205" y="100" text-anchor="middle" fill="white">2 Standard</text>
+    <rect x="270" y="78" width="160" height="34" rx="17" fill="#3D7960"/><text x="350" y="100" text-anchor="middle" fill="white">3 Approfondissement</text>
+    <rect x="440" y="78" width="100" height="34" rx="17" fill="#275E4B"/><text x="490" y="100" text-anchor="middle" fill="white">4 Difficile</text>
+    <rect x="550" y="78" width="112" height="34" rx="17" fill="#12372C"/><text x="606" y="100" text-anchor="middle" fill="white">5 Challenge</text>
+  </g>
+  <g>
+    <rect x="20" y="138" width="86" height="34" rx="17" fill="#E6EAED"/><text x="63" y="160" text-anchor="middle" fill="#16322C">Algèbre</text>
+    <rect x="116" y="138" width="88" height="34" rx="17" fill="#E6EAED"/><text x="160" y="160" text-anchor="middle" fill="#16322C">Analyse</text>
+    <rect x="214" y="138" width="102" height="34" rx="17" fill="#E6EAED"/><text x="265" y="160" text-anchor="middle" fill="#16322C">Géométrie</text>
+    <rect x="326" y="138" width="122" height="34" rx="17" fill="#E6EAED"/><text x="387" y="160" text-anchor="middle" fill="#16322C">Probabilités</text>
+    <rect x="458" y="138" width="98" height="34" rx="17" fill="#E6EAED"/><text x="507" y="160" text-anchor="middle" fill="#16322C">Nombres</text>
+  </g>
+</g>
+
+</svg>

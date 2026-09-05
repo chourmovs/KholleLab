@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" viewBox="0 0 600 200" fill="none">
+
+<g transform="translate(15 15)">
+  <path d="M60 122 C31 96 31 43 60 17" stroke="#A8D8B3" stroke-width="5" fill="none"/>
+  <path d="M160 122 C189 96 189 43 160 17" stroke="#A8D8B3" stroke-width="5" fill="none"/>
+  <g fill="#A8D8B3">
+    <ellipse cx="49" cy="92" rx="8" ry="18" transform="rotate(-30 49 92)"/>
+    <ellipse cx="43" cy="66" rx="8" ry="18" transform="rotate(-16 43 66)"/>
+    <ellipse cx="46" cy="38" rx="8" ry="18" transform="rotate(8 46 38)"/>
+    <ellipse cx="171" cy="92" rx="8" ry="18" transform="rotate(30 171 92)"/>
+    <ellipse cx="177" cy="66" rx="8" ry="18" transform="rotate(16 177 66)"/>
+    <ellipse cx="174" cy="38" rx="8" ry="18" transform="rotate(-8 174 38)"/>
+  </g>
+  <path d="M82 51 c16-12 31-12 43 0 v56 c-12-8-27-10-43-3z" fill="#08231B"/>
+  <path d="M138 51 c-16-12-31-12-43 0 v56 c12-8 27-10 43-3z" fill="#0F4A38"/>
+  <path d="M110 51 v56" stroke="#F1E7CF" stroke-width="4"/>
+  <circle cx="110" cy="6" r="4" fill="#D4BC73"/>
+</g>
+<text x="218" y="94" fill="#12302A" font-family="Georgia,serif" font-size="72" font-weight="700">KHOLLELAB</text>
+<text x="220" y="142" fill="#1F6A52" font-family="Arial,sans-serif" font-size="26">Maths · Réflexion · Démonstration</text>
+
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="60" viewBox="0 0 300 60" fill="none">
+
+<rect width="300" height="60" rx="16" fill="#08231B"/>
+<rect x="1.5" y="1.5" width="297" height="57" rx="14.5" stroke="#264E40" stroke-width="1.5"/>
+<g stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <path d="M70 20h11a6 6 0 0 1 6 6v19H76a6 6 0 0 0-6 6Z"/>
+  <path d="M99 20H88a6 6 0 0 0-6 6v19h11a6 6 0 0 1 6 6Z"/>
+</g>
+<text x="126" y="38" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="white">Voir le corrigé</text>
+
+</svg>

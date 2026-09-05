@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" fill="none">
+
+<defs>
+  <linearGradient id="sbg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0B2D23"/>
+    <stop offset="1" stop-color="#0F4A38"/>
+  </linearGradient>
+</defs>
+<rect width="600" height="400" rx="32" fill="url(#sbg)"/>
+<circle cx="502" cy="72" r="44" fill="#F2D387" opacity="0.22"/>
+<path d="M490 28 L522 92" stroke="#EBCF84" stroke-width="8"/>
+<path d="M300 86 L525 86" stroke="#30584B" stroke-width="10" opacity="0.8"/>
+<rect x="332" y="102" width="182" height="106" rx="8" fill="#17382E" stroke="#4C7361"/>
+<g fill="#A8D8B3" opacity="0.55" font-family="Georgia,serif">
+  <text x="350" y="140" font-size="26">A² = PDP⁻¹</text>
+  <text x="352" y="174" font-size="24">∫ x² dx</text>
+</g>
+<!-- books -->
+<rect x="62" y="64" width="78" height="22" rx="4" fill="#395B49"/>
+<rect x="72" y="88" width="78" height="22" rx="4" fill="#B4955F"/>
+<rect x="82" y="112" width="78" height="22" rx="4" fill="#8D6A3E"/>
+<rect x="92" y="136" width="78" height="22" rx="4" fill="#3B5E4A"/>
+<!-- desk -->
+<rect x="62" y="236" width="482" height="95" rx="16" fill="#8A6139"/>
+<!-- notebook -->
+<rect x="202" y="227" width="170" height="95" rx="9" fill="#F2E8D1" transform="rotate(7 287 275)"/>
+<line x1="289" y1="236" x2="298" y2="318" stroke="#C8B28B" stroke-width="2"/>
+<g fill="#6A573A" font-family="Georgia,serif" font-size="16" opacity="0.8" transform="rotate(7 287 275)">
+  <text x="228" y="260">chercher</text>
+  <text x="230" y="282">une méthode</text>
+</g>
+<!-- cup -->
+<rect x="170" y="189" width="34" height="52" rx="6" fill="#A36B34"/>
+<path d="M177 189 L187 161 L197 189" fill="#E5C26B"/>
+<path d="M183 189 L193 163 L203 189" fill="#CFA857"/>
+<!-- pencils -->
+<path d="M177 176 L167 133" stroke="#7BC28E" stroke-width="4"/>
+<path d="M186 173 L184 129" stroke="#E4D170" stroke-width="4"/>
+<path d="M196 175 L204 135" stroke="#77A7D9" stroke-width="4"/>
+
+</svg>

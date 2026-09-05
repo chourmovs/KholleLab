@@ -1,44 +1,66 @@
 {
+  "package": "khollelab-assets-classic",
   "version": "1.0",
-  "brand": [
-    "app-icon-192.png",
-    "app-icon-512.png",
-    "favicon-16.png",
-    "favicon-32.png",
-    "favicon.ico",
-    "khollelab-logo-horizontal.png",
-    "khollelab-logo-horizontal.svg",
-    "khollelab-mark.svg"
-  ],
-  "backgrounds": [
-    "chalkboard-texture.png",
-    "classroom-bg-dark.png",
-    "formula-pattern.svg",
-    "grid-overlay.svg"
-  ],
-  "header": [
-    "divider-wave.svg",
-    "header-decoration.svg",
-    "header-wave.svg"
-  ],
-  "professor": [
-    "professor-avatar.png",
-    "professor-avatar.svg"
-  ],
-  "icons": [
-    "clear.svg",
-    "correction.svg",
-    "easier.svg",
-    "evaluate.svg",
-    "harder.svg",
-    "hint.svg",
-    "home.svg",
-    "keyboard.svg",
-    "refresh.svg",
-    "settings.svg",
-    "shuffle.svg",
-    "silence.svg",
-    "stuck.svg",
-    "submit.svg"
-  ]
+  "replace_strategy": "extract at repository root",
+  "directories": {
+    "frontend/app": [
+      "favicon.ico"
+    ],
+    "frontend/public/assets/brand": [
+      "app-icon-512.png",
+      "favicon-16.png",
+      "favicon-32.png",
+      "header-banner.svg",
+      "logo-horizontal.svg"
+    ],
+    "frontend/public/assets/backgrounds": [
+      "chalkboard-bg.jpg",
+      "classroom-bg.jpg",
+      "grid-overlay.svg"
+    ],
+    "frontend/public/assets/illustrations": [
+      "math-elements.svg",
+      "professor-illustration.svg",
+      "study-illustration.svg"
+    ],
+    "frontend/public/assets/shapes": [
+      "blob-accent.svg",
+      "wave-divider.svg",
+      "wave-header.svg"
+    ],
+    "frontend/public/assets/icons": [
+      "bell-off.svg",
+      "book-open.svg",
+      "file-text.svg",
+      "graduation-cap.svg",
+      "home.svg",
+      "keyboard.svg",
+      "life-buoy.svg",
+      "lightbulb.svg",
+      "play.svg",
+      "refresh.svg",
+      "settings.svg",
+      "shuffle.svg",
+      "stop.svg",
+      "trash.svg",
+      "trending-down.svg",
+      "trending-up.svg"
+    ],
+    "frontend/public/assets/ui": [
+      "badges.svg",
+      "btn-evaluate.svg",
+      "btn-hint.svg",
+      "btn-primary.svg",
+      "btn-secondary.svg",
+      "btn-silence.svg",
+      "btn-stuck.svg"
+    ],
+    "frontend/public/assets/patterns": [
+      "dots-pattern.svg",
+      "formula-pattern.svg"
+    ],
+    "frontend/public/assets/preview": [
+      "asset-pack-overview-white.png"
+    ]
+  }
 }

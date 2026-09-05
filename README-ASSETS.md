@@ -1,31 +1,28 @@
-# KholleLab UI Asset Pack v1
+# KholleLab Classic Asset Pack
 
-Ce ZIP est prêt à extraire à la racine du dépôt `chourmovs/KholleLab`.
+Ce pack remplace les assets actuels par une version plus proche de la planche blanche “classique”.
 
-## Emplacements
-- `frontend/app/favicon.ico` : favicon Next.js App Router.
-- `frontend/public/assets/brand/` : logo, mark, app icons.
-- `frontend/public/assets/backgrounds/` : textures et backgrounds.
-- `frontend/public/assets/header/` : décoration/header/waves.
-- `frontend/public/assets/professor/` : avatar professeur.
-- `frontend/public/assets/icons/` : icônes SVG homogènes.
-- `frontend/public/assets/ui/` : référence visuelle des composants.
-- `frontend/public/assets/preview/` : planche de référence.
+## Extraction
+Décompressez ce ZIP **à la racine du dépôt**.
 
-## URLs Next.js
-- `/assets/backgrounds/classroom-bg-dark.png`
-- `/assets/header/header-decoration.svg`
-- `/assets/icons/hint.svg`
-- `/assets/professor/professor-avatar.svg`
+## Fichiers servis par Next.js
+- `frontend/app/favicon.ico`
+- `frontend/public/assets/brand/header-banner.svg`
+- `frontend/public/assets/brand/logo-horizontal.svg`
+- `frontend/public/assets/backgrounds/chalkboard-bg.jpg`
+- `frontend/public/assets/backgrounds/classroom-bg.jpg`
+- `frontend/public/assets/backgrounds/grid-overlay.svg`
+- `frontend/public/assets/illustrations/professor-illustration.svg`
+- `frontend/public/assets/illustrations/study-illustration.svg`
+- `frontend/public/assets/illustrations/math-elements.svg`
+- `frontend/public/assets/shapes/wave-header.svg`
+- `frontend/public/assets/shapes/wave-divider.svg`
+- `frontend/public/assets/shapes/blob-accent.svg`
+- `frontend/public/assets/icons/*.svg`
+- `frontend/public/assets/ui/*.svg`
+- `frontend/public/assets/patterns/*.svg`
 
-## Typographie
-Aucun fichier de police n'est inclus. Utiliser Inter/Geist + Fraunces/Cormorant via Next.js ou CSS.
-
-## Palette
-Fond #08110E
-Panneau #0C1713
-Panneau secondaire #10201A
-Accent vert #7ED9A3
-Crème #E9DFC3
-Texte secondaire #B8CBBF
-Texte principal #F2F6F3
+## Note
+Les noms correspondent volontairement à l’esprit de la planche blanche demandée.
+Le fichier de prévisualisation est fourni ici :
+`frontend/public/assets/preview/asset-pack-overview-white.png`
