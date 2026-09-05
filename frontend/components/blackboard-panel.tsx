@@ -6,7 +6,7 @@ import {useAttemptStore} from "@/stores/useAttemptStore";
 const labels={idle:"Brouillon local",dirty:"Brouillon local",saving:"Sauvegarde…",saved:"Enregistré",error:"Hors ligne — copie conservée localement",conflict:"⚠ Conflit de version"};
 export interface BlackboardPanelHandle{openKeyboard:()=>void;togglePreview:()=>void;requestSubmit:()=>void}
 export const BlackboardPanel=forwardRef<BlackboardPanelHandle,{problemId?:string}>(function BlackboardPanel({problemId},forwardedRef){
- const s=useAttemptStore(),timer=useRef<ReturnType<typeof setTimeout>>(),board=useRef<HybridBlackboardHandle>(null);const[confirm,setConfirm]=useState(false),[preview,setPreview]=useState(false);
+ const s=useAttemptStore(),timer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined),board=useRef<HybridBlackboardHandle>(null);const[confirm,setConfirm]=useState(false),[preview,setPreview]=useState(false);
  useImperativeHandle(forwardedRef,()=>({openKeyboard:()=>board.current?.openKeyboard(),togglePreview:()=>setPreview(v=>!v),requestSubmit:()=>setConfirm(true)}),[]);
  useEffect(()=>{if(problemId)void useAttemptStore.getState().load(problemId);return()=>useAttemptStore.getState().reset()},[problemId]);
  useEffect(()=>{const interval=setInterval(()=>useAttemptStore.getState().tick(),1000);return()=>clearInterval(interval)},[]);
