@@ -7,10 +7,14 @@ from app.api.routes import router
 from app.core.config import settings
 from app.core.version import APP_NAME, APP_VERSION
 from app.services.problem_repository import ProblemRepository
+from app.core.logging import configure_logging, component_logger
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    configure_logging()
+    component_logger("application").info("Startup version={} env={}", APP_VERSION, settings.app_env)
+    component_logger("inference").info("Provider={} model={} quant={}", settings.llm_provider, settings.local_llm_model.rsplit('/', 1)[-1].removesuffix('-GGUF'), settings.local_llm_quant)
     repository = ProblemRepository(settings.problems_dir)
     repository.load()
     app.state.problem_repository = repository

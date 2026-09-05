@@ -25,6 +25,12 @@ class Settings(BaseSettings):
     local_llm_top_p: float = Field(default=0.9, gt=0, le=1)
     local_llm_max_tokens: int = Field(default=512, gt=0)
     local_llm_timeout_seconds: float = Field(default=90, gt=0)
+    log_level: str = "INFO"
+    log_rotation: str = "10 MB"
+    log_retention: str = "7 days"
+    runtime_logs_dir: str = "/runtime-logs"
+    diagnostics_enabled: bool = False
+    diagnostics_token: str | None = None
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
