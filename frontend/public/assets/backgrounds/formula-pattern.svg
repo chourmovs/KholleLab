@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" fill="none">
+
+<rect width="1200" height="700" fill="transparent"/>
+<g fill="#7ED9A3" opacity=".12" font-family="Georgia,serif">
+ <text x="70" y="120" font-size="54">∫ f(x) dx</text>
+ <text x="550" y="90" font-size="68">Σ</text>
+ <text x="910" y="140" font-size="56">π</text>
+ <text x="180" y="350" font-size="46">d/dx</text>
+ <text x="670" y="320" font-size="44">f'(x)</text>
+ <text x="850" y="530" font-size="50">e^{iπ}+1=0</text>
+ <text x="110" y="590" font-size="52">√x</text>
+</g>
+<g stroke="#7ED9A3" stroke-opacity=".10" fill="none">
+ <polygon points="420,540 520,360 620,540" stroke-width="3"/>
+ <path d="M730 560 C800 450 880 410 960 470" stroke-width="3"/>
+</g>
+
+</svg>

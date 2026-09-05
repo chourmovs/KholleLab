@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220" fill="none">
+
+<rect width="900" height="220" fill="transparent"/>
+<g font-family="Arial,sans-serif" font-size="22">
+ <rect x="20" y="30" width="150" height="48" rx="24" fill="#10201A" stroke="#3C8A63"/>
+ <text x="95" y="61" text-anchor="middle" fill="#F2F6F3">Terminale</text>
+ <rect x="190" y="30" width="150" height="48" rx="24" fill="#10201A" stroke="#3C8A63"/>
+ <text x="265" y="61" text-anchor="middle" fill="#F2F6F3">Difficile</text>
+ <rect x="360" y="30" width="150" height="48" rx="24" fill="#10201A" stroke="#3C8A63"/>
+ <text x="435" y="61" text-anchor="middle" fill="#F2F6F3">Algèbre</text>
+ <rect x="530" y="30" width="150" height="48" rx="24" fill="#10201A" stroke="#3C8A63"/>
+ <text x="605" y="61" text-anchor="middle" fill="#F2F6F3">~15 min</text>
+ <rect x="20" y="115" width="300" height="66" rx="16" fill="#3C8A63"/>
+ <text x="170" y="157" text-anchor="middle" fill="#F2F6F3" font-weight="700">Présenter ma solution</text>
+ <rect x="340" y="115" width="300" height="66" rx="16" fill="#10201A" stroke="#3C8A63"/>
+ <text x="490" y="157" text-anchor="middle" fill="#F2F6F3" font-weight="700">Voir le corrigé</text>
+</g>
+
+</svg>
