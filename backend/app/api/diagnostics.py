@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from app.core.config import settings
 from app.services.inference_diagnostics import diagnose
 from app.providers.llm import HuggingFaceProvider, ModelRole, RemoteLLMError, model_identity
+from app.schemas.evaluation import InferenceDiagnosticsResponse
 
 router = APIRouter(prefix="/diagnostics", tags=["diagnostics"])
 
@@ -42,7 +43,7 @@ def authorize(x_diagnostics_token: str | None = Header(default=None)) -> None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid diagnostics token")
 
 
-@router.get("/inference", dependencies=[])
+@router.get("/inference", response_model=InferenceDiagnosticsResponse, dependencies=[])
 async def inference_diagnostic(x_diagnostics_token: str | None = Header(default=None)):
     authorize(x_diagnostics_token)
     return await diagnose()

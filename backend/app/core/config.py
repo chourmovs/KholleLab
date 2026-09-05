@@ -27,7 +27,10 @@ class Settings(BaseSettings):
     hf_gemma_deep_model: str = "google/gemma-3-27b-it:deepinfra"
     hf_timeout_seconds: float = Field(default=60, gt=0)
     hf_fast_max_tokens: int = Field(default=192, gt=0)
-    hf_deep_max_tokens: int = Field(default=768, gt=0)
+    hf_examiner_audit_max_tokens: int = Field(default=1024, gt=0)
+    hf_examiner_adjudication_max_tokens: int = Field(default=1536, gt=0)
+    evaluation_worker_poll_seconds: float = Field(default=1, gt=0)
+    evaluation_stale_seconds: int = Field(default=180, gt=0)
     log_level: str = "INFO"
     log_rotation: str = "10 MB"
     log_retention: str = "7 days"

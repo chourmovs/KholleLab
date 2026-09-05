@@ -22,3 +22,22 @@ def test_remote_inference_status_is_non_billable_configuration_state(monkeypatch
     assert inference["family"] == "qwen"
     assert inference["fast_backend"] == "nscale"
     assert inference["deep_backend"] == "nscale"
+
+def test_ready_inference_reason_none_serializes(monkeypatch):
+    async def ready(**_):
+        return {"provider":"huggingface","status":"ready","family":"qwen","fast_model":"Qwen3-8B","fast_backend":"nscale","deep_model":"Qwen3-32B","deep_backend":"nscale","reason":None,"latency_ms":123.4,"checks":{}}
+    monkeypatch.setattr("app.api.routes.diagnose",ready)
+    with TestClient(app) as client:
+        response=client.get("/api/inference/status")
+    assert response.status_code==200
+    assert response.json()["reason"] is None
+    assert response.json()["latency_ms"]==123.4
+
+def test_health_survives_diagnostic_exception(monkeypatch):
+    monkeypatch.setattr('app.services.health.database_is_available', lambda: True)
+    async def broken(**_): raise RuntimeError("diagnostic exploded")
+    monkeypatch.setattr("app.api.routes.diagnose",broken)
+    with TestClient(app) as client:
+        response=client.get("/api/health")
+    assert response.status_code==200
+    assert response.json()["inference"]=="error"
