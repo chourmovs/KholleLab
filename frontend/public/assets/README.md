@@ -1,7 +1,10 @@
-# Ressources visuelles KholleLab
+# Ressources visuelles utilisées
 
-Les SVG de cette collection ont été dessinés spécifiquement pour KholleLab et sont distribués sous la licence du dépôt. L’interface React utilise exclusivement **Lucide** via le paquet local `lucide-react`; les SVG du dossier `icons/` sont des solutions de repli cohérentes pour les surfaces hors React.
+L’interface charge uniquement les ressources suivantes :
 
-Les formes décoratives originales s’inspirent des outils génératifs de type Haikei, sans reprendre de ressource externe. Aucun fichier n’est chargé à distance.
+- `backgrounds/classroom-bg-dark.png`, `formula-pattern.svg`, `grid-overlay.svg` et `chalkboard-texture.png` composent l’ambiance de salle et du tableau ;
+- `header/header-wave.svg` apporte la décoration discrète de l’en-tête ;
+- `brand/khollelab-mark.svg` et les favicons portent l’identité de l’application ;
+- `professor/professor-avatar.svg` représente le professeur.
 
-Les fichiers PNG, WebP et ICO sont exclus de cette livraison à la demande du mainteneur. Leur liste et leur destination sont documentées dans [`BINARY-ASSETS.md`](./BINARY-ASSETS.md).
+Les contrôles et micro-actions utilisent **Lucide React**, système d’icônes principal du produit. Les anciens pictogrammes exportés et planches de référence ne doivent pas être utilisés dans le code applicatif.
