@@ -1,4 +1,5 @@
 from typing import Literal
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 Verdict = Literal["correct", "mostly_correct", "partial", "incorrect", "non_answer"]
@@ -61,6 +62,8 @@ class EvaluationResponse(BaseModel):
     model_family: str | None = None
     inference_backend: str | None = None
     status: Literal["running", "completed", "failed"]
+    stage: Literal["queued", "candidate_audit", "adjudication", "finalizing", "completed", "failed"]
+    progress: int = Field(ge=0, le=100)
     verdict: str | None = None
     score: float | None = None
     max_score: int = 20
@@ -75,3 +78,35 @@ class EvaluationResponse(BaseModel):
     reference_method_summary: str | None = None
     suggested_improvement: str | None = None
     error_code: str | None = None
+    elapsed_ms: float | None = None
+    started_at: datetime | None = None
+    heartbeat_at: datetime | None = None
+
+class InferenceStatusResponse(BaseModel):
+    provider: str
+    status: Literal["disabled", "ready", "unavailable", "error"]
+    family: str | None = None
+    fast_model: str | None = None
+    fast_backend: str | None = None
+    deep_model: str | None = None
+    deep_backend: str | None = None
+    latency_ms: float | None = None
+    reason: str | None = None
+
+class InferenceChecks(BaseModel):
+    provider_config: str
+    router: str
+    authentication: str
+    structured_output: str
+
+class InferenceDiagnosticsResponse(InferenceStatusResponse):
+    checks: InferenceChecks
+
+class HealthResponse(BaseModel):
+    status: Literal["ok"]
+    service: str
+    database: Literal["ok"]
+    problem_corpus: Literal["ok"]
+    problem_count: int
+    curriculum_levels: int
+    inference: Literal["disabled", "ready", "unavailable", "error"]

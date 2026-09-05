@@ -36,7 +36,8 @@ services:
       HF_GEMMA_DEEP_MODEL: ${HF_GEMMA_DEEP_MODEL:-google/gemma-3-27b-it:deepinfra}
       HF_TIMEOUT_SECONDS: ${HF_TIMEOUT_SECONDS:-60}
       HF_FAST_MAX_TOKENS: ${HF_FAST_MAX_TOKENS:-192}
-      HF_DEEP_MAX_TOKENS: ${HF_DEEP_MAX_TOKENS:-768}
+      HF_EXAMINER_AUDIT_MAX_TOKENS: ${HF_EXAMINER_AUDIT_MAX_TOKENS:-1024}
+      HF_EXAMINER_ADJUDICATION_MAX_TOKENS: ${HF_EXAMINER_ADJUDICATION_MAX_TOKENS:-1536}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       LOG_ROTATION: ${LOG_ROTATION:-10 MB}
       LOG_RETENTION: ${LOG_RETENTION:-7 days}
@@ -54,6 +55,36 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    restart: unless-stopped
+
+  evaluation-worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["sh", "-c", "alembic upgrade head && exec python -m app.worker"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://khollelab:khollelab-dev@postgres:5432/khollelab}
+      PROBLEMS_DIR: /problems
+      LLM_PROVIDER: ${LLM_PROVIDER:-huggingface}
+      HF_TOKEN: ${HF_TOKEN:-}
+      HF_ROUTER_BASE_URL: ${HF_ROUTER_BASE_URL:-https://router.huggingface.co/v1}
+      LLM_MODEL_FAMILY: ${LLM_MODEL_FAMILY:-qwen}
+      HF_QWEN_FAST_MODEL: ${HF_QWEN_FAST_MODEL:-Qwen/Qwen3-8B:nscale}
+      HF_QWEN_DEEP_MODEL: ${HF_QWEN_DEEP_MODEL:-Qwen/Qwen3-32B:nscale}
+      HF_GEMMA_FAST_MODEL: ${HF_GEMMA_FAST_MODEL:-google/gemma-3-12b-it:deepinfra}
+      HF_GEMMA_DEEP_MODEL: ${HF_GEMMA_DEEP_MODEL:-google/gemma-3-27b-it:deepinfra}
+      HF_TIMEOUT_SECONDS: ${HF_TIMEOUT_SECONDS:-60}
+      HF_FAST_MAX_TOKENS: ${HF_FAST_MAX_TOKENS:-192}
+      HF_EXAMINER_AUDIT_MAX_TOKENS: ${HF_EXAMINER_AUDIT_MAX_TOKENS:-1024}
+      HF_EXAMINER_ADJUDICATION_MAX_TOKENS: ${HF_EXAMINER_ADJUDICATION_MAX_TOKENS:-1536}
+      EVALUATION_WORKER_POLL_SECONDS: ${EVALUATION_WORKER_POLL_SECONDS:-1}
+      EVALUATION_STALE_SECONDS: ${EVALUATION_STALE_SECONDS:-180}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - runtime_logs:/runtime-logs
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
   frontend:

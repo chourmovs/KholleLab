@@ -42,3 +42,17 @@ def test_attempt_validation_and_missing_problem():
         url=f"/api/attempts/{attempt['id']}"
         assert client.patch(url,json={"solution_markdown":"x","elapsed_seconds":-1,"expected_revision":0}).status_code==422
         assert client.patch(url,json={"solution_markdown":"x"*100001,"elapsed_seconds":0,"expected_revision":0}).status_code==422
+
+def test_evaluation_post_queues_quickly_and_is_idempotent(monkeypatch):
+    from app.core.config import settings
+    monkeypatch.setattr(settings,"llm_provider","fake")
+    with TestClient(app) as client:
+        problem=client.get("/api/problems").json()[0]["id"]
+        attempt=client.post("/api/attempts",json={"problem_id":problem}).json()
+        saved=client.patch(f"/api/attempts/{attempt['id']}",json={"solution_markdown":"Preuve.","elapsed_seconds":1,"expected_revision":0}).json()
+        client.post(f"/api/attempts/{attempt['id']}/submit",json={"expected_revision":saved["revision"]})
+        first=client.post(f"/api/attempts/{attempt['id']}/evaluation")
+        second=client.post(f"/api/attempts/{attempt['id']}/evaluation")
+    assert first.status_code==202 and second.status_code==202
+    assert first.json()["status"]=="running" and first.json()["stage"]=="queued" and first.json()["progress"]==5
+    assert second.json()==first.json()

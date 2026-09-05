@@ -43,6 +43,14 @@ class RemoteLLMError(RuntimeError):
         self.code, self.status = code, status
         super().__init__(message)
 
+REMOTE_CODES = {
+    "auth": "REMOTE_AUTH", "access": "REMOTE_ACCESS_DENIED",
+    "rate": "REMOTE_RATE_LIMITED", "timeout": "REMOTE_TIMEOUT",
+    "connection": "REMOTE_CONNECTION", "provider": "REMOTE_PROVIDER",
+    "truncated": "REMOTE_TRUNCATED", "json": "REMOTE_INVALID_JSON",
+    "schema": "REMOTE_SCHEMA",
+}
+
 
 class FakeLLMProvider:
     name="fake"; model="deterministic-examiner-v1"
@@ -60,56 +68,81 @@ class FakeLLMProvider:
 class HuggingFaceProvider:
     name = "huggingface"
     def __init__(self, *, client=None, family: ModelFamily | str | None = None):
-        if not settings.hf_token and client is None:
-            raise RuntimeError("HF_TOKEN is not configured")
         self.family = ModelFamily(family or settings.llm_model_family)
         self.model = resolve_model(self.family, ModelRole.DEEP)
-        self._client = client or AsyncOpenAI(base_url=settings.hf_router_base_url, api_key=settings.hf_token, timeout=settings.hf_timeout_seconds)
+        self._client = client
         self.last_request: dict | None = None
 
     async def structured_response(self, *, instructions, input_text, response_model, role=ModelRole.DEEP, family=None):
+        if self._client is None:
+            if not settings.hf_token:
+                raise RemoteLLMError(REMOTE_CODES["auth"], "HF_TOKEN is not configured")
+            self._client = AsyncOpenAI(base_url=settings.hf_router_base_url, api_key=settings.hf_token, timeout=settings.hf_timeout_seconds)
         role, family = ModelRole(role), ModelFamily(family or self.family)
         model = resolve_model(family, role); _, backend = model_identity(model)
         schema = response_model.model_json_schema()
         started = time.perf_counter()
+        if role is ModelRole.FAST:
+            initial_max_tokens, retry_max_tokens = settings.hf_fast_max_tokens, settings.hf_fast_max_tokens
+        elif response_model is CandidateAudit:
+            initial_max_tokens, retry_max_tokens = settings.hf_examiner_audit_max_tokens, 1536
+        else:
+            initial_max_tokens, retry_max_tokens = settings.hf_examiner_adjudication_max_tokens, 2048
         log = component_logger("inference").bind(family=family.value, role=role.value, model=model, backend=backend)
         log.info("request_started")
-        for attempt in range(3):
+        transient_attempt = 0
+        truncation_retry = 0
+        max_tokens = initial_max_tokens
+        while True:
             try:
                 response = await self._client.chat.completions.create(
                     model=model, messages=[{"role":"system","content":instructions},{"role":"user","content":input_text}],
                     temperature=.2 if role is ModelRole.FAST else .1,
-                    max_tokens=settings.hf_fast_max_tokens if role is ModelRole.FAST else settings.hf_deep_max_tokens,
+                    max_tokens=max_tokens,
                     response_format={"type":"json_schema","json_schema":{"name":response_model.__name__,"strict":True,"schema":schema}},
                 )
-                content = response.choices[0].message.content if response.choices else None
-                if not content: raise RemoteLLMError("remote_empty_response", "Remote provider returned no content")
-                try: result = response_model.model_validate(json.loads(content))
-                except json.JSONDecodeError as exc: raise RemoteLLMError("remote_invalid_json", "Remote provider returned invalid JSON") from exc
-                except ValidationError as exc: raise RemoteLLMError("remote_schema_error", "Remote response failed schema validation") from exc
+                choice = response.choices[0] if response.choices else None
+                content = choice.message.content if choice else None
+                finish_reason = getattr(choice, "finish_reason", None)
                 usage = response.usage
+                completion_tokens = getattr(usage, "completion_tokens", None)
+                if finish_reason in {"length", "max_tokens"}:
+                    log.warning("request_truncated finish_reason={} completion_tokens={} max_tokens={} schema_requested=true schema_validated=false", finish_reason, completion_tokens, max_tokens)
+                    if truncation_retry == 0 and retry_max_tokens > max_tokens:
+                        log.info("structured_retry reason=truncated old_max_tokens={} new_max_tokens={}", max_tokens, retry_max_tokens)
+                        truncation_retry, max_tokens = 1, retry_max_tokens
+                        continue
+                    raise RemoteLLMError(REMOTE_CODES["truncated"], "Remote response exceeded its output budget")
+                if not content: raise RemoteLLMError(REMOTE_CODES["provider"], "Remote provider returned no content")
+                try: result = response_model.model_validate(json.loads(content))
+                except json.JSONDecodeError as exc:
+                    last_type = "whitespace" if content[-1:].isspace() else "punctuation" if not content[-1:].isalnum() else "alphanumeric"
+                    log.warning("malformed_response response_character_count={} completion_tokens={} finish_reason={} last_nonsecret_character_type={} schema_requested=true schema_validated=false", len(content), completion_tokens, finish_reason, last_type)
+                    raise RemoteLLMError(REMOTE_CODES["json"], "Remote provider returned invalid JSON") from exc
+                except ValidationError as exc:
+                    log.warning("schema_validation_failed response_character_count={} completion_tokens={} finish_reason={} schema_requested=true schema_validated=false", len(content), completion_tokens, finish_reason)
+                    raise RemoteLLMError(REMOTE_CODES["schema"], "Remote response failed schema validation") from exc
                 latency = round((time.perf_counter()-started)*1000, 1)
                 self.last_request = {"model":model,"provider":backend,"family":family.value,"role":role.value,"latency_ms":latency,
-                    "prompt_tokens":getattr(usage,"prompt_tokens",None),"completion_tokens":getattr(usage,"completion_tokens",None),"total_tokens":getattr(usage,"total_tokens",None)}
-                log.info("request complete latency_ms={} prompt_tokens={} completion_tokens={} total_tokens={} http_status=200", latency, self.last_request["prompt_tokens"], self.last_request["completion_tokens"], self.last_request["total_tokens"])
+                    "prompt_tokens":getattr(usage,"prompt_tokens",None),"completion_tokens":completion_tokens,"total_tokens":getattr(usage,"total_tokens",None),
+                    "finish_reason":finish_reason,"max_tokens":max_tokens,"schema_requested":True,"schema_validated":True,"retry_count":truncation_retry}
+                log.info("request_complete latency_ms={} prompt_tokens={} completion_tokens={} total_tokens={} max_tokens={} finish_reason={} schema_requested=true schema_validated=true retry_count={} http_status=200", latency, self.last_request["prompt_tokens"], completion_tokens, self.last_request["total_tokens"], max_tokens, finish_reason, truncation_retry)
                 return result
             except RemoteLLMError: raise
             except (RateLimitError, APIConnectionError, APITimeoutError, APIStatusError) as exc:
                 status = getattr(exc, "status_code", None)
                 retryable = isinstance(exc, APIConnectionError) or status in {429,502,503,504}
-                if retryable and attempt < 2:
-                    await __import__("asyncio").sleep(.15 * 2**attempt + random.random()*.1); continue
-                if isinstance(exc, APITimeoutError): code="remote_timeout"
-                elif isinstance(exc, RateLimitError) or status == 429: code="remote_rate_limit"
-                elif isinstance(exc, APIConnectionError): code="remote_connection_error"
-                elif status == 401: code="remote_auth_error"
-                elif status == 403 and family is ModelFamily.GEMMA: code="GEMMA_LICENSE_NOT_ACCEPTED"
-                elif status == 403: code="HF_PERMISSION_OR_MODEL_ACCESS_DENIED"
-                elif status == 400: code="remote_llm_schema_unsupported"
-                else: code="remote_provider_error"
+                if retryable and transient_attempt < 2:
+                    await __import__("asyncio").sleep(.15 * 2**transient_attempt + random.random()*.1); transient_attempt += 1; continue
+                if isinstance(exc, APITimeoutError): code=REMOTE_CODES["timeout"]
+                elif isinstance(exc, RateLimitError) or status == 429: code=REMOTE_CODES["rate"]
+                elif isinstance(exc, APIConnectionError): code=REMOTE_CODES["connection"]
+                elif status == 401: code=REMOTE_CODES["auth"]
+                elif status == 403: code=REMOTE_CODES["access"]
+                elif status == 400: code=REMOTE_CODES["schema"]
+                else: code=REMOTE_CODES["provider"]
                 log.warning("request failed error_code={} http_status={}", code, status)
                 raise RemoteLLMError(code, code, status=status) from exc
-        raise AssertionError("unreachable")
 
 
 class OpenAIProvider:
