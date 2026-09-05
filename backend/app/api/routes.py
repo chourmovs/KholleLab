@@ -26,7 +26,7 @@ async def get_health(request: Request) -> dict[str, str | int]:
 
 @router.get("/inference/status")
 async def get_inference_status() -> dict[str, str | float]:
-    base = {"provider": settings.llm_provider, "model": settings.local_llm_model.rsplit("/", 1)[-1].removesuffix("-GGUF") if settings.llm_provider == "local" else settings.llm_model, "engine": "llama.cpp" if settings.llm_provider == "local" else settings.llm_provider, "quantization": settings.local_llm_quant if settings.llm_provider == "local" else ""}
+    base = {"provider": settings.llm_provider, "model": settings.local_llm_model.rsplit("/", 1)[-1].removesuffix("-GGUF") if settings.llm_provider == "local" else settings.llm_model, "backend": "llama.cpp" if settings.llm_provider == "local" else settings.llm_provider, "quantization": settings.local_llm_quant if settings.llm_provider == "local" else ""}
     if settings.llm_provider not in {"local", "fake", "openai"}:
         return {**base, "status": "error"}
     if settings.llm_provider != "local":
@@ -38,7 +38,7 @@ async def get_inference_status() -> dict[str, str | float]:
             response.raise_for_status()
         return {**base, "status": "ready", "latency_ms": round((time.perf_counter()-started)*1000, 1)}
     except (httpx.HTTPError, ValueError):
-        return {**base, "status": "unavailable"}
+        return {**base, "status": "starting"}
 
 
 @router.get("/curriculum")
