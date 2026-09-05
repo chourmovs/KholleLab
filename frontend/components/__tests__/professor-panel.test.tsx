@@ -1,12 +1,17 @@
-import {act,render,screen,waitFor} from "@testing-library/react";
-import {beforeEach,expect,it,vi} from "vitest";
+import {act,cleanup,fireEvent,render,screen,waitFor} from "@testing-library/react";
+import {afterEach,beforeEach,expect,it,vi} from "vitest";
 import {ProfessorPanel} from "../professor-panel";
 import * as api from "@/lib/api";
 import {useAttemptStore} from "@/stores/useAttemptStore";
 
-vi.mock("@/lib/api",async importOriginal=>({...await importOriginal<typeof import("@/lib/api")>(),getEvaluation:vi.fn(),createEvaluation:vi.fn(),retryEvaluation:vi.fn()}));
+vi.mock("@/lib/api",async importOriginal=>({...await importOriginal<typeof import("@/lib/api")>(),getEvaluation:vi.fn(),createEvaluation:vi.fn(),retryEvaluation:vi.fn(),getLatestTutor:vi.fn(),assessTutor:vi.fn()}));
 const running=(stage:"queued"|"candidate_audit"|"adjudication"|"finalizing",progress:number)=>({status:"running" as const,stage,progress,max_score:20,strengths:[],issues:[],missing_justifications:[]});
 const completed={...running("finalizing",95),status:"completed" as const,stage:"completed" as const,progress:100,score:18,verdict:"correct",provider:"huggingface",model:"Qwen/Qwen3-32B:nscale",inference_backend:"nscale"};
-beforeEach(()=>{vi.clearAllMocks();useAttemptStore.setState({attemptId:"attempt-1",status:"submitted"})});
+const tutor={status:"completed" as const,assessment_id:"assessment-1",revision:4,student_state:"blocked",intervention_needed:true,intervention_type:"hint",intervention:"Commence par isoler le terme inconnu.",confidence:.95,effective_help_level:2,provider:"huggingface",model:"Qwen3-8B",backend:"nscale"};
+beforeEach(()=>{vi.clearAllMocks();vi.mocked(api.getLatestTutor).mockResolvedValue(null);useAttemptStore.setState({attemptId:"attempt-1",status:"submitted"})});
+afterEach(cleanup);
 it("restores an adjudication already running after reload",async()=>{vi.mocked(api.getEvaluation).mockResolvedValue(running("adjudication",60));render(<ProfessorPanel/>);expect(await screen.findByText("● Comparaison au corrigé")).toBeInTheDocument();expect(screen.getByText("✓ Analyse du raisonnement")).toBeInTheDocument()});
 it("queues rapidly then polls through completion",async()=>{vi.useFakeTimers({shouldAdvanceTime:true});vi.mocked(api.getEvaluation).mockRejectedValueOnce(new api.ApiError(404)).mockResolvedValueOnce(running("candidate_audit",25)).mockResolvedValueOnce(completed);vi.mocked(api.createEvaluation).mockResolvedValue(running("queued",5));render(<ProfessorPanel/>);await waitFor(()=>expect(screen.getByRole("button",{name:"Examiner ma copie"})).toBeInTheDocument());await act(async()=>screen.getByRole("button",{name:"Examiner ma copie"}).click());expect(screen.getByText("○ Analyse du raisonnement")).toBeInTheDocument();await act(async()=>vi.advanceTimersByTimeAsync(2100));expect(screen.getByText("● Analyse du raisonnement")).toBeInTheDocument();await act(async()=>vi.advanceTimersByTimeAsync(2100));expect(screen.getByText(/DÉBRIEF DE COLLE/)).toBeInTheDocument();vi.useRealTimers()});
+function draftAttempt(){useAttemptStore.setState({attemptId:"attempt-1",status:"draft",solution:"2x=6",revision:4,saveState:"saved",save:vi.fn().mockResolvedValue(true)})}
+it.each([["Un indice","ask_hint",2],["Je suis bloqué","i_am_stuck",3]] as const)("sends the manual %s trigger and displays the intervention",async(label,trigger,level)=>{draftAttempt();vi.mocked(api.assessTutor).mockResolvedValue(tutor);render(<ProfessorPanel/>);fireEvent.click(screen.getByRole("button",{name:label}));await waitFor(()=>expect(api.assessTutor).toHaveBeenCalledWith("attempt-1",4,trigger,level));expect(await screen.findByText(/Commence par isoler/)).toBeInTheDocument()});
+it("recovers manual help buttons after a temporary 503",async()=>{draftAttempt();vi.mocked(api.assessTutor).mockRejectedValueOnce(new api.ApiError(503,{error:"tutor_unavailable"})).mockResolvedValueOnce(tutor);render(<ProfessorPanel/>);const button=screen.getByRole("button",{name:"Un indice"});fireEvent.click(button);expect(await screen.findByText("Professeur temporairement indisponible.")).toBeInTheDocument();fireEvent.click(button);expect(await screen.findByText(/Commence par isoler/)).toBeInTheDocument();expect(api.assessTutor).toHaveBeenCalledTimes(2)});

@@ -3,6 +3,7 @@ import pytest
 from pydantic import BaseModel
 from app.core.config import settings
 from app.providers.llm import HuggingFaceProvider, ModelRole, RemoteLLMError, resolve_model
+from app.schemas.evaluation import CandidateAudit
 class Answer(BaseModel): answer: int
 class Completions:
     def __init__(self, responses='{"answer": 6}'):
@@ -25,6 +26,9 @@ async def test_strict_structured_completion_records_finish_reason():
     assert provider.last_request['total_tokens']==12
     assert provider.last_request['finish_reason']=='stop'
     assert provider.last_request['schema_validated'] is True
+    assert provider.last_request['retry_count']==0
+    assert len(client.completions.calls)==1
+    assert client.completions.calls[0]['max_tokens']==512
 @pytest.mark.asyncio
 @pytest.mark.parametrize(('content','code'),[('not json','REMOTE_INVALID_JSON'),('{"answer":"wrong"}','REMOTE_SCHEMA'),('', 'REMOTE_PROVIDER')])
 async def test_remote_response_validation(content,code):
@@ -39,12 +43,35 @@ async def test_truncation_retries_once_and_succeeds(monkeypatch):
     assert [call['max_tokens'] for call in client.completions.calls]==[1536,2048]
     assert provider.last_request['retry_count']==1
 @pytest.mark.asyncio
+async def test_fast_truncation_uses_dedicated_retry_budget(monkeypatch):
+    monkeypatch.setattr(settings,'hf_fast_max_tokens',512); monkeypatch.setattr(settings,'hf_fast_retry_max_tokens',768)
+    client=Client([('{"answer":', 'length'),('{"answer": 6}','stop')]); provider=HuggingFaceProvider(client=client)
+    assert (await provider.structured_response(instructions='',input_text='',response_model=Answer,role=ModelRole.FAST)).answer==6
+    assert [call['max_tokens'] for call in client.completions.calls]==[512,768]
+    assert provider.last_request['retry_count']==1
+@pytest.mark.asyncio
+async def test_fast_double_truncation_stops_after_retry(monkeypatch):
+    monkeypatch.setattr(settings,'hf_fast_max_tokens',512); monkeypatch.setattr(settings,'hf_fast_retry_max_tokens',768)
+    client=Client([('partial','length'),('partial again','length')])
+    with pytest.raises(RemoteLLMError) as caught:
+        await HuggingFaceProvider(client=client).structured_response(instructions='',input_text='',response_model=Answer,role=ModelRole.FAST)
+    assert caught.value.code=='REMOTE_TRUNCATED'
+    assert [call['max_tokens'] for call in client.completions.calls]==[512,768]
+@pytest.mark.asyncio
 async def test_second_truncation_is_controlled():
     client=Client([('partial','length'),('partial again','length')])
     with pytest.raises(RemoteLLMError) as caught:
         await HuggingFaceProvider(client=client).structured_response(instructions='',input_text='',response_model=Answer)
     assert caught.value.code=='REMOTE_TRUNCATED'
     assert len(client.completions.calls)==2
+
+@pytest.mark.parametrize(('response_model','expected'),[(CandidateAudit,1024),(Answer,1536)])
+@pytest.mark.asyncio
+async def test_deep_initial_budgets_are_unchanged(response_model,expected):
+    audit='{"strategy_summary":"Résumé.","claims":[],"major_errors":[],"minor_errors":[],"missing_justifications":[],"conclusion_reached":true,"conclusion_supported":true,"provisional_status":"correct"}'
+    client=Client(audit if response_model is CandidateAudit else '{"answer": 6}')
+    await HuggingFaceProvider(client=client).structured_response(instructions='',input_text='',response_model=response_model,role=ModelRole.DEEP)
+    assert client.completions.calls[0]['max_tokens']==expected
 
 def test_token_required(monkeypatch):
     monkeypatch.setattr(settings,'hf_token',None)
