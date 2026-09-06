@@ -46,6 +46,11 @@ class EvaluationRepository:
         value.stage, value.progress, value.heartbeat_at = stage, progress, NOW()
         self.db.commit(); self.db.refresh(value); return value
 
+    def heartbeat(self, value):
+        """Renew ownership of a running evaluation during slow provider calls."""
+        value.heartbeat_at = NOW()
+        self.db.commit()
+
     def store_audit(self, value, audit: CandidateAudit):
         value.audit_json = audit.model_dump(mode="json")
         return self.set_stage(value, EvaluationStage.ADJUDICATION, 60)
@@ -66,6 +71,7 @@ class EvaluationRepository:
         value.status=EvaluationStatus.RUNNING; value.stage=EvaluationStage.QUEUED; value.progress=5
         value.error_code=None; value.completed_at=None; value.started_at=None; value.heartbeat_at=None
         value.audit_json=None; value.result_json=None; value.elapsed_ms=None
+        value.recovery_count=0
         self.db.commit(); self.db.refresh(value); return value
 
     def recover_stale(self, stale_seconds: int):
@@ -73,7 +79,7 @@ class EvaluationRepository:
         values = self.db.query(Evaluation).filter(
             Evaluation.status == EvaluationStatus.RUNNING,
             Evaluation.stage != EvaluationStage.QUEUED,
-            Evaluation.heartbeat_at < cutoff,
+            (Evaluation.heartbeat_at.is_(None)) | (Evaluation.heartbeat_at < cutoff),
         ).with_for_update(skip_locked=True).all()
         for value in values:
             if value.recovery_count < 1:

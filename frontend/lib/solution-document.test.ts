@@ -13,4 +13,6 @@ describe("solution document", () => {
     expect(roundTrip.blocks.map(block=>block.type==="text"?block.content:block.latex)).toEqual(document.blocks.map(block=>block.type==="text"?block.content:block.latex));
   });
   it("represents an empty solution as one text block",()=>expect(parseSolutionMarkdown("").blocks).toMatchObject([{type:"text",content:""}]));
+  it.each(["$$\nx+y\n\\]","\\[\nx+y\n$$","Texte $x$ puis $y$", "avant\n\n$$ malformed\n\naprès"])("keeps mixed, inline, and malformed math as prose",source=>expect(parseSolutionMarkdown(source).blocks).toMatchObject([{type:"text",content:source}]));
+  it("round-trips an empty display-math block",()=>expect(serializeSolutionDocument(parseSolutionMarkdown("$$\n\n$$"))).toBe("$$\n\n$$"));
 });

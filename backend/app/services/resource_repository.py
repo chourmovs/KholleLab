@@ -70,7 +70,14 @@ class ResourceRepository:
 def validate_problem_resource_refs(problems, resources: ResourceRepository) -> None:
     for problem in problems.list():
         for resource_id in problem.resource_refs:
-            if resources.get(resource_id) is None:
+            resource = resources.get(resource_id)
+            if resource is None:
                 raise ResourceCorpusError(
-                    f"Problem {problem.id} references unknown resource {resource_id}"
+                    f"Problem corpus resource validation failed:\nproblem ID: {problem.id}\n"
+                    f"{problem.id} references unknown resource {resource_id}"
+                )
+            if problem.curriculum.level not in resource.curriculum_levels:
+                raise ResourceCorpusError(
+                    f"Problem corpus resource validation failed:\nproblem ID: {problem.id}\nresource ID: {resource_id}\n"
+                    f"curriculum {problem.curriculum.level.value} is incompatible"
                 )

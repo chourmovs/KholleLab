@@ -12,13 +12,17 @@ from app.services.problem_repository import ProblemRepository
 log = component_logger("evaluation-worker")
 
 async def run_once(problems, provider=None):
-    with SessionLocal() as db:
-        evaluations = EvaluationRepository(db)
-        evaluations.recover_stale(settings.evaluation_stale_seconds)
-        value = evaluations.claim_next()
-        if not value: return False
-        service = ExaminerService(AttemptRepository(db), evaluations, problems, provider or provider_from_settings())
-        await service.process(value)
+    try:
+        with SessionLocal() as db:
+            evaluations = EvaluationRepository(db)
+            evaluations.recover_stale(settings.evaluation_stale_seconds)
+            value = evaluations.claim_next()
+            if not value: return False
+            service = ExaminerService(AttemptRepository(db), evaluations, problems, provider or provider_from_settings())
+            await service.process(value)
+            return True
+    except Exception:
+        log.exception("evaluation_worker_job_failed")
         return True
 
 async def main():
@@ -27,7 +31,11 @@ async def main():
     provider=provider_from_settings()
     log.info("evaluation_worker_started concurrency=1")
     while True:
-        if not await run_once(problems,provider):
+        try:
+            if not await run_once(problems,provider):
+                await asyncio.sleep(settings.evaluation_worker_poll_seconds)
+        except Exception:
+            log.exception("evaluation_worker_loop_recovered")
             await asyncio.sleep(settings.evaluation_worker_poll_seconds)
 
 if __name__ == "__main__":

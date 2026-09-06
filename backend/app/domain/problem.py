@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field, HttpUrl, StringConstraints, m
 
 
 NonEmpty = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+Slug = Annotated[str, StringConstraints(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
 
 
 class CurriculumLevel(StrEnum):
@@ -110,7 +111,7 @@ class Problem(StrictModel):
     statement: NonEmpty
     curriculum: CurriculumInfo
     topics: tuple[Topic, ...] = Field(min_length=1)
-    prerequisites: tuple[Annotated[str, StringConstraints(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")], ...] = ()
+    prerequisites: tuple[Slug, ...] = ()
     skills: tuple[Skill, ...] = ()
     recommended_after: tuple[Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")], ...] = ()
     source: SourceInfo
@@ -120,7 +121,7 @@ class Problem(StrictModel):
     year: int | None = None
     hints: tuple[Hint, ...] = ()
     authors: tuple[NonEmpty, ...] = ()
-    tags: tuple[NonEmpty, ...] = ()
+    tags: tuple[Slug, ...] = ()
     notes: NonEmpty | None = None
     resources: ProblemResources | None = None
     # Legacy inline resources remain readable while the shared catalogue is adopted.
@@ -131,4 +132,8 @@ class Problem(StrictModel):
         levels = [hint.level for hint in self.hints]
         if len(levels) != len(set(levels)):
             raise ValueError("hint levels must be unique")
+        for name in ("topics", "skills", "prerequisites", "tags", "resource_refs", "recommended_after"):
+            values = getattr(self, name)
+            if len(values) != len(set(values)):
+                raise ValueError(f"{name} must not contain duplicates")
         return self

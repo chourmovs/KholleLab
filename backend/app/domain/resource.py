@@ -3,10 +3,9 @@ from typing import Annotated, Literal
 
 from pydantic import Field, HttpUrl, StringConstraints, Tag, TypeAdapter, model_validator
 
-from app.domain.problem import CurriculumLevel, NonEmpty, Skill, StrictModel, Topic
+from app.domain.problem import CurriculumLevel, NonEmpty, Skill, Slug, StrictModel, Topic
 
 ResourceId = Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")]
-Slug = Annotated[str, StringConstraints(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
 
 
 class ResourceType(StrEnum):
@@ -24,6 +23,14 @@ class ResourceMetadata(StrictModel):
     skills: tuple[Skill, ...] = ()
     tags: tuple[Slug, ...] = ()
     priority: int = 0
+
+    @model_validator(mode="after")
+    def reject_duplicate_classification(self) -> "ResourceMetadata":
+        for name in ("curriculum_levels", "topics", "prerequisites", "skills", "tags"):
+            values = getattr(self, name)
+            if len(values) != len(set(values)):
+                raise ValueError(f"{name} must not contain duplicates")
+        return self
 
 
 class CourseResource(ResourceMetadata):

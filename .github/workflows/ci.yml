@@ -13,6 +13,8 @@ jobs:
       - run: pip install -r backend/requirements.txt
       - run: cd backend && pytest -q
       - run: python scripts/validate_problems.py
+      - run: python scripts/validate_resources.py
+      - run: python scripts/report_resource_coverage.py
       - run: cd backend && python -m compileall app
   frontend:
     runs-on: ubuntu-latest
@@ -24,6 +26,8 @@ jobs:
       - run: cd frontend && npm run lint
       - run: cd frontend && npm test
       - run: cd frontend && npm run build
+      - run: cd frontend && npx playwright install --with-deps chromium
+      - run: cd frontend && npm run test:e2e
   integration:
     env:
       LLM_PROVIDER: fake

@@ -57,3 +57,12 @@ def test_stale_worker_requeues_once_then_fails(setup):
     assert repo.recover_stale(60)==1;assert value.stage==EvaluationStage.QUEUED and value.recovery_count==1
     value=repo.claim_next();value.heartbeat_at=datetime.now(timezone.utc)-timedelta(minutes=10);repo.db.commit()
     assert repo.recover_stale(60)==1;assert value.status==EvaluationStatus.FAILED and value.error_code=="worker_interrupted"
+
+def test_restart_resets_recovery_and_null_heartbeat_is_recovered(setup):
+    _,repo,service,attempt=setup
+    value=repo.claim_next() if service.enqueue(attempt.id) else None
+    value.recovery_count=1;value.heartbeat_at=None;repo.db.commit()
+    assert repo.recover_stale(60)==1
+    assert value.status==EvaluationStatus.FAILED
+    restarted=service.enqueue(attempt.id,retry=True)
+    assert restarted.recovery_count==0

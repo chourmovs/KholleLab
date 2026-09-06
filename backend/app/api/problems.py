@@ -44,7 +44,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
         raise HTTPException(status_code=422, detail="difficulty must be between 1 and 5")
     problems = repository(request).list()
     selected = ProblemSelector(problems).select(
-        level=level, difficulty=difficulty, topics=topic, exclude_ids=set(exclude or []))
+        level=level, difficulty=difficulty, topics=topic, exclude_ids=exclude or [])
     if selected is None:
         component_logger("application").warning(
             "problem_selection_empty level={} difficulty={} topic={} exclude_count={} corpus_count={} candidate_level_count={}",
