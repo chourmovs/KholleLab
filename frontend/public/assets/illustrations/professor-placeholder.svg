@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#12372E"/><stop offset="1" stop-color="#0C211B"/>
+ </linearGradient>
+</defs>
+<rect width="960" height="540" rx="40" fill="url(#bg)"/>
+<g opacity=".22" fill="none" stroke="#8FD6BD" stroke-width="3">
+ <path d="M75 390h250M200 145v295"/>
+ <path d="M95 340c50-110 110-150 205-70"/>
+ <circle cx="235" cy="220" r="72"/>
+</g>
+<g transform="translate(545 92)">
+ <circle cx="115" cy="92" r="72" fill="#F3F0E8" opacity=".92"/>
+ <path d="M18 350c20-95 75-138 97-138s77 43 97 138z" fill="#F3F0E8" opacity=".92"/>
+ <circle cx="115" cy="92" r="54" fill="#12372E" opacity=".88"/>
+ <path d="M66 345c10-74 36-112 49-112s39 38 49 112z" fill="#12372E" opacity=".88"/>
+</g>
+<g fill="#AFC8BD" font-family="Georgia,serif">
+ <text x="710" y="112" font-size="44">∑</text>
+ <text x="770" y="175" font-size="34">f′(x)</text>
+ <text x="688" y="250" font-size="30">π</text>
+</g>
+</svg>

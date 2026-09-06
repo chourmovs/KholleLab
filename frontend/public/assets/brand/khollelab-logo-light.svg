@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 150">
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#8FD6BD"/>
+    <stop offset="1" stop-color="#5FB99A"/>
+  </linearGradient>
+</defs>
+<g transform="translate(8,11)">
+  <circle cx="66" cy="9" r="4" fill="#DDB15A"/>
+  <g fill="none" stroke="#8FD6BD" stroke-width="4" stroke-linecap="round">
+    <path d="M36 105C17 91 16 59 30 39"/>
+    <path d="M96 105c19-14 20-46 6-66"/>
+  </g>
+  <g fill="#8FD6BD">
+    <ellipse cx="25" cy="83" rx="4" ry="10" transform="rotate(-30 25 83)"/>
+    <ellipse cx="22" cy="65" rx="4" ry="9" transform="rotate(-12 22 65)"/>
+    <ellipse cx="29" cy="49" rx="4" ry="8" transform="rotate(24 29 49)"/>
+    <ellipse cx="107" cy="83" rx="4" ry="10" transform="rotate(30 107 83)"/>
+    <ellipse cx="110" cy="65" rx="4" ry="9" transform="rotate(12 110 65)"/>
+    <ellipse cx="103" cy="49" rx="4" ry="8" transform="rotate(-24 103 49)"/>
+  </g>
+  <path d="M45 45c8 0 15 2 21 7 6-5 13-7 21-7v45c-8 0-15 2-21 7-6-5-13-7-21-7z"
+        fill="none" stroke="url(#g)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M66 52v45" stroke="#8FD6BD" stroke-width="3"/>
+  <text x="66" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="28"
+        font-weight="700" fill="#10271E">Σ</text>
+</g>
+<text x="150" y="76" font-family="Georgia,'Times New Roman',serif" font-size="58"
+      font-weight="700" letter-spacing="2.2" fill="#10271E">KHOLLELAB</text>
+<text x="153" y="112" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="20"
+      letter-spacing=".7" fill="#5FB99A">Maths · Réflexion · Démonstration</text>
+</svg>

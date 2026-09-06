@@ -1,0 +1,14 @@
+{
+  "brand": {
+    "header_dark": "/assets/brand/khollelab-logo-dark.svg",
+    "header_light": "/assets/brand/khollelab-logo-light.svg",
+    "mark": "/assets/brand/khollelab-mark.svg",
+    "favicon": "/assets/brand/favicon.ico",
+    "pwa_192": "/assets/brand/khollelab-icon-192.png",
+    "pwa_512": "/assets/brand/khollelab-icon-512.png"
+  },
+  "illustrations": {
+    "professor_euler": "/assets/illustrations/professor-euler-hero.png",
+    "professor_fallback": "/assets/illustrations/professor-placeholder.svg"
+  }
+}
