@@ -8,8 +8,8 @@ test("Autre exercice sends explicit adaptive intent",async({page})=>{
     return url.pathname==="/api/problems/select"&&url.searchParams.get("mode")==="adaptive";
   });
   await page.goto("/");
-  await expect(page.getByText("Exercice de test")).toBeVisible();
+  await expect(page.getByText("Functions")).toBeVisible();
   await page.getByRole("button",{name:"Choisir un autre exercice"}).click();
   await adaptive;
-  await expect(page.getByText("Exercice de test")).toBeVisible();
+  await expect(page.getByText("Functions")).toBeVisible();
 });
