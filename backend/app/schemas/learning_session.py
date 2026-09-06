@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 from app.models.learning_session import LearningSessionStatus
 from app.schemas.attempt import AttemptResponse
 from app.schemas.tutor import TutorResponse
+from app.schemas.problem import ProblemPublicDetail
 
 
 class SessionStart(BaseModel):
@@ -28,7 +29,7 @@ class SessionSummary(BaseModel):
 
 
 class SessionDetail(SessionSummary):
-    problem: dict | None
+    problem: ProblemPublicDetail | None
     attempts: list[AttemptResponse]
     current_attempt_id: uuid.UUID | None
     final_work: str
@@ -37,4 +38,4 @@ class SessionDetail(SessionSummary):
 
 
 class SessionTransition(BaseModel):
-    expected_status: LearningSessionStatus = LearningSessionStatus.ACTIVE
+    """Intentionally empty: transition source state is server-owned."""

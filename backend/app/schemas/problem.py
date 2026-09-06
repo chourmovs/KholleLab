@@ -3,6 +3,26 @@ from pydantic import BaseModel, ConfigDict
 from app.domain.problem import CurriculumInfo, CurriculumLevel, ProblemResources, SourceInfo, Topic, Skill
 
 
+def to_public_problem_detail(problem) -> "ProblemPublicDetail":
+    """Allow-list the fields exposed by every public problem payload."""
+    return ProblemPublicDetail.model_validate({
+        "id": problem.id,
+        "title": problem.title,
+        "subtitle": problem.subtitle,
+        "statement": problem.statement,
+        "curriculum": problem.curriculum,
+        "estimated_minutes": problem.estimated_minutes,
+        "year": problem.year,
+        "topics": problem.topics,
+        "source": problem.source,
+        "hint_levels": tuple(hint.level for hint in problem.hints),
+        "prerequisites": problem.prerequisites,
+        "skills": problem.skills,
+        "resources": problem.resources,
+        "resource_refs": problem.resource_refs,
+    })
+
+
 class PublicModel(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

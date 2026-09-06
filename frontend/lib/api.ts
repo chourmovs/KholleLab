@@ -30,4 +30,4 @@ export const startSession=(problemId:string,forceNew=false)=>sessionRequest<Lear
 export const getActiveSession=()=>sessionRequest<LearningSessionDetail|null>("/sessions/active/latest");
 export const getSessions=()=>sessionRequest<LearningSessionSummary[]>("/sessions");
 export const getSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}`);
-export const abandonSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}/abandon`,{method:"POST",body:JSON.stringify({expected_status:"active"})});
+export const abandonSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}/abandon`,{method:"POST",body:JSON.stringify({})});

@@ -2,7 +2,11 @@
 import json
 import os
 from urllib.error import HTTPError
-from urllib.request import Request, urlopen
+from http.cookiejar import CookieJar
+from urllib.request import HTTPCookieProcessor, Request, build_opener
+
+opener = build_opener(HTTPCookieProcessor(CookieJar()))
+urlopen = opener.open
 
 frontend = os.getenv("SMOKE_FRONTEND_URL", "http://frontend:3000")
 api = os.getenv("SMOKE_API_URL", f"{frontend}/api")
@@ -49,6 +53,30 @@ detail = get_json(f"{api}/problems/{catalogue[0]['id']}")
 assert {"id", "title", "statement"} <= detail.keys()
 assert "reference_solution" not in detail
 print("[PASS] Problem detail and private reference solution")
+
+def assert_no_private_problem_fields(value):
+    if isinstance(value, dict):
+        assert "reference_solution" not in value
+        for child in value.values(): assert_no_private_problem_fields(child)
+    elif isinstance(value, list):
+        for child in value: assert_no_private_problem_fields(child)
+
+learning = send_json(f"{api}/sessions", "POST", {"problem_id": catalogue[0]["id"]}, 201)
+assert_no_private_problem_fields(learning)
+session_id, session_attempt_id = learning["session_id"], learning["current_attempt_id"]
+assert session_attempt_id and any(item["id"] == session_attempt_id for item in learning["attempts"])
+session_saved = send_json(f"{api}/attempts/{session_attempt_id}", "PATCH", {"solution_markdown": "Travail de séance", "elapsed_seconds": 7, "expected_revision": 0})
+active = get_json(f"{api}/sessions/active/latest")
+assert active["session_id"] == session_id and active["final_work"] == "Travail de séance"
+assert_no_private_problem_fields(active)
+send_json(f"{api}/attempts/{session_attempt_id}/submit", "POST", {"expected_revision": session_saved["revision"]})
+history = get_json(f"{api}/sessions")
+assert history[0]["session_id"] == session_id and history[0]["status"] == "completed"
+assert_no_private_problem_fields(history)
+retry = send_json(f"{api}/sessions", "POST", {"problem_id": catalogue[0]["id"], "force_new": True}, 201)
+assert retry["session_id"] != session_id and retry["current_attempt_id"] != session_attempt_id
+assert_no_private_problem_fields(retry)
+print("[PASS] Learner session privacy, persistence, completion and retry")
 attempt = send_json(f"{api}/attempts", "POST", {"problem_id": catalogue[0]["id"]}, 201)
 assert attempt["status"] == "draft" and attempt["revision"] == 0
 solution = """On considère \\(x \\in \\mathbb{R}\\).

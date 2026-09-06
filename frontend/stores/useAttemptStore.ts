@@ -4,7 +4,7 @@ import type {Attempt,AttemptStatus} from "@/lib/types";
 
 export type SaveState="idle"|"dirty"|"saving"|"saved"|"error"|"conflict";
 type State={sessionId?:string;attemptId?:string;problemId?:string;status:AttemptStatus;solution:string;revision:number;elapsedSeconds:number;saveState:SaveState;serverAttempt?:Attempt;recovery?:string;editGeneration:number;loadGeneration:number;load:(p:string)=>Promise<void>;updateSolution:(s:string)=>void;tick:()=>void;save:()=>Promise<boolean>;submit:()=>Promise<void>;useServer:()=>void;keepLocal:()=>Promise<void>;reset:()=>void};
-const draftKey=(id:string)=>`khollelab.draft.${id}`,currentKey=(p:string)=>`khollelab.currentAttempt.${p}`;
+const draftKey=(id:string)=>`khollelab.draft.${id}`;
 let savePromise:Promise<boolean>|undefined;
 let saveRunnerGeneration=0;
 let loadGeneration=0;
@@ -16,11 +16,18 @@ export const useAttemptStore=create<State>((set,get)=>({
   async load(problemId){
     const generation=++loadGeneration;
     set({loadGeneration:generation});
-    const id=localStorage.getItem(currentKey(problemId));let attempt:Attempt|undefined;
-    if(id)try{attempt=await getAttempt(id)}catch(error){if(error instanceof ApiError&&error.status===404)localStorage.removeItem(currentKey(problemId));else throw error}
-    if(generation!==loadGeneration)return;
-    if(!attempt){const learning=await startSession(problemId);if(!learning){set({saveState:"error"});return}attempt=learning.attempts.find(value=>value.id===learning.current_attempt_id)??learning.attempts.at(-1);if(generation!==loadGeneration)return;if(!attempt){set({saveState:"error"});return}localStorage.setItem(currentKey(problemId),attempt.id);set({sessionId:learning.session_id})}
-    set({...values(attempt),editGeneration:0,loadGeneration:generation});
+    try{
+      // Session and attempt identity always come from the backend. The legacy
+      // currentAttempt localStorage key is deliberately ignored.
+      const learning=await startSession(problemId);
+      const attempt=learning.attempts.find(value=>value.id===learning.current_attempt_id);
+      if(generation!==loadGeneration)return;
+      if(!attempt){set({saveState:"error"});return}
+      set({...values(attempt),sessionId:learning.session_id,editGeneration:0,loadGeneration:generation});
+    }catch{
+      // Preserve recoverable local text when the session API is unavailable.
+      if(generation===loadGeneration)set({saveState:"error"});
+    }
   },
   updateSolution(solution){const state=get();if(!state.attemptId||state.status==="submitted")return;const editGeneration=state.editGeneration+1;localStorage.setItem(draftKey(state.attemptId),JSON.stringify({solution,updatedAt:new Date().toISOString(),serverRevision:state.revision}));set({solution,editGeneration,saveState:"dirty"})},
   tick(){if(get().status==="draft")set(state=>({elapsedSeconds:state.elapsedSeconds+1}))},
