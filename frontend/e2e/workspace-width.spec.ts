@@ -23,6 +23,18 @@ for(const viewport of viewports)test(`workspace remains structured at ${viewport
     const statement=await page.locator(".statement-pane").boundingBox();
     const professor=await page.locator(".professor-pane").boundingBox();
     expect(board!.width).toBeGreaterThan(statement!.width);expect(board!.width).toBeGreaterThan(professor!.width);
+    expect(statement!.width).toBeGreaterThanOrEqual(389);
+    expect(board!.width).toBeGreaterThanOrEqual(450);
+    expect(professor!.width).toBeGreaterThanOrEqual(285);
+    const styles=await page.evaluate(()=>{
+      const problem=getComputedStyle(document.querySelector(".problem-body")!);
+      const portrait=getComputedStyle(document.querySelector(".professor-portrait")!);
+      const image=getComputedStyle(document.querySelector(".professor-portrait img")!);
+      return {problemBackgroundImage:problem.backgroundImage,portraitOverflow:portrait.overflow,imageObjectFit:image.objectFit};
+    });
+    expect(styles.problemBackgroundImage).toBe("none");
+    expect(styles.portraitOverflow).toBe("hidden");
+    expect(styles.imageObjectFit).toBe("cover");
   }
 });
 
