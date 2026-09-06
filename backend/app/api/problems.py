@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 
 from app.domain.problem import CurriculumLevel, Topic
-from app.schemas.problem import ProblemCatalogueItem, ProblemPublicDetail, ProblemSelectionResult
+from app.schemas.problem import ProblemCatalogueItem, ProblemPublicDetail, ProblemSelectionResult, to_public_problem_detail
 from app.services.problem_selector import ProblemSelector
 from app.services.problem_repository import ProblemRepository
 from app.services.resource_resolver import ResourceContext, ResourceResolver
@@ -52,8 +52,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
             len(exclude or []), len(problems), sum(p.curriculum.level == level for p in problems),
         )
     actual = selected.curriculum.difficulty if selected else None
-    detail = None if selected is None else ProblemPublicDetail.model_validate(
-        {**selected.model_dump(), "hint_levels": tuple(h.level for h in selected.hints)})
+    detail = None if selected is None else to_public_problem_detail(selected)
     return ProblemSelectionResult(problem=detail, requested_level=level, requested_difficulty=difficulty,
                                   actual_difficulty=actual, fallback_used=bool(selected and difficulty is not None and actual != difficulty))
 
@@ -63,6 +62,4 @@ def get_problem(problem_id: str, request: Request) -> ProblemPublicDetail:
     problem = repository(request).get(problem_id)
     if problem is None:
         raise HTTPException(status_code=404, detail="Problem not found")
-    return ProblemPublicDetail.model_validate(
-        {**problem.model_dump(), "hint_levels": tuple(hint.level for hint in problem.hints)}
-    )
+    return to_public_problem_detail(problem)

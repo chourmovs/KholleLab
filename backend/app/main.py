@@ -10,6 +10,7 @@ from app.services.problem_repository import ProblemRepository
 from app.services.resource_repository import ResourceRepository, validate_problem_resource_refs
 from app.services.resource_resolver import ResourceResolver
 from app.core.logging import configure_logging, component_logger
+from app.services.learner_identity import LearnerIdentityMiddleware
 
 
 @asynccontextmanager
@@ -34,6 +35,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title=APP_NAME, version=APP_VERSION, lifespan=lifespan)
+app.add_middleware(LearnerIdentityMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,
