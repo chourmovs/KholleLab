@@ -13,10 +13,10 @@ const methods:Record<string,string>={same_strategy:"Même stratégie que le corr
 const errors:Record<string,string>={REMOTE_TRUNCATED:"L’analyse a dépassé la taille de réponse prévue.",REMOTE_SCHEMA:"La réponse distante ne respecte pas le format mathématique attendu.",REMOTE_TIMEOUT:"Le service d’analyse a mis trop de temps à répondre.",REMOTE_RATE_LIMITED:"Le service d’analyse est temporairement saturé."};
 const order:EvaluationStage[]=["queued","candidate_audit","adjudication","finalizing","completed"];
 
-function Progress({stage,progress}:{stage:EvaluationStage;progress:number}){
+function Progress({stage,progress,delayed=false}:{stage:EvaluationStage;progress:number;delayed?:boolean}){
   const rows:[EvaluationStage,string][]=[["candidate_audit","Analyse du raisonnement"],["adjudication","Comparaison au corrigé"],["finalizing","Synthèse"]];
   const current=order.indexOf(stage);
-  return <aside className="professor-card professor-progress" aria-live="polite"><div className="professor-module-title"><span><b>PROFESSEUR</b>Examine votre copie</span><small>{progress}%</small></div><div className="progress-track"><span style={{width:`${progress}%`}}/></div><blockquote><p>✓ Copie enregistrée</p>{rows.map(([key,label])=>{const position=order.indexOf(key);return <p key={key}>{position<current?"✓":position===current?"●":"○"} {label}</p>})}</blockquote></aside>
+  return <aside className="professor-card professor-progress" aria-live="polite"><div className="professor-module-title"><span><b>PROFESSEUR</b>Examine votre copie</span><small>{progress}%</small></div><div className="progress-track"><span style={{width:`${progress}%`}}/></div>{delayed&&<p>Service de correction temporairement indisponible. Nouvelle tentative automatique…</p>}<blockquote><p>✓ Copie enregistrée</p>{rows.map(([key,label])=>{const position=order.indexOf(key);return <p key={key}>{position<current?"✓":position===current?"●":"○"} {label}</p>})}</blockquote></aside>
 }
 
 export function ProfessorPanel(){
@@ -38,7 +38,7 @@ export function ProfessorPanel(){
   if(!attemptId)return <aside className="professor-card professor-simple"><div><span>PROFESSEUR</span></div><blockquote>Impossible d’identifier la tentative présentée.</blockquote></aside>;
   if(queueing)return <Progress stage="queued" progress={5}/>;
   if(!e)return <aside className="professor-card professor-simple"><div><span>PROFESSEUR</span><small>Votre copie est prête à être examinée.</small></div><blockquote><button className="examine" onClick={()=>void run()}>Examiner ma copie</button></blockquote></aside>;
-  if(e.status==="running")return <Progress stage={e.stage} progress={e.progress}/>;
+  if(e.status==="running")return <Progress stage={e.stage} progress={e.progress} delayed={Boolean(e.next_retry_at)}/>;
   if(e.status==="failed")return <aside className="professor-card failure"><div className="professor-module-title"><span><b>PROFESSEUR</b>Indisponible</span></div><h2>Je n’ai pas pu terminer l’analyse.</h2><p>{errors[e.error_code||""]||"L’analyse n’a pas pu être terminée."}</p><small>Code : {e.error_code||"REMOTE_PROVIDER"}</small><p>Votre copie est enregistrée et n’a pas été perdue.</p><button className="examine" onClick={()=>void run(true)}>Réessayer</button> <button className="examine" onClick={()=>window.dispatchEvent(new CustomEvent("khollelab:open-diagnostics"))}>Voir les logs</button></aside>;
   return <EvaluationPanel value={e} attemptId={attemptId}/>;
 }

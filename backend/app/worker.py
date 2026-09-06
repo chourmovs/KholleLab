@@ -1,4 +1,6 @@
 import asyncio
+import contextlib
+from pathlib import Path
 
 from app.core.config import settings
 from app.core.logging import component_logger, configure_logging
@@ -30,13 +32,27 @@ async def main():
     problems=ProblemRepository(settings.problems_dir); problems.load()
     provider=provider_from_settings()
     log.info("evaluation_worker_started concurrency=1")
+    heartbeat=asyncio.create_task(worker_heartbeat())
+    try:
+        while True:
+            try:
+                if not await run_once(problems,provider):
+                    await asyncio.sleep(settings.evaluation_worker_poll_seconds)
+            except Exception:
+                log.exception("evaluation_worker_loop_recovered")
+                await asyncio.sleep(settings.evaluation_worker_poll_seconds)
+    finally:
+        heartbeat.cancel()
+        with contextlib.suppress(asyncio.CancelledError): await heartbeat
+
+async def worker_heartbeat():
+    path=Path(settings.evaluation_worker_heartbeat_path)
     while True:
         try:
-            if not await run_once(problems,provider):
-                await asyncio.sleep(settings.evaluation_worker_poll_seconds)
-        except Exception:
-            log.exception("evaluation_worker_loop_recovered")
-            await asyncio.sleep(settings.evaluation_worker_poll_seconds)
+            await asyncio.to_thread(path.touch)
+        except OSError as exc:
+            log.warning("evaluation_worker_heartbeat_failure error_type={}",type(exc).__name__)
+        await asyncio.sleep(settings.evaluation_worker_heartbeat_seconds)
 
 if __name__ == "__main__":
     asyncio.run(main())

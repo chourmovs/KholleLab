@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -34,12 +34,19 @@ class EvaluationRepository:
         statement = (select(Evaluation).where(
             Evaluation.status == EvaluationStatus.RUNNING,
             Evaluation.stage == EvaluationStage.QUEUED,
+            or_(Evaluation.next_retry_at.is_(None), Evaluation.next_retry_at <= NOW()),
         ).order_by(Evaluation.created_at).with_for_update(skip_locked=True).limit(1))
         value = self.db.execute(statement).scalar_one_or_none()
         if value:
-            now = NOW(); value.stage = EvaluationStage.CANDIDATE_AUDIT; value.progress = 25
+            was_retry = value.next_retry_at is not None
+            now = NOW(); value.stage = EvaluationStage.ADJUDICATION if value.audit_json else EvaluationStage.CANDIDATE_AUDIT
+            value.progress = 60 if value.audit_json else 25
+            value.next_retry_at = None
             value.started_at = value.started_at or now; value.heartbeat_at = now
             self.db.commit(); self.db.refresh(value)
+            if was_retry:
+                from app.core.logging import component_logger
+                component_logger("evaluation-worker").info("evaluation_retry_claimed evaluation={} retry_count={} resume_phase={}", value.id, value.provider_retry_count, value.stage.value)
         return value
 
     def set_stage(self, value, stage: EvaluationStage, progress: int):
@@ -59,7 +66,7 @@ class EvaluationRepository:
         value.status=EvaluationStatus.COMPLETED; value.stage=EvaluationStage.COMPLETED; value.progress=100
         value.audit_json=audit.model_dump(mode="json"); value.result_json=result.model_dump(mode="json")
         value.score=result.score; value.verdict=result.verdict; value.confidence=result.confidence
-        value.completed_at=NOW(); value.heartbeat_at=NOW(); value.elapsed_ms=elapsed_ms; value.error_code=None
+        value.completed_at=NOW(); value.heartbeat_at=NOW(); value.elapsed_ms=elapsed_ms; value.error_code=None; value.next_retry_at=None
         self.db.commit(); self.db.refresh(value); return value
 
     def fail(self, value, code="REMOTE_PROVIDER"):
@@ -67,11 +74,17 @@ class EvaluationRepository:
         value.error_code=code; value.completed_at=NOW(); value.heartbeat_at=NOW()
         self.db.commit(); self.db.refresh(value); return value
 
+    def reschedule_transient_failure(self, value, code, next_retry_at):
+        value.status=EvaluationStatus.RUNNING; value.stage=EvaluationStage.QUEUED; value.progress=60 if value.audit_json else 5
+        value.provider_retry_count += 1; value.next_retry_at=next_retry_at; value.error_code=code
+        value.completed_at=None; value.heartbeat_at=None
+        self.db.commit(); self.db.refresh(value); return value
+
     def restart(self, value):
         value.status=EvaluationStatus.RUNNING; value.stage=EvaluationStage.QUEUED; value.progress=5
         value.error_code=None; value.completed_at=None; value.started_at=None; value.heartbeat_at=None
         value.audit_json=None; value.result_json=None; value.elapsed_ms=None
-        value.recovery_count=0
+        value.recovery_count=0; value.provider_retry_count=0; value.next_retry_at=None
         self.db.commit(); self.db.refresh(value); return value
 
     def recover_stale(self, stale_seconds: int):

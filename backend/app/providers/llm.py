@@ -1,6 +1,9 @@
 import json
+import asyncio
 import random
 import time
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from enum import Enum
 from typing import Protocol
 
@@ -39,8 +42,8 @@ class LLMProvider(Protocol):
 
 
 class RemoteLLMError(RuntimeError):
-    def __init__(self, code: str, message: str, *, status: int | None = None):
-        self.code, self.status = code, status
+    def __init__(self, code: str, message: str, *, status: int | None = None, retryable: bool = False):
+        self.code, self.status, self.retryable = code, status, retryable
         super().__init__(message)
 
 REMOTE_CODES = {
@@ -50,6 +53,36 @@ REMOTE_CODES = {
     "truncated": "REMOTE_TRUNCATED", "json": "REMOTE_INVALID_JSON",
     "schema": "REMOTE_SCHEMA",
 }
+RETRYABLE_HTTP_STATUSES = {408, 425, 429, 500, 502, 503, 504}
+
+
+def classify_remote_error(exc: Exception) -> tuple[str, int | None, bool]:
+    """Classify by transport type/status, never by an untrusted response body."""
+    status = getattr(exc, "status_code", None)
+    retryable = isinstance(exc, (APIConnectionError, APITimeoutError)) or status in RETRYABLE_HTTP_STATUSES
+    if isinstance(exc, APITimeoutError): code = REMOTE_CODES["timeout"]
+    elif isinstance(exc, RateLimitError) or status == 429: code = REMOTE_CODES["rate"]
+    elif isinstance(exc, APIConnectionError): code = REMOTE_CODES["connection"]
+    elif status == 401: code = REMOTE_CODES["auth"]
+    elif status == 403: code = REMOTE_CODES["access"]
+    elif status == 400: code = REMOTE_CODES["schema"]
+    else: code = REMOTE_CODES["provider"]
+    return code, status, retryable
+
+
+def retry_after_seconds(exc: Exception) -> float | None:
+    response = getattr(exc, "response", None)
+    raw = getattr(response, "headers", {}).get("retry-after") if response is not None else None
+    if raw is None:
+        return None
+    try:
+        seconds = float(raw)
+    except (TypeError, ValueError):
+        try:
+            seconds = (parsedate_to_datetime(raw) - datetime.now(timezone.utc)).total_seconds()
+        except (TypeError, ValueError, OverflowError):
+            return None
+    return max(0.0, min(seconds, settings.hf_retry_max_seconds))
 
 
 class FakeLLMProvider:
@@ -76,8 +109,8 @@ class HuggingFaceProvider:
     async def structured_response(self, *, instructions, input_text, response_model, role=ModelRole.DEEP, family=None):
         if self._client is None:
             if not settings.hf_token:
-                raise RemoteLLMError(REMOTE_CODES["auth"], "HF_TOKEN is not configured")
-            self._client = AsyncOpenAI(base_url=settings.hf_router_base_url, api_key=settings.hf_token, timeout=settings.hf_timeout_seconds)
+                raise RemoteLLMError(REMOTE_CODES["auth"], "HF_TOKEN is not configured", retryable=False)
+            self._client = AsyncOpenAI(base_url=settings.hf_router_base_url, api_key=settings.hf_token, timeout=settings.hf_timeout_seconds, max_retries=0)
         role, family = ModelRole(role), ModelFamily(family or self.family)
         model = resolve_model(family, role); _, backend = model_identity(model)
         schema = response_model.model_json_schema()
@@ -90,7 +123,7 @@ class HuggingFaceProvider:
             initial_max_tokens, retry_max_tokens = settings.hf_examiner_adjudication_max_tokens, 2048
         log = component_logger("inference").bind(family=family.value, role=role.value, model=model, backend=backend)
         log.info("request_started initial_max_tokens={} retry_max_tokens={} max_tokens={}", initial_max_tokens, retry_max_tokens, initial_max_tokens)
-        transient_attempt = 0
+        request_attempt = 1
         truncation_retry = 0
         max_tokens = initial_max_tokens
         while True:
@@ -130,19 +163,16 @@ class HuggingFaceProvider:
                 return result
             except RemoteLLMError: raise
             except (RateLimitError, APIConnectionError, APITimeoutError, APIStatusError) as exc:
-                status = getattr(exc, "status_code", None)
-                retryable = isinstance(exc, APIConnectionError) or status in {429,502,503,504}
-                if retryable and transient_attempt < 2:
-                    await __import__("asyncio").sleep(.15 * 2**transient_attempt + random.random()*.1); transient_attempt += 1; continue
-                if isinstance(exc, APITimeoutError): code=REMOTE_CODES["timeout"]
-                elif isinstance(exc, RateLimitError) or status == 429: code=REMOTE_CODES["rate"]
-                elif isinstance(exc, APIConnectionError): code=REMOTE_CODES["connection"]
-                elif status == 401: code=REMOTE_CODES["auth"]
-                elif status == 403: code=REMOTE_CODES["access"]
-                elif status == 400: code=REMOTE_CODES["schema"]
-                else: code=REMOTE_CODES["provider"]
-                log.warning("request failed error_code={} http_status={}", code, status)
-                raise RemoteLLMError(code, code, status=status) from exc
+                code, status, retryable = classify_remote_error(exc)
+                if retryable and request_attempt < settings.hf_request_max_attempts:
+                    delay = retry_after_seconds(exc)
+                    if delay is None:
+                        delay = min(settings.hf_retry_base_seconds * 2 ** (request_attempt - 1), settings.hf_retry_max_seconds)
+                        delay += random.random() * settings.hf_retry_jitter_seconds
+                    log.warning("provider_request_retry attempt={} max_attempts={} error_code={} http_status={} delay_seconds={:.3f}",request_attempt,settings.hf_request_max_attempts,code,status,delay)
+                    await asyncio.sleep(delay); request_attempt += 1; continue
+                log.warning("provider_request_failed attempt={} max_attempts={} error_code={} http_status={} retryable={}",request_attempt,settings.hf_request_max_attempts,code,status,retryable)
+                raise RemoteLLMError(code, code, status=status, retryable=retryable) from exc
 
 
 class OpenAIProvider:

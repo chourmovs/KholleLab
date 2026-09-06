@@ -39,6 +39,27 @@ jobs:
       - uses: actions/checkout@v4
       - run: docker compose build
       - run: docker compose up -d --wait
+      - name: Assert container and image health metadata
+        run: |
+          docker compose ps
+          for service in postgres backend frontend evaluation-worker; do
+            container="$(docker compose ps -q "$service")"
+            test -n "$container"
+            test "$(docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{end}}' "$container")" = "healthy"
+          done
+          for service in backend frontend; do
+            image="$(docker inspect -f '{{.Image}}' "$(docker compose ps -q "$service")")"
+            test "$(docker image inspect -f '{{if .Config.Healthcheck}}configured{{end}}' "$image")" = "configured"
+          done
+          worker_test="$(docker inspect -f '{{json .Config.Healthcheck.Test}}' "$(docker compose ps -q evaluation-worker)")"
+          echo "$worker_test" | grep -q 'app.worker_healthcheck'
+      - name: Assert runtime logging ownership and isolation
+        run: |
+          test "$(docker compose exec -T backend id -u)" != "0"
+          test "$(docker compose exec -T evaluation-worker id -u)" != "0"
+          docker compose exec -T backend sh -c 'test -w /runtime-logs && test -f /runtime-logs/khollelab.log && test -f /runtime-logs/inference.log'
+          docker compose exec -T evaluation-worker sh -c 'test -w /runtime-logs && test -f /runtime-logs/worker.log && test -f /runtime-logs/worker-inference.log'
+          ! docker compose logs backend evaluation-worker | grep -E 'Runtime file logging unavailable|PermissionError'
       # The Compose stack intentionally publishes no host ports. Run the smoke
       # client inside the Compose network, where the `frontend` DNS name exists.
       - run: docker compose exec -T backend python - < scripts/smoke.py

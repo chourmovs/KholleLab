@@ -1,8 +1,10 @@
 from types import SimpleNamespace
+import httpx
 import pytest
 from pydantic import BaseModel
 from app.core.config import settings
 from app.providers.llm import HuggingFaceProvider, ModelRole, RemoteLLMError, resolve_model
+from openai import APIConnectionError, APIStatusError, APITimeoutError
 from app.schemas.evaluation import CandidateAudit
 class Answer(BaseModel): answer: int
 class Completions:
@@ -10,6 +12,7 @@ class Completions:
         self.responses=list(responses) if isinstance(responses,list) else [responses]; self.calls=[]
     async def create(self, **kwargs):
         self.calls.append(kwargs); item=self.responses.pop(0)
+        if isinstance(item,Exception): raise item
         content,finish=item if isinstance(item,tuple) else (item,"stop")
         return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=content),finish_reason=finish)],usage=SimpleNamespace(prompt_tokens=8,completion_tokens=kwargs["max_tokens"] if finish=="length" else 4,total_tokens=12))
 class Client:
@@ -83,3 +86,38 @@ async def test_missing_token_is_normalized(monkeypatch):
     with pytest.raises(RemoteLLMError) as caught:
         await HuggingFaceProvider().structured_response(instructions='',input_text='',response_model=Answer)
     assert caught.value.code == "REMOTE_AUTH"
+    assert caught.value.retryable is False
+
+def status_error(status, retry_after=None):
+    request=httpx.Request("POST","https://router.invalid/v1/chat/completions")
+    response=httpx.Response(status,request=request,headers={"retry-after":retry_after} if retry_after else {})
+    return APIStatusError("provider failure",response=response,body={"error":"not logged"})
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("failure",[status_error(503),status_error(429,"0"),APITimeoutError(httpx.Request("POST","https://router.invalid")),APIConnectionError(request=httpx.Request("POST","https://router.invalid"))])
+async def test_transient_transport_failure_retries_then_succeeds(monkeypatch,failure):
+    monkeypatch.setattr(settings,"hf_retry_base_seconds",0)
+    monkeypatch.setattr(settings,"hf_retry_jitter_seconds",0)
+    client=Client([failure,'{"answer": 6}'])
+    assert (await HuggingFaceProvider(client=client).structured_response(instructions="",input_text="",response_model=Answer)).answer==6
+    assert len(client.completions.calls)==2
+
+@pytest.mark.asyncio
+async def test_repeated_503_is_bounded_and_retryable(monkeypatch):
+    monkeypatch.setattr(settings,"hf_request_max_attempts",3)
+    monkeypatch.setattr(settings,"hf_retry_base_seconds",0)
+    monkeypatch.setattr(settings,"hf_retry_jitter_seconds",0)
+    client=Client([status_error(503),status_error(503),status_error(503)])
+    with pytest.raises(RemoteLLMError) as caught:
+        await HuggingFaceProvider(client=client).structured_response(instructions="",input_text="",response_model=Answer)
+    assert caught.value.retryable is True and caught.value.status==503
+    assert len(client.completions.calls)==3
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("status",[400,401,403])
+async def test_permanent_http_failures_are_not_retried(status):
+    client=Client([status_error(status)])
+    with pytest.raises(RemoteLLMError) as caught:
+        await HuggingFaceProvider(client=client).structured_response(instructions="",input_text="",response_model=Answer)
+    assert caught.value.retryable is False
+    assert len(client.completions.calls)==1
