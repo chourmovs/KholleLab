@@ -14,3 +14,12 @@ def test_exact_topic_exclusion_and_fallback():
 def test_large_in_memory_corpus():
     selector=ProblemSelector([problem(f"fixture-{i:04d}","seconde",i%5+1) for i in range(1000)])
     assert selector.select(level="seconde",difficulty=3) is not None
+
+def test_recent_history_cannot_fabricate_an_empty_corpus():
+    one=problem("only-problem","seconde",2)
+    assert ProblemSelector([one]).select(level="seconde",exclude_ids={one.id}) == one
+    two=problem("other-problem","seconde",2)
+    assert ProblemSelector([one,two]).select(level="seconde",exclude_ids={one.id,two.id}) is not None
+    assert ProblemSelector([one,two,problem("geometry-only","seconde",2,"geometry")]).select(
+        level="seconde",topics=["geometry"],exclude_ids={"geometry-only"}
+    ).id == "geometry-only"

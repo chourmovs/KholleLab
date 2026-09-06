@@ -1,4 +1,4 @@
-import json, time, uuid
+import asyncio, contextlib, json, time, uuid
 from pathlib import Path
 
 from app.core.logging import component_logger
@@ -8,6 +8,7 @@ from app.providers.llm import ModelRole, RemoteLLMError
 from app.repositories.attempt_repository import AttemptRepository
 from app.repositories.evaluation_repository import EvaluationRepository
 from app.schemas.evaluation import CandidateAudit, EvaluationResult
+from sqlalchemy.exc import SQLAlchemyError
 
 log=component_logger("examiner"); PROMPT_VERSION="examiner-v1"
 class AttemptNotSubmitted(Exception): pass
@@ -38,6 +39,7 @@ class ExaminerService:
         problem=self.problems.get(attempt.problem_id) if attempt else None
         if not attempt or not problem: return self.evaluations.fail(value,"evaluation_input_missing")
         candidate=f"<problem>\n{problem.statement}\n</problem>\n<candidate_solution>\n{attempt.solution_markdown}\n</candidate_solution>"
+        heartbeat = asyncio.create_task(self._heartbeat(value))
         try:
             log.info("evaluation_pass_started evaluation={} pass=candidate_audit", value.id)
             audit=await self.provider.structured_response(instructions=self._prompt("examiner_audit_v1.md"),input_text=candidate,response_model=CandidateAudit,role=ModelRole.DEEP)
@@ -51,9 +53,20 @@ class ExaminerService:
             log.info("evaluation_completed evaluation={} total_elapsed_ms={}",value.id,elapsed)
             return self.evaluations.complete(value,audit,EvaluationResult.model_validate(result),elapsed)
         except Exception as exc:
-            code=exc.code if isinstance(exc,RemoteLLMError) else "REMOTE_PROVIDER"
+            code=exc.code if isinstance(exc,RemoteLLMError) else "DATABASE_ERROR" if isinstance(exc, SQLAlchemyError) else "INTERNAL_ERROR"
             log.exception("evaluation_failed evaluation={} error_code={}",value.id,code)
+            self.evaluations.db.rollback()
             return self.evaluations.fail(value,code)
+        finally:
+            heartbeat.cancel()
+            with contextlib.suppress(asyncio.CancelledError): await heartbeat
+
+    async def _heartbeat(self, value):
+        from app.core.config import settings
+        interval=max(1, settings.evaluation_stale_seconds // 3)
+        while True:
+            await asyncio.sleep(interval)
+            self.evaluations.heartbeat(value)
 
 def public_evaluation(value):
     data={"status":value.status.value,"stage":value.stage.value,"progress":value.progress,

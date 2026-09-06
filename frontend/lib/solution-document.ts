@@ -12,7 +12,7 @@ export const emptySolutionDocument = (): SolutionDocument => ({
 
 // Only stand-alone display delimiters become editor blocks. Inline and malformed
 // delimiters deliberately stay prose so opening a legacy copy is lossless.
-const DISPLAY_MATH = /(?:^|\n)[ \t]*(\$\$|\\\[)[ \t]*\n([\s\S]*?)\n[ \t]*(?:\$\$|\\\])[ \t]*(?=\n|$)/g;
+const DISPLAY_MATH = /(?:^|\n)[ \t]*(?:(\$\$)[ \t]*\n([\s\S]*?)\n[ \t]*\$\$|(\\\[)[ \t]*\n([\s\S]*?)\n[ \t]*\\\])[ \t]*(?=\n|$)/g;
 
 export function parseSolutionMarkdown(markdown: string): SolutionDocument {
   if (!markdown) return emptySolutionDocument();
@@ -23,7 +23,7 @@ export function parseSolutionMarkdown(markdown: string): SolutionDocument {
     const leadingNewline = match[0].startsWith("\n") ? 1 : 0;
     const text = markdown.slice(cursor, index + leadingNewline).replace(/\n{2}$/, "");
     if (text) blocks.push({ id: solutionBlockId(), type: "text", content: text });
-    blocks.push({ id: solutionBlockId(), type: "math", latex: match[2] });
+    blocks.push({ id: solutionBlockId(), type: "math", latex: match[2] ?? match[4] });
     cursor = index + match[0].length;
     while (markdown[cursor] === "\n" && markdown[cursor + 1] === "\n") cursor++;
   }

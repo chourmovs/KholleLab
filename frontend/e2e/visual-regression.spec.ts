@@ -7,6 +7,9 @@ test("classic asset pack is served",async({request})=>{
 
 const viewports=[{name:"desktop",width:1440,height:900},{name:"production",width:1366,height:768},{name:"compact",width:1024,height:768},{name:"mobile",width:390,height:844}];
 for(const viewport of viewports)test(`visual regression — ${viewport.width}x${viewport.height}`,async({page})=>{
+  // Binary baselines live in the opt-in visual job, keeping functional CI and
+  // ordinary reliability changes independent from generated image artifacts.
+  test.skip(process.env.VISUAL_REGRESSION!=="1","visual baselines are not installed in functional CI");
   await page.setViewportSize(viewport);
   await page.goto("/");
   await page.locator("main").waitFor();
