@@ -1,2 +1,9 @@
+import type {ReactNode} from "react";
 import katex from "katex";
-export function MathContent({content}:{content:string}){const tokens=content.split(/(\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$\$[\s\S]*?\$\$|\$[^$\n]+\$)/g);return <div className="math-content">{tokens.filter(Boolean).map((token,index)=>{const display=token.startsWith("\\[")||token.startsWith("$$");const inline=token.startsWith("\\(")||(!display&&token.startsWith("$"));if(display||inline){const edge=token.startsWith("$")?(display?2:1):2;return <span key={index} className={display?"math-display":"math-inline"} dangerouslySetInnerHTML={{__html:katex.renderToString(token.slice(edge,-edge),{displayMode:display,throwOnError:false,strict:"warn"})}}/>}return token.split(/\n\n+/).map((paragraph,i)=><p key={`${index}-${i}`}>{paragraph}</p>)})}</div>}
+
+const DISPLAY_RE=/(\\\[[\s\S]*?\\\]|\$\$[\s\S]*?\$\$)/g;
+const INLINE_RE=/(\\\([\s\S]*?\\\)|\$[^$\n]+\$)/g;
+
+function formula(token:string,displayMode:boolean,key:string){const edge=token.startsWith("$")?(displayMode?2:1):2;return <span key={key} className={displayMode?"math-display":"math-inline"} dangerouslySetInnerHTML={{__html:katex.renderToString(token.slice(edge,-edge),{displayMode,throwOnError:false,strict:"warn"})}}/>}
+function renderInline(text:string,key:string):ReactNode[]{return text.split(INLINE_RE).filter(Boolean).map((token,index)=>token.startsWith("\\(")||token.startsWith("$")?formula(token,false,`${key}-${index}`):token)}
+export function MathContent({content}:{content:string}){const blocks=content.split(DISPLAY_RE).filter(Boolean);return <div className="math-content">{blocks.flatMap((block,index)=>{if(block.startsWith("\\[")||block.startsWith("$$"))return [formula(block,true,`display-${index}`)];return block.split(/\n\s*\n+/).map(paragraph=>paragraph.trim()).filter(Boolean).map((paragraph,paragraphIndex)=><p key={`${index}-${paragraphIndex}`}>{renderInline(paragraph,`${index}-${paragraphIndex}`)}</p>)})}</div>}
