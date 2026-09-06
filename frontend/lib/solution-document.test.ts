@@ -16,3 +16,8 @@ describe("solution document", () => {
   it.each(["$$\nx+y\n\\]","\\[\nx+y\n$$","Texte $x$ puis $y$", "avant\n\n$$ malformed\n\naprès"])("keeps mixed, inline, and malformed math as prose",source=>expect(parseSolutionMarkdown(source).blocks).toMatchObject([{type:"text",content:source}]));
   it("round-trips an empty display-math block",()=>expect(serializeSolutionDocument(parseSolutionMarkdown("$$\n\n$$"))).toBe("$$\n\n$$"));
 });
+
+describe("unified MathLive persistence",()=>{
+ it("documents the deterministic mixed text-mode import",async()=>{const {legacySolutionToMathLive}=await import("./solution-document");expect(legacySolutionToMathLive("On cherche $x$ tel que $f(x)=1$." )).toBe("\\text{On cherche }x\\text{ tel que }f(x)=1\\text{.}")});
+ it("imports legacy display equations without losing order",async()=>{const {legacySolutionToMathLive}=await import("./solution-document");const value=legacySolutionToMathLive("On pose.\n\n$$\nf(x)=x^2+1\n$$\n\nPositive.");expect(value).toContain("\\text{On pose.}");expect(value).toContain("f(x)=x^2+1");expect(value).toContain("\\text{Positive.}")});
+});
