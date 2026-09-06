@@ -35,3 +35,15 @@ export function parseSolutionMarkdown(markdown: string): SolutionDocument {
 export function serializeSolutionDocument(document: SolutionDocument): string {
   return document.blocks.map((block) => block.type === "math" ? `$$\n${block.latex}\n$$` : block.content).join("\n\n");
 }
+
+/** Import old prose/display-math markdown into MathLive's single mixed-LaTeX document. */
+export function legacySolutionToMathLive(value:string):string{
+ if(!value)return "";
+ if(value.startsWith("\\text{")&&!value.includes("$$"))return value;
+ const escape=(text:string)=>text.replace(/([\\{}%#$&_])/g,"\\$1").replace(/\n/g,"\\\\ ");
+ const prose=(text:string)=>text.split(/(\$[^$\n]+\$)/g).filter(Boolean).map(part=>part.startsWith("$")?part.slice(1,-1):`\\text{${escape(part)}}`).join("");
+ const document=parseSolutionMarkdown(value);
+ return document.blocks.map(block=>block.type==="math"?block.latex:prose(block.content)).join("\\\\ ");
+}
+
+export function isSolutionEmpty(value:string):boolean{return value.replace(/\\(?:text|mathrm)\{\s*\}|\\\\|[{}\s]/g,"").length===0}
