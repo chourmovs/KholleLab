@@ -73,6 +73,11 @@ send_json(f"{api}/attempts/{session_attempt_id}/submit", "POST", {"expected_revi
 history = get_json(f"{api}/sessions")
 assert history[0]["session_id"] == session_id and history[0]["status"] == "completed"
 assert_no_private_problem_fields(history)
+adaptive = get_json(f"{api}/problems/select?level={catalogue[0]['curriculum']['level']}&difficulty={catalogue[0]['curriculum']['difficulty']}&mode=adaptive")
+assert adaptive["problem"] and adaptive["problem"]["curriculum"]["level"] == catalogue[0]["curriculum"]["level"]
+assert adaptive["selection_mode"] == "adaptive"
+assert_no_private_problem_fields(adaptive)
+print("[PASS] Deterministic learner-scoped adaptive selection")
 retry = send_json(f"{api}/sessions", "POST", {"problem_id": catalogue[0]["id"], "force_new": True}, 201)
 assert retry["session_id"] != session_id and retry["current_attempt_id"] != session_attempt_id
 assert_no_private_problem_fields(retry)

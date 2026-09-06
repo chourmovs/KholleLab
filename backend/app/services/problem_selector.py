@@ -34,3 +34,18 @@ class ProblemSelector:
         else:
             candidates.sort(key=lambda p: p.id)
         return candidates[0]
+
+    def compatible_candidates(self, *, level: CurriculumLevel,
+                              topics: list[Topic] | None = None) -> list[Problem]:
+        """Return only hard-compatible problems in a stable order.
+
+        Difficulty deliberately remains a ranking/fallback preference, matching
+        ``select``; curriculum and an explicitly requested topic are hard rules.
+        """
+        required = set(topics or ())
+        return sorted(
+            (problem for problem in self._problems
+             if problem.curriculum.level == level
+             and (not required or bool(required.intersection(problem.topics)))),
+            key=lambda problem: problem.id,
+        )

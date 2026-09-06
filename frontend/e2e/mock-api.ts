@@ -10,6 +10,7 @@ export async function mockApi(page:Page){
     if(path==="/api/curriculum")body={levels:[{id:"seconde",label:"Seconde"}],difficulties:[1,2,3,4,5].map(id=>({id,label:`Niveau ${id}`}))};
     else if(path==="/api/problems")body=[problem];
     else if(path==="/api/problems/select")body={problem,requested_level:"seconde",requested_difficulty:2,actual_difficulty:2,fallback_used:false};
+    else if(path==="/api/sessions/active/latest")body=null;
     else if(path===`/api/problems/${problem.id}/resources`)body={problem_id:problem.id,resources:[]};
     else if(path==="/api/health")body={status:"ok",database:"ok",problem_corpus:"ok",problem_count:1,resource_corpus:"ok",resource_count:1,curriculum_levels:1};
     else if(path==="/api/inference/status")body={provider:"fake",status:"ready",family:"fake",fast_model:"fake",fast_backend:"fake",deep_model:"fake",deep_backend:"fake"};

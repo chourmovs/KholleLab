@@ -1,3 +1,5 @@
+from enum import StrEnum
+
 from pydantic import BaseModel, ConfigDict
 
 from app.domain.problem import CurriculumInfo, CurriculumLevel, ProblemResources, SourceInfo, Topic, Skill
@@ -47,9 +49,24 @@ class ProblemPublicDetail(ProblemCatalogueItem):
     resource_refs: tuple[str, ...] = ()
 
 
+class SelectionMode(StrEnum):
+    MANUAL = "manual"
+    ADAPTIVE = "adaptive"
+    FALLBACK = "fallback"
+
+
+class ProblemSelectionAdaptation(PublicModel):
+    reason_codes: tuple[str, ...] = ()
+    targeted_topics: tuple[Topic, ...] = ()
+    targeted_skills: tuple[Skill, ...] = ()
+    targeted_prerequisites: tuple[str, ...] = ()
+
+
 class ProblemSelectionResult(PublicModel):
     problem: ProblemPublicDetail | None
     requested_level: CurriculumLevel
     requested_difficulty: int | None
     actual_difficulty: int | None
     fallback_used: bool
+    selection_mode: SelectionMode = SelectionMode.MANUAL
+    adaptation: ProblemSelectionAdaptation | None = None
