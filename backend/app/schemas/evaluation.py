@@ -108,5 +108,7 @@ class HealthResponse(BaseModel):
     database: Literal["ok"]
     problem_corpus: Literal["ok"]
     problem_count: int
+    resource_corpus: Literal["ok"]
+    resource_count: int
     curriculum_levels: int
     inference: Literal["disabled", "ready", "unavailable", "error"]

@@ -22,6 +22,11 @@ async def lifespan(app: FastAPI):
     resource_repository = ResourceRepository(settings.resources_dir)
     resource_repository.load()
     validate_problem_resource_refs(repository, resource_repository)
+    curriculum_levels = len({problem.curriculum.level for problem in repository.list()})
+    component_logger("application").info(
+        "content_corpus_loaded problem_count={} resource_count={} curriculum_levels={}",
+        repository.count, resource_repository.count, curriculum_levels,
+    )
     app.state.problem_repository = repository
     app.state.resource_repository = resource_repository
     app.state.resource_resolver = ResourceResolver(resource_repository)

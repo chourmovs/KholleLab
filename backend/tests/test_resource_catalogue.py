@@ -44,6 +44,19 @@ def make_repository(tmp_path: Path, *values) -> ResourceRepository:
     return repository
 
 
+def test_missing_and_empty_resource_corpus_fail_fast(tmp_path):
+    with pytest.raises(ResourceCorpusError, match="directory does not exist"):
+        ResourceRepository(tmp_path / "missing").load()
+    with pytest.raises(ResourceCorpusError, match="no YAML files found under"):
+        ResourceRepository(tmp_path).load()
+
+
+def test_version_controlled_resource_corpus_is_not_empty():
+    repository = ResourceRepository(Path(__file__).resolve().parents[2] / "resources")
+    repository.load()
+    assert repository.count > 0
+
+
 def context(**overrides):
     values = dict(curriculum_level=CurriculumLevel.PREMIERE, topics=(Topic.DERIVATIVES,),
                   prerequisites=("derivative-basics",), skills=(Skill.REASONING,))
@@ -113,6 +126,6 @@ def test_cross_corpus_validation_rejects_dangling_reference(tmp_path):
     }
     (problem_dir / "problem.yaml").write_text(yaml.safe_dump(problem, allow_unicode=True), encoding="utf-8")
     problems = ProblemRepository(problem_dir); problems.load()
-    resources = ResourceRepository(resource_dir); resources.load()
+    resources = make_repository(resource_dir, resource())
     with pytest.raises(ResourceCorpusError, match="test-problem references unknown resource missing-resource"):
         validate_problem_resource_refs(problems, resources)

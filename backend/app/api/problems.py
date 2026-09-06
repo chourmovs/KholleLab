@@ -5,6 +5,7 @@ from app.schemas.problem import ProblemCatalogueItem, ProblemPublicDetail, Probl
 from app.services.problem_selector import ProblemSelector
 from app.services.problem_repository import ProblemRepository
 from app.services.resource_resolver import ResourceContext, ResourceResolver
+from app.core.logging import component_logger
 
 router = APIRouter(prefix="/problems", tags=["problems"])
 
@@ -41,8 +42,15 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
                    topic: list[Topic] | None = None, exclude: list[str] | None = None) -> ProblemSelectionResult:
     if difficulty is not None and not 1 <= difficulty <= 5:
         raise HTTPException(status_code=422, detail="difficulty must be between 1 and 5")
-    selected = ProblemSelector(repository(request).list()).select(
+    problems = repository(request).list()
+    selected = ProblemSelector(problems).select(
         level=level, difficulty=difficulty, topics=topic, exclude_ids=set(exclude or []))
+    if selected is None:
+        component_logger("application").warning(
+            "problem_selection_empty level={} difficulty={} topic={} exclude_count={} corpus_count={} candidate_level_count={}",
+            level.value, difficulty, topic[0].value if topic and len(topic) == 1 else topic,
+            len(exclude or []), len(problems), sum(p.curriculum.level == level for p in problems),
+        )
     actual = selected.curriculum.difficulty if selected else None
     detail = None if selected is None else ProblemPublicDetail.model_validate(
         {**selected.model_dump(), "hint_levels": tuple(h.level for h in selected.hints)})
