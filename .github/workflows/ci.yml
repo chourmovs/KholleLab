@@ -55,10 +55,22 @@ jobs:
           echo "$worker_test" | grep -q 'app.worker_healthcheck'
       - name: Assert runtime logging ownership and isolation
         run: |
-          test "$(docker compose exec -T backend id -u)" != "0"
-          test "$(docker compose exec -T evaluation-worker id -u)" != "0"
-          docker compose exec -T backend sh -c 'test -w /runtime-logs && test -f /runtime-logs/khollelab.log && test -f /runtime-logs/inference.log'
-          docker compose exec -T evaluation-worker sh -c 'test -w /runtime-logs && test -f /runtime-logs/worker.log && test -f /runtime-logs/worker-inference.log'
+          # `docker compose exec` defaults to the image's root user because the
+          # entrypoint needs root briefly to repair an existing volume. Inspect
+          # the already-running PID 1 instead: gosu must have replaced it with app.
+          for service in backend evaluation-worker; do
+            docker compose exec -T "$service" sh -c \
+              'uid="$(awk "/^Uid:/ { print \$2 }" /proc/1/status)"; test "$uid" != "0"; test "$uid" = "$(id -u app)"'
+          done
+
+          # Exercise both configured Loguru sinks as app. Inference files are
+          # filter-driven and intentionally do not exist before their first event.
+          docker compose exec -T --user app backend python -c \
+            'from app.core.logging import configure_logging, component_logger; configure_logging(); component_logger("inference").info("ci_log_write_probe")'
+          docker compose exec -T --user app evaluation-worker python -c \
+            'from app.core.logging import configure_logging, component_logger; configure_logging(); component_logger("inference").info("ci_log_write_probe")'
+          docker compose exec -T --user app backend sh -c 'test -w /runtime-logs && test -f /runtime-logs/khollelab.log && test -f /runtime-logs/inference.log'
+          docker compose exec -T --user app evaluation-worker sh -c 'test -w /runtime-logs && test -f /runtime-logs/worker.log && test -f /runtime-logs/worker-inference.log'
           ! docker compose logs backend evaluation-worker | grep -E 'Runtime file logging unavailable|PermissionError'
       # The Compose stack intentionally publishes no host ports. Run the smoke
       # client inside the Compose network, where the `frontend` DNS name exists.
