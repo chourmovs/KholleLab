@@ -23,3 +23,6 @@ export type TutorTrigger="meaningful_progress"|"stalled"|"ask_hint"|"i_am_stuck"
 export type ResourceNeed="none"|"course_gap"|"method_gap"|"example_helpful";
 export interface TutorResourceRecommendation {id:string;type:ResourceType;title:string;need:ResourceNeed}
 export interface TutorAssessment {status:"completed";assessment_id:string;revision:number;student_state:string;intervention_needed:boolean;intervention_type:string;intervention:string|null;confidence:number;effective_help_level:number;provider:string;model:string;backend:string;resource_recommendation?:TutorResourceRecommendation|null}
+export type LearningSessionStatus="active"|"completed"|"abandoned";
+export interface LearningSessionSummary {session_id:string;problem_id:string;problem_title:string;status:LearningSessionStatus;created_at:string;updated_at:string;started_at:string;completed_at:string|null;duration_seconds:number;number_of_attempts:number;number_of_tutor_interactions:number;outcome:string|null}
+export interface LearningSessionDetail extends LearningSessionSummary {problem:Record<string,unknown>|null;attempts:Attempt[];current_attempt_id:string|null;final_work:string;tutor_assessment:TutorAssessment|null;resource_recommendation:TutorResourceRecommendation|null}

@@ -4,6 +4,7 @@ from sqlalchemy import update
 from sqlalchemy.orm import Session
 
 from app.models.attempt import Attempt, AttemptStatus, utcnow
+from app.models.learning_session import LearningSession, LearningSessionStatus
 
 
 class AttemptError(Exception):
@@ -50,6 +51,12 @@ class AttemptRepository:
             if current is None: raise AttemptNotFound
             if current.status == AttemptStatus.SUBMITTED: raise AttemptAlreadySubmitted
             raise AttemptConflict(expected_revision, current.revision)
+        attempt = self.get(attempt_id)
+        if attempt and attempt.session_id:
+            learning = self.session.get(LearningSession, attempt.session_id)
+            if learning and learning.status == LearningSessionStatus.ACTIVE:
+                learning.updated_at = attempt.updated_at
+                learning.duration_seconds = elapsed_seconds
         self.session.commit(); return self.get(attempt_id)  # type: ignore[return-value]
 
     def submit(self, attempt_id: uuid.UUID, expected_revision: int) -> Attempt:
@@ -60,4 +67,13 @@ class AttemptRepository:
             if current is None: raise AttemptNotFound
             if current.status == AttemptStatus.SUBMITTED: raise AttemptAlreadySubmitted
             raise AttemptConflict(expected_revision, current.revision)
+        attempt = self.get(attempt_id)
+        if attempt and attempt.session_id:
+            learning = self.session.get(LearningSession, attempt.session_id)
+            if learning and learning.status == LearningSessionStatus.ACTIVE:
+                learning.status = LearningSessionStatus.COMPLETED
+                learning.active_problem_key = None
+                learning.completed_at = now
+                learning.updated_at = now
+                learning.duration_seconds = attempt.elapsed_seconds
         self.session.commit(); return self.get(attempt_id)  # type: ignore[return-value]
