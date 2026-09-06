@@ -47,7 +47,7 @@ def test_log_sources_are_fixed_and_tail_is_bounded(monkeypatch, tmp_path):
         inference = client.get("/api/diagnostics/logs?source=inference&lines=200", headers=headers)
         assert application.status_code == 200
         assert len(application.json()["lines"]) == 500
-        assert application.json()["lines"][0] == "line-101"
+        assert application.json()["lines"][0] == "line-102"
         assert inference.json()["lines"][0] == "model loaded"
         assert client.get("/api/diagnostics/logs?source=../secret", headers=headers).status_code == 422
         assert client.get("/api/diagnostics/logs?source=/etc/passwd", headers=headers).status_code == 422

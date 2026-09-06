@@ -8,11 +8,17 @@ def test_health_reports_database_and_corpus(monkeypatch):
     monkeypatch.setattr('app.services.health.database_is_available', lambda: True)
     with TestClient(app) as client:
         body=client.get('/api/health').json()
-    assert body == {'status':'ok','service':'khollelab-api','database':'ok','problem_corpus':'ok','problem_count':50,'curriculum_levels':5,'inference':'disabled'}
+    assert body == {'status':'ok','service':'khollelab-api','database':'ok','problem_corpus':'ok','problem_count':50,'resource_corpus':'ok','resource_count':15,'curriculum_levels':5,'inference':'disabled'}
 
 def test_health_fails_when_database_is_unavailable(monkeypatch):
     monkeypatch.setattr('app.services.health.database_is_available', lambda: False)
     with TestClient(app) as client: assert client.get('/api/health').status_code == 503
+
+def test_health_fails_when_a_content_corpus_is_empty(monkeypatch):
+    monkeypatch.setattr('app.services.health.database_is_available', lambda: True)
+    with TestClient(app) as client:
+        client.app.state.problem_repository._problems = ()
+        assert client.get('/api/health').status_code == 503
 
 def test_remote_inference_status_is_non_billable_configuration_state(monkeypatch):
     monkeypatch.setattr(settings, "llm_provider", "fake")

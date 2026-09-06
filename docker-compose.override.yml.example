@@ -1,0 +1,7 @@
+services:
+  backend:
+    # Optional local-development mounts for live catalogue editing. Production
+    # deliberately uses the immutable copies baked into the backend image.
+    volumes:
+      - ./problems:/problems:ro
+      - ./resources:/resources:ro

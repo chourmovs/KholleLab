@@ -4,6 +4,17 @@ from app.services.problem_repository import ProblemCorpusError, ProblemRepositor
 
 VALID='''id: demo-001\ntitle: Demo\nstatement: Test\ncurriculum: {level: premiere, difficulty: 1}\ntopics: [algebra]\nsource: {type: internal, name: Tests}\nreference_solution: Solution\n'''
 
+def test_missing_and_empty_corpus_fail_fast(tmp_path: Path):
+    with pytest.raises(ProblemCorpusError, match="directory does not exist"):
+        ProblemRepository(tmp_path / "missing").load()
+    with pytest.raises(ProblemCorpusError, match="no YAML files found under"):
+        ProblemRepository(tmp_path).load()
+
+def test_version_controlled_corpus_is_not_empty():
+    repository = ProblemRepository(Path(__file__).resolve().parents[2] / "problems")
+    repository.load()
+    assert repository.count > 0
+
 def test_recursive_and_deterministic(tmp_path: Path):
     (tmp_path/'b/c').mkdir(parents=True); (tmp_path/'a').mkdir()
     (tmp_path/'b/c/two.yaml').write_text(VALID.replace('demo-001','demo-002').replace('statement: Test','statement: Autre test'))

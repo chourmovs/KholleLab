@@ -5,7 +5,7 @@ test("classic asset pack is served",async({request})=>{
   for(const asset of requiredAssets)expect((await request.get(`/assets/${asset}`)).status(),asset).toBe(200);
 });
 
-const viewports=[{name:"desktop",width:1440,height:900},{name:"compact",width:1024,height:900},{name:"mobile",width:390,height:844}];
+const viewports=[{name:"desktop",width:1440,height:900},{name:"production",width:1366,height:768},{name:"compact",width:1024,height:768},{name:"mobile",width:390,height:844}];
 for(const viewport of viewports)test(`visual regression — ${viewport.width}x${viewport.height}`,async({page})=>{
   await page.setViewportSize(viewport);
   await page.goto("/");

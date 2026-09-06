@@ -49,8 +49,6 @@ services:
       - "8000"
     volumes:
       - runtime_logs:/runtime-logs
-      - ./problems:/problems:ro
-      - ./resources:/resources:ro
     depends_on:
       postgres:
         condition: service_healthy

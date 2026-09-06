@@ -19,10 +19,19 @@ class ProblemRepository:
         self._by_id: dict[str, Problem] = {}
 
     def load(self) -> None:
+        if not self.root.is_dir():
+            raise ProblemCorpusError(
+                f"Problem corpus validation failed:\ndirectory does not exist: {self.root}"
+            )
+        paths = sorted(self.root.glob("**/*.yaml"))
+        if not paths:
+            raise ProblemCorpusError(
+                f"Problem corpus validation failed:\nno YAML files found under {self.root}"
+            )
         loaded: dict[str, Problem] = {}
         origins: dict[str, Path] = {}
         statements: dict[str, Path] = {}
-        for path in sorted(self.root.glob("**/*.yaml")):
+        for path in paths:
             try:
                 raw = yaml.safe_load(path.read_text(encoding="utf-8"))
             except (OSError, yaml.YAMLError) as exc:

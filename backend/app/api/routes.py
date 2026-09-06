@@ -24,12 +24,19 @@ async def get_health(request: Request):
             detail={"status": "error", "service": "khollelab-api", "database": "unavailable"},
         )
     repository = request.app.state.problem_repository
+    resource_repository = request.app.state.resource_repository
+    if repository.count == 0 or resource_repository.count == 0:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"status": "error", "service": "khollelab-api", "problem_count": repository.count,
+                    "resource_count": resource_repository.count},
+        )
     try:
         inference = cached_status()
     except Exception:
         component_logger("application").exception("Inference diagnostic failed during health check")
         inference = "error"
-    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference}
+    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "resource_corpus": "ok", "resource_count": resource_repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference}
 
 @router.get("/inference/status", response_model=InferenceStatusResponse)
 async def get_inference_status(refresh: bool = Query(False)):
