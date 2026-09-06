@@ -20,4 +20,5 @@ describe("solution document", () => {
 describe("unified MathLive persistence",()=>{
  it("documents the deterministic mixed text-mode import",async()=>{const {legacySolutionToMathLive}=await import("./solution-document");expect(legacySolutionToMathLive("On cherche $x$ tel que $f(x)=1$." )).toBe("\\text{On cherche }x\\text{ tel que }f(x)=1\\text{.}")});
  it("imports legacy display equations without losing order",async()=>{const {legacySolutionToMathLive}=await import("./solution-document");const value=legacySolutionToMathLive("On pose.\n\n$$\nf(x)=x^2+1\n$$\n\nPositive.");expect(value).toContain("\\text{On pose.}");expect(value).toContain("f(x)=x^2+1");expect(value).toContain("\\text{Positive.}")});
+ it("reloads three canonical solution lines without losing their breaks or formula",async()=>{const {legacySolutionToMathLive}=await import("./solution-document");const canonical="\\text{Première étape}\\\\ x=3\\\\ \\text{Donc la solution est 3.}";expect(legacySolutionToMathLive(canonical)).toBe(canonical)});
 });
