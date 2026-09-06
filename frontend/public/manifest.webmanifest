@@ -1,0 +1,13 @@
+{
+  "name": "KHOLLELAB",
+  "short_name": "KHOLLELAB",
+  "description": "La salle de colle, autrement.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#10271E",
+  "theme_color": "#10271E",
+  "icons": [
+    {"src": "/assets/brand/khollelab-icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "/assets/brand/khollelab-icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
