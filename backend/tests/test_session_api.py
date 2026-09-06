@@ -82,6 +82,23 @@ def test_privacy_isolation_terminal_immutability_and_retry():
         assert retry["attempts"][0]["id"] == retry["current_attempt_id"]
 
 
+def test_adaptive_selection_is_learner_scoped_and_private():
+    with TestClient(app) as learner_a, TestClient(app) as learner_b:
+        baseline = learner_b.get("/api/problems/select?level=seconde&difficulty=2&mode=adaptive").json()
+        assert baseline["selection_mode"] == "adaptive" and baseline.get("adaptation") is None
+        first_id = baseline["problem"]["id"]
+        learning = learner_a.post("/api/sessions", json={"problem_id": first_id}).json()
+        learner_a.post(f"/api/sessions/{learning['session_id']}/complete", json={})
+
+        adapted = learner_a.get("/api/problems/select?level=seconde&difficulty=2&mode=adaptive").json()
+        isolated = learner_b.get("/api/problems/select?level=seconde&difficulty=2&mode=adaptive").json()
+        assert adapted["problem"]["id"] != first_id
+        assert "recent_problem_avoidance" in adapted["adaptation"]["reason_codes"]
+        assert isolated["problem"]["id"] == first_id and isolated.get("adaptation") is None
+        assert_no_private_problem_fields(adapted)
+        assert "learner_id" not in str(adapted)
+
+
 def test_history_pagination_validation_and_legacy_isolation():
     with TestClient(app) as client:
         assert client.get("/api/sessions?limit=101").status_code==422

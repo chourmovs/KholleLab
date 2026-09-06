@@ -13,7 +13,9 @@ export interface LegacyVideoResource {title:string;provider:"youtube";url:string
 export interface ProblemResources {course_points:CoursePoint[];videos:LegacyVideoResource[]}
 export interface ProblemDetail extends ProblemSummary { statement:string;hintLevels:number[];prerequisites:string[];skills:string[];resources?:ProblemResources }
 export interface CurriculumMetadata {levels:{id:string;label:string}[];difficulties:{id:number;label:string}[]}
-export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean}
+export type SelectionMode="manual"|"adaptive"|"fallback";
+export interface SelectionAdaptation {reason_codes:string[];targeted_topics:string[];targeted_skills:string[];targeted_prerequisites:string[]}
+export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean;selection_mode?:SelectionMode;adaptation?:SelectionAdaptation}
 export type AttemptStatus="draft"|"submitted";
 export interface Attempt { id:string;problem_id:string;status:AttemptStatus;solution_markdown:string;revision:number;elapsed_seconds:number;started_at:string;updated_at:string;submitted_at:string|null }
 export interface MathIssue {severity:"minor"|"major";category:string;description:string;candidate_excerpt:string|null}
