@@ -2,7 +2,7 @@ import enum
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import CheckConstraint, DateTime, Enum, Index, Integer, String, Text, Uuid
+from sqlalchemy import CheckConstraint, DateTime, Enum, ForeignKey, Index, Integer, String, Text, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -28,6 +28,7 @@ class Attempt(Base):
     )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    session_id: Mapped[uuid.UUID | None] = mapped_column(Uuid, ForeignKey("learning_sessions.id", ondelete="SET NULL"), index=True)
     problem_id: Mapped[str] = mapped_column(String(255), nullable=False)
     status: Mapped[AttemptStatus] = mapped_column(Enum(AttemptStatus, name="attempt_status", values_callable=lambda e: [x.value for x in e]), nullable=False, default=AttemptStatus.DRAFT)
     solution_markdown: Mapped[str] = mapped_column(Text, nullable=False, default="")
