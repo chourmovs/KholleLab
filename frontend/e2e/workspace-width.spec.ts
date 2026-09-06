@@ -1,7 +1,7 @@
 import {expect,test} from "@playwright/test";
 import {mockApi} from "./mock-api";
 
-const viewports=[{width:1440,height:900},{width:1366,height:768},{width:1024,height:768},{width:768,height:1024},{width:390,height:844},{width:360,height:800}];
+const viewports=[{width:1920,height:1080},{width:1440,height:900},{width:1366,height:768},{width:1180,height:820},{width:1024,height:768},{width:768,height:1024},{width:390,height:844},{width:360,height:800}];
 for(const viewport of viewports)test(`workspace remains structured at ${viewport.width}px`,async({page})=>{
   await mockApi(page);await page.setViewportSize(viewport);await page.goto("/");
   const main=page.locator("main");await expect(main).toBeVisible();
@@ -23,10 +23,29 @@ for(const viewport of viewports)test(`workspace remains structured at ${viewport
     const statement=await page.locator(".statement-pane").boundingBox();
     const professor=await page.locator(".professor-pane").boundingBox();
     expect(board!.width).toBeGreaterThan(statement!.width);expect(board!.width).toBeGreaterThan(professor!.width);
+    expect(statement!.width).toBeGreaterThanOrEqual(329);
+    expect(board!.width).toBeGreaterThanOrEqual(450);
+    expect(professor!.width).toBeGreaterThanOrEqual(285);
+    const styles=await page.evaluate(()=>{
+      const problem=getComputedStyle(document.querySelector(".problem-body")!);
+      const portrait=getComputedStyle(document.querySelector(".professor-portrait")!);
+      const image=getComputedStyle(document.querySelector(".professor-portrait img")!);
+      return {problemBackgroundImage:problem.backgroundImage,portraitOverflow:portrait.overflow,imageObjectFit:image.objectFit};
+    });
+    expect(styles.problemBackgroundImage).toBe("none");
+    expect(styles.portraitOverflow).toBe("hidden");
+    expect(styles.imageObjectFit).toBe("cover");
   }
 });
 
 test("l’énoncé compact se replie sans masquer l’espace de travail",async({page})=>{
-  await mockApi(page);await page.goto("/");const toggle=page.locator(".problem-toggle");
-  if(await toggle.count()){await expect(toggle).toHaveAttribute("aria-expanded","true");await toggle.click();await expect(toggle).toHaveAttribute("aria-expanded","false");await expect(page.locator(".blackboard-pane")).toBeVisible()}
+  await mockApi(page);await page.setViewportSize({width:1366,height:768});await page.goto("/");const toggle=page.locator(".problem-toggle");
+  await expect(toggle).toHaveAttribute("aria-expanded","true");
+  const expandedStatement=await page.locator(".statement-pane").boundingBox(),expandedBoard=await page.locator(".blackboard-pane").boundingBox();
+  expect(expandedStatement!.width).toBeGreaterThanOrEqual(329);expect(expandedStatement!.width).toBeLessThanOrEqual(380);
+  await toggle.click();await expect(toggle).toHaveAttribute("aria-expanded","false");
+  const collapsedStatement=await page.locator(".statement-pane").boundingBox(),collapsedBoard=await page.locator(".blackboard-pane").boundingBox();
+  expect(collapsedStatement!.width).toBeLessThanOrEqual(90);expect(collapsedBoard!.width).toBeGreaterThan(expandedBoard!.width);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
+  await expect(page.locator(".blackboard-pane")).toBeVisible()
 });

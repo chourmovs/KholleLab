@@ -1,6 +1,6 @@
 import type {Page} from "@playwright/test";
 
-const problem={id:"e2e-problem",title:"Exercice de test",curriculum:{level:"seconde",difficulty:2},topics:["algebra"],source:{type:"internal",name:"Playwright"},statement:"Résoudre \\(x+1=2\\).",hint_levels:[],prerequisites:[],skills:[]};
+const problem={id:"e2e-problem",title:"Functions",curriculum:{level:"seconde",difficulty:2},topics:["algebra"],source:{type:"internal",name:"Playwright"},statement:"Pour $f(x)=-2x+7$, déterminer l’antécédent de $1$.",hint_levels:[],prerequisites:[],skills:[]};
 const attempt={id:"00000000-0000-4000-8000-000000000001",problem_id:problem.id,status:"draft",solution_markdown:"",revision:0,elapsed_seconds:0,started_at:"2026-01-01T00:00:00Z",updated_at:"2026-01-01T00:00:00Z",submitted_at:null};
 
 export async function mockApi(page:Page){
