@@ -81,6 +81,8 @@ class EvaluationResponse(BaseModel):
     elapsed_ms: float | None = None
     started_at: datetime | None = None
     heartbeat_at: datetime | None = None
+    provider_retry_count: int = 0
+    next_retry_at: datetime | None = None
 
 class InferenceStatusResponse(BaseModel):
     provider: str

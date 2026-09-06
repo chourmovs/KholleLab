@@ -29,6 +29,8 @@ class Evaluation(Base):
     started_at: Mapped[datetime|None] = mapped_column(DateTime(timezone=True))
     heartbeat_at: Mapped[datetime|None] = mapped_column(DateTime(timezone=True))
     recovery_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    provider_retry_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    next_retry_at: Mapped[datetime|None] = mapped_column(DateTime(timezone=True))
     elapsed_ms: Mapped[float|None] = mapped_column(Float)
     completed_at: Mapped[datetime|None] = mapped_column(DateTime(timezone=True))
     error_code: Mapped[str|None] = mapped_column(String(64))

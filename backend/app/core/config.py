@@ -31,12 +31,22 @@ class Settings(BaseSettings):
     hf_fast_retry_max_tokens: int = Field(default=768, gt=0)
     hf_examiner_audit_max_tokens: int = Field(default=1024, gt=0)
     hf_examiner_adjudication_max_tokens: int = Field(default=1536, gt=0)
+    hf_request_max_attempts: int = Field(default=3, ge=1, le=10)
+    hf_retry_base_seconds: float = Field(default=1.0, ge=0)
+    hf_retry_max_seconds: float = Field(default=8.0, gt=0, le=60)
+    hf_retry_jitter_seconds: float = Field(default=0.5, ge=0, le=10)
+    evaluation_provider_max_retries: int = Field(default=4, ge=0, le=10)
+    evaluation_provider_retry_delays_seconds: str = "15,45,120,300"
     evaluation_worker_poll_seconds: float = Field(default=1, gt=0)
     evaluation_stale_seconds: int = Field(default=180, gt=0)
+    evaluation_worker_heartbeat_seconds: float = Field(default=10, gt=0, le=60)
+    evaluation_worker_health_max_age_seconds: float = Field(default=45, gt=0)
+    evaluation_worker_heartbeat_path: str = "/tmp/khollelab-evaluation-worker.heartbeat"
     log_level: str = "INFO"
     log_rotation: str = "10 MB"
     log_retention: str = "7 days"
     runtime_logs_dir: str = "/runtime-logs"
+    log_process_role: str = "api"
     diagnostics_enabled: bool = False
     diagnostics_token: str | None = None
     proactive_tutor_enabled: bool = True
@@ -57,7 +67,23 @@ class Settings(BaseSettings):
     def validate_fast_token_budgets(self) -> "Settings":
         if self.hf_fast_retry_max_tokens < self.hf_fast_max_tokens:
             raise ValueError("HF_FAST_RETRY_MAX_TOKENS must be greater than or equal to HF_FAST_MAX_TOKENS")
+        if self.hf_retry_max_seconds < self.hf_retry_base_seconds:
+            raise ValueError("HF_RETRY_MAX_SECONDS must be greater than or equal to HF_RETRY_BASE_SECONDS")
+        delays = self.evaluation_provider_retry_delays
+        if len(delays) < self.evaluation_provider_max_retries:
+            raise ValueError("EVALUATION_PROVIDER_RETRY_DELAYS_SECONDS must cover every durable retry")
+        if self.evaluation_worker_health_max_age_seconds <= self.evaluation_worker_heartbeat_seconds:
+            raise ValueError("worker health maximum age must exceed heartbeat interval")
+        if self.log_process_role not in {"api", "worker"}:
+            raise ValueError("LOG_PROCESS_ROLE must be api or worker")
         return self
+
+    @property
+    def evaluation_provider_retry_delays(self) -> tuple[float, ...]:
+        values = tuple(float(value.strip()) for value in self.evaluation_provider_retry_delays_seconds.split(","))
+        if not values or any(value <= 0 for value in values):
+            raise ValueError("EVALUATION_PROVIDER_RETRY_DELAYS_SECONDS must contain positive values")
+        return values
 
     @property
     def cors_origin_list(self) -> list[str]:

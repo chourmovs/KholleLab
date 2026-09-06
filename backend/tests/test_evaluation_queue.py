@@ -50,6 +50,52 @@ async def test_worker_normalizes_controlled_failure_and_retry(setup):
     restarted=service.enqueue(attempt.id,retry=True);assert restarted.stage==EvaluationStage.QUEUED
     with pytest.raises(RetryNotAllowed): service.enqueue(attempt.id,retry=True)
 
+@pytest.mark.asyncio
+async def test_transient_failure_is_durably_delayed_and_due_claimed(setup,monkeypatch):
+    _,repo,service,attempt=setup
+    class Unavailable(FakeLLMProvider):
+        async def structured_response(self,**kwargs): raise RemoteLLMError("REMOTE_PROVIDER","unavailable",status=503,retryable=True)
+    service.provider=Unavailable(); value=repo.claim_next() if service.enqueue(attempt.id) else None
+    result=await service.process(value)
+    assert result.status==EvaluationStatus.RUNNING and result.stage==EvaluationStage.QUEUED
+    assert result.provider_retry_count==1 and result.next_retry_at and result.completed_at is None
+    assert repo.claim_next() is None
+    result.next_retry_at=datetime.now(timezone.utc)-timedelta(seconds=1);repo.db.commit()
+    assert repo.claim_next().id==result.id
+
+@pytest.mark.asyncio
+async def test_adjudication_retry_preserves_and_resumes_audit(setup,monkeypatch):
+    _,repo,service,attempt=setup
+    successful=FakeLLMProvider()
+    class AuditThenUnavailable(FakeLLMProvider):
+        def __init__(self): self.calls=[]
+        async def structured_response(self,**kwargs):
+            self.calls.append(kwargs["response_model"])
+            if len(self.calls)==1: return await successful.structured_response(**kwargs)
+            raise RemoteLLMError("REMOTE_PROVIDER","unavailable",status=503,retryable=True)
+    unavailable=AuditThenUnavailable(); service.provider=unavailable
+    value=repo.claim_next() if service.enqueue(attempt.id) else None
+    delayed=await service.process(value)
+    assert delayed.audit_json and delayed.stage==EvaluationStage.QUEUED
+    delayed.next_retry_at=datetime.now(timezone.utc)-timedelta(seconds=1);repo.db.commit()
+    resumed=repo.claim_next(); service.provider=successful
+    completed=await service.process(resumed)
+    assert completed.status==EvaluationStatus.COMPLETED
+    assert len(unavailable.calls)==2
+
+@pytest.mark.asyncio
+async def test_transient_retry_exhaustion_fails_and_manual_retry_resets(setup,monkeypatch):
+    _,repo,service,attempt=setup
+    monkeypatch.setattr(__import__("app.core.config",fromlist=["settings"]).settings,"evaluation_provider_max_retries",0)
+    class Unavailable(FakeLLMProvider):
+        async def structured_response(self,**kwargs): raise RemoteLLMError("REMOTE_PROVIDER","unavailable",status=503,retryable=True)
+    service.provider=Unavailable(); value=repo.claim_next() if service.enqueue(attempt.id) else None
+    failed=await service.process(value)
+    assert failed.status==EvaluationStatus.FAILED
+    failed.provider_retry_count=3;failed.next_retry_at=datetime.now(timezone.utc);repo.db.commit()
+    restarted=service.enqueue(attempt.id,retry=True)
+    assert restarted.provider_retry_count==0 and restarted.next_retry_at is None and restarted.audit_json is None
+
 def test_stale_worker_requeues_once_then_fails(setup):
     _,repo,service,attempt=setup
     value=repo.claim_next() if service.enqueue(attempt.id) else None

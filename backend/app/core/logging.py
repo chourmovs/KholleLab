@@ -21,8 +21,10 @@ def configure_logging() -> None:
     directory = Path(settings.runtime_logs_dir)
     try:
         directory.mkdir(parents=True, exist_ok=True)
+        application_file = "worker.log" if settings.log_process_role == "worker" else "khollelab.log"
+        inference_file = "worker-inference.log" if settings.log_process_role == "worker" else "inference.log"
         logger.add(
-            directory / "khollelab.log",
+            directory / application_file,
             level=settings.log_level,
             format=FORMAT,
             rotation=settings.log_rotation,
@@ -30,7 +32,7 @@ def configure_logging() -> None:
             backtrace=False,
             diagnose=False,
         )
-        logger.add(directory / "inference.log", filter=lambda record: record["extra"].get("component") == "inference",
+        logger.add(directory / inference_file, filter=lambda record: record["extra"].get("component") == "inference",
                    level=settings.log_level, format=FORMAT, rotation=settings.log_rotation,
                    retention=settings.log_retention, backtrace=False, diagnose=False)
     except OSError as exc:
