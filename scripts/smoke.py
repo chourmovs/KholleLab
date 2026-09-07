@@ -73,6 +73,12 @@ send_json(f"{api}/attempts/{session_attempt_id}/submit", "POST", {"expected_revi
 history = get_json(f"{api}/sessions")
 assert history[0]["session_id"] == session_id and history[0]["status"] == "completed"
 assert_no_private_problem_fields(history)
+profile = get_json(f"{api}/profile")
+assert profile["activity"]["sessions_total"] >= 1
+assert profile["activity"]["sessions_completed"] >= 1
+assert_no_private_problem_fields(profile)
+assert "learner_id" not in json.dumps(profile)
+print("[PASS] Deterministic learner profile privacy and activity")
 adaptive = get_json(f"{api}/problems/select?level={catalogue[0]['curriculum']['level']}&difficulty={catalogue[0]['curriculum']['difficulty']}&mode=adaptive")
 assert adaptive["problem"] and adaptive["problem"]["curriculum"]["level"] == catalogue[0]["curriculum"]["level"]
 assert adaptive["selection_mode"] == "adaptive"
