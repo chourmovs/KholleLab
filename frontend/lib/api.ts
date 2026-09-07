@@ -1,4 +1,4 @@
-import type {Attempt,CurriculumMetadata,Evaluation,LearningSessionDetail,LearningSessionSummary,PedagogicalResource,ProblemDetail,ProblemSource,ProblemSummary,ResolvedResourcesResponse,SelectionResult,TutorAssessment,TutorTrigger} from "./types";
+import type {Attempt,CurriculumMetadata,Evaluation,LearnerProfile,LearningSessionDetail,LearningSessionSummary,PedagogicalResource,ProblemDetail,ProblemSource,ProblemSummary,ResolvedResourcesResponse,SelectionResult,TutorAssessment,TutorTrigger} from "./types";
 const API_BASE="/api";
 export class ApiError extends Error{constructor(public status:number,public payload?:{error?:string;detail?:string;current_revision?:number},options?:ErrorOptions){super(payload?.error??payload?.detail??`API request failed (${status})`,options);this.name="ApiError"}}
 export async function apiFetch<T>(path:string,init:RequestInit&{timeoutMs?:number}={}):Promise<T>{
@@ -31,3 +31,4 @@ export const getActiveSession=()=>sessionRequest<LearningSessionDetail|null>("/s
 export const getSessions=()=>sessionRequest<LearningSessionSummary[]>("/sessions");
 export const getSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}`);
 export const abandonSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}/abandon`,{method:"POST",body:JSON.stringify({})});
+export const getLearnerProfile=()=>request<LearnerProfile>("/profile");

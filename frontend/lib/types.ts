@@ -28,3 +28,8 @@ export interface TutorAssessment {status:"completed";assessment_id:string;revisi
 export type LearningSessionStatus="active"|"completed"|"abandoned";
 export interface LearningSessionSummary {session_id:string;problem_id:string;problem_title:string;status:LearningSessionStatus;created_at:string;updated_at:string;started_at:string;completed_at:string|null;duration_seconds:number;number_of_attempts:number;number_of_tutor_interactions:number;outcome:string|null}
 export interface LearningSessionDetail extends LearningSessionSummary {problem:ProblemDetail|null;attempts:Attempt[];current_attempt_id:string|null;final_work:string;tutor_assessment:TutorAssessment|null;resource_recommendation:TutorResourceRecommendation|null}
+export type MasteryState="not_enough_data"|"emerging"|"practicing"|"established";
+export interface ProfileActivity {sessions_total:number;sessions_completed:number;sessions_abandoned:number;attempts_total:number;evaluations_completed:number;sessions_last_7_days:number;sessions_last_30_days:number;completed_last_30_days:number}
+export interface MasterySummary {identifier:string;label:string;state:MasteryState;evidence_count:number;completed_sessions:number;abandoned_sessions:number;recent_sessions:number;difficulty_min:number;difficulty_max:number;highest_positive_difficulty:number|null;last_practiced_at:string;support_signals:string[]}
+export interface ConsolidationItem {kind:"topic"|"skill";identifier:string;label:string;state:MasteryState;reasons:string[]}
+export interface LearnerProfile {activity:ProfileActivity;topics:MasterySummary[];skills:MasterySummary[];strengths:MasterySummary[];needs_consolidation:ConsolidationItem[];generated_at:string;evidence_window:{sessions_considered:number;max_sessions:number}}

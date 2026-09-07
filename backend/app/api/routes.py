@@ -9,6 +9,7 @@ from app.core.config import settings
 from app.services import health
 from app.api.diagnostics import router as diagnostics_router
 from app.api.sessions import router as sessions_router
+from app.api.profile import router as profile_router
 from app.domain.problem import CURRICULUM_ORDER
 from app.services.inference_diagnostics import cached_status, diagnose
 from app.schemas.evaluation import HealthResponse, InferenceStatusResponse
@@ -64,3 +65,4 @@ router.include_router(attempts_router)
 router.include_router(evaluations_router)
 router.include_router(diagnostics_router)
 router.include_router(sessions_router)
+router.include_router(profile_router)
