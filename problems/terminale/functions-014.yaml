@@ -4,6 +4,7 @@ statement: Résoudre $e^{2x}=5$.
 curriculum:
   level: terminale
   difficulty: 1
+  expectations: [lycee-2019-tle-algebra]
 topics:
 - functions
 prerequisites:

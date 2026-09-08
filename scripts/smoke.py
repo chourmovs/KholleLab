@@ -34,13 +34,30 @@ print("[PASS] API and database health")
 assert health["problem_corpus"] == "ok" and health["problem_count"] > 0
 print("[PASS] Problem corpus health")
 curriculum = get_json(f"{api}/curriculum")
-assert len(curriculum["levels"]) == 5 and len(curriculum["difficulties"]) == 5
+expected_levels = (
+    ("quatrieme", "Quatrième"),
+    ("troisieme", "Troisième"),
+    ("seconde", "Seconde"),
+    ("premiere", "Première"),
+    ("terminale", "Terminale"),
+    ("maths-sup", "Maths Sup"),
+    ("maths-spe", "Maths Spé"),
+)
+assert curriculum["academic_year"]
+assert [(item["id"], item["label"]) for item in curriculum["levels"]] == list(expected_levels)
+assert all(item["programme"]["id"] for item in curriculum["levels"])
+assert len(curriculum["difficulties"]) == 5
 print("[PASS] Curriculum metadata")
-for level, label in (("seconde", "Seconde"), ("premiere", "Première"), ("terminale", "Terminale"), ("maths-sup", "Maths Sup"), ("maths-spe", "Maths Spé")):
+for level, label in expected_levels:
     selection = get_json(f"{api}/problems/select?level={level}&difficulty=2")
     assert selection["problem"]["curriculum"]["level"] == level
     assert "reference_solution" not in json.dumps(selection)
     print(f"[PASS] {label} selection")
+quatrieme = next(item for item in curriculum["levels"] if item["id"] == "quatrieme")
+expectation = quatrieme["domains"][0]["expectations"][0]["id"]
+objective_selection = get_json(f"{api}/problems/select?level=quatrieme&expectation={expectation}&mode=adaptive")
+assert expectation in objective_selection["problem"]["curriculum"]["expectations"]
+print("[PASS] Hard curriculum expectation selection")
 fallback = get_json(f"{api}/problems/select?level=seconde&difficulty=5")
 assert fallback["fallback_used"] and fallback["actual_difficulty"] == 3
 print("[PASS] Difficulty fallback")

@@ -5,7 +5,8 @@ import unicodedata
 import yaml
 from pydantic import ValidationError
 
-from app.domain.problem import CURRICULUM_ORDER, Problem
+from app.domain.problem import CURRICULUM_ORDER, CurriculumLevel, Problem
+from app.services.curriculum_repository import CurriculumRepository
 
 
 class ProblemCorpusError(RuntimeError):
@@ -13,10 +14,13 @@ class ProblemCorpusError(RuntimeError):
 
 
 class ProblemRepository:
-    def __init__(self, root: str | Path) -> None:
+    def __init__(self, root: str | Path, curriculum_repository: CurriculumRepository | None = None,
+                 academic_year: str | None = None) -> None:
         self.root = Path(root)
         self._problems: tuple[Problem, ...] = ()
         self._by_id: dict[str, Problem] = {}
+        self.curriculum_repository = curriculum_repository
+        self.academic_year = academic_year
 
     def load(self) -> None:
         if not self.root.is_dir():
@@ -60,6 +64,18 @@ class ProblemRepository:
             loaded[problem.id] = problem
             origins[problem.id] = path
             statements[normalized] = path
+            known_directories = {level.value for level in CurriculumLevel}
+            if path.parent.name in known_directories and path.parent.name != problem.curriculum.level.value:
+                raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\ndirectory level does not match curriculum.level {problem.curriculum.level.value}")
+            if self.curriculum_repository is not None:
+                for expectation_id in problem.curriculum.expectations:
+                    expectation = self.curriculum_repository.expectations.get(expectation_id)
+                    if expectation is None:
+                        raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nunknown expectation: {expectation_id}")
+                    if expectation.level != problem.curriculum.level:
+                        raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} belongs to {expectation.level.value}, not {problem.curriculum.level.value}")
+                    if self.academic_year and expectation.programme_id != self.curriculum_repository.resolve_programme(problem.curriculum.level, self.academic_year).id:
+                        raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} is not in the active programme for {self.academic_year}")
         self._problems = tuple(loaded[key] for key in sorted(loaded))
         self._by_id = dict(loaded)
         self._validate_recommendations(origins)

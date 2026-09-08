@@ -4,22 +4,24 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
+from app.services.curriculum_repository import CurriculumCorpusError, CurriculumRepository  # noqa: E402
 from app.services.problem_repository import ProblemCorpusError, ProblemRepository  # noqa: E402
-from app.domain.problem import CURRICULUM_ORDER  # noqa: E402
 
-repository = ProblemRepository(ROOT / "problems")
+curriculum = CurriculumRepository(ROOT / "curriculum")
 try:
+    curriculum.load()
+    repository = ProblemRepository(ROOT / "problems", curriculum)
     repository.load()
-except ProblemCorpusError as exc:
+except (CurriculumCorpusError, ProblemCorpusError) as exc:
     print(exc, file=sys.stderr)
     raise SystemExit(1)
-print("Khollelab problem corpus valid.")
+print("Khollelab curriculum and problem corpus valid.")
 print(f"Corpus: {repository.count}")
-labels = {"seconde":"Seconde", "premiere":"Première", "terminale":"Terminale", "maths-sup":"Maths Sup", "maths-spe":"Maths Spé"}
-for level in CURRICULUM_ORDER:
-    problems = [problem for problem in repository.list() if problem.curriculum.level == level]
-    if len(problems) < 5:
-        print(f"Required curriculum {level} has {len(problems)} problems; minimum is 5.", file=sys.stderr)
+for level in curriculum.levels:
+    problems = [problem for problem in repository.list() if problem.curriculum.level == level.id]
+    minimum = 10 if level.id.value in {"quatrieme", "troisieme"} else 5
+    if len(problems) < minimum:
+        print(f"Required curriculum {level.id.value} has {len(problems)} problems; minimum is {minimum}.", file=sys.stderr)
         raise SystemExit(1)
     counts = " ".join(f"D{difficulty} {sum(p.curriculum.difficulty == difficulty for p in problems)}" for difficulty in range(1, 6))
-    print(f"{labels[level]:<12} {len(problems):>3}  {counts}")
+    print(f"{level.label:<12} {len(problems):>3}  {counts}")

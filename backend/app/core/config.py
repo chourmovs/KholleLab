@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
     problems_dir: str = "../problems"
     resources_dir: str = "../resources"
+    curriculum_dir: str = "../curriculum"
+    curriculum_academic_year: str | None = None
     llm_provider: str = "huggingface"
     llm_model: str = ""
     openai_api_key: str | None = None

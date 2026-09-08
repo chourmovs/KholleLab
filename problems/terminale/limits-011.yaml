@@ -4,6 +4,7 @@ statement: Calculer $\lim_{x\to+\infty}(3x^2-x)/(x^2+1)$.
 curriculum:
   level: terminale
   difficulty: 2
+  expectations: [lycee-2019-tle-analysis]
 topics:
 - limits
 prerequisites:

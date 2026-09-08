@@ -1,0 +1,20 @@
+id: quatrieme-fractions-001
+title: Somme de fractions
+statement: 'Calculer $\frac{3}{4}+\frac{1}{8}$.'
+curriculum:
+  level: quatrieme
+  difficulty: 1
+  expectations: [c4-2020-4e-fractions]
+topics: [arithmetic]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 10
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'Le dénominateur commun est 8 : $6/8+1/8=7/8$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

@@ -1,0 +1,20 @@
+id: quatrieme-fractions-002
+title: Partage fractionnaire
+statement: 'Lina lit $\frac{2}{5}$ d’un livre lundi puis $\frac{1}{4}$ mardi. Quelle fraction a-t-elle lue ?'
+curriculum:
+  level: quatrieme
+  difficulty: 2
+  expectations: [c4-2020-4e-fractions]
+topics: [arithmetic]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 12
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'On additionne : $2/5+1/4=8/20+5/20=13/20$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

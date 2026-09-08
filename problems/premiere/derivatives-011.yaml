@@ -4,6 +4,7 @@ statement: Calculer la dérivée de $f(x)=3x^2-4x+1$.
 curriculum:
   level: premiere
   difficulty: 2
+  expectations: [lycee-2019-1re-analysis]
 topics:
 - derivatives
 prerequisites:

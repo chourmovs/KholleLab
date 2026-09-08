@@ -25,6 +25,7 @@ services:
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
       PROBLEMS_DIR: /problems
       RESOURCES_DIR: /resources
+      CURRICULUM_DIR: /curriculum
       LLM_PROVIDER: ${LLM_PROVIDER:-huggingface}
       LLM_MODEL: ${LLM_MODEL:-gpt-5-mini}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}

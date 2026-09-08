@@ -10,8 +10,11 @@ class ProblemSelector:
         self._problems = tuple(problems)
 
     def select(self, *, level: CurriculumLevel, difficulty: int | None = None,
-               topics: list[Topic] | None = None, exclude_ids: Collection[str] | None = None) -> Problem | None:
+               topics: list[Topic] | None = None, expectation: str | None = None,
+               exclude_ids: Collection[str] | None = None) -> Problem | None:
         compatible = [p for p in self._problems if p.curriculum.level == level]
+        if expectation:
+            compatible = [p for p in compatible if expectation in p.curriculum.expectations]
         if topics:
             required = set(topics)
             compatible = [p for p in compatible if required.intersection(p.topics)]
@@ -36,7 +39,7 @@ class ProblemSelector:
         return candidates[0]
 
     def compatible_candidates(self, *, level: CurriculumLevel,
-                              topics: list[Topic] | None = None) -> list[Problem]:
+                              topics: list[Topic] | None = None, expectation: str | None = None) -> list[Problem]:
         """Return only hard-compatible problems in a stable order.
 
         Difficulty deliberately remains a ranking/fallback preference, matching
@@ -46,6 +49,7 @@ class ProblemSelector:
         return sorted(
             (problem for problem in self._problems
              if problem.curriculum.level == level
+             and (not expectation or expectation in problem.curriculum.expectations)
              and (not required or bool(required.intersection(problem.topics)))),
             key=lambda problem: problem.id,
         )

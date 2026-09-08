@@ -1,0 +1,28 @@
+schema_version: 1
+knowledge:
+  - {id: numbers, label: Nombres et calculs, kind: domain}
+  - {id: fractions, label: Fractions, kind: concept, parent: numbers}
+  - {id: fraction-addition, label: Addition de fractions, kind: procedure, parent: fractions, prerequisites: [fractions]}
+  - {id: proportionality, label: Proportionnalité, kind: concept, parent: numbers}
+  - {id: powers, label: Puissances, kind: concept, parent: numbers}
+  - {id: algebraic-manipulation, label: Calcul littéral, kind: procedure}
+  - {id: first-degree-equation, label: Équation du premier degré, kind: procedure, prerequisites: [algebraic-manipulation]}
+  - {id: geometry, label: Géométrie, kind: domain}
+  - {id: pythagorean-theorem, label: Théorème de Pythagore, kind: theorem, parent: geometry}
+  - {id: thales-theorem, label: Théorème de Thalès, kind: theorem, parent: geometry, prerequisites: [proportionality]}
+  - {id: trigonometry, label: Trigonométrie, kind: concept, parent: geometry, prerequisites: [pythagorean-theorem]}
+  - {id: statistics, label: Statistiques, kind: domain}
+  - {id: probability, label: Probabilités, kind: domain}
+  - {id: functions, label: Fonctions, kind: domain}
+  - {id: function-image, label: Image par une fonction, kind: concept, parent: functions}
+  - {id: function-antecedent, label: Antécédent par une fonction, kind: concept, parent: functions}
+  - {id: sequences, label: Suites, kind: concept, parent: functions}
+  - {id: derivatives, label: Dérivation, kind: concept, parent: functions, prerequisites: [function-image]}
+  - {id: limits, label: Limites, kind: concept, parent: functions, prerequisites: [function-image]}
+  - {id: integrals, label: Intégration, kind: concept, parent: functions, prerequisites: [derivatives]}
+  - {id: exponential-logarithm, label: Exponentielle et logarithme, kind: concept, parent: functions}
+  - {id: mathematical-proof, label: Démonstration mathématique, kind: competency}
+  - {id: vectors, label: Vecteurs, kind: concept, parent: geometry}
+  - {id: analytic-geometry, label: Géométrie repérée, kind: concept, parent: geometry, prerequisites: [vectors]}
+  - {id: combinatorics, label: Combinatoire, kind: concept}
+  - {id: complex-numbers, label: Nombres complexes, kind: concept, parent: numbers}

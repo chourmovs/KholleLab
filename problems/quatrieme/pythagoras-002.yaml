@@ -1,0 +1,20 @@
+id: quatrieme-pythagoras-002
+title: Triangle rectangle
+statement: 'Un triangle ABC est rectangle en A, avec AB=5 cm et BC=13 cm. Calculer AC.'
+curriculum:
+  level: quatrieme
+  difficulty: 4
+  expectations: [c4-2020-4e-pythagoras]
+topics: [geometry]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 16
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$AC^2=BC^2-AB^2=169-25=144$, donc $AC=12$ cm.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

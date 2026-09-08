@@ -1,0 +1,20 @@
+id: troisieme-equations-001
+title: Équation directe
+statement: 'Résoudre $3x+5=20$.'
+curriculum:
+  level: troisieme
+  difficulty: 1
+  expectations: [c4-2020-3e-equations]
+topics: [equations]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 10
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'On obtient $3x=15$, donc $x=5$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

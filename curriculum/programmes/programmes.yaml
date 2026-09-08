@@ -1,0 +1,41 @@
+schema_version: 1
+programmes:
+  - id: cycle4-mathematiques-2020
+    label: Programme de mathématiques du cycle 4
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2020-07-30
+    source_reference: BOEN n°31 du 30 juillet 2020, annexe 3
+    source_url: https://www.education.gouv.fr/bo/20/Hebdo31/MENE2018714A.htm
+    applicability:
+      - {level: quatrieme, academic_year_from: 2020-2021}
+      - {level: troisieme, academic_year_from: 2020-2021}
+  - id: lycee-seconde-mathematiques-2019
+    label: Programme de mathématiques de seconde générale et technologique
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2019-01-22
+    source_reference: BO spécial n°1 du 22 janvier 2019
+    source_url: https://www.education.gouv.fr/bo/19/Special1/MENE1901631A.htm
+    applicability: [{level: seconde, academic_year_from: 2019-2020}]
+  - id: lycee-premiere-specialite-mathematiques-2019
+    label: Programme de spécialité mathématiques de première générale
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2019-01-22
+    source_reference: BO spécial n°1 du 22 janvier 2019
+    source_url: https://www.education.gouv.fr/bo/19/Special1/MENE1901632A.htm
+    applicability: [{level: premiere, academic_year_from: 2019-2020}]
+  - id: lycee-terminale-specialite-mathematiques-2019
+    label: Programme de spécialité mathématiques de terminale générale
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2019-07-25
+    source_reference: BO spécial n°8 du 25 juillet 2019
+    source_url: https://www.education.gouv.fr/bo/19/Special8/MENE1921246A.htm
+    applicability: [{level: terminale, academic_year_from: 2020-2021}]
+  - id: cpge-khollelab-legacy
+    label: Référentiel CPGE historique Khollelab
+    authority: Khollelab
+    publication_date: 2026-01-01
+    source_reference: Référentiel de compatibilité interne
+    source_url: https://github.com/
+    applicability:
+      - {level: maths-sup, academic_year_from: 2000-2001}
+      - {level: maths-spe, academic_year_from: 2000-2001}

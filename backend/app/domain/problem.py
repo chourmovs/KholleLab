@@ -9,6 +9,8 @@ Slug = Annotated[str, StringConstraints(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
 
 
 class CurriculumLevel(StrEnum):
+    QUATRIEME = "quatrieme"
+    TROISIEME = "troisieme"
     SECONDE = "seconde"
     PREMIERE = "premiere"
     TERMINALE = "terminale"
@@ -103,6 +105,13 @@ class ProblemResources(StrictModel):
 class CurriculumInfo(StrictModel):
     level: CurriculumLevel
     difficulty: int = Field(ge=1, le=5)
+    expectations: tuple[Slug, ...] = ()
+
+    @model_validator(mode="after")
+    def unique_expectations(self) -> "CurriculumInfo":
+        if len(self.expectations) != len(set(self.expectations)):
+            raise ValueError("expectations must not contain duplicates")
+        return self
 
 
 class Problem(StrictModel):

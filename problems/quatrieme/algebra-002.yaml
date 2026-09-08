@@ -1,0 +1,20 @@
+id: quatrieme-algebra-002
+title: Programme de calcul
+statement: 'On choisit $x$, on le triple puis on ajoute 7. Écrire le résultat et le calculer pour $x=-2$.'
+curriculum:
+  level: quatrieme
+  difficulty: 3
+  expectations: [c4-2020-4e-algebra]
+topics: [algebra]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 14
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'Le résultat est $3x+7$ ; pour $x=-2$, il vaut 1.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

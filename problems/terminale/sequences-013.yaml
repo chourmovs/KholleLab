@@ -4,6 +4,7 @@ statement: Étudier la convergence de $u_n=1+1/n$.
 curriculum:
   level: terminale
   difficulty: 3
+  expectations: [lycee-2019-tle-analysis]
 topics:
 - sequences
 prerequisites:

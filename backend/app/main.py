@@ -11,6 +11,8 @@ from app.services.resource_repository import ResourceRepository, validate_proble
 from app.services.resource_resolver import ResourceResolver
 from app.core.logging import configure_logging, component_logger
 from app.services.learner_identity import LearnerIdentityMiddleware
+from app.services.curriculum_repository import CurriculumRepository, academic_year_for
+from datetime import date
 
 
 @asynccontextmanager
@@ -18,7 +20,12 @@ async def lifespan(app: FastAPI):
     configure_logging()
     component_logger("application").info("Startup version={} env={}", APP_VERSION, settings.app_env)
     component_logger("inference").info("Provider={} family={}", settings.llm_provider, settings.llm_model_family.value)
-    repository = ProblemRepository(settings.problems_dir)
+    curriculum_repository = CurriculumRepository(settings.curriculum_dir)
+    curriculum_repository.load()
+    academic_year = settings.curriculum_academic_year or academic_year_for(date.today())
+    for level in curriculum_repository.levels:
+        curriculum_repository.resolve_programme(level.id, academic_year)
+    repository = ProblemRepository(settings.problems_dir, curriculum_repository, academic_year)
     repository.load()
     resource_repository = ResourceRepository(settings.resources_dir)
     resource_repository.load()
@@ -29,6 +36,8 @@ async def lifespan(app: FastAPI):
         repository.count, resource_repository.count, curriculum_levels,
     )
     app.state.problem_repository = repository
+    app.state.curriculum_repository = curriculum_repository
+    app.state.curriculum_academic_year = academic_year
     app.state.resource_repository = resource_repository
     app.state.resource_resolver = ResourceResolver(resource_repository)
     yield

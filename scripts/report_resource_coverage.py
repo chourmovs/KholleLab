@@ -7,15 +7,13 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 
-from app.domain.problem import CURRICULUM_ORDER
+from app.services.curriculum_repository import CurriculumRepository
 from app.services.problem_repository import ProblemRepository
 from app.services.resource_repository import ResourceRepository, validate_problem_resource_refs
 from app.services.resource_resolver import ResourceContext, ResourceResolver
 
-LABELS = {"seconde": "Seconde", "premiere": "Première", "terminale": "Terminale", "maths-sup": "Maths Sup", "maths-spe": "Maths Spé"}
-
-
 def main() -> None:
+    curriculum = CurriculumRepository(ROOT / "curriculum"); curriculum.load()
     problems, resources = ProblemRepository(ROOT / "problems"), ResourceRepository(ROOT / "resources")
     problems.load(); resources.load(); validate_problem_resource_refs(problems, resources)
     resolver = ResourceResolver(resources)
@@ -32,10 +30,11 @@ def main() -> None:
         if matches: covered_topics.update(problem.topics)
     print("RESOURCE COVERAGE\n")
     print(f"{'':12} {'problems':>8} {'explicit':>9} {'matched':>8} {'coverage':>9}")
-    for level in CURRICULUM_ORDER:
+    for item in curriculum.levels:
+        level = item.id.value
         total, explicit, matched = rows[level]
         coverage = 100 * matched / total if total else 0
-        print(f"{LABELS[level]:12} {total:8} {explicit:9} {matched:8} {coverage:8.1f}%")
+        print(f"{item.label:12} {total:8} {explicit:9} {matched:8} {coverage:8.1f}%")
     print(f"\nunique topics: {len(all_topics)}")
     print(f"topics with resource coverage: {len(covered_topics)}")
     print(f"prerequisite slugs: {len(prerequisites)}")

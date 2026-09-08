@@ -4,6 +4,7 @@ statement: Déterminer les extrema de $f(x)=x^3-3x$ sur $[-2,2]$.
 curriculum:
   level: terminale
   difficulty: 1
+  expectations: [lycee-2019-tle-analysis]
 topics:
 - derivatives
 prerequisites:

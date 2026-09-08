@@ -5,6 +5,7 @@ statement: Une urne contient trois boules rouges et deux bleues. Calculer la pro
 curriculum:
   level: premiere
   difficulty: 2
+  expectations: [lycee-2019-1re-probability]
 topics:
 - probability
 prerequisites:

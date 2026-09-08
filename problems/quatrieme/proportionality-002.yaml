@@ -1,0 +1,20 @@
+id: quatrieme-proportionality-002
+title: Recette agrandie
+statement: 'Une recette pour 4 personnes demande 300 g de farine. Quelle masse faut-il pour 7 personnes ?'
+curriculum:
+  level: quatrieme
+  difficulty: 3
+  expectations: [c4-2020-4e-proportionality]
+topics: [arithmetic]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 14
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'Le coefficient est $7/4$, donc $300\times7/4=525$ g.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

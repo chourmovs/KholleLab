@@ -4,6 +4,7 @@ statement: Déterminer la tangente à $f(x)=x^2$ au point d’abscisse 1.
 curriculum:
   level: terminale
   difficulty: 1
+  expectations: [lycee-2019-tle-analysis]
 topics:
 - derivatives
 prerequisites:

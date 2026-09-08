@@ -1,0 +1,20 @@
+id: troisieme-functions-001
+title: Image par une fonction
+statement: 'Pour $f(x)=2x-3$, calculer l’image de 5.'
+curriculum:
+  level: troisieme
+  difficulty: 1
+  expectations: [c4-2020-3e-functions]
+topics: [functions]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 10
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$f(5)=10-3=7$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

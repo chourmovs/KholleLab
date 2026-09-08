@@ -1,0 +1,20 @@
+id: troisieme-functions-002
+title: Chercher un antécédent
+statement: 'Pour $g(x)=4x+1$, déterminer l’antécédent de 13.'
+curriculum:
+  level: troisieme
+  difficulty: 3
+  expectations: [c4-2020-3e-functions]
+topics: [functions]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 14
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$4x+1=13$, donc $x=3$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

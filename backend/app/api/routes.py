@@ -10,7 +10,6 @@ from app.services import health
 from app.api.diagnostics import router as diagnostics_router
 from app.api.sessions import router as sessions_router
 from app.api.profile import router as profile_router
-from app.domain.problem import CURRICULUM_ORDER
 from app.services.inference_diagnostics import cached_status, diagnose
 from app.schemas.evaluation import HealthResponse, InferenceStatusResponse
 from app.core.logging import component_logger
@@ -47,11 +46,11 @@ async def get_inference_status(refresh: bool = Query(False)):
 
 
 @router.get("/curriculum")
-def get_curriculum() -> dict:
-    labels = {"seconde":"Seconde", "premiere":"Première", "terminale":"Terminale", "maths-sup":"Maths Sup", "maths-spe":"Maths Spé"}
-    difficulties = ["Découverte", "Standard", "Approfondissement", "Difficile", "Challenge"]
-    return {"levels": [{"id": level, "label": labels[level]} for level in CURRICULUM_ORDER],
-            "difficulties": [{"id": index, "label": label} for index, label in enumerate(difficulties, 1)]}
+def get_curriculum(request: Request) -> dict:
+    repository = request.app.state.curriculum_repository
+    academic_year = request.app.state.curriculum_academic_year
+    return {"academic_year": academic_year, "levels": repository.level_metadata(academic_year),
+            "difficulties": [item.model_dump() for item in repository.difficulties]}
 
 
 @router.get("/version")

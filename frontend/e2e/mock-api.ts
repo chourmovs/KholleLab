@@ -1,13 +1,21 @@
 import type {Page} from "@playwright/test";
 
-const problem={id:"e2e-problem",title:"Functions",curriculum:{level:"seconde",difficulty:2},topics:["algebra"],source:{type:"internal",name:"Playwright"},statement:"Pour $f(x)=-2x+7$, déterminer l’antécédent de $1$.",hint_levels:[],prerequisites:[],skills:[]};
+const problem={id:"e2e-problem",title:"Functions",curriculum:{level:"seconde",difficulty:2,expectations:["seconde-functions"]},topics:["algebra"],source:{type:"internal",name:"Playwright"},statement:"Pour $f(x)=-2x+7$, déterminer l’antécédent de $1$.",hint_levels:[],prerequisites:[],skills:[]};
 const attempt={id:"00000000-0000-4000-8000-000000000001",problem_id:problem.id,status:"draft",solution_markdown:"",revision:0,elapsed_seconds:0,started_at:"2026-01-01T00:00:00Z",updated_at:"2026-01-01T00:00:00Z",submitted_at:null};
 
 export async function mockApi(page:Page){
   await page.route("**/api/**",async route=>{
     const path=new URL(route.request().url()).pathname;
     let body:unknown;
-    if(path==="/api/curriculum")body={levels:[{id:"seconde",label:"Seconde"}],difficulties:[1,2,3,4,5].map(id=>({id,label:`Niveau ${id}`}))};
+    if(path==="/api/curriculum")body={academic_year:"2026-2027",levels:[
+      {id:"quatrieme",label:"Quatrième",short_label:"4e",stage:"college",programme:{id:"cycle4",label:"Cycle 4"},domains:[]},
+      {id:"troisieme",label:"Troisième",short_label:"3e",stage:"college",programme:{id:"cycle4",label:"Cycle 4"},domains:[]},
+      {id:"seconde",label:"Seconde",short_label:"2de",stage:"lycee",programme:{id:"seconde",label:"Seconde"},domains:[{id:"functions",label:"Fonctions",expectations:[{id:"seconde-functions",label:"Étudier des fonctions"}]}]},
+      {id:"premiere",label:"Première",short_label:"1re",stage:"lycee",programme:{id:"premiere",label:"Première"},domains:[]},
+      {id:"terminale",label:"Terminale",short_label:"Tle",stage:"lycee",programme:{id:"terminale",label:"Terminale"},domains:[]},
+      {id:"maths-sup",label:"Maths Sup",short_label:"Sup",stage:"cpge",programme:{id:"cpge",label:"CPGE"},domains:[]},
+      {id:"maths-spe",label:"Maths Spé",short_label:"Spé",stage:"cpge",programme:{id:"cpge",label:"CPGE"},domains:[]},
+    ],difficulties:[1,2,3,4,5].map(id=>({id,label:`Niveau ${id}`}))};
     else if(path==="/api/problems")body=[problem];
     else if(path==="/api/problems/select")body={problem,requested_level:"seconde",requested_difficulty:2,actual_difficulty:2,fallback_used:false};
     else if(path==="/api/sessions/active/latest")body=null;

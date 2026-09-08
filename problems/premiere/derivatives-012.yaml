@@ -4,6 +4,7 @@ statement: Étudier les variations de $f(x)=x^2-6x+2$.
 curriculum:
   level: premiere
   difficulty: 2
+  expectations: [lycee-2019-1re-analysis]
 topics:
 - derivatives
 prerequisites:
