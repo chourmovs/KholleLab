@@ -8,13 +8,16 @@ from app.services.problem_selector import ProblemSelector
 
 
 def problem(identifier, *, level="terminale", difficulty=3, topic="analysis",
-            skills=(), prerequisites=(), recommended_after=()):
-    return Problem.model_validate({
+            skills=(), prerequisites=(), recommended_after=(), family=None):
+    raw = {
         "id": identifier, "title": identifier, "statement": "Test",
         "curriculum": {"level": level, "difficulty": difficulty}, "topics": [topic],
         "skills": skills, "prerequisites": prerequisites, "recommended_after": recommended_after,
-        "source": {"type": "internal", "name": "Tests"}, "reference_solution": "Privée",
-    })
+        "source": {"type": "internal", "name": "Tests"}, "reference_solution": "Privée"}
+    if family:
+        raw["generation"] = {"kind": "parametric", "family_id": family, "version": 1,
+                             "variant": 1, "parameter_identity": "a" * 64}
+    return Problem.model_validate(raw)
 
 
 def context(*recent, topics=(), skills=(), prerequisites=()):
@@ -23,7 +26,8 @@ def context(*recent, topics=(), skills=(), prerequisites=()):
 
 def learning(item, status=LearningSessionStatus.COMPLETED):
     return RecentLearning(item.id, status, 1, False, None, item.topics, item.skills,
-                          item.prerequisites, item.curriculum.difficulty)
+                          item.prerequisites, item.curriculum.difficulty,
+                          item.generation.family_id if item.generation else None)
 
 
 def select(items, history, difficulty=3, topic=None):
@@ -80,3 +84,13 @@ def test_requested_difficulty_remains_the_dominant_preference():
     exact = problem("problem-exact", difficulty=3, topic="analysis")
     easier = problem("problem-easier", difficulty=2, topic="geometry")
     assert select([exact, easier], context(), difficulty=3).problem == exact
+
+
+def test_recent_family_is_strongly_avoided_but_never_creates_a_dead_end():
+    used = problem("family-a-used", family="family-a")
+    another_a = problem("family-a-new", family="family-a")
+    family_b = problem("family-b-only", family="family-b")
+    result = select([another_a, family_b], context(learning(used)))
+    assert result.problem == family_b
+    assert AdaptationReasonCode.FAMILY_DIVERSITY in result.reasons
+    assert select([another_a], context(learning(used))).problem == another_a

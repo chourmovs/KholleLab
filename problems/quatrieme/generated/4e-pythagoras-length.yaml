@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 4e-pythagoras-length-g1-v001
+  title: 4E Pythagoras Length
+  statement: Variante 1 — Le triangle ABC est rectangle en A, avec $AB=5$ cm et $AC=12$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=5^2+12^2=169$, donc $BC=13$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 1
+    parameter_identity: 194b68d9948b04ed88109789cffa379a35ea1a9e5e79701ce6f75219027fcd47
+- id: 4e-pythagoras-length-g1-v002
+  title: 4E Pythagoras Length
+  statement: Variante 2 — Le triangle ABC est rectangle en A, avec $AB=8$ cm et $AC=15$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=8^2+15^2=289$, donc $BC=17$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 2
+    parameter_identity: 6307ce7898ccb67e7191562916b0eb1ba4395866d1b6eeaabf53b30aee6e2924
+- id: 4e-pythagoras-length-g1-v003
+  title: 4E Pythagoras Length
+  statement: Variante 3 — Le triangle ABC est rectangle en A, avec $AB=7$ cm et $AC=24$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=7^2+24^2=625$, donc $BC=25$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 3
+    parameter_identity: e1cf77a46d71e95a202a2c7fec004d431289cde0b29010e6c5a9257c13435b77
+- id: 4e-pythagoras-length-g1-v004
+  title: 4E Pythagoras Length
+  statement: Variante 4 — Le triangle ABC est rectangle en A, avec $AB=3$ cm et $AC=4$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=3^2+4^2=25$, donc $BC=5$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 4
+    parameter_identity: 0cd1f85ca5f9770759dc8efca1eb3de6f14d5dd56c617a163c78ae1840606613
+- id: 4e-pythagoras-length-g1-v005
+  title: 4E Pythagoras Length
+  statement: Variante 5 — Le triangle ABC est rectangle en A, avec $AB=5$ cm et $AC=12$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=5^2+12^2=169$, donc $BC=13$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 5
+    parameter_identity: 7e2357557e1ac71e59bc2a6d8059f5e4d4e845fa85fa599bfffd84a2f4e7809a
+- id: 4e-pythagoras-length-g1-v006
+  title: 4E Pythagoras Length
+  statement: Variante 6 — Le triangle ABC est rectangle en A, avec $AB=8$ cm et $AC=15$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=8^2+15^2=289$, donc $BC=17$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 6
+    parameter_identity: 5f610ced27f1f364e328bc4f22ee17fc8fb0c81edbafb1e2d3fea4dcc281f582
+- id: 4e-pythagoras-length-g1-v007
+  title: 4E Pythagoras Length
+  statement: Variante 7 — Le triangle ABC est rectangle en A, avec $AB=7$ cm et $AC=24$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=7^2+24^2=625$, donc $BC=25$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 7
+    parameter_identity: 2b34c86ec2d8f3f32973d3edb86309d4abb1ae68367b0ed2ebacadc122ce94c7
+- id: 4e-pythagoras-length-g1-v008
+  title: 4E Pythagoras Length
+  statement: Variante 8 — Le triangle ABC est rectangle en A, avec $AB=3$ cm et $AC=4$ cm. Calculer BC et justifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-pythagoras
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Pythagore donne $BC^2=3^2+4^2=25$, donc $BC=5$ cm.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-pythagoras-length
+    version: 1
+    variant: 8
+    parameter_identity: 73e4af26ca0276be14f8bd6bef1dd397e6a3a93e1bd37a02d4aa705b1e3b288c

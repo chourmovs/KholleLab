@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 4e-fraction-context-g1-v001
+  title: 4E Fraction Context
+  statement: Variante 1 — Une recette utilise successivement $3/4$ puis $6/4$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(3+6)/4=9/4$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 1
+    parameter_identity: bc8f2e852c98243e06fd3ca2ce099c9d1f953ada41235db6832e2fe1f74f9c3d
+- id: 4e-fraction-context-g1-v002
+  title: 4E Fraction Context
+  statement: Variante 2 — Une recette utilise successivement $2/4$ puis $2/4$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(2+2)/4=1$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 2
+    parameter_identity: 9f07f54953c2a6464a8c7dd77a70193c24afb42d92b55854182c19d82f0e3775
+- id: 4e-fraction-context-g1-v003
+  title: 4E Fraction Context
+  statement: Variante 3 — Une recette utilise successivement $7/3$ puis $7/3$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(7+7)/3=14/3$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 3
+    parameter_identity: 0362ba752ddf714c1094067e6f2fb4a819fd2da779f7eb7451c20689bbcb2880
+- id: 4e-fraction-context-g1-v004
+  title: 4E Fraction Context
+  statement: Variante 4 — Une recette utilise successivement $4/5$ puis $4/5$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(4+4)/5=8/5$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 4
+    parameter_identity: 461717329d2c1e6a7fc1d4f90b80653d18a3d3d2f059421c25d8a26a5119c8a0
+- id: 4e-fraction-context-g1-v005
+  title: 4E Fraction Context
+  statement: Variante 5 — Une recette utilise successivement $6/8$ puis $7/8$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(6+7)/8=13/8$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 5
+    parameter_identity: 80255edf70b05907ce798eed456bd35f2b88b0cbbe5544959bf4a1555527eb17
+- id: 4e-fraction-context-g1-v006
+  title: 4E Fraction Context
+  statement: Variante 6 — Une recette utilise successivement $2/2$ puis $6/2$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(2+6)/2=4$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 6
+    parameter_identity: 82a259377cc06ac73b55c4fbe8599d86c01ed049284e4e2c3122ce3cbea9f304
+- id: 4e-fraction-context-g1-v007
+  title: 4E Fraction Context
+  statement: Variante 7 — Une recette utilise successivement $6/6$ puis $6/6$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(6+6)/6=2$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 7
+    parameter_identity: 77f021a96bb01db12f7a16b23f7faf29e1e6af9e6a6de03a6defe0c67159606e
+- id: 4e-fraction-context-g1-v008
+  title: 4E Fraction Context
+  statement: Variante 8 — Une recette utilise successivement $4/6$ puis $6/6$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(4+6)/6=5/3$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-context
+    version: 1
+    variant: 8
+    parameter_identity: 95f63755fe7795c8a8effaddec6964e870dde5fef65585f060ba5c298cd8bc58

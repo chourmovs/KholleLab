@@ -40,45 +40,52 @@ class ProblemRepository:
                 raw = yaml.safe_load(path.read_text(encoding="utf-8"))
             except (OSError, yaml.YAMLError) as exc:
                 raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\n{exc}") from exc
-            problem_id = raw.get("id") if isinstance(raw, dict) else None
-            try:
-                problem = Problem.model_validate(raw)
-            except ValidationError as exc:
-                identity = f"\nproblem ID: {problem_id}" if problem_id else ""
-                raise ProblemCorpusError(
-                    f"Problem corpus validation failed:\n{path}{identity}\n{exc}"
-                ) from exc
-            if problem.id in loaded:
-                raise ProblemCorpusError(
-                    f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\n"
-                    f"duplicate ID (already defined in {origins[problem.id]})"
-                )
-            normalized = re.sub(
-                r"\s+", " ", unicodedata.normalize("NFKC", problem.statement).casefold()
-            ).strip()
-            if normalized in statements:
-                raise ProblemCorpusError(
-                    f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\n"
-                    f"duplicate normalized statement (already defined in {statements[normalized]})"
-                )
-            loaded[problem.id] = problem
-            origins[problem.id] = path
-            statements[normalized] = path
-            known_directories = {level.value for level in CurriculumLevel}
-            if path.parent.name in known_directories and path.parent.name != problem.curriculum.level.value:
-                raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\ndirectory level does not match curriculum.level {problem.curriculum.level.value}")
-            if self.curriculum_repository is not None:
-                for expectation_id in problem.curriculum.expectations:
-                    expectation = self.curriculum_repository.expectations.get(expectation_id)
-                    if expectation is None:
-                        raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nunknown expectation: {expectation_id}")
-                    if expectation.level != problem.curriculum.level:
-                        raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} belongs to {expectation.level.value}, not {problem.curriculum.level.value}")
-                    if self.academic_year and expectation.programme_id != self.curriculum_repository.resolve_programme(problem.curriculum.level, self.academic_year).id:
-                        raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} is not in the active programme for {self.academic_year}")
+            records = raw.get("problems") if isinstance(raw, dict) and "problems" in raw else [raw]
+            if not isinstance(records, list) or not records:
+                raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nbundle must contain a non-empty problems list")
+            for raw_problem in records:
+                problem_id = raw_problem.get("id") if isinstance(raw_problem, dict) else None
+                try:
+                    problem = Problem.model_validate(raw_problem)
+                except ValidationError as exc:
+                    identity = f"\nproblem ID: {problem_id}" if problem_id else ""
+                    raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}{identity}\n{exc}") from exc
+                self._add_problem(problem, path, loaded, origins, statements)
         self._problems = tuple(loaded[key] for key in sorted(loaded))
         self._by_id = dict(loaded)
         self._validate_recommendations(origins)
+
+    def _add_problem(self, problem: Problem, path: Path, loaded: dict[str, Problem],
+                     origins: dict[str, Path], statements: dict[str, Path]) -> None:
+        if problem.id in loaded:
+            raise ProblemCorpusError(
+                f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\n"
+                f"duplicate ID (already defined in {origins[problem.id]})"
+            )
+        normalized = re.sub(
+            r"\s+", " ", unicodedata.normalize("NFKC", problem.statement).casefold()
+        ).strip()
+        if normalized in statements:
+            raise ProblemCorpusError(
+                f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\n"
+                f"duplicate normalized statement (already defined in {statements[normalized]})"
+            )
+        loaded[problem.id] = problem
+        origins[problem.id] = path
+        statements[normalized] = path
+        known_directories = {level.value for level in CurriculumLevel}
+        directory_level = next((part for part in reversed(path.parts) if part in known_directories), None)
+        if directory_level and directory_level != problem.curriculum.level.value:
+            raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\ndirectory level does not match curriculum.level {problem.curriculum.level.value}")
+        if self.curriculum_repository is not None:
+            for expectation_id in problem.curriculum.expectations:
+                expectation = self.curriculum_repository.expectations.get(expectation_id)
+                if expectation is None:
+                    raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nunknown expectation: {expectation_id}")
+                if expectation.level != problem.curriculum.level:
+                    raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} belongs to {expectation.level.value}, not {problem.curriculum.level.value}")
+                if self.academic_year and expectation.programme_id != self.curriculum_repository.resolve_programme(problem.curriculum.level, self.academic_year).id:
+                    raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} is not in the active programme for {self.academic_year}")
 
     def _validate_recommendations(self, origins: dict[str, Path]) -> None:
         order = {level: index for index, level in enumerate(CURRICULUM_ORDER)}

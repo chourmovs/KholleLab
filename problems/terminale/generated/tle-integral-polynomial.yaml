@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: tle-integral-polynomial-g1-v001
+  title: Tle Integral Polynomial
+  statement: Variante 1 — Calculer exactement $\int_0^1 (9x^2+4x+6)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(9/3)x^3+(4/2)x^2+6x$ ; l'intégrale vaut $11$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 1
+    parameter_identity: 5c4e97a6492ab8427261e20d994570f5b399589833652ae55392e2084a99766b
+- id: tle-integral-polynomial-g1-v002
+  title: Tle Integral Polynomial
+  statement: Variante 2 — Calculer exactement $\int_0^1 (4x^2+11x+10)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(4/3)x^3+(11/2)x^2+10x$ ; l'intégrale vaut $101/6$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 2
+    parameter_identity: 3d1e29cdefa12dca02dd83a8e246efc755defbc6c42400e2e9d9edcbe233a4b9
+- id: tle-integral-polynomial-g1-v003
+  title: Tle Integral Polynomial
+  statement: Variante 3 — Calculer exactement $\int_0^1 (9x^2+3x+3)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(9/3)x^3+(3/2)x^2+3x$ ; l'intégrale vaut $15/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 3
+    parameter_identity: 3158cb8e68976794f3f3bcb0ce4b571cb9f8f91fada7f2f53907f349a8027580
+- id: tle-integral-polynomial-g1-v004
+  title: Tle Integral Polynomial
+  statement: Variante 4 — Calculer exactement $\int_0^1 (9x^2+11x+5)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(9/3)x^3+(11/2)x^2+5x$ ; l'intégrale vaut $27/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 4
+    parameter_identity: efc9937eeb630556c544ae730ab06c430e2738a5f272415fc988486c5e0296de
+- id: tle-integral-polynomial-g1-v005
+  title: Tle Integral Polynomial
+  statement: Variante 5 — Calculer exactement $\int_0^1 (9x^2+11x+3)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(9/3)x^3+(11/2)x^2+3x$ ; l'intégrale vaut $23/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 5
+    parameter_identity: 989ab12e5073110ca72ef55de8ee107c63e935180a5eed1bd96ad99dc4f45103
+- id: tle-integral-polynomial-g1-v006
+  title: Tle Integral Polynomial
+  statement: Variante 6 — Calculer exactement $\int_0^1 (3x^2+10x+8)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(3/3)x^3+(10/2)x^2+8x$ ; l'intégrale vaut $14$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 6
+    parameter_identity: 1e29ee1574f503a9d828286f3af81e2aa25cec7a332f6b7bff056eb3c5f89150
+- id: tle-integral-polynomial-g1-v007
+  title: Tle Integral Polynomial
+  statement: Variante 7 — Calculer exactement $\int_0^1 (5x^2+12x+7)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(5/3)x^3+(12/2)x^2+7x$ ; l'intégrale vaut $44/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 7
+    parameter_identity: 787ea2f0fa8fd4b1c44a0564d885c58ef57b9c14e1144413487d2f2297786425
+- id: tle-integral-polynomial-g1-v008
+  title: Tle Integral Polynomial
+  statement: Variante 8 — Calculer exactement $\int_0^1 (5x^2+3x+8)\,dx$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-integrals
+  topics:
+  - integrals
+  skills:
+  - calculation
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Une primitive est $(5/3)x^3+(3/2)x^2+8x$ ; l'intégrale vaut $67/6$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-integral-polynomial
+    version: 1
+    variant: 8
+    parameter_identity: dc88eba2e0edc92ef302495deba6bc86df912e653687db570ab29065488b9ff9

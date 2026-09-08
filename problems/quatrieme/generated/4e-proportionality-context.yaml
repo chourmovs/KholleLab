@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 4e-proportionality-context-g1-v001
+  title: 4E Proportionality Context
+  statement: Variante 1 — Pour une recette, 4 unités correspondent à 12 unités. À combien correspondent 5 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $3$. Donc $(4+1)\times3=15$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 1
+    parameter_identity: a5429ca7470ce239d420bb1fbb67e93e3a24ce4a307b30f45a528b622eb2f045
+- id: 4e-proportionality-context-g1-v002
+  title: 4E Proportionality Context
+  statement: Variante 2 — Pour une recette, 3 unités correspondent à 21 unités. À combien correspondent 4 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $7$. Donc $(3+1)\times7=28$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 2
+    parameter_identity: 5873f1b39da443a18c3b8bccabad2c96a1eda3b962dda83e7fac92bbef1b1a0a
+- id: 4e-proportionality-context-g1-v003
+  title: 4E Proportionality Context
+  statement: Variante 3 — Pour une recette, 2 unités correspondent à 4 unités. À combien correspondent 3 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $2$. Donc $(2+1)\times2=6$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 3
+    parameter_identity: 11c39c5631d6c36139999b6683a70160d367c9ff0fac21f7adcc2d6aaa923646
+- id: 4e-proportionality-context-g1-v004
+  title: 4E Proportionality Context
+  statement: Variante 4 — Pour une recette, 2 unités correspondent à 6 unités. À combien correspondent 3 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $3$. Donc $(2+1)\times3=9$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 4
+    parameter_identity: 195238154ace339e30ca423dbb28616a441e4c2b4e52e08cc17a771f1e68778f
+- id: 4e-proportionality-context-g1-v005
+  title: 4E Proportionality Context
+  statement: Variante 5 — Pour une recette, 3 unités correspondent à 9 unités. À combien correspondent 4 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $3$. Donc $(3+1)\times3=12$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 5
+    parameter_identity: 77e72fc98d300b89e463d775e1d1eb02a60564efaeb4686a044bcaf23c53d5d7
+- id: 4e-proportionality-context-g1-v006
+  title: 4E Proportionality Context
+  statement: Variante 6 — Pour une recette, 2 unités correspondent à 14 unités. À combien correspondent 3 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $7$. Donc $(2+1)\times7=21$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 6
+    parameter_identity: 0b53f7db62c783710c386452daccc838af585709e1a13a4aa2f0247b6f3dcf04
+- id: 4e-proportionality-context-g1-v007
+  title: 4E Proportionality Context
+  statement: Variante 7 — Pour une recette, 4 unités correspondent à 8 unités. À combien correspondent 5 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $2$. Donc $(4+1)\times2=10$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 7
+    parameter_identity: e4a6deb1c5edcb498920427bd0b7db9b11cc5816ba62b3d52e3098043ddd1952
+- id: 4e-proportionality-context-g1-v008
+  title: 4E Proportionality Context
+  statement: Variante 8 — Pour une recette, 8 unités correspondent à 16 unités. À combien correspondent 9 unités ? Expliquer.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-proportionality
+  topics:
+  - arithmetic
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $2$. Donc $(8+1)\times2=18$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-proportionality-context
+    version: 1
+    variant: 8
+    parameter_identity: faa6eddd391a91b6888bdaebdd7adb181f5624349639b2a5e36b9078215731ac

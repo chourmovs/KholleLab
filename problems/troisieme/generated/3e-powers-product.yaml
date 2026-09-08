@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 3e-powers-product-g1-v001
+  title: 3E Powers Product
+  statement: Variante 1 — Écrire $(6^2\times 6^3)/6^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $6^{3}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 1
+    parameter_identity: 54884f133844386f79dfd7cff07aa7c72f401f2123bb0e27fcd644b8a53afc93
+- id: 3e-powers-product-g1-v002
+  title: 3E Powers Product
+  statement: Variante 2 — Écrire $(9^6\times 9^3)/9^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $9^{7}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 2
+    parameter_identity: a605d2d1606aca9ff049e9a859214233b796260360ea05e77180d120e2cd71d1
+- id: 3e-powers-product-g1-v003
+  title: 3E Powers Product
+  statement: Variante 3 — Écrire $(4^5\times 4^2)/4^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $4^{5}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 3
+    parameter_identity: c6ea1342d4a72c83edfef2a183105b30b313d19b73f4469d740ee617a960ebde
+- id: 3e-powers-product-g1-v004
+  title: 3E Powers Product
+  statement: Variante 4 — Écrire $(7^4\times 7^4)/7^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $7^{6}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 4
+    parameter_identity: bbe732a7918fe7ef777967b9f9d0d9b7abb046c25a5b642a74c5700aab1f1542
+- id: 3e-powers-product-g1-v005
+  title: 3E Powers Product
+  statement: Variante 5 — Écrire $(7^4\times 7^4)/7^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $7^{6}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 5
+    parameter_identity: 62590f0822ff85414731c6ddc0b37393f05f7dbc2f8b101b5343edea96cf06de
+- id: 3e-powers-product-g1-v006
+  title: 3E Powers Product
+  statement: Variante 6 — Écrire $(4^4\times 4^4)/4^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $4^{6}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 6
+    parameter_identity: 5b2b036dd2760619f5b0882e29ab524b224b4e6467b8a088ceed917252a0fc20
+- id: 3e-powers-product-g1-v007
+  title: 3E Powers Product
+  statement: Variante 7 — Écrire $(4^6\times 4^5)/4^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $4^{9}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 7
+    parameter_identity: e4509a915ddd2a7a51723e61ceeb0ac57d0cd1434d617178a04e147622e53c75
+- id: 3e-powers-product-g1-v008
+  title: 3E Powers Product
+  statement: Variante 8 — Écrire $(5^2\times 5^4)/5^2$ sous la forme d'une puissance unique.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-powers
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: 'On additionne puis soustrait les exposants : $5^{4}$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-powers-product
+    version: 1
+    variant: 8
+    parameter_identity: 2944e621bf556426acd9f083dd4bf25eafee862c28bb77e4479cffcc30fa6a1f

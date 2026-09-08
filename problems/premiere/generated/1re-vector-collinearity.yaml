@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 1re-vector-collinearity-g1-v001
+  title: 1Re Vector Collinearity
+  statement: Variante 1 — Montrer que les vecteurs $u=(2;6)$ et $v=(12;36)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 2
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=6u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 1
+    parameter_identity: 4f3c6585973ecd302dac476bacdcfa6ee5eaacd16f7af222c9dc4c420533c4bd
+- id: 1re-vector-collinearity-g1-v002
+  title: 1Re Vector Collinearity
+  statement: Variante 2 — Montrer que les vecteurs $u=(3;8)$ et $v=(18;48)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=6u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 2
+    parameter_identity: 838bde16b1ace1a1d7cf2a7c06bc9f0a4462fb0786ad262aba8e1bf2f43fca14
+- id: 1re-vector-collinearity-g1-v003
+  title: 1Re Vector Collinearity
+  statement: Variante 3 — Montrer que les vecteurs $u=(8;3)$ et $v=(72;27)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 2
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=9u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 3
+    parameter_identity: c41e49e28b8df3d0adee320b05a4a97687099fe9dd17301934bab29369b17866
+- id: 1re-vector-collinearity-g1-v004
+  title: 1Re Vector Collinearity
+  statement: Variante 4 — Montrer que les vecteurs $u=(5;5)$ et $v=(50;50)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=10u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 4
+    parameter_identity: 8320c14ab2d3ae33f916f0b26a8209c592292b4cf8178f6b5529fd5f178811f1
+- id: 1re-vector-collinearity-g1-v005
+  title: 1Re Vector Collinearity
+  statement: Variante 5 — Montrer que les vecteurs $u=(8;6)$ et $v=(24;18)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 2
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=3u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 5
+    parameter_identity: b7fecf0444aa8d41a7dab799a094b6c54990e6d1c38ce1eae0bd4e42dd2e9358
+- id: 1re-vector-collinearity-g1-v006
+  title: 1Re Vector Collinearity
+  statement: Variante 6 — Montrer que les vecteurs $u=(8;10)$ et $v=(56;70)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=7u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 6
+    parameter_identity: 5db22b720b2788c08b97243476a411fd58d7ffd60f66ad8253c0d95b168b30c0
+- id: 1re-vector-collinearity-g1-v007
+  title: 1Re Vector Collinearity
+  statement: Variante 7 — Montrer que les vecteurs $u=(9;1)$ et $v=(54;6)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 2
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=6u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 7
+    parameter_identity: efb1c32584f7c8c9e78574b638323dd24e66dcd7aad976d618e02a5ff4133a64
+- id: 1re-vector-collinearity-g1-v008
+  title: 1Re Vector Collinearity
+  statement: Variante 8 — Montrer que les vecteurs $u=(8;2)$ et $v=(72;18)$ sont colinéaires et donner le coefficient.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-geometry
+  topics:
+  - geometry
+  skills:
+  - proof
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $v=9u$ ; les vecteurs sont donc colinéaires.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 1re-vector-collinearity
+    version: 1
+    variant: 8
+    parameter_identity: 8a4bafcfae8840e15ce7bc896f5d297834b936faff24be8f5f518ce8b4c35442

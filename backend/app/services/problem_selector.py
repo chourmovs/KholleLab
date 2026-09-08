@@ -31,6 +31,16 @@ class ProblemSelector:
             candidates = compatible
         if not candidates:
             return None
+        # An explicit exclusion usually means “another exercise”. Prefer another
+        # parametric archetype before merely changing its coefficients.
+        excluded_families = {
+            problem.generation.family_id for problem in compatible
+            if problem.id in excluded and problem.generation
+        }
+        diverse = [problem for problem in candidates
+                   if not problem.generation or problem.generation.family_id not in excluded_families]
+        if diverse:
+            candidates = diverse
         if difficulty is not None:
             candidates.sort(key=lambda p: (abs(p.curriculum.difficulty - difficulty), p.curriculum.difficulty > difficulty,
                                            p.curriculum.difficulty, p.id))

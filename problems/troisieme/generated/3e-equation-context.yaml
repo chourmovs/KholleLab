@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 3e-equation-context-g1-v001
+  title: 3E Equation Context
+  statement: 'Variante 1 — Un nombre multiplié : $6x+6=48$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$6x=42$, donc $x=7$. Vérification : $6\times7+6=48$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 1
+    parameter_identity: 40f04b6c8ac0284e40cac21ebbe275516deb831e0b1c7de09b5ee0db00ae38ea
+- id: 3e-equation-context-g1-v002
+  title: 3E Equation Context
+  statement: 'Variante 2 — Un nombre multiplié : $8x+9=81$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$8x=72$, donc $x=9$. Vérification : $8\times9+9=81$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 2
+    parameter_identity: b299871ac24eed3e01fc75f551bf3e06874b17a1ad3b8dc3c372f9998fd074e5
+- id: 3e-equation-context-g1-v003
+  title: 3E Equation Context
+  statement: 'Variante 3 — Un nombre multiplié : $6x+6=66$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$6x=60$, donc $x=10$. Vérification : $6\times10+6=66$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 3
+    parameter_identity: cd9bf8f7f6a3eca9b5658ddcda2846988e1fa90e43ba193e3d3a036e4243e6ed
+- id: 3e-equation-context-g1-v004
+  title: 3E Equation Context
+  statement: 'Variante 4 — Un nombre multiplié : $7x+1=50$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$7x=49$, donc $x=7$. Vérification : $7\times7+1=50$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 4
+    parameter_identity: 8056ddf3adf18184f79b1aaa3bfbfdeaf399e7954def77832f6216af8b91c94c
+- id: 3e-equation-context-g1-v005
+  title: 3E Equation Context
+  statement: 'Variante 5 — Un nombre multiplié : $9x+10=73$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$9x=63$, donc $x=7$. Vérification : $9\times7+10=73$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 5
+    parameter_identity: a46499a6c68da738bbd7f24f1b30a5646cc3b068fe1ad4e6263555aba7088736
+- id: 3e-equation-context-g1-v006
+  title: 3E Equation Context
+  statement: 'Variante 6 — Un nombre multiplié : $5x+12=62$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$5x=50$, donc $x=10$. Vérification : $5\times10+12=62$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 6
+    parameter_identity: e26956be7b831e584a31744e53492cacc78d7c6e6892dbd5119e979d180802b3
+- id: 3e-equation-context-g1-v007
+  title: 3E Equation Context
+  statement: 'Variante 7 — Un nombre multiplié : $9x+8=26$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$9x=18$, donc $x=2$. Vérification : $9\times2+8=26$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 7
+    parameter_identity: 4b923ac922f9074fbf9d8abdb7cf4e90e82a1aea72c6ed95c5772ba2570e5e61
+- id: 3e-equation-context-g1-v008
+  title: 3E Equation Context
+  statement: 'Variante 8 — Un nombre multiplié : $7x+12=82$. Justifier puis vérifier la réponse.'
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-equations
+  topics:
+  - equations
+  skills:
+  - modeling
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$7x=70$, donc $x=10$. Vérification : $7\times10+12=82$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-equation-context
+    version: 1
+    variant: 8
+    parameter_identity: 513beb9c6805b7490e06d141160ee02694029701d6ed0ed31e9d12bbe813bbc7

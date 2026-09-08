@@ -25,6 +25,7 @@ class RecentLearning:
     skills: tuple[Skill, ...] = ()
     prerequisites: tuple[str, ...] = ()
     difficulty: int | None = None
+    family_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -71,6 +72,8 @@ class AdaptiveContextBuilder:
             skills=catalogue[item.problem_id].skills if item.problem_id in catalogue else (),
             prerequisites=catalogue[item.problem_id].prerequisites if item.problem_id in catalogue else (),
             difficulty=catalogue[item.problem_id].curriculum.difficulty if item.problem_id in catalogue else None,
+            family_id=(catalogue[item.problem_id].generation.family_id
+                       if item.problem_id in catalogue and catalogue[item.problem_id].generation else None),
         ) for item in sessions)
         meaningful = [item for item in recent if item.intervention_needed or item.resource_need in {"course_gap", "method_gap", "example_helpful"}]
         topics: list[Topic] = []

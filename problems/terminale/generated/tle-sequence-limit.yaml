@@ -1,0 +1,242 @@
+schema_version: 1
+problems:
+- id: tle-sequence-limit-g1-v001
+  title: Tle Sequence Limit
+  statement: Variante 1 — La suite vérifie $u_n=6\times(1/10)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|1/10|<1$, $(1/10)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 1
+    parameter_identity: 69bb68cabafbaf99e6d6b75d35a86bb7cd4caf764c419f0b0ff9455fcc98edb2
+- id: tle-sequence-limit-g1-v002
+  title: Tle Sequence Limit
+  statement: Variante 2 — La suite vérifie $u_n=3\times(3/5)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|3/5|<1$, $(3/5)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 2
+    parameter_identity: 2f338048c1bc0b1d3f30a84e2d107e4abf93e12bde61dcf21a6e374f30618f11
+- id: tle-sequence-limit-g1-v003
+  title: Tle Sequence Limit
+  statement: Variante 3 — La suite vérifie $u_n=3\times(1/2)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|1/2|<1$, $(1/2)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 3
+    parameter_identity: 220d107eff499d11551d495221607b32ff230e331dc655c09a077d0d1260fb7a
+- id: tle-sequence-limit-g1-v004
+  title: Tle Sequence Limit
+  statement: Variante 4 — La suite vérifie $u_n=8\times(1/2)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|1/2|<1$, $(1/2)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 4
+    parameter_identity: ee26d8ce23081f04faa3cf3da81ca928331d380acbee78410d0236676e9aada3
+- id: tle-sequence-limit-g1-v005
+  title: Tle Sequence Limit
+  statement: Variante 5 — La suite vérifie $u_n=8\times(3/10)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|3/10|<1$, $(3/10)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 5
+    parameter_identity: 102a1326c89f23796d4258549a068fe19469555541e0103449f61bf8df18d223
+- id: tle-sequence-limit-g1-v006
+  title: Tle Sequence Limit
+  statement: Variante 6 — La suite vérifie $u_n=7\times(1/5)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|1/5|<1$, $(1/5)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 6
+    parameter_identity: 06361f24d4aa463e1efece7e445652e8db45a33ba9e37e66b7c139f74faa562e
+- id: tle-sequence-limit-g1-v007
+  title: Tle Sequence Limit
+  statement: Variante 7 — La suite vérifie $u_n=3\times(1/10)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 2
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|1/10|<1$, $(1/10)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 7
+    parameter_identity: 2bc4403a77f83e59689c54047c52dd5b386a53e64f4818a2de5da684b5278440
+- id: tle-sequence-limit-g1-v008
+  title: Tle Sequence Limit
+  statement: Variante 8 — La suite vérifie $u_n=3\times(4/5)^n$. Déterminer sa limite et justifier.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-analysis
+  topics:
+  - limits
+  - sequences
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $|4/5|<1$, $(4/5)^n\to0$, donc $u_n\to0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: tle-sequence-limit
+    version: 1
+    variant: 8
+    parameter_identity: fef4922c602c6209ef620495a69c1a23ac41b7806741426eb15051ba058fadd2

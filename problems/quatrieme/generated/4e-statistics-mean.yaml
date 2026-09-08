@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 4e-statistics-mean-g1-v001
+  title: 4E Statistics Mean
+  statement: Variante 1 — Calculer la moyenne exacte de la série $2; 8; 9$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $19$, donc la moyenne est $19/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 1
+    parameter_identity: 3a2a63b3fd8c4026c531e1848f963766ea3c3f06e4f61a3ce39ebe43daf5fbfb
+- id: 4e-statistics-mean-g1-v002
+  title: 4E Statistics Mean
+  statement: Variante 2 — Calculer la moyenne exacte de la série $5; 8; 6$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $19$, donc la moyenne est $19/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 2
+    parameter_identity: a6f288d7e3bd120fa11817103c9308f8abad277385be50c598701ef3d9848b82
+- id: 4e-statistics-mean-g1-v003
+  title: 4E Statistics Mean
+  statement: Variante 3 — Calculer la moyenne exacte de la série $2; 7; 7$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $16$, donc la moyenne est $16/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 3
+    parameter_identity: 9b26c5ebbea1ce956fa4402869892704dee1761a7e45984efb81bdab981182b7
+- id: 4e-statistics-mean-g1-v004
+  title: 4E Statistics Mean
+  statement: Variante 4 — Calculer la moyenne exacte de la série $5; 2; 10$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $17$, donc la moyenne est $17/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 4
+    parameter_identity: e9da2366223a90f8daa99e9d97ab3f835ce155fed071ddb1c877daa9705a0655
+- id: 4e-statistics-mean-g1-v005
+  title: 4E Statistics Mean
+  statement: Variante 5 — Calculer la moyenne exacte de la série $4; 3; 9$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $16$, donc la moyenne est $16/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 5
+    parameter_identity: 556e2a85585686e717feb85d1fa3731328406a0a348a532b51aa4795d6389511
+- id: 4e-statistics-mean-g1-v006
+  title: 4E Statistics Mean
+  statement: Variante 6 — Calculer la moyenne exacte de la série $5; 4; 2$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $11$, donc la moyenne est $11/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 6
+    parameter_identity: 475d28d73d8db8f1ee68ad54afa7dfe00b1e105fa827c4460583c7ff42fc0813
+- id: 4e-statistics-mean-g1-v007
+  title: 4E Statistics Mean
+  statement: Variante 7 — Calculer la moyenne exacte de la série $9; 10; 6$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $25$, donc la moyenne est $25/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 7
+    parameter_identity: 7ecf929e7c18f8a2cf112d4d27020721fe64b033179ecd3e3b9ebbc81192e397
+- id: 4e-statistics-mean-g1-v008
+  title: 4E Statistics Mean
+  statement: Variante 8 — Calculer la moyenne exacte de la série $9; 12; 10$ et l'interpréter.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme est $31$, donc la moyenne est $31/3$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-mean
+    version: 1
+    variant: 8
+    parameter_identity: b62dd4007d7f9f801732c061daae36d6be77904cecdfa022737eee7269b13312

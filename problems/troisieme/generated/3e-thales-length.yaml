@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 3e-thales-length-g1-v001
+  title: 3E Thales Length
+  statement: Variante 1 — Sur un plan à l'échelle, 7 unités correspondent à 28 unités. À combien correspondent 8 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $4$. Donc $(7+1)\times4=32$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 1
+    parameter_identity: b9597b7db50606bc6a7dd09aaee8d04838342b91f13155a3f7c5ba5ebd8732ef
+- id: 3e-thales-length-g1-v002
+  title: 3E Thales Length
+  statement: Variante 2 — Sur un plan à l'échelle, 8 unités correspondent à 56 unités. À combien correspondent 9 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $7$. Donc $(8+1)\times7=63$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 2
+    parameter_identity: 2429ec4ae2e7085502eacee667399d1c358ae0b42d4543ef91fcd6d8a61caf83
+- id: 3e-thales-length-g1-v003
+  title: 3E Thales Length
+  statement: Variante 3 — Sur un plan à l'échelle, 6 unités correspondent à 30 unités. À combien correspondent 7 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $5$. Donc $(6+1)\times5=35$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 3
+    parameter_identity: 99bb4297e008da436724fd49c3621177803f98d26d1107d099ae84d7c46e9ad7
+- id: 3e-thales-length-g1-v004
+  title: 3E Thales Length
+  statement: Variante 4 — Sur un plan à l'échelle, 4 unités correspondent à 24 unités. À combien correspondent 5 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $6$. Donc $(4+1)\times6=30$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 4
+    parameter_identity: e4391672f3d5d5a13b60cd2cc445b85e1f0e3b066393045f7aa914d528b15265
+- id: 3e-thales-length-g1-v005
+  title: 3E Thales Length
+  statement: Variante 5 — Sur un plan à l'échelle, 6 unités correspondent à 12 unités. À combien correspondent 7 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $2$. Donc $(6+1)\times2=14$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 5
+    parameter_identity: f95bc7d41e0c20d6af30964889785459a06ceca5e8b4d457f41866ca73118d6c
+- id: 3e-thales-length-g1-v006
+  title: 3E Thales Length
+  statement: Variante 6 — Sur un plan à l'échelle, 3 unités correspondent à 12 unités. À combien correspondent 4 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $4$. Donc $(3+1)\times4=16$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 6
+    parameter_identity: cb2292d54098b69e79e6da757e79e393233b7e0496792e9250f1169a0694fa55
+- id: 3e-thales-length-g1-v007
+  title: 3E Thales Length
+  statement: Variante 7 — Sur un plan à l'échelle, 9 unités correspondent à 36 unités. À combien correspondent 10 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $4$. Donc $(9+1)\times4=40$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 7
+    parameter_identity: d64e50fa64f34dd15f9bb9ee322a279955d9cdcdc30ff37f9c5d04c96523592d
+- id: 3e-thales-length-g1-v008
+  title: 3E Thales Length
+  statement: Variante 8 — Sur un plan à l'échelle, 9 unités correspondent à 54 unités. À combien correspondent 10 unités ? Expliquer.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-thales
+  topics:
+  - geometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Le coefficient est $6$. Donc $(9+1)\times6=60$ unités.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-thales-length
+    version: 1
+    variant: 8
+    parameter_identity: 5c7f30dfb8bd2b1c0e0cb68363d80a00d63aa215d0387e19f5055f2f09bc52f6
