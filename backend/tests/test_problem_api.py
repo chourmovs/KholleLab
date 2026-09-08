@@ -38,6 +38,14 @@ def test_college_selection_and_hard_expectation_filter():
         assert empty.status_code == 200 and "problem" not in empty.json()
 
 
+def test_seconde_difficulty_five_falls_back_to_new_nearest_band():
+    with TestClient(app) as client:
+        payload = client.get("/api/problems/select?level=seconde&difficulty=5").json()
+        assert payload["fallback_used"] is True
+        assert payload["actual_difficulty"] == 4
+        assert payload["problem"]["curriculum"]["level"] == "seconde"
+
+
 def test_curriculum_api_uses_versioned_metadata():
     with TestClient(app) as client:
         payload = client.get("/api/curriculum").json()

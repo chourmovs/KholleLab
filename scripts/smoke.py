@@ -59,7 +59,9 @@ objective_selection = get_json(f"{api}/problems/select?level=quatrieme&expectati
 assert expectation in objective_selection["problem"]["curriculum"]["expectations"]
 print("[PASS] Hard curriculum expectation selection")
 fallback = get_json(f"{api}/problems/select?level=seconde&difficulty=5")
-assert fallback["fallback_used"] and fallback["actual_difficulty"] == 3
+# PR15 adds meaningful D4 Seconde variants.  D5 is still intentionally absent,
+# so the deterministic nearest-difficulty fallback must now select D4.
+assert fallback["fallback_used"] and fallback["actual_difficulty"] == 4
 print("[PASS] Difficulty fallback")
 print("[PASS] Reference solution isolation")
 catalogue = get_json(f"{api}/problems")
