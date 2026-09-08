@@ -1,0 +1,15 @@
+id: powers-rules
+type: course
+title: Calculer avec des puissances
+summary: Appliquer les règles de calcul lorsque la base est la même.
+content: 'Pour un entier positif $n$, $a^n$ est le produit de $n$ facteurs égaux à $a$. Si $a\ne0$, on pose $a^0=1$ et $a^{-n}=1/a^n$. Avec une même base non nulle, $a^m\times a^n=a^{m+n}$ et $a^m/a^n=a^{m-n}$. Une puissance de puissance vérifie $(a^m)^n=a^{mn}$, tandis que $(ab)^n=a^nb^n$. Attention : une somme ne se distribue pas ainsi, donc $(a+b)^n$ n’est généralement pas $a^n+b^n$. Les parenthèses déterminent aussi le signe : $(-2)^4=16$, alors que $-2^4=-16$. On commence par identifier précisément la base avant d’utiliser une règle.'
+curriculum_levels:
+- troisieme
+knowledge_ids:
+- powers
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

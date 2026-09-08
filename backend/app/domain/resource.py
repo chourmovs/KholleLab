@@ -22,11 +22,13 @@ class ResourceMetadata(StrictModel):
     prerequisites: tuple[Slug, ...] = ()
     skills: tuple[Skill, ...] = ()
     tags: tuple[Slug, ...] = ()
-    priority: int = 0
+    knowledge_ids: tuple[Slug, ...] = ()
+    curriculum_expectations: tuple[Slug, ...] = ()
+    priority: int = Field(default=0, ge=-100, le=100)
 
     @model_validator(mode="after")
     def reject_duplicate_classification(self) -> "ResourceMetadata":
-        for name in ("curriculum_levels", "topics", "prerequisites", "skills", "tags"):
+        for name in ("curriculum_levels", "topics", "prerequisites", "skills", "tags", "knowledge_ids", "curriculum_expectations"):
             values = getattr(self, name)
             if len(values) != len(set(values)):
                 raise ValueError(f"{name} must not contain duplicates")

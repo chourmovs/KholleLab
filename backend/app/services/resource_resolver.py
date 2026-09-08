@@ -1,6 +1,16 @@
 from app.domain.problem import CurriculumLevel, Skill, StrictModel, Topic
 from app.domain.resource import PedagogicalResource, ResourceId, Slug
 from app.services.resource_repository import ResourceRepository
+from app.services.curriculum_repository import CurriculumRepository
+
+EXPLICIT_REF_WEIGHT = 10_000
+EXPECTATION_WEIGHT = 1_000
+KNOWLEDGE_WEIGHT = 500
+PREREQUISITE_WEIGHT = 120
+TOPIC_WEIGHT = 60
+SKILL_WEIGHT = 20
+TAG_WEIGHT = 10
+LEVEL_WEIGHT = 1
 
 
 class ResourceContext(StrictModel):
@@ -11,6 +21,24 @@ class ResourceContext(StrictModel):
     tags: tuple[Slug, ...] = ()
     problem_id: str | None = None
     explicit_resource_refs: tuple[ResourceId, ...] = ()
+    knowledge_ids: tuple[Slug, ...] = ()
+    curriculum_expectations: tuple[Slug, ...] = ()
+
+
+def context_for_problem(problem, curriculum: CurriculumRepository) -> ResourceContext:
+    """Build resolver context without duplicating curriculum knowledge in problem YAML."""
+    expectation_ids = tuple(problem.curriculum.expectations)
+    knowledge_ids = tuple(dict.fromkeys(
+        knowledge_id
+        for expectation_id in expectation_ids
+        for knowledge_id in curriculum.expectations[expectation_id].knowledge_ids
+    ))
+    return ResourceContext(
+        curriculum_level=problem.curriculum.level, topics=problem.topics,
+        prerequisites=problem.prerequisites, skills=problem.skills, tags=problem.tags,
+        problem_id=problem.id, explicit_resource_refs=problem.resource_refs,
+        knowledge_ids=knowledge_ids, curriculum_expectations=expectation_ids,
+    )
 
 
 class ResolvedResource(StrictModel):
@@ -35,21 +63,31 @@ class ResourceResolver:
             reasons: list[str] = []
             score = resource.priority
             if resource.id in explicit:
-                score += 1000
+                score += EXPLICIT_REF_WEIGHT
                 reasons.append(f"explicit:{resource.id}")
+            expectation_matches = sorted(set(context.curriculum_expectations) & set(resource.curriculum_expectations))
+            if expectation_matches:
+                score += EXPECTATION_WEIGHT
+            for value in expectation_matches:
+                reasons.append(f"expectation:{value}")
+            knowledge_matches = sorted(set(context.knowledge_ids) & set(resource.knowledge_ids))
+            if knowledge_matches:
+                score += KNOWLEDGE_WEIGHT
+            for value in knowledge_matches:
+                reasons.append(f"knowledge:{value}")
             for value in sorted(set(context.prerequisites) & set(resource.prerequisites)):
-                score += 120
+                score += PREREQUISITE_WEIGHT
                 reasons.append(f"prerequisite:{value}")
             for value in sorted(set(context.topics) & set(resource.topics), key=str):
-                score += 60
+                score += TOPIC_WEIGHT
                 reasons.append(f"topic:{value.value}")
-            score += 40
+            score += LEVEL_WEIGHT
             reasons.append(f"level:{context.curriculum_level.value}")
             for value in sorted(set(context.skills) & set(resource.skills), key=str):
-                score += 20
+                score += SKILL_WEIGHT
                 reasons.append(f"skill:{value.value}")
             for value in sorted(set(context.tags) & set(resource.tags)):
-                score += 10
+                score += TAG_WEIGHT
                 reasons.append(f"tag:{value}")
             # Level alone is eligibility, not meaningful semantic overlap.
             if len(reasons) == 1:

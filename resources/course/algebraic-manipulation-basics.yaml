@@ -1,0 +1,19 @@
+id: algebraic-manipulation-basics
+type: course
+title: Réduire et développer une expression
+summary: Transformer une expression littérale en respectant ses termes.
+content: 'Réduire une expression consiste à regrouper les termes semblables : $3x+5x=8x$, mais $3x+5$ ne se réduit pas. Pour développer, on distribue chaque facteur : $k(a+b)=ka+kb$ et $(a+b)(c+d)=ac+ad+bc+bd$. Un signe moins devant une parenthèse change le signe de chacun de ses termes. Pour factoriser, on effectue l’opération inverse en repérant un facteur commun : $ka+kb=k(a+b)$. À chaque étape, on conserve l’égalité entre l’expression initiale et l’expression transformée. Une vérification rapide consiste à remplacer la lettre par une valeur simple dans les deux écritures ; ce contrôle repère souvent un oubli de terme ou une erreur de signe.'
+curriculum_levels:
+- quatrieme
+- troisieme
+- seconde
+- premiere
+- terminale
+knowledge_ids:
+- algebraic-manipulation
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

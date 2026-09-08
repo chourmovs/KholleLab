@@ -1,0 +1,15 @@
+id: fraction-addition-method
+type: course
+title: Additionner et soustraire des fractions
+summary: Réduire au même dénominateur avant de réunir les numérateurs.
+content: 'Pour additionner ou soustraire des fractions, leurs dénominateurs doivent être identiques. On choisit un dénominateur commun, de préférence le plus petit multiple commun, puis on transforme chaque fraction sans changer sa valeur. Ainsi, $a/b+c/d=(ad+bc)/(bd)$, mais un dénominateur plus simple est souvent possible lorsque $b$ et $d$ ont des facteurs communs. Une fois les dénominateurs égaux, on additionne seulement les numérateurs et on conserve le dénominateur. On termine en simplifiant le résultat et, si nécessaire, en contrôlant son ordre de grandeur. Il ne faut jamais additionner directement les dénominateurs : $a/b+c/d$ n’est généralement pas $(a+c)/(b+d)$.'
+curriculum_levels:
+- quatrieme
+knowledge_ids:
+- fraction-addition
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

@@ -7,7 +7,7 @@ from app.api.routes import router
 from app.core.config import settings
 from app.core.version import APP_NAME, APP_VERSION
 from app.services.problem_repository import ProblemRepository
-from app.services.resource_repository import ResourceRepository, validate_problem_resource_refs
+from app.services.resource_repository import ResourceRepository, validate_problem_resource_refs, validate_resource_curriculum_refs
 from app.services.resource_resolver import ResourceResolver
 from app.core.logging import configure_logging, component_logger
 from app.services.learner_identity import LearnerIdentityMiddleware
@@ -29,6 +29,7 @@ async def lifespan(app: FastAPI):
     repository.load()
     resource_repository = ResourceRepository(settings.resources_dir)
     resource_repository.load()
+    validate_resource_curriculum_refs(resource_repository, curriculum_repository)
     validate_problem_resource_refs(repository, resource_repository)
     curriculum_levels = len({problem.curriculum.level for problem in repository.list()})
     component_logger("application").info(

@@ -1,0 +1,15 @@
+id: analytic-geometry-method
+type: course
+title: Distances et droites dans un repère
+summary: Traduire une propriété géométrique par un calcul de coordonnées.
+content: Dans un repère orthonormé, la distance entre $A(x_A;y_A)$ et $B(x_B;y_B)$ est $AB=\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$. Le milieu de $[AB]$ a pour coordonnées $((x_A+x_B)/2;(y_A+y_B)/2)$. Une droite non verticale peut s’écrire $y=mx+p$, où $m$ est son coefficient directeur. À partir de deux points d’abscisses distinctes, $m=(y_B-y_A)/(x_B-x_A)$, puis on détermine $p$ avec l’un des points. Pour traiter un problème, on choisit la formule correspondant à la propriété demandée, on remplace avec soin les coordonnées et on interprète le résultat dans la figure plutôt que de s’arrêter au calcul.
+curriculum_levels:
+- seconde
+knowledge_ids:
+- analytic-geometry
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

@@ -1,0 +1,16 @@
+id: vectors-coordinates
+type: course
+title: Calculer avec des vecteurs repérés
+summary: Utiliser les coordonnées pour représenter direction et déplacement.
+content: 'Dans un repère, si $A(x_A;y_A)$ et $B(x_B;y_B)$, alors $\overrightarrow{AB}=(x_B-x_A;y_B-y_A)$. Deux vecteurs sont égaux lorsque leurs coordonnées correspondantes sont égales. On additionne les vecteurs coordonnée par coordonnée et on multiplie par un réel de la même manière. La relation de Chasles s’écrit $\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}$. Pour montrer que deux vecteurs non nuls sont colinéaires, on cherche un réel $k$ tel que $\vec v=k\vec u$, ou on vérifie que leur déterminant est nul. Les coordonnées traduisent un déplacement : respecter l’ordre arrivée moins départ évite le signe inversé.'
+curriculum_levels:
+- seconde
+- premiere
+knowledge_ids:
+- vectors
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

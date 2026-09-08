@@ -10,7 +10,7 @@ from app.services.adaptive_problem_ranker import AdaptiveProblemRanker, Adaptati
 from app.services.learner_identity import learner_id
 from app.services.problem_selector import ProblemSelector
 from app.services.problem_repository import ProblemRepository
-from app.services.resource_resolver import ResourceContext, ResourceResolver
+from app.services.resource_resolver import ResourceResolver, context_for_problem
 from app.core.logging import component_logger
 
 router = APIRouter(prefix="/problems", tags=["problems"])
@@ -26,15 +26,7 @@ def resolve_problem_resources(problem_id: str, request: Request) -> dict:
     if problem is None:
         raise HTTPException(status_code=404, detail="Problem not found")
     resolver: ResourceResolver = request.app.state.resource_resolver
-    matches = resolver.resolve(ResourceContext(
-        curriculum_level=problem.curriculum.level,
-        topics=problem.topics,
-        prerequisites=problem.prerequisites,
-        skills=problem.skills,
-        tags=problem.tags,
-        problem_id=problem.id,
-        explicit_resource_refs=problem.resource_refs,
-    ))
+    matches = resolver.resolve(context_for_problem(problem, request.app.state.curriculum_repository))
     return {"problem_id": problem.id, "resources": [match.resource for match in matches]}
 
 

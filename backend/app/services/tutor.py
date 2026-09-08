@@ -11,7 +11,7 @@ from app.models.tutor_assessment import TutorAssessmentRecord
 from app.providers.llm import ModelRole, model_identity, resolve_model
 from app.schemas.tutor import *
 from app.domain.resource import ResourceType
-from app.services.resource_resolver import ResourceContext
+from app.services.resource_resolver import context_for_problem
 
 PROMPT=(Path(__file__).parents[1]/"prompts/tutor_assessment_v1.md").read_text(encoding="utf-8")
 AUTO={TutorTrigger.MEANINGFUL_PROGRESS,TutorTrigger.STALLED}
@@ -33,7 +33,7 @@ def sanitize_resource_signal(signal:TutorResourceSignal,vocabulary:dict)->TutorR
     update={field:[value for value in getattr(signal,field) if value in set(vocabulary[key])] for field,key in mapping.items()}
     return signal.model_copy(update=update)
 
-def select_resource(problem,signal,safe,effective,trigger,resolver):
+def select_resource(problem,signal,safe,effective,trigger,resolver,curriculum):
     if not settings.tutor_resource_recommendations_enabled or not signal.needed or safe.reveals_answer:
         return None
     automatic=trigger in AUTO
@@ -42,10 +42,7 @@ def select_resource(problem,signal,safe,effective,trigger,resolver):
         return None
     if not safe.intervention_needed and trigger!=TutorTrigger.STALLED:
         return None
-    semantic=(*signal.topics,*signal.prerequisites,*signal.skills,*signal.tags)
-    if not semantic and not problem.resource_refs:
-        return None
-    context=ResourceContext(curriculum_level=problem.curriculum.level,topics=tuple(signal.topics),prerequisites=tuple(signal.prerequisites),skills=tuple(signal.skills),tags=tuple(signal.tags),problem_id=problem.id,explicit_resource_refs=problem.resource_refs)
+    context=context_for_problem(problem,curriculum).model_copy(update={"topics":tuple(signal.topics),"prerequisites":tuple(signal.prerequisites),"skills":tuple(signal.skills),"tags":tuple(signal.tags)})
     candidates=resolver.resolve(context)
     if automatic:
         candidates=[item for item in candidates if item.resource.type==ResourceType.COURSE]
@@ -79,7 +76,7 @@ def apply_policy(a:TutorAssessment, requested:int, trigger:TutorTrigger)->tuple[
     return a,effective
 
 class TutorAssessmentService:
-    def __init__(self,db:Session,problems,resources,resolver,provider): self.db,self.problems,self.resources,self.resolver,self.provider=db,problems,resources,resolver,provider
+    def __init__(self,db:Session,problems,resources,resolver,provider): self.db,self.problems,self.resources,self.resolver,self.provider=db,problems,resources,resolver,provider; self.curriculum=problems.curriculum_repository
     async def assess(self,attempt_id:uuid.UUID,request:TutorRequest)->TutorResponse:
         if not settings.proactive_tutor_enabled: raise TutorError("tutor_disabled",503)
         attempt=self.db.get(Attempt,attempt_id)
@@ -105,7 +102,7 @@ class TutorAssessmentService:
         signal=sanitize_resource_signal(safe.resource_signal,vocabulary)
         discarded=sum(len(getattr(safe.resource_signal,key))-len(getattr(signal,key)) for key in ("topics","prerequisites","skills","tags"))
         if discarded:component_logger("tutor").bind(discarded_resource_signal_values=discarded).warning("tutor_resource_signal_sanitized")
-        selected=None if raw.reveals_answer else select_resource(problem,signal,safe,effective,request.trigger,self.resolver)
+        selected=None if raw.reveals_answer else select_resource(problem,signal,safe,effective,request.trigger,self.resolver,self.curriculum)
         row=TutorAssessmentRecord(attempt_id=attempt_id,revision=attempt.revision,trigger=request.trigger.value,requested_help_level=request.requested_help_level,effective_help_level=effective,student_state=safe.student_state.value,intervention_needed=safe.intervention_needed,intervention_type=safe.intervention_type.value,intervention=safe.intervention,confidence=safe.confidence,error_category=safe.error_category.value,reveals_answer=safe.reveals_answer,provider=getattr(self.provider,"name","unknown"),model=short,backend=backend,client_request_id=request.client_request_id,recommended_resource_id=selected.resource.id if selected else None,resource_need=signal.need.value if selected else None)
         self.db.add(row);self.db.commit();self.db.refresh(row)
         component_logger("tutor").bind(attempt_id=str(attempt_id),revision=attempt.revision,student_state=row.student_state,intervention_needed=row.intervention_needed,effective_help_level=effective,confidence=row.confidence,latency_ms=round((time.perf_counter()-started)*1000,1)).info("tutor_assessment_completed")

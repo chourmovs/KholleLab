@@ -1,0 +1,16 @@
+id: function-image-reading
+type: course
+title: Calculer ou lire l’image d’un nombre
+summary: Partir d’une valeur de départ pour trouver sa valeur de sortie.
+content: L’image de $x$ par une fonction $f$ est la valeur $f(x)$. Avec une formule, on remplace chaque occurrence de la variable par la valeur donnée en conservant les parenthèses. Par exemple, si $f(x)=2x^2-3$, alors $f(-2)=2\times(-2)^2-3=5$. Dans un tableau, l’image se lit sur la ligne des sorties sous la valeur de départ. Sur un graphique, on part de l’abscisse, on rejoint la courbe verticalement, puis on lit l’ordonnée. Une valeur de départ n’a qu’une image pour une fonction. Il faut distinguer $f(x)$, qui est un nombre, de la courbe qui représente toutes les correspondances.
+curriculum_levels:
+- troisieme
+- seconde
+knowledge_ids:
+- function-image
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

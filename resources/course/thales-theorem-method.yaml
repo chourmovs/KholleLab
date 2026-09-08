@@ -1,0 +1,17 @@
+id: thales-theorem-method
+type: course
+title: Utiliser le théorème de Thalès
+summary: Écrire des rapports de longueurs dans une configuration de droites parallèles.
+content: 'Le théorème de Thalès s’applique lorsque deux droites sécantes sont coupées par deux droites parallèles. Dans un triangle $ABC$, si $M$ appartient à $(AB)$, $N$ à $(AC)$ et $(MN)$ est parallèle à $(BC)$, alors $AM/AB=AN/AC=MN/BC$. Avant tout calcul, on indique les alignements et le parallélisme, puis on écrit les rapports dans le même ordre : petit triangle sur grand triangle, par exemple. On choisit ensuite une égalité contenant la longueur cherchée et trois longueurs connues, puis on résout. La réciproque peut établir un parallélisme, à condition de vérifier aussi l’ordre des points sur les deux droites.'
+curriculum_levels:
+- troisieme
+knowledge_ids:
+- thales-theorem
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0
+curriculum_expectations:
+- c4-2020-3e-thales

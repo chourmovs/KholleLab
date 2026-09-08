@@ -1,0 +1,16 @@
+id: pythagorean-theorem-method
+type: course
+title: Utiliser le théorème de Pythagore
+summary: Relier les longueurs des côtés d’un triangle rectangle.
+content: 'Dans un triangle rectangle, le carré de la longueur de l’hypoténuse est égal à la somme des carrés des deux autres côtés. L’hypoténuse est le côté opposé à l’angle droit et le plus long du triangle. Si $ABC$ est rectangle en $A$, alors $BC^2=AB^2+AC^2$. Pour calculer une longueur, on écrit d’abord cette égalité avec les bons côtés, on remplace les données, puis on isole le carré recherché avant de prendre la racine carrée positive. La réciproque permet de prouver qu’un triangle est rectangle : si le carré du plus grand côté égale la somme des deux autres carrés, alors l’angle opposé est droit.'
+curriculum_levels:
+- quatrieme
+- troisieme
+knowledge_ids:
+- pythagorean-theorem
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0
