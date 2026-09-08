@@ -1,0 +1,16 @@
+id: right-triangle-trigonometry
+type: course
+title: Choisir sinus, cosinus ou tangente
+summary: Relier un angle aigu aux longueurs d’un triangle rectangle.
+content: 'Dans un triangle rectangle et pour un angle aigu donné, on nomme les côtés par rapport à cet angle : l’hypoténuse est opposée à l’angle droit, le côté opposé fait face à l’angle choisi et le côté adjacent le touche sans être l’hypoténuse. On utilise $\cos(\theta)=adjacent/hypoténuse$, $\sin(\theta)=opposé/hypoténuse$ et $\tan(\theta)=opposé/adjacent$. La formule se choisit avec la longueur connue et celle cherchée. Pour déterminer un angle, on emploie la fonction réciproque correspondante sur la calculatrice, réglée en degrés si l’énoncé utilise des degrés. Le résultat doit rester cohérent : une longueur est positive et un angle aigu est compris entre $0°$ et $90°$.'
+curriculum_levels:
+- troisieme
+- premiere
+knowledge_ids:
+- trigonometry
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

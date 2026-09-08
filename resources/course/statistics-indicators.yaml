@@ -1,0 +1,16 @@
+id: statistics-indicators
+type: course
+title: Calculer moyenne, médiane et étendue
+summary: Choisir un indicateur adapté pour résumer une série.
+content: 'La moyenne d’une série est la somme des valeurs, chacune répétée selon son effectif, divisée par l’effectif total : $\bar x=(n_1x_1+\cdots+n_kx_k)/(n_1+\cdots+n_k)$. Pour la médiane, on range d’abord les données. Elle partage alors la série en deux groupes d’effectifs comparables ; avec un effectif pair, on prend usuellement la moyenne des deux valeurs centrales. L’étendue est la différence entre la plus grande et la plus petite valeur. La moyenne utilise toutes les données mais peut être sensible aux valeurs extrêmes ; la médiane y résiste davantage. Toujours vérifier les effectifs et préciser l’unité de l’indicateur calculé.'
+curriculum_levels:
+- quatrieme
+- seconde
+knowledge_ids:
+- statistics
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

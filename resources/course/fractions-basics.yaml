@@ -1,0 +1,15 @@
+id: fractions-basics
+type: course
+title: Comprendre et simplifier une fraction
+summary: Interpréter une fraction et obtenir une écriture irréductible.
+content: 'Une fraction $a/b$, avec $b\ne0$, représente le quotient de $a$ par $b$. Deux fractions gardent la même valeur lorsque l’on multiplie ou divise leur numérateur et leur dénominateur par un même nombre non nul. Pour simplifier, on cherche donc un diviseur commun au numérateur et au dénominateur, puis on divise les deux. Une fraction est irréductible lorsque ces deux entiers n’ont plus de diviseur commun autre que 1. Avant un calcul, simplifier les facteurs communs limite les nombres manipulés. Le signe peut être placé devant la fraction : $(-a)/b=a/(-b)=-(a/b)$, tandis que $(-a)/(-b)=a/b$.'
+curriculum_levels:
+- quatrieme
+knowledge_ids:
+- fractions
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

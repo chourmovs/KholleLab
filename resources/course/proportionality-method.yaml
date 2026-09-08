@@ -1,0 +1,15 @@
+id: proportionality-method
+type: course
+title: Reconnaître et exploiter une proportionnalité
+summary: Passer d’une grandeur à l’autre avec un coefficient constant.
+content: 'Deux grandeurs sont proportionnelles lorsqu’on passe toujours de l’une à l’autre en multipliant par un même nombre, appelé coefficient de proportionnalité. Dans un tableau, on vérifie que les quotients correspondants sont égaux lorsque les valeurs permettent la division. Pour trouver une valeur manquante, on peut appliquer le coefficient, revenir à l’unité ou utiliser l’égalité des produits en croix : si $a/b=c/d$ avec des dénominateurs non nuls, alors $ad=bc$. Il faut d’abord identifier les grandeurs et leurs unités, puis vérifier que la situation est bien proportionnelle. Une somme fixe ou une évolution à taux variable ne définit pas une proportionnalité.'
+curriculum_levels:
+- quatrieme
+knowledge_ids:
+- proportionality
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

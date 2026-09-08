@@ -1,0 +1,16 @@
+id: function-antecedent-reading
+type: course
+title: Chercher un antécédent
+summary: Retrouver les valeurs de départ qui produisent une image donnée.
+content: Un antécédent de $y$ par une fonction $f$ est un nombre $x$ tel que $f(x)=y$. Avec une formule, chercher les antécédents revient à résoudre l’équation $f(x)=y$. Dans un tableau, on repère la valeur $y$ parmi les sorties et on lit toutes les valeurs de départ correspondantes. Sur un graphique, on trace mentalement la droite horizontale d’ordonnée $y$ ; les abscisses des points d’intersection avec la courbe sont les antécédents. Une valeur peut avoir aucun, un ou plusieurs antécédents. Il faut donc examiner tout le domaine représenté et ne pas s’arrêter au premier point trouvé.
+curriculum_levels:
+- troisieme
+- seconde
+knowledge_ids:
+- function-antecedent
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

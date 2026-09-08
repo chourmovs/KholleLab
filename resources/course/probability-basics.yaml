@@ -1,0 +1,17 @@
+id: probability-basics
+type: course
+title: Calculer une probabilité simple
+summary: Comparer les cas favorables à tous les cas possibles.
+content: 'Une probabilité est un nombre compris entre 0 et 1. Dans une situation d’équiprobabilité comportant un nombre fini d’issues, la probabilité d’un événement $A$ vaut le nombre d’issues favorables divisé par le nombre total d’issues. L’événement contraire, noté $\overline A$, vérifie $P(\overline A)=1-P(A)$. Pour réunir deux événements, $P(A\cup B)=P(A)+P(B)-P(A\cap B)$ : on retire l’intersection comptée deux fois. Avant de calculer, on décrit l’univers et l’événement sans ambiguïté. Un arbre ou un tableau aide à ne pas oublier d’issues. Enfin, une probabilité négative ou supérieure à 1 signale nécessairement une erreur.'
+curriculum_levels:
+- seconde
+- premiere
+- terminale
+knowledge_ids:
+- probability
+topics: []
+prerequisites: []
+skills: []
+tags:
+- rappel
+priority: 0

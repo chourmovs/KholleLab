@@ -6,6 +6,7 @@ import yaml
 from pydantic import ValidationError
 
 from app.domain.resource import PedagogicalResource, RESOURCE_ADAPTER, ResourceType
+from app.services.curriculum_repository import CurriculumRepository
 
 
 class ResourceCorpusError(RuntimeError):
@@ -80,4 +81,27 @@ def validate_problem_resource_refs(problems, resources: ResourceRepository) -> N
                 raise ResourceCorpusError(
                     f"Problem corpus resource validation failed:\nproblem ID: {problem.id}\nresource ID: {resource_id}\n"
                     f"curriculum {problem.curriculum.level.value} is incompatible"
+                )
+
+
+def validate_resource_curriculum_refs(resources: ResourceRepository, curriculum: CurriculumRepository) -> None:
+    """Validate fine-grained resource metadata against the authoritative curriculum."""
+    for resource in resources.list():
+        for knowledge_id in resource.knowledge_ids:
+            if knowledge_id not in curriculum.knowledge_nodes:
+                raise ResourceCorpusError(
+                    f"Resource curriculum validation failed:\nresource ID: {resource.id}\n"
+                    f"unknown knowledge ID {knowledge_id}"
+                )
+        for expectation_id in resource.curriculum_expectations:
+            expectation = curriculum.expectations.get(expectation_id)
+            if expectation is None:
+                raise ResourceCorpusError(
+                    f"Resource curriculum validation failed:\nresource ID: {resource.id}\n"
+                    f"unknown curriculum expectation {expectation_id}"
+                )
+            if expectation.level not in resource.curriculum_levels:
+                raise ResourceCorpusError(
+                    f"Resource curriculum validation failed:\nresource ID: {resource.id}\n"
+                    f"expectation {expectation_id} is incompatible with curriculum_levels"
                 )
