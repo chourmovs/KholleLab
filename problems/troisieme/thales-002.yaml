@@ -1,0 +1,20 @@
+id: troisieme-thales-002
+title: Agrandissement
+statement: 'Deux triangles en configuration de Thalès ont un rapport petit/grand de $4/7$. Un côté du petit mesure 6 cm. Calculer le côté correspondant du grand.'
+curriculum:
+  level: troisieme
+  difficulty: 4
+  expectations: [c4-2020-3e-thales]
+topics: [geometry]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 16
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'Le côté du grand vaut $6\times7/4=10,5$ cm.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

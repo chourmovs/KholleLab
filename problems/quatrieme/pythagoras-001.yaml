@@ -1,0 +1,20 @@
+id: quatrieme-pythagoras-001
+title: Diagonale du rectangle
+statement: 'Un rectangle mesure 6 cm sur 8 cm. Calculer la longueur de sa diagonale.'
+curriculum:
+  level: quatrieme
+  difficulty: 2
+  expectations: [c4-2020-4e-pythagoras]
+topics: [geometry]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 12
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'Pythagore donne $d^2=6^2+8^2=100$, donc $d=10$ cm.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

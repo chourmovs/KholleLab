@@ -1,0 +1,20 @@
+id: troisieme-trigonometry-002
+title: Hauteur inaccessible
+statement: 'À 20 m d’un arbre, l’angle d’élévation vers son sommet est de 45°. En négligeant la hauteur des yeux, calculer la hauteur de l’arbre.'
+curriculum:
+  level: troisieme
+  difficulty: 4
+  expectations: [c4-2020-3e-trigonometry]
+topics: [trigonometry]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 16
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$\tan(45°)=h/20=1$, donc $h=20$ m.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

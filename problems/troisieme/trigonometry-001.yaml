@@ -1,0 +1,20 @@
+id: troisieme-trigonometry-001
+title: Cosinus d’un angle
+statement: 'Dans un triangle rectangle, le côté adjacent à un angle mesure 6 cm et l’hypoténuse 10 cm. Calculer le cosinus de cet angle.'
+curriculum:
+  level: troisieme
+  difficulty: 2
+  expectations: [c4-2020-3e-trigonometry]
+topics: [trigonometry]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 12
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$\cos(\theta)=6/10=0,6$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

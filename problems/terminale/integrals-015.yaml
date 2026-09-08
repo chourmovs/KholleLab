@@ -4,6 +4,7 @@ statement: Calculer $\int_0^1(3x^2+2)\,dx$.
 curriculum:
   level: terminale
   difficulty: 2
+  expectations: [lycee-2019-tle-integrals]
 topics:
 - integrals
 prerequisites:

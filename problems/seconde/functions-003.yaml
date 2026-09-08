@@ -4,6 +4,7 @@ statement: Étudier les variations de $f(x)=-2x+5$.
 curriculum:
   level: seconde
   difficulty: 3
+  expectations: [lycee-2019-2de-functions]
 topics:
 - functions
 prerequisites:

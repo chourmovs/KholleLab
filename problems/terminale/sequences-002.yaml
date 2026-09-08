@@ -4,6 +4,7 @@ statement: Soit $u_n=1+1/n$. Déterminer sa limite.
 curriculum:
   level: terminale
   difficulty: 2
+  expectations: [lycee-2019-tle-analysis]
 topics:
 - sequences
 prerequisites:

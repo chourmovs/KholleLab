@@ -1,0 +1,20 @@
+id: quatrieme-statistics-001
+title: Moyenne simple
+statement: 'Calculer la moyenne des notes 8, 12, 15 et 13.'
+curriculum:
+  level: quatrieme
+  difficulty: 1
+  expectations: [c4-2020-4e-statistics]
+topics: [probability]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 10
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'La somme vaut 48 ; la moyenne est $48/4=12$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

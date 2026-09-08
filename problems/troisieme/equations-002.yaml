@@ -1,0 +1,20 @@
+id: troisieme-equations-002
+title: Périmètre inconnu
+statement: 'Un rectangle de largeur $x$ et de longueur $x+3$ a un périmètre de 30. Déterminer ses dimensions.'
+curriculum:
+  level: troisieme
+  difficulty: 3
+  expectations: [c4-2020-3e-equations]
+topics: [equations]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 14
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$2x+2(x+3)=30$, donc $x=6$ ; dimensions 6 et 9.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

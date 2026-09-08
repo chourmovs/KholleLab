@@ -1,0 +1,20 @@
+id: quatrieme-statistics-002
+title: Étendue et médiane
+statement: 'Déterminer la médiane et l’étendue de la série 4, 7, 7, 9, 13.'
+curriculum:
+  level: quatrieme
+  difficulty: 3
+  expectations: [c4-2020-4e-statistics]
+topics: [probability]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 14
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'La médiane est 7 et l’étendue vaut $13-4=9$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

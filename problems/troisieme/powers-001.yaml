@@ -1,0 +1,20 @@
+id: troisieme-powers-001
+title: Produit de puissances
+statement: 'Simplifier $10^3\times10^{-5}$.'
+curriculum:
+  level: troisieme
+  difficulty: 1
+  expectations: [c4-2020-3e-powers]
+topics: [arithmetic]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 10
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: 'On additionne les exposants : $10^{-2}$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

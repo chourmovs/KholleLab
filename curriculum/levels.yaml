@@ -1,0 +1,15 @@
+schema_version: 1
+levels:
+  - {id: quatrieme, label: Quatrième, short_label: 4e, stage: college}
+  - {id: troisieme, label: Troisième, short_label: 3e, stage: college}
+  - {id: seconde, label: Seconde, short_label: 2de, stage: lycee}
+  - {id: premiere, label: Première, short_label: 1re, stage: lycee}
+  - {id: terminale, label: Terminale, short_label: Tle, stage: lycee}
+  - {id: maths-sup, label: Maths Sup, short_label: Sup, stage: cpge}
+  - {id: maths-spe, label: Maths Spé, short_label: Spé, stage: cpge}
+difficulties:
+  - {id: 1, label: Découverte}
+  - {id: 2, label: Standard}
+  - {id: 3, label: Approfondissement}
+  - {id: 4, label: Difficile}
+  - {id: 5, label: Challenge}

@@ -4,6 +4,7 @@ statement: Démontrer que la somme de deux entiers impairs est paire.
 curriculum:
   level: seconde
   difficulty: 3
+  expectations: [lycee-2019-2de-algebra]
 topics:
 - arithmetic
 prerequisites:

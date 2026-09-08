@@ -4,6 +4,7 @@ statement: Pour $f(x)=-2x+7$, déterminer l’antécédent de $1$.
 curriculum:
   level: seconde
   difficulty: 2
+  expectations: [lycee-2019-2de-functions]
 topics:
 - functions
 prerequisites:

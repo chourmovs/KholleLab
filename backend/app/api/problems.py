@@ -46,6 +46,7 @@ def list_problems(request: Request) -> list[ProblemCatalogueItem]:
 @router.get("/select", response_model=ProblemSelectionResult, response_model_exclude_none=True)
 def select_problem(request: Request, level: CurriculumLevel, difficulty: int | None = None,
                    topic: list[Topic] | None = None, exclude: list[str] | None = None,
+                   expectation: str | None = None,
                    mode: SelectionMode = SelectionMode.MANUAL,
                    db: Session = Depends(db_session)) -> ProblemSelectionResult:
     if difficulty is not None and not 1 <= difficulty <= 5:
@@ -59,7 +60,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
     if mode == SelectionMode.ADAPTIVE:
         try:
             context = AdaptiveContextBuilder().build(db, learner_id(request), problems)
-            candidates = selector.compatible_candidates(level=level, topics=topic)
+            candidates = selector.compatible_candidates(level=level, topics=topic, expectation=expectation)
             candidate_count = len(candidates)
             history_count = len(context.recent_sessions)
             ranked = AdaptiveProblemRanker().rank(candidates, context, difficulty)
@@ -87,6 +88,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
     if selected is None:
         exclusions = (exclude or []) if mode == SelectionMode.MANUAL else []
         selected = selector.select(level=level, difficulty=difficulty, topics=topic,
+                                   expectation=expectation,
                                    exclude_ids=exclusions)
     if selected is None:
         component_logger("application").warning(

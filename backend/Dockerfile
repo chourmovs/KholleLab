@@ -12,6 +12,7 @@ COPY backend/app ./app
 COPY --chmod=755 backend/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY problems /problems
 COPY resources /resources
+COPY curriculum /curriculum
 RUN mkdir -p /runtime-logs && chown app:app /runtime-logs
 ENTRYPOINT ["docker-entrypoint"]
 EXPOSE 8000

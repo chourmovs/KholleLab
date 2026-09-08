@@ -1,5 +1,5 @@
 export interface ProblemSource { type: string; name: string; year?: number; session?: string; url?: string }
-export interface Curriculum {level:string;difficulty:number}
+export interface Curriculum {level:string;difficulty:number;expectations?:string[]}
 export interface ProblemSummary { id:string; title:string; subtitle?:string; curriculum:Curriculum; estimatedMinutes?:number; year?:number; topics:string[]; source:ProblemSource }
 export interface CoursePoint {title:string;summary:string;topics:string[]}
 export type ResourceType="course"|"example"|"video";
@@ -12,7 +12,10 @@ export interface ResolvedResourcesResponse {problem_id:string;resources:Pedagogi
 export interface LegacyVideoResource {title:string;provider:"youtube";url:string;author?:string;duration_minutes?:number}
 export interface ProblemResources {course_points:CoursePoint[];videos:LegacyVideoResource[]}
 export interface ProblemDetail extends ProblemSummary { statement:string;hintLevels:number[];prerequisites:string[];skills:string[];resources?:ProblemResources }
-export interface CurriculumMetadata {levels:{id:string;label:string}[];difficulties:{id:number;label:string}[]}
+export interface CurriculumExpectationOption {id:string;label:string}
+export interface CurriculumDomain {id:string;label:string;expectations:CurriculumExpectationOption[]}
+export interface CurriculumLevelMetadata {id:string;label:string;short_label:string;stage:string;programme:{id:string;label:string};domains:CurriculumDomain[]}
+export interface CurriculumMetadata {academic_year:string;levels:CurriculumLevelMetadata[];difficulties:{id:number;label:string}[]}
 export type SelectionMode="manual"|"adaptive"|"fallback";
 export interface SelectionAdaptation {reason_codes:string[];targeted_topics:string[];targeted_skills:string[];targeted_prerequisites:string[]}
 export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean;selection_mode?:SelectionMode;adaptation?:SelectionAdaptation}

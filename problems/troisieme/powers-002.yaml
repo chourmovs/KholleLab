@@ -1,0 +1,20 @@
+id: troisieme-powers-002
+title: Écriture scientifique
+statement: 'Écrire $0,00042$ en notation scientifique.'
+curriculum:
+  level: troisieme
+  difficulty: 2
+  expectations: [c4-2020-3e-powers]
+topics: [arithmetic]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 12
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$0,00042=4,2\times10^{-4}$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]

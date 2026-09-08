@@ -1,0 +1,20 @@
+id: troisieme-thales-001
+title: Longueur parallèle
+statement: 'Dans le triangle ABC, M est sur [AB], N sur [AC] et (MN) est parallèle à (BC). Si AM=3, AB=5 et AC=10, calculer AN.'
+curriculum:
+  level: troisieme
+  difficulty: 2
+  expectations: [c4-2020-3e-thales]
+topics: [geometry]
+prerequisites: []
+skills: [calculation]
+estimated_minutes: 12
+source:
+  type: internal
+  name: Khollelab curated seed corpus
+  year: 2026
+reference_solution: '$AN/AC=AM/AB=3/5$, donc $AN=6$.'
+hints:
+  - level: 1
+    text: Identifie les données utiles et la propriété adaptée.
+tags: [curated]
