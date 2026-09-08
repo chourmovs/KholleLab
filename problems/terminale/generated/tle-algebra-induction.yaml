@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: tle-algebra-induction-g1-v001
+  title: Tle Algebra Induction
+  statement: Variante 1 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 8k=8n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $8(n+1)$ donne $8(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 1
+    parameter_identity: c6d1735022637e0c2bcad010f0374d931070031c5e6d381fbdc3460da340c81a
+- id: tle-algebra-induction-g1-v002
+  title: Tle Algebra Induction
+  statement: Variante 2 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 2k=2n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 4
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $2(n+1)$ donne $2(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 2
+    parameter_identity: 35f1568d80ceb1d2933d08b4bc0d8c46e48edca99ad9656d13659a29cd1ae445
+- id: tle-algebra-induction-g1-v003
+  title: Tle Algebra Induction
+  statement: Variante 3 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 3k=3n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $3(n+1)$ donne $3(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 3
+    parameter_identity: df18dc8712b2e19c324c0d7d0952413824dbc24c6ccf10ddd0da8ec4932bbb96
+- id: tle-algebra-induction-g1-v004
+  title: Tle Algebra Induction
+  statement: Variante 4 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 7k=7n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 4
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $7(n+1)$ donne $7(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 4
+    parameter_identity: 4d3c910295fbc7dd475a3e8817f9896df2fcb376476804247d86315cb760c525
+- id: tle-algebra-induction-g1-v005
+  title: Tle Algebra Induction
+  statement: Variante 5 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 5k=5n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $5(n+1)$ donne $5(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 5
+    parameter_identity: 44d4fe68de28a82ae4c2ed85344210aa634cff3163bea0606fab4201e6e8423c
+- id: tle-algebra-induction-g1-v006
+  title: Tle Algebra Induction
+  statement: Variante 6 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 7k=7n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 4
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $7(n+1)$ donne $7(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 6
+    parameter_identity: b5ffa73d4437888c880cd9c7c113f3302a97a8a9a18529a471e3505804a5e993
+- id: tle-algebra-induction-g1-v007
+  title: Tle Algebra Induction
+  statement: Variante 7 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 4k=4n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 3
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $4(n+1)$ donne $4(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 7
+    parameter_identity: 42c1bb385f9d637fa55e1cbb33e4af38a6422720b93b0a45d39360502ac14d84
+- id: tle-algebra-induction-g1-v008
+  title: Tle Algebra Induction
+  statement: Variante 8 — Démontrer par récurrence que, pour tout $n\geq0$, $\sum_{k=0}^n 8k=8n(n+1)/2$.
+  curriculum:
+    level: terminale
+    difficulty: 4
+    expectations:
+    - lycee-2019-tle-algebra
+  topics:
+  - algebra
+  skills:
+  - induction
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Initialisation immédiate. Si la formule est vraie au rang n, ajouter $8(n+1)$ donne $8(n+1)(n+2)/2$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: tle-algebra-induction
+    version: 1
+    variant: 8
+    parameter_identity: 197e25c47363ca2ce83867074784952327ba3f23e3679dd42ee6a08dfb41659b

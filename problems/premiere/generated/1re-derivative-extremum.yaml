@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 1re-derivative-extremum-g1-v001
+  title: 1Re Derivative Extremum
+  statement: Variante 1 — Étudier les variations de $f(x)=(x-7)^2+1$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-7)$ : f décroît jusqu''à $7$ puis croît ; son minimum est $1$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 1
+    parameter_identity: 9d4d71d34c008225694c49ee45a6cecbad580a2f5115e10beefa4c9ba90bb31d
+- id: 1re-derivative-extremum-g1-v002
+  title: 1Re Derivative Extremum
+  statement: Variante 2 — Étudier les variations de $f(x)=(x-9)^2+9$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 4
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-9)$ : f décroît jusqu''à $9$ puis croît ; son minimum est $9$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 2
+    parameter_identity: 3fe8071b4b9832ee16e072c3af56741051b3acc2a522e6846e003da6fe5183ff
+- id: 1re-derivative-extremum-g1-v003
+  title: 1Re Derivative Extremum
+  statement: Variante 3 — Étudier les variations de $f(x)=(x-3)^2+1$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-3)$ : f décroît jusqu''à $3$ puis croît ; son minimum est $1$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 3
+    parameter_identity: f323bde934266ea1e0529dea785e453bbbdc5dd12b49c931c8dbd07c693277bf
+- id: 1re-derivative-extremum-g1-v004
+  title: 1Re Derivative Extremum
+  statement: Variante 4 — Étudier les variations de $f(x)=(x-9)^2+1$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 4
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-9)$ : f décroît jusqu''à $9$ puis croît ; son minimum est $1$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 4
+    parameter_identity: 2b7e9dc5b1c8f5f95dde413a7e5050ad1ecdaab085f1d6523ee46c9c53808802
+- id: 1re-derivative-extremum-g1-v005
+  title: 1Re Derivative Extremum
+  statement: Variante 5 — Étudier les variations de $f(x)=(x-4)^2+5$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-4)$ : f décroît jusqu''à $4$ puis croît ; son minimum est $5$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 5
+    parameter_identity: b4b553f8877060a6cdc8233543a56d58e0df89fa18c71c9a1844dd1087c6d47f
+- id: 1re-derivative-extremum-g1-v006
+  title: 1Re Derivative Extremum
+  statement: Variante 6 — Étudier les variations de $f(x)=(x-3)^2+3$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 4
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-3)$ : f décroît jusqu''à $3$ puis croît ; son minimum est $3$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 6
+    parameter_identity: 411f0049a7808f59c58a3847e714ba71158c6d017c17b0096cbe69d1f20503e5
+- id: 1re-derivative-extremum-g1-v007
+  title: 1Re Derivative Extremum
+  statement: Variante 7 — Étudier les variations de $f(x)=(x-5)^2+6$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 3
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-5)$ : f décroît jusqu''à $5$ puis croît ; son minimum est $6$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 7
+    parameter_identity: fb16dca482a2abd889a6e57a4ece1f44cbb7510ce86067fa49bdc31c561eabec
+- id: 1re-derivative-extremum-g1-v008
+  title: 1Re Derivative Extremum
+  statement: Variante 8 — Étudier les variations de $f(x)=(x-9)^2+9$ à l'aide de sa dérivée.
+  curriculum:
+    level: premiere
+    difficulty: 4
+    expectations:
+    - lycee-2019-1re-analysis
+  topics:
+  - derivatives
+  skills:
+  - optimization
+  estimated_minutes: 20
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: '$f''(x)=2(x-9)$ : f décroît jusqu''à $9$ puis croît ; son minimum est $9$.'
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 1re-derivative-extremum
+    version: 1
+    variant: 8
+    parameter_identity: 0f49bb80a7d6474474cd71290334da033c890bec9751a393588a14101fb6b5ac

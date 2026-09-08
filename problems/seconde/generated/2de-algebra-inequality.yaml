@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 2de-algebra-inequality-g1-v001
+  title: 2De Algebra Inequality
+  statement: Variante 1 — Résoudre $4x+3\leq 31$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 2
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $4>0$, $x\leq 7$, soit $]-\infty;7]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 1
+    parameter_identity: bdfd47ef19f80a12b865eefb03fa26a4f71e753385d00b2bd471a97f3095a5cf
+- id: 2de-algebra-inequality-g1-v002
+  title: 2De Algebra Inequality
+  statement: Variante 2 — Résoudre $2x+11\leq 31$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 3
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $2>0$, $x\leq 10$, soit $]-\infty;10]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 2
+    parameter_identity: 4b952bc604a9f3421cfb533dd0860672e54d79b3583a80c9b67e7351a1bf6cd0
+- id: 2de-algebra-inequality-g1-v003
+  title: 2De Algebra Inequality
+  statement: Variante 3 — Résoudre $3x+10\leq 34$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 2
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $3>0$, $x\leq 8$, soit $]-\infty;8]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 3
+    parameter_identity: 41b1dbb9971844cbecb60b57157f933cdd0994c7468ad4090273bb6ffcae4433
+- id: 2de-algebra-inequality-g1-v004
+  title: 2De Algebra Inequality
+  statement: Variante 4 — Résoudre $7x+1\leq 15$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 3
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $7>0$, $x\leq 2$, soit $]-\infty;2]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 4
+    parameter_identity: bdf7614fdcf12844a8484b128a586027e1de418864d989024220c533ab89fd13
+- id: 2de-algebra-inequality-g1-v005
+  title: 2De Algebra Inequality
+  statement: Variante 5 — Résoudre $2x+6\leq 20$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 2
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $2>0$, $x\leq 7$, soit $]-\infty;7]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 5
+    parameter_identity: b2db62913fa050882e80f4061bc5cfc46c36c3aa29ed4fd49ecf0af96080a45a
+- id: 2de-algebra-inequality-g1-v006
+  title: 2De Algebra Inequality
+  statement: Variante 6 — Résoudre $7x+7\leq 42$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 3
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $7>0$, $x\leq 5$, soit $]-\infty;5]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 6
+    parameter_identity: d6185ec5ee246f966aba89cc2a577a524c0b757cadd736c8e3c7351ef1488952
+- id: 2de-algebra-inequality-g1-v007
+  title: 2De Algebra Inequality
+  statement: Variante 7 — Résoudre $8x+11\leq 43$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 2
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $8>0$, $x\leq 4$, soit $]-\infty;4]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 7
+    parameter_identity: 51d68b3ddf8434386a53a75c6ada464af822752224425fde412aa9dfb9881291
+- id: 2de-algebra-inequality-g1-v008
+  title: 2De Algebra Inequality
+  statement: Variante 8 — Résoudre $3x+2\leq 20$ et représenter les solutions.
+  curriculum:
+    level: seconde
+    difficulty: 3
+    expectations:
+    - lycee-2019-2de-algebra
+  topics:
+  - inequalities
+  skills:
+  - inequality-solving
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Comme $3>0$, $x\leq 6$, soit $]-\infty;6]$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 2de-algebra-inequality
+    version: 1
+    variant: 8
+    parameter_identity: aaf8b2e3bad0865feff4a654473ffdfda30e3e30db9a03cc88379f6705cb83d8

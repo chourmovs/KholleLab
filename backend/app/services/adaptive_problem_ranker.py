@@ -14,6 +14,7 @@ RECENTLY_COMPLETED_SAME_PROBLEM = -200
 RECENTLY_ABANDONED_SAME_PROBLEM = -120
 VERY_RECENT_TOPIC_REPEAT = -30
 VERY_RECENT_SKILL_REPEAT = -15
+VERY_RECENT_FAMILY_REPEAT = -350
 DIFFICULTY_DISTANCE = -25
 VERY_RECENT_LIMIT = 5
 
@@ -25,6 +26,7 @@ class AdaptationReasonCode(StrEnum):
     RECOMMENDED_SEQUENCE = "recommended_sequence"
     RECENT_PROBLEM_AVOIDANCE = "recent_problem_avoidance"
     TOPIC_DIVERSITY = "topic_diversity"
+    FAMILY_DIVERSITY = "family_diversity"
     APPROPRIATE_DIFFICULTY = "appropriate_difficulty"
 
 
@@ -68,6 +70,12 @@ class AdaptiveProblemRanker:
                 score += VERY_RECENT_TOPIC_REPEAT
             if set(problem.skills) & set(learning.skills):
                 score += VERY_RECENT_SKILL_REPEAT
+            if (problem.generation and learning.family_id
+                    and problem.generation.family_id == learning.family_id):
+                score += VERY_RECENT_FAMILY_REPEAT
+        if (problem.generation and recent and
+                not any(problem.generation.family_id == item.family_id for item in recent)):
+            reasons.append(AdaptationReasonCode.FAMILY_DIVERSITY)
         if recent and not any(set(problem.topics) & set(learning.topics) for learning in recent):
             reasons.append(AdaptationReasonCode.TOPIC_DIVERSITY)
         return AdaptiveCandidateScore(problem, score, tuple(dict.fromkeys(reasons)))

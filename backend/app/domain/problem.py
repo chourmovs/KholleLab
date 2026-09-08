@@ -114,6 +114,16 @@ class CurriculumInfo(StrictModel):
         return self
 
 
+class ProblemGeneration(StrictModel):
+    """Internal provenance for a materialized deterministic problem."""
+
+    kind: Literal["parametric"]
+    family_id: Slug
+    version: int = Field(ge=1)
+    variant: int = Field(ge=1)
+    parameter_identity: Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
+
+
 class Problem(StrictModel):
     id: str = Field(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")
     title: NonEmpty
@@ -133,6 +143,7 @@ class Problem(StrictModel):
     tags: tuple[Slug, ...] = ()
     notes: NonEmpty | None = None
     resources: ProblemResources | None = None
+    generation: ProblemGeneration | None = None
     # Legacy inline resources remain readable while the shared catalogue is adopted.
     resource_refs: tuple[Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9-]{2,63}$")], ...] = ()
 

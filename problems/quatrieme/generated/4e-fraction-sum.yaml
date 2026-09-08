@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 4e-fraction-sum-g1-v001
+  title: 4E Fraction Sum
+  statement: Variante 1 — Calculer exactement $1/3$ puis $7/3$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(1+7)/3=8/3$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 1
+    parameter_identity: 628670246cf8107dea3bb8647f0588cc623c2baa8a81d6de721a6dd50cc6fcf9
+- id: 4e-fraction-sum-g1-v002
+  title: 4E Fraction Sum
+  statement: Variante 2 — Calculer exactement $4/9$ puis $4/9$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(4+4)/9=8/9$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 2
+    parameter_identity: 130ddcfddafb1381273e4416f65fa979589dedcf1f42cbc826994abef7304771
+- id: 4e-fraction-sum-g1-v003
+  title: 4E Fraction Sum
+  statement: Variante 3 — Calculer exactement $1/2$ puis $2/2$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(1+2)/2=3/2$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 3
+    parameter_identity: 9faaaa0098c1222c834c24211db7dfb5a50e849e72430ae89d896134971d005d
+- id: 4e-fraction-sum-g1-v004
+  title: 4E Fraction Sum
+  statement: Variante 4 — Calculer exactement $4/4$ puis $2/4$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(4+2)/4=3/2$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 4
+    parameter_identity: cf13d66749711906c037f708d83462133cb2a6112308fdb403d23650ce55cc14
+- id: 4e-fraction-sum-g1-v005
+  title: 4E Fraction Sum
+  statement: Variante 5 — Calculer exactement $5/7$ puis $2/7$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(5+2)/7=1$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 5
+    parameter_identity: c57216a204a6f86cb99f679b14f7c1077d516842636d530576573db2c907446a
+- id: 4e-fraction-sum-g1-v006
+  title: 4E Fraction Sum
+  statement: Variante 6 — Calculer exactement $7/4$ puis $6/4$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(7+6)/4=13/4$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 6
+    parameter_identity: 3582a76ff33caac2c1c468ed155bad139f21c6b31730905eddb2fd30a61a5b82
+- id: 4e-fraction-sum-g1-v007
+  title: 4E Fraction Sum
+  statement: Variante 7 — Calculer exactement $5/5$ puis $7/5$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 1
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(5+7)/5=12/5$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 7
+    parameter_identity: 4e0dcb6a647271079a06be6ea91cfc2dc6b3727e99500beaf90072f53a0c8074
+- id: 4e-fraction-sum-g1-v008
+  title: 4E Fraction Sum
+  statement: Variante 8 — Calculer exactement $1/4$ puis $7/4$ d'une unité. Donner la somme irréductible.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-fractions
+  topics:
+  - arithmetic
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: La somme vaut $(1+7)/4=2$ après simplification.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 4e-fraction-sum
+    version: 1
+    variant: 8
+    parameter_identity: 1b0837cb40d68c4959d5deccbf9a3c07cf2d7020b3889c49684c9003e88f7281

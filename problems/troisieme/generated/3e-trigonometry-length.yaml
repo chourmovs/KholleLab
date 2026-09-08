@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 3e-trigonometry-length-g1-v001
+  title: 3E Trigonometry Length
+  statement: Variante 1 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 5 cm et l'hypoténuse 13 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=5/13$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 1
+    parameter_identity: 8ca85cfa4bd0d6b0821868207f21ac37346f4f850e11dcdc33bdd59a9e97806a
+- id: 3e-trigonometry-length-g1-v002
+  title: 3E Trigonometry Length
+  statement: Variante 2 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 8 cm et l'hypoténuse 17 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=8/17$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 2
+    parameter_identity: 2f5d67408a4a2a8e3ef13833fa9eb94ffeffb3a5b672ecb0502474e0874e6895
+- id: 3e-trigonometry-length-g1-v003
+  title: 3E Trigonometry Length
+  statement: Variante 3 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 7 cm et l'hypoténuse 25 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=7/25$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 3
+    parameter_identity: 707bc0b3ed7f1bb57cbb2896365c949594a0f25392a5aa5fd1896e3a49ea525f
+- id: 3e-trigonometry-length-g1-v004
+  title: 3E Trigonometry Length
+  statement: Variante 4 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 3 cm et l'hypoténuse 5 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=3/5$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 4
+    parameter_identity: a75f2626d3fbcc7de17f997269762df7b3549ead8e9d8005cba646f2ea06c740
+- id: 3e-trigonometry-length-g1-v005
+  title: 3E Trigonometry Length
+  statement: Variante 5 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 5 cm et l'hypoténuse 13 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=5/13$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 5
+    parameter_identity: a6cc3b738b0aad2732fb35580750881f53aebc091e3fdaeb22fc4b809e86da42
+- id: 3e-trigonometry-length-g1-v006
+  title: 3E Trigonometry Length
+  statement: Variante 6 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 8 cm et l'hypoténuse 17 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=8/17$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 6
+    parameter_identity: 701d4c801c56a212357ec997f99595c1bab3a8c7974bd100640d82377e53f110
+- id: 3e-trigonometry-length-g1-v007
+  title: 3E Trigonometry Length
+  statement: Variante 7 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 7 cm et l'hypoténuse 25 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=7/25$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 7
+    parameter_identity: c8626bc7dd069bb039444f556ff03830436a5cdba84121fe67927aeeb24928e5
+- id: 3e-trigonometry-length-g1-v008
+  title: 3E Trigonometry Length
+  statement: Variante 8 — Dans un triangle rectangle, le côté adjacent à l'angle $\alpha$ mesure 3 cm et l'hypoténuse 5 cm. Donner $\cos(\alpha)$ exactement.
+  curriculum:
+    level: troisieme
+    difficulty: 3
+    expectations:
+    - c4-2020-3e-trigonometry
+  topics:
+  - trigonometry
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: Par définition, $\cos(\alpha)=3/5$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 3e-trigonometry-length
+    version: 1
+    variant: 8
+    parameter_identity: 9afd0b323fb550b8437752d42692f58b599a3e8d7679e975206dd26e266b2ad5

@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 4e-statistics-missing-g1-v001
+  title: 4E Statistics Missing
+  statement: Variante 1 — La moyenne de $5; 2; y$ doit être $6$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $5+2+y=18$, donc $y=11$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 1
+    parameter_identity: e75006ece3a605f2c42fa521cc0dd06aee05837c9cd353b452577136dd12fd75
+- id: 4e-statistics-missing-g1-v002
+  title: 4E Statistics Missing
+  statement: Variante 2 — La moyenne de $8; 10; y$ doit être $6$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $8+10+y=18$, donc $y=0$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 2
+    parameter_identity: 1144c9510485425cf30f171ac8758a738545d3523111c105ef2fc7c8ebb5c5e0
+- id: 4e-statistics-missing-g1-v003
+  title: 4E Statistics Missing
+  statement: Variante 3 — La moyenne de $8; 11; y$ doit être $12$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $8+11+y=36$, donc $y=17$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 3
+    parameter_identity: a97cea0623414322f462fff63bb4251bb1d429959ee306c727fb04c8c3673dbc
+- id: 4e-statistics-missing-g1-v004
+  title: 4E Statistics Missing
+  statement: Variante 4 — La moyenne de $4; 1; y$ doit être $6$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $4+1+y=18$, donc $y=13$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 4
+    parameter_identity: d8545eac15c64a3057efc9cd3d6992f54cd4ad8b11e80bf6c48a2a7034f6de82
+- id: 4e-statistics-missing-g1-v005
+  title: 4E Statistics Missing
+  statement: Variante 5 — La moyenne de $9; 7; y$ doit être $8$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $9+7+y=24$, donc $y=8$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 5
+    parameter_identity: bcd88ccc9bf63e8ef62c37b1686649b9f06178dfe0bfb24a3c93b6bb55d07e7a
+- id: 4e-statistics-missing-g1-v006
+  title: 4E Statistics Missing
+  statement: Variante 6 — La moyenne de $9; 3; y$ doit être $9$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $9+3+y=27$, donc $y=15$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 6
+    parameter_identity: cc2b59ab75ffe794a75e0303963ee8c77d7057462c73cc2ce7651addf713c29f
+- id: 4e-statistics-missing-g1-v007
+  title: 4E Statistics Missing
+  statement: Variante 7 — La moyenne de $5; 2; y$ doit être $9$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 2
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $5+2+y=27$, donc $y=20$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 7
+    parameter_identity: 03732693577d8e1cde157cd15a4bbbc50bf14b902468fcc5d187c39ee046f811
+- id: 4e-statistics-missing-g1-v008
+  title: 4E Statistics Missing
+  statement: Variante 8 — La moyenne de $6; 6; y$ doit être $9$. Déterminer $y$ et vérifier.
+  curriculum:
+    level: quatrieme
+    difficulty: 3
+    expectations:
+    - c4-2020-4e-statistics
+  topics:
+  - arithmetic
+  skills:
+  - reasoning
+  estimated_minutes: 17
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $6+6+y=27$, donc $y=15$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - reasoning
+  generation:
+    kind: parametric
+    family_id: 4e-statistics-missing
+    version: 1
+    variant: 8
+    parameter_identity: ab681507fdcca78391a01de72a7c01e49d10492755d664c6bffbb5a5ca2a56fe

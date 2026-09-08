@@ -1,0 +1,234 @@
+schema_version: 1
+problems:
+- id: 3e-function-image-g1-v001
+  title: 3E Function Image
+  statement: Variante 1 — On définit $f(x)=4x+8$. Calculer $f(5)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(5)=28$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 1
+    parameter_identity: a372d67e398035586d89bbfa16390c4f34e0657a3df2af2451611d453a8e9c58
+- id: 3e-function-image-g1-v002
+  title: 3E Function Image
+  statement: Variante 2 — On définit $f(x)=9x+5$. Calculer $f(7)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(7)=68$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 2
+    parameter_identity: 80d7359d582080f40057ac8ae5ff8c4549cf55fa3eccd1b74b21f6aa414aec10
+- id: 3e-function-image-g1-v003
+  title: 3E Function Image
+  statement: Variante 3 — On définit $f(x)=9x+12$. Calculer $f(9)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(9)=93$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 3
+    parameter_identity: 6aaee91c91a7325d8383bb97d15d6e0a2b71f52cb4d293a59ad834324b60524a
+- id: 3e-function-image-g1-v004
+  title: 3E Function Image
+  statement: Variante 4 — On définit $f(x)=9x+10$. Calculer $f(4)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(4)=46$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 4
+    parameter_identity: b4a3018b2238f34f40ec93e7f69d4b7a172076f6b386e616e8f9120f03f2cbc6
+- id: 3e-function-image-g1-v005
+  title: 3E Function Image
+  statement: Variante 5 — On définit $f(x)=2x+8$. Calculer $f(7)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(7)=22$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 5
+    parameter_identity: 8e3d02385d27af30f80f75b411ae3a46aa157f7b144d306f94face24b13a2cf4
+- id: 3e-function-image-g1-v006
+  title: 3E Function Image
+  statement: Variante 6 — On définit $f(x)=3x+8$. Calculer $f(5)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(5)=23$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 6
+    parameter_identity: 465b21c7d541f266d4353572bf2fcc60749932717fb86b7f5672e64a4c75f13c
+- id: 3e-function-image-g1-v007
+  title: 3E Function Image
+  statement: Variante 7 — On définit $f(x)=8x+1$. Calculer $f(2)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 1
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 11
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(2)=17$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 7
+    parameter_identity: 572d2d32843b046d86b8cd7392c5783f681b0991ba43163ff06844c03c0fec94
+- id: 3e-function-image-g1-v008
+  title: 3E Function Image
+  statement: Variante 8 — On définit $f(x)=5x+11$. Calculer $f(7)$ en montrant la substitution.
+  curriculum:
+    level: troisieme
+    difficulty: 2
+    expectations:
+    - c4-2020-3e-functions
+  topics:
+  - functions
+  skills:
+  - calculation
+  estimated_minutes: 14
+  source:
+    type: internal
+    name: Khollelab deterministic corpus factory
+  reference_solution: $f(7)=46$.
+  hints:
+  - level: 1
+    text: Identifier les données utiles et écrire la propriété mobilisée.
+  tags:
+  - parametric
+  - fluency
+  generation:
+    kind: parametric
+    family_id: 3e-function-image
+    version: 1
+    variant: 8
+    parameter_identity: 2c9642fec7d556c8311344230e2e3f61ae9bdd6fe8de1c8bf3c70522d0305e96

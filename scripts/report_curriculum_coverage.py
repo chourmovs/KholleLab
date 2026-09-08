@@ -1,30 +1,38 @@
 #!/usr/bin/env python3
+"""Report depth of the currently modelled curriculum (not official completeness)."""
 from collections import Counter
+from datetime import date
 from pathlib import Path
 import os
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
-from app.domain.problem import CurriculumLevel  # noqa: E402
 from app.services.curriculum_repository import CurriculumRepository, academic_year_for  # noqa: E402
 from app.services.problem_repository import ProblemRepository  # noqa: E402
-from datetime import date  # noqa: E402
 
 curriculum = CurriculumRepository(ROOT / "curriculum"); curriculum.load()
-problems = ProblemRepository(ROOT / "problems", curriculum); problems.load()
+repository = ProblemRepository(ROOT / "problems", curriculum); repository.load()
 year = os.getenv("CURRICULUM_ACADEMIC_YEAR") or academic_year_for(date.today())
-print(f"Curriculum coverage — academic year {year}")
+school = [problem for problem in repository.list() if problem.curriculum.level.value not in {"maths-sup", "maths-spe"}]
+print(f"Modelled curriculum corpus depth — academic year {year}")
+print("Warning: this audits modelled expectations; it does not assert complete official programme coverage.")
+all_families = {p.generation.family_id for p in school if p.generation}
+print(f"Summary: problems={len(school)} curated={sum(p.generation is None for p in school)} "
+      f"parametric={sum(p.generation is not None for p in school)} families={len(all_families)}")
 for level in curriculum.levels:
-    if level.stage == "cpge":
-        continue
+    if level.stage == "cpge": continue
     programme = curriculum.resolve_programme(level.id, year)
-    expected = [x for x in curriculum.expectations.values() if x.level == level.id and x.programme_id == programme.id]
-    level_problems = [x for x in problems.list() if x.curriculum.level == level.id]
-    covered = {identifier for problem in level_problems for identifier in problem.curriculum.expectations}
-    uncovered = [x for x in expected if x.id not in covered]
-    distribution = Counter(x.curriculum.difficulty for x in level_problems)
+    expectations = [item for item in curriculum.expectations.values()
+                    if item.level == level.id and item.programme_id == programme.id]
     print(f"\n{level.label} — {programme.label}")
-    print(f"  expectations: {len(expected)}; covered: {len(expected)-len(uncovered)}; problems: {len(level_problems)}")
-    print("  difficulty: " + " ".join(f"D{x}={distribution[x]}" for x in range(1, 6)))
-    print("  uncovered: " + (", ".join(f"{x.id} ({x.label})" for x in uncovered) or "none"))
+    print("  expectation | problems | curated | parametric | families | D1 D2 D3 D4 D5 | depth")
+    for expectation in expectations:
+        items = [p for p in school if expectation.id in p.curriculum.expectations]
+        distribution = Counter(p.curriculum.difficulty for p in items)
+        count = len(items)
+        depth = "uncovered" if count == 0 else "thin" if count <= 2 else "developing" if count <= 7 else "deep"
+        families = {p.generation.family_id for p in items if p.generation}
+        print(f"  {expectation.id} | {count} | {sum(p.generation is None for p in items)} | "
+              f"{sum(p.generation is not None for p in items)} | {len(families)} | "
+              f"{' '.join(str(distribution[d]) for d in range(1, 6))} | {depth}")
