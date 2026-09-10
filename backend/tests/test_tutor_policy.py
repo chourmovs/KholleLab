@@ -23,6 +23,12 @@ def test_low_confidence_is_silent_automatically():
     safe,level=apply_policy(assessment(confidence=.4),3,TutorTrigger.STALLED)
     assert not safe.intervention_needed and safe.intervention is None and level==0
 
+def test_explicit_help_overrides_remote_silence_and_low_confidence():
+    hint, hint_level=apply_policy(assessment(intervention_needed=False,intervention_type="silence",intervention=None,estimated_help_level=0),2,TutorTrigger.ASK_HINT)
+    stuck, stuck_level=apply_policy(assessment(confidence=.2),3,TutorTrigger.I_AM_STUCK)
+    assert hint.intervention_needed and hint.intervention and hint_level>0
+    assert stuck.intervention_needed and stuck.intervention and stuck_level>0
+
 def test_spoiler_and_auto_level_guards():
     safe,level=apply_policy(assessment(reveals_answer=True,estimated_help_level=5,intervention="FINAL_ANSWER_SENTINEL"),5,TutorTrigger.MEANINGFUL_PROGRESS)
     assert safe.intervention is None and level==0

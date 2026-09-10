@@ -124,7 +124,7 @@ class HuggingFaceProvider:
         log = component_logger("inference").bind(family=family.value, role=role.value, model=model, backend=backend)
         log.info("request_started initial_max_tokens={} retry_max_tokens={} max_tokens={}", initial_max_tokens, retry_max_tokens, initial_max_tokens)
         request_attempt = 1
-        truncation_retry = 0
+        structured_retry = 0
         max_tokens = initial_max_tokens
         while True:
             try:
@@ -140,10 +140,10 @@ class HuggingFaceProvider:
                 usage = response.usage
                 completion_tokens = getattr(usage, "completion_tokens", None)
                 if finish_reason in {"length", "max_tokens"}:
-                    log.warning("request_truncated finish_reason={} completion_tokens={} max_tokens={} retry_count={} schema_requested=true schema_validated=false", finish_reason, completion_tokens, max_tokens, truncation_retry)
-                    if truncation_retry == 0 and retry_max_tokens > max_tokens:
+                    log.warning("request_truncated finish_reason={} completion_tokens={} max_tokens={} retry_count={} schema_requested=true schema_validated=false", finish_reason, completion_tokens, max_tokens, structured_retry)
+                    if structured_retry == 0 and retry_max_tokens > max_tokens:
                         log.info("structured_retry reason=truncated old_max_tokens={} new_max_tokens={}", max_tokens, retry_max_tokens)
-                        truncation_retry, max_tokens = 1, retry_max_tokens
+                        structured_retry, max_tokens = 1, retry_max_tokens
                         continue
                     raise RemoteLLMError(REMOTE_CODES["truncated"], "Remote response exceeded its output budget")
                 if not content: raise RemoteLLMError(REMOTE_CODES["provider"], "Remote provider returned no content")
@@ -151,15 +151,23 @@ class HuggingFaceProvider:
                 except json.JSONDecodeError as exc:
                     last_type = "whitespace" if content[-1:].isspace() else "punctuation" if not content[-1:].isalnum() else "alphanumeric"
                     log.warning("malformed_response response_character_count={} completion_tokens={} finish_reason={} last_nonsecret_character_type={} schema_requested=true schema_validated=false", len(content), completion_tokens, finish_reason, last_type)
+                    if structured_retry == 0:
+                        structured_retry, max_tokens = 1, max(max_tokens, retry_max_tokens)
+                        log.info("structured_retry reason=invalid_json new_max_tokens={}", max_tokens)
+                        continue
                     raise RemoteLLMError(REMOTE_CODES["json"], "Remote provider returned invalid JSON") from exc
                 except ValidationError as exc:
                     log.warning("schema_validation_failed response_character_count={} completion_tokens={} finish_reason={} schema_requested=true schema_validated=false", len(content), completion_tokens, finish_reason)
+                    if structured_retry == 0:
+                        structured_retry, max_tokens = 1, max(max_tokens, retry_max_tokens)
+                        log.info("structured_retry reason=schema_validation new_max_tokens={}", max_tokens)
+                        continue
                     raise RemoteLLMError(REMOTE_CODES["schema"], "Remote response failed schema validation") from exc
                 latency = round((time.perf_counter()-started)*1000, 1)
                 self.last_request = {"model":model,"provider":backend,"family":family.value,"role":role.value,"latency_ms":latency,
                     "prompt_tokens":getattr(usage,"prompt_tokens",None),"completion_tokens":completion_tokens,"total_tokens":getattr(usage,"total_tokens",None),
-                    "finish_reason":finish_reason,"max_tokens":max_tokens,"schema_requested":True,"schema_validated":True,"retry_count":truncation_retry}
-                log.info("request_complete latency_ms={} prompt_tokens={} completion_tokens={} total_tokens={} max_tokens={} finish_reason={} schema_requested=true schema_validated=true retry_count={} http_status=200", latency, self.last_request["prompt_tokens"], completion_tokens, self.last_request["total_tokens"], max_tokens, finish_reason, truncation_retry)
+                    "finish_reason":finish_reason,"max_tokens":max_tokens,"schema_requested":True,"schema_validated":True,"retry_count":structured_retry}
+                log.info("request_complete latency_ms={} prompt_tokens={} completion_tokens={} total_tokens={} max_tokens={} finish_reason={} schema_requested=true schema_validated=true retry_count={} http_status=200", latency, self.last_request["prompt_tokens"], completion_tokens, self.last_request["total_tokens"], max_tokens, finish_reason, structured_retry)
                 return result
             except RemoteLLMError: raise
             except (RateLimitError, APIConnectionError, APITimeoutError, APIStatusError) as exc:

@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 2de-probability-complement-g1-v001
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 1 — Un événement A a pour probabilité $7/10$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=3/10$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 9089e6b7c152cdfe257760a6bdb28668465c996433f81fe714be41010a2f0921
 - id: 2de-probability-complement-g1-v002
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 2 — Un événement A a pour probabilité $2/5$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=3/5$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: b793ddb4d7103086022ca02f935d4b46e1432c48367d47068e8430cda5732d07
 - id: 2de-probability-complement-g1-v003
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 3 — Un événement A a pour probabilité $3/5$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=2/5$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 3a02e3c9ce1eebb4fe80b566e49c9f4d06d8a5813d5fdf6e0202cbc157ca7c66
 - id: 2de-probability-complement-g1-v004
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 4 — Un événement A a pour probabilité $3/10$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=7/10$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 124fc0da5929d679ec53f853d0bc17c7057f86424841e6a8aa3a621f8d899252
 - id: 2de-probability-complement-g1-v005
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 5 — Un événement A a pour probabilité $4/5$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=1/5$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: dd9fe1920c58eb025f99e91c938c7fe4f1fdae3ae7f6852bb5f090926d62ac1e
 - id: 2de-probability-complement-g1-v006
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 6 — Un événement A a pour probabilité $1/10$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=9/10$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 5d573cd392c62e7c1ffd3c3fbb93ac26bbf45c002bad1458bd5119f57e62376b
 - id: 2de-probability-complement-g1-v007
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 7 — Un événement A a pour probabilité $4/5$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=1/5$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: fb5adeacc6094d5c8fb821e467ad32613e2e889b0e2fd76e8be3d791c9276436
 - id: 2de-probability-complement-g1-v008
-  title: 2De Probability Complement
+  title: Calculer la probabilité d’un événement contraire
   statement: Variante 8 — Un événement A a pour probabilité $1/2$. Calculer exactement $P(\overline{A})$.
   curriculum:
     level: seconde
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(\overline{A})=1-P(A)=1/2$.
   hints:
   - level: 1

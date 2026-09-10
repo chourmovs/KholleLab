@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 4e-proportionality-table-g1-v001
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 1 — Dans un tableau proportionnel, 6 unités correspondent à 12 unités. À combien correspondent 7 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $2$. Donc $(6+1)\times2=14$ unités.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 293e4f7003f0c4e11eda742a4cda290418d412fdfccef043b02bf6dddabeeec9
 - id: 4e-proportionality-table-g1-v002
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 2 — Dans un tableau proportionnel, 6 unités correspondent à 42 unités. À combien correspondent 7 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $7$. Donc $(6+1)\times7=49$ unités.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 0f171982317517e8deaec5baddf2b3aa793121ce105c090e8187bffb8e7745ff
 - id: 4e-proportionality-table-g1-v003
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 3 — Dans un tableau proportionnel, 2 unités correspondent à 4 unités. À combien correspondent 3 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $2$. Donc $(2+1)\times2=6$ unités.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 11c39c5631d6c36139999b6683a70160d367c9ff0fac21f7adcc2d6aaa923646
 - id: 4e-proportionality-table-g1-v004
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 4 — Dans un tableau proportionnel, 6 unités correspondent à 18 unités. À combien correspondent 7 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $3$. Donc $(6+1)\times3=21$ unités.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 7577c08691aebf0e09035625d3ba87f4d6fad74698d8c5b6befcd70731c3434f
 - id: 4e-proportionality-table-g1-v005
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 5 — Dans un tableau proportionnel, 2 unités correspondent à 8 unités. À combien correspondent 3 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $4$. Donc $(2+1)\times4=12$ unités.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 41719db981787ff8afb3b38c0f3732478af9cac450634b4c309ec88adf87e251
 - id: 4e-proportionality-table-g1-v006
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 6 — Dans un tableau proportionnel, 6 unités correspondent à 30 unités. À combien correspondent 7 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $5$. Donc $(6+1)\times5=35$ unités.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 16f14ab41a4d920629318fe2a447285a06b0f0d2cbba1fb62440184c5cdae22c
 - id: 4e-proportionality-table-g1-v007
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 7 — Dans un tableau proportionnel, 2 unités correspondent à 12 unités. À combien correspondent 3 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $6$. Donc $(2+1)\times6=18$ unités.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 0a3760c6e2284581ecade0a8b23ee2798dec8af3a65c34bc88affb06e3128564
 - id: 4e-proportionality-table-g1-v008
-  title: 4E Proportionality Table
+  title: Compléter un tableau de proportionnalité
   statement: Variante 8 — Dans un tableau proportionnel, 5 unités correspondent à 25 unités. À combien correspondent 6 unités ? Expliquer.
   curriculum:
     level: quatrieme
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: Le coefficient est $5$. Donc $(5+1)\times5=30$ unités.
   hints:
   - level: 1

@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 1re-probability-tree-g1-v001
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 1 — On sait $P(A)=1/5$ et $P(B\mid A)=1/2$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=1/10$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 2fca4ed0a7569e01ae85ff75cfa4b5285ffd451d4d3cc1b46225d0c32ef71f7c
 - id: 1re-probability-tree-g1-v002
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 2 — On sait $P(A)=2/5$ et $P(B\mid A)=1/2$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=1/5$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: f6af7a21b76c9dfe3ca340103cd408d16cfd760ed59f1ed1cf02fcff525937be
 - id: 1re-probability-tree-g1-v003
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 3 — On sait $P(A)=1/2$ et $P(B\mid A)=1/2$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=1/4$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 7e768c1dcb772620afb99ff273a5a4572a2d39f62a26545a28037941d786a3c0
 - id: 1re-probability-tree-g1-v004
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 4 — On sait $P(A)=1/2$ et $P(B\mid A)=2/5$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=1/5$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: fd4bb886b1dd041337ae280c556b41cc6de3fda2400c3443a976b68ea26a8bbb
 - id: 1re-probability-tree-g1-v005
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 5 — On sait $P(A)=4/5$ et $P(B\mid A)=1/5$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=4/25$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 846e236c00681db946a1eef6a1b743d6da0520e05dea6523fb24f89f9dcd937f
 - id: 1re-probability-tree-g1-v006
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 6 — On sait $P(A)=4/5$ et $P(B\mid A)=4/5$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=16/25$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: a27b38fdeffa8521b9b5af5a6afcaaf56c98735e8e26b063c1e6ed2e3a699126
 - id: 1re-probability-tree-g1-v007
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 7 — On sait $P(A)=1/2$ et $P(B\mid A)=1/2$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=1/4$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: a5e8a3a3d6fc71780e8f7a1235c61225e784c5e68fd80cb7780cfc314007e381
 - id: 1re-probability-tree-g1-v008
-  title: 1Re Probability Tree
+  title: Calculer une probabilité conditionnelle
   statement: Variante 8 — On sait $P(A)=3/10$ et $P(B\mid A)=1/5$. Calculer $P(A\cap B)$ avec un arbre.
   curriculum:
     level: premiere
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(A\cap B)=P(A)P(B\mid A)=3/50$.
   hints:
   - level: 1

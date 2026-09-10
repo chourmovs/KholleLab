@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 2de-function-variation-g1-v001
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 1 — Étudier le minimum de $f(x)=(x-6)^2+6$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $6$, atteint pour $x=6$.'
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 2876790139c8fae7f53d824ddb188a1863cb2867fcd4ebf180112b6b21eeea26
 - id: 2de-function-variation-g1-v002
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 2 — Étudier le minimum de $f(x)=(x-3)^2+5$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $5$, atteint pour $x=3$.'
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 00161d9eeeedb71f9c5f0557556517264a9c0365cdea42ec789b64152c969f80
 - id: 2de-function-variation-g1-v003
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 3 — Étudier le minimum de $f(x)=(x-2)^2+3$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $3$, atteint pour $x=2$.'
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: f17f1dadd498897aec477374a7030cfe0edd7954386ce294cafe9846a3d1380b
 - id: 2de-function-variation-g1-v004
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 4 — Étudier le minimum de $f(x)=(x-3)^2+12$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $12$, atteint pour $x=3$.'
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 81783c8691df4f39bb9b4c1a44a96605a55d6a7a6d5a49cc4472a30f1f7284c8
 - id: 2de-function-variation-g1-v005
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 5 — Étudier le minimum de $f(x)=(x-7)^2+3$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $3$, atteint pour $x=7$.'
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 9d169d027d4b0f47ae238591a1b854639a384f3664dcfc778514bd3a8020195a
 - id: 2de-function-variation-g1-v006
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 6 — Étudier le minimum de $f(x)=(x-5)^2+1$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $1$, atteint pour $x=5$.'
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 32952646b88fe83aa8582d60a59b1cef3d864db6ab85da034d50223673ed0598
 - id: 2de-function-variation-g1-v007
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 7 — Étudier le minimum de $f(x)=(x-6)^2+4$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $4$, atteint pour $x=6$.'
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: db3d88ab4c66fd9d97b687ba151199ae8cf2b76fbcbea3b98fc3683db8aae710
 - id: 2de-function-variation-g1-v008
-  title: 2De Function Variation
+  title: Étudier le minimum d’une fonction
   statement: Variante 8 — Étudier le minimum de $f(x)=(x-10)^2+7$ et préciser où il est atteint.
   curriculum:
     level: seconde
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'Un carré est positif : le minimum vaut $7$, atteint pour $x=10$.'
   hints:
   - level: 1

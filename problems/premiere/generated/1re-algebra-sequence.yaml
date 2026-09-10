@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 1re-algebra-sequence-g1-v001
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 1 — La suite arithmétique vérifie $u_1=4$ et a pour raison $2$. Calculer $u_8$ et justifier.
   curriculum:
     level: premiere
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_8=u_1+(8-1)r=18$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: d0f47ea12d149eff708d2860f3c1766b23065eed503972bdda95ae18ac5e85d4
 - id: 1re-algebra-sequence-g1-v002
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 2 — La suite arithmétique vérifie $u_1=2$ et a pour raison $4$. Calculer $u_7$ et justifier.
   curriculum:
     level: premiere
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_7=u_1+(7-1)r=26$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 49c899c34f72994d6dd293047e00d50b2f07ecc9677421a6f631eccf004f0f19
 - id: 1re-algebra-sequence-g1-v003
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 3 — La suite arithmétique vérifie $u_1=8$ et a pour raison $8$. Calculer $u_11$ et justifier.
   curriculum:
     level: premiere
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_11=u_1+(11-1)r=88$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 25a3c58cc208faa870cd99302f041ac648badd38faab30252548ebca6d8190cb
 - id: 1re-algebra-sequence-g1-v004
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 4 — La suite arithmétique vérifie $u_1=5$ et a pour raison $9$. Calculer $u_6$ et justifier.
   curriculum:
     level: premiere
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_6=u_1+(6-1)r=50$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: a6f21daa96154daeac3681aa1e010a01d08f59aba7f4deaa247476143a8bc362
 - id: 1re-algebra-sequence-g1-v005
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 5 — La suite arithmétique vérifie $u_1=3$ et a pour raison $3$. Calculer $u_12$ et justifier.
   curriculum:
     level: premiere
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_12=u_1+(12-1)r=36$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 8c762232f28d6827e47fdf40e4c380f9678af5adade88238b7faaf4f4b4704aa
 - id: 1re-algebra-sequence-g1-v006
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 6 — La suite arithmétique vérifie $u_1=4$ et a pour raison $7$. Calculer $u_11$ et justifier.
   curriculum:
     level: premiere
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_11=u_1+(11-1)r=74$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 4b6068e741c4b21dbd5534c4b6af009c758d28b311c8791cf9d2d5f028f3e954
 - id: 1re-algebra-sequence-g1-v007
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 7 — La suite arithmétique vérifie $u_1=3$ et a pour raison $6$. Calculer $u_10$ et justifier.
   curriculum:
     level: premiere
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_10=u_1+(10-1)r=57$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 0e9b42ca93992758ec63054ac39e96e6abdacd85005b337350297b319a669dcf
 - id: 1re-algebra-sequence-g1-v008
-  title: 1Re Algebra Sequence
+  title: Calculer un terme d’une suite arithmétique
   statement: Variante 8 — La suite arithmétique vérifie $u_1=9$ et a pour raison $7$. Calculer $u_5$ et justifier.
   curriculum:
     level: premiere
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $u_5=u_1+(5-1)r=37$.
   hints:
   - level: 1

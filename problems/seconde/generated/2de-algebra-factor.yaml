@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 2de-algebra-factor-g1-v001
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 1 — Factoriser $3x^2+12x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $3x$ en facteur : $3x(x+4)$.'
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 62a49fb999ca2ea48477d27db91c9593595751d305ff764e53f0336524c5e6ff
 - id: 2de-algebra-factor-g1-v002
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 2 — Factoriser $8x^2+64x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $8x$ en facteur : $8x(x+8)$.'
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: ac647ccc560ba94fda5cddbd4830c9a1c0c8351ae8a74a5b878673cf87968fe7
 - id: 2de-algebra-factor-g1-v003
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 3 — Factoriser $2x^2+16x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $2x$ en facteur : $2x(x+8)$.'
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 6db731e7321aa8b34119835223dfd36c6a8211021dcdf8dcbe1fec9f244547d1
 - id: 2de-algebra-factor-g1-v004
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 4 — Factoriser $9x^2+63x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $9x$ en facteur : $9x(x+7)$.'
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 0420d9bdf8967238440992b3a2175449c244d0ff8b30619193d687fc7c5a42e3
 - id: 2de-algebra-factor-g1-v005
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 5 — Factoriser $4x^2+4x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $4x$ en facteur : $4x(x+1)$.'
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 578305814dbb63bc8a4ed865a7ee2473cc9b76de6e23f8b4c85e46ac7bb45abe
 - id: 2de-algebra-factor-g1-v006
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 6 — Factoriser $2x^2+20x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $2x$ en facteur : $2x(x+10)$.'
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 0c9ef9432f601880a89d3cb526e3ab7217b74fb9c24269ff4263b293af91722f
 - id: 2de-algebra-factor-g1-v007
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 7 — Factoriser $9x^2+90x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $9x$ en facteur : $9x(x+10)$.'
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 07361c4dbe3f1e5c194a1f1186f382f9453648ca95113cc75c894b886bc709e1
 - id: 2de-algebra-factor-g1-v008
-  title: 2De Algebra Factor
+  title: Factoriser une expression
   statement: Variante 8 — Factoriser $6x^2+54x$ et contrôler en développant.
   curriculum:
     level: seconde
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: 'On met $6x$ en facteur : $6x(x+9)$.'
   hints:
   - level: 1

@@ -16,6 +16,8 @@ from app.services.resource_resolver import context_for_problem
 PROMPT=(Path(__file__).parents[1]/"prompts/tutor_assessment_v1.md").read_text(encoding="utf-8")
 AUTO={TutorTrigger.MEANINGFUL_PROGRESS,TutorTrigger.STALLED}
 GENERIC="Quelle étape de ton raisonnement peux-tu vérifier en priorité ?"
+MANUAL={TutorTrigger.ASK_HINT,TutorTrigger.I_AM_STUCK}
+FALLBACK_MODEL="deterministic-tutor-v1"
 class TutorError(RuntimeError):
     def __init__(self,code,status=409): self.code,self.status=code,status; super().__init__(code)
 
@@ -70,7 +72,10 @@ def apply_policy(a:TutorAssessment, requested:int, trigger:TutorTrigger)->tuple[
     if a.confidence<.85 and a.intervention_needed:
         return a.model_copy(update={"error_detected":False,"error_category":ErrorCategory.NONE,"intervention_type":InterventionType.SOCRATIC_QUESTION,"intervention":GENERIC,"reveals_answer":False}),1
     effective=min(a.estimated_help_level,allowed)
-    if not a.intervention_needed:return a.model_copy(update={"intervention_type":InterventionType.SILENCE,"intervention":None}),0
+    if not a.intervention_needed:
+        if trigger in MANUAL:
+            return a.model_copy(update={"intervention_needed":True,"intervention_type":InterventionType.SOCRATIC_QUESTION,"intervention":GENERIC,"reveals_answer":False}),max(1,min(requested,2))
+        return a.model_copy(update={"intervention_type":InterventionType.SILENCE,"intervention":None}),0
     if effective<a.estimated_help_level:
         return a.model_copy(update={"intervention_type":InterventionType.SOCRATIC_QUESTION,"intervention":GENERIC,"reveals_answer":False}),min(1,allowed)
     return a,effective
@@ -97,7 +102,14 @@ class TutorAssessmentService:
         payload={"énoncé":problem.statement,"niveau":problem.curriculum.level.value,"difficulté":problem.curriculum.difficulty,"thèmes":[x.value for x in problem.topics],"prérequis":list(problem.prerequisites),"copie_enregistrée":attempt.solution_markdown,"temps_écoulé_secondes":attempt.elapsed_seconds,"niveau_aide_demandé":request.requested_help_level,"déclencheur":request.trigger.value,"vocabulaire_ressources_disponibles":vocabulary}
         model=resolve_model(settings.llm_model_family,ModelRole.FAST); short,backend=model_identity(model); started=time.perf_counter()
         component_logger("tutor").bind(attempt_id=str(attempt_id),revision=attempt.revision,trigger=request.trigger.value,requested_help_level=request.requested_help_level,model=model,provider=getattr(self.provider,"name","unknown")).info("tutor_assessment_started")
-        raw=await self.provider.structured_response(instructions=PROMPT,input_text=json.dumps(payload,ensure_ascii=False),response_model=TutorAssessment,role=ModelRole.FAST)
+        try:
+            raw=await self.provider.structured_response(instructions=PROMPT,input_text=json.dumps(payload,ensure_ascii=False),response_model=TutorAssessment,role=ModelRole.FAST)
+        except Exception as exc:
+            if request.trigger not in MANUAL:
+                component_logger("tutor").bind(attempt_id=str(attempt_id),trigger=request.trigger.value,error_type=type(exc).__name__).warning("automatic_tutor_assessment_skipped")
+                raise
+            component_logger("tutor").bind(attempt_id=str(attempt_id),trigger=request.trigger.value,error_type=type(exc).__name__).warning("manual_tutor_fallback_used")
+            return self._persist_fallback(attempt,problem,request,started)
         safe,effective=apply_policy(raw,request.requested_help_level,request.trigger)
         signal=sanitize_resource_signal(safe.resource_signal,vocabulary)
         discarded=sum(len(getattr(safe.resource_signal,key))-len(getattr(signal,key)) for key in ("topics","prerequisites","skills","tags"))
@@ -106,6 +118,27 @@ class TutorAssessmentService:
         row=TutorAssessmentRecord(attempt_id=attempt_id,revision=attempt.revision,trigger=request.trigger.value,requested_help_level=request.requested_help_level,effective_help_level=effective,student_state=safe.student_state.value,intervention_needed=safe.intervention_needed,intervention_type=safe.intervention_type.value,intervention=safe.intervention,confidence=safe.confidence,error_category=safe.error_category.value,reveals_answer=safe.reveals_answer,provider=getattr(self.provider,"name","unknown"),model=short,backend=backend,client_request_id=request.client_request_id,recommended_resource_id=selected.resource.id if selected else None,resource_need=signal.need.value if selected else None)
         self.db.add(row);self.db.commit();self.db.refresh(row)
         component_logger("tutor").bind(attempt_id=str(attempt_id),revision=attempt.revision,student_state=row.student_state,intervention_needed=row.intervention_needed,effective_help_level=effective,confidence=row.confidence,latency_ms=round((time.perf_counter()-started)*1000,1)).info("tutor_assessment_completed")
+        return self._public(row)
+    def _persist_fallback(self,attempt,problem,request,started):
+        """Persist a spoiler-free response when explicitly requested help cannot be inferred remotely."""
+        context=context_for_problem(problem,self.curriculum)
+        courses=[item for item in self.resolver.resolve(context) if item.resource.type==ResourceType.COURSE]
+        selected=courses[0] if request.trigger==TutorTrigger.I_AM_STUCK and courses else None
+        labels=[]
+        for expectation_id in problem.curriculum.expectations:
+            expectation=self.curriculum.expectations.get(expectation_id)
+            if expectation and expectation.label not in labels: labels.append(expectation.label)
+        focus=labels[0] if labels else None
+        if request.trigger==TutorTrigger.ASK_HINT:
+            intervention=f"Quelle propriété ou définition liée à « {focus} » peux-tu utiliser pour démarrer ?" if focus else "Quelle propriété ou définition liée à cet exercice peux-tu utiliser pour démarrer ?"
+            level=1
+        else:
+            intervention="Commence par identifier les données utiles et la relation mathématique qui les relie."
+            if focus: intervention+=f" Appuie-toi sur ce que tu sais de « {focus} »."
+            level=min(max(request.requested_help_level,2),3)
+        row=TutorAssessmentRecord(attempt_id=attempt.id,revision=attempt.revision,trigger=request.trigger.value,requested_help_level=request.requested_help_level,effective_help_level=level,student_state=StudentState.BLOCKED.value,intervention_needed=True,intervention_type=InterventionType.SOCRATIC_QUESTION.value,intervention=intervention,confidence=1.0,error_category=ErrorCategory.NONE.value,reveals_answer=False,provider="fallback",model=FALLBACK_MODEL,backend="local",client_request_id=request.client_request_id,recommended_resource_id=selected.resource.id if selected else None,resource_need=ResourceNeed.COURSE_GAP.value if selected else None)
+        self.db.add(row);self.db.commit();self.db.refresh(row)
+        component_logger("tutor").bind(attempt_id=str(attempt.id),latency_ms=round((time.perf_counter()-started)*1000,1),provider="fallback").info("tutor_assessment_completed")
         return self._public(row)
     def latest(self,attempt_id):
         row=self.db.scalar(select(TutorAssessmentRecord).where(TutorAssessmentRecord.attempt_id==attempt_id).order_by(TutorAssessmentRecord.created_at.desc()))

@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 1re-derivative-polynomial-g1-v001
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 1 — Déterminer la dérivée de $f(x)=9x^3+3x^2-7x+1$.
   curriculum:
     level: premiere
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=27x^2+6x-7$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: d8cd1acdb8af4c51432e023b7826dedb66eaa0d1a18b1ef25d3483d8cc86c69e
 - id: 1re-derivative-polynomial-g1-v002
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 2 — Déterminer la dérivée de $f(x)=6x^3+1x^2-7x+1$.
   curriculum:
     level: premiere
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=18x^2+2x-7$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 73f23736f149dc8a56ece9a8247409683bb753e7ce4c3207b18651caddc8cce5
 - id: 1re-derivative-polynomial-g1-v003
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 3 — Déterminer la dérivée de $f(x)=6x^3+7x^2-4x+1$.
   curriculum:
     level: premiere
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=18x^2+14x-4$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 9249a468def7d13056797b066bdf5c4ba2d5b84326a79af926084a341fd6c0f8
 - id: 1re-derivative-polynomial-g1-v004
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 4 — Déterminer la dérivée de $f(x)=2x^3+1x^2-8x+1$.
   curriculum:
     level: premiere
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=6x^2+2x-8$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: ce68f8b5324617f4c5c4f7287145a4b53a98d0f27ac9cb98d0c399b272885a80
 - id: 1re-derivative-polynomial-g1-v005
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 5 — Déterminer la dérivée de $f(x)=5x^3+9x^2-6x+1$.
   curriculum:
     level: premiere
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=15x^2+18x-6$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 7edb1c356f9b346f4b856491a9846ac64e567530a29c09fc07814b03738e877e
 - id: 1re-derivative-polynomial-g1-v006
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 6 — Déterminer la dérivée de $f(x)=6x^3+9x^2-10x+1$.
   curriculum:
     level: premiere
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=18x^2+18x-10$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 7ad4caf6423e8a58ce5747f6df7844fee4a0e86483e434511e1f52d357464bae
 - id: 1re-derivative-polynomial-g1-v007
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 7 — Déterminer la dérivée de $f(x)=4x^3+5x^2-5x+1$.
   curriculum:
     level: premiere
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=12x^2+10x-5$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 7c50974b18fd89aaf9d35d8c5988503cff3d8e58512ade459347ab78ba1e73ec
 - id: 1re-derivative-polynomial-g1-v008
-  title: 1Re Derivative Polynomial
+  title: Dériver une fonction polynomiale
   statement: Variante 8 — Déterminer la dérivée de $f(x)=8x^3+10x^2-9x+1$.
   curriculum:
     level: premiere
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f'(x)=24x^2+20x-9$.
   hints:
   - level: 1
