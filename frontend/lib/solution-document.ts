@@ -52,6 +52,14 @@ export function mathLiveToUnifiedSolution(value:string):string{
  return value.startsWith(prefix)&&value.endsWith("}")?value.slice(prefix.length,-1):value;
 }
 
+/** Normalize persisted editor documents for a read-only renderer without rewriting history. */
+export function historySolutionContent(value:string):{kind:"unified"|"markdown";content:string}{
+ const trimmed=value.trim();
+ if(trimmed.startsWith("\\displaylines{")&&trimmed.endsWith("}"))return {kind:"unified",content:mathLiveToUnifiedSolution(trimmed)};
+ if(trimmed.startsWith("\\text{"))return {kind:"unified",content:trimmed};
+ return {kind:"markdown",content:value};
+}
+
 /** Always create the MathLive model with its caret-addressable multiline root. */
 export function unifiedSolutionToMathLive(value:string):string{
  const imported=legacySolutionToMathLive(value);

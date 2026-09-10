@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: tle-binomial-probability-g1-v001
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 1 — $X$ suit une loi binomiale $\mathcal B(5,3/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-3/5)^5=(2/5)^5$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 839f5f13e502ab53b94bbddc6f013da05536083f2f6df6ba67f8575219933054
 - id: tle-binomial-probability-g1-v002
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 2 — $X$ suit une loi binomiale $\mathcal B(7,1/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-1/5)^7=(4/5)^7$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 35ba5a630ce1ae16318c5de2694348d28b88f471710950374ed7cd4be5891070
 - id: tle-binomial-probability-g1-v003
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 3 — $X$ suit une loi binomiale $\mathcal B(5,4/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-4/5)^5=(1/5)^5$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 913778e447e24665ca257992d7cff774227b26809947cb2e302a05cbb47a323f
 - id: tle-binomial-probability-g1-v004
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 4 — $X$ suit une loi binomiale $\mathcal B(6,4/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-4/5)^6=(1/5)^6$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 6450b0c5b4d286d8a50c173d7162a0a52eed730edc662f43f86b2030173adb88
 - id: tle-binomial-probability-g1-v005
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 5 — $X$ suit une loi binomiale $\mathcal B(6,3/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-3/5)^6=(2/5)^6$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 8bf382407e136a3f113db48fbb821c97de3f8e6c2b53fa08f94dbe635e70ac04
 - id: tle-binomial-probability-g1-v006
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 6 — $X$ suit une loi binomiale $\mathcal B(5,2/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-2/5)^5=(3/5)^5$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: fc8a41be2af759fdb83c6d94c3187660bc10e514b45eda50aec2398e1bc091c2
 - id: tle-binomial-probability-g1-v007
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 7 — $X$ suit une loi binomiale $\mathcal B(4,1/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-1/5)^4=(4/5)^4$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 4c99eda8e95ca1a65d0759e425069a12c907ea3f4eb44c04124b30d87ce44df1
 - id: tle-binomial-probability-g1-v008
-  title: Tle Binomial Probability
+  title: Calculer une probabilité binomiale
   statement: Variante 8 — $X$ suit une loi binomiale $\mathcal B(5,1/5)$. Calculer exactement $P(X=0)$.
   curriculum:
     level: terminale
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 20
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $P(X=0)=(1-1/5)^5=(4/5)^5$.
   hints:
   - level: 1

@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 4e-expand-expression-g1-v001
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 1 — Développer et réduire $5(x+12)-12x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $5x+60-12x=(-7)x+60$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: d366b1db8be76f3beaed23293e063a9c3006a719aad5c7bf144db2e3eb346d31
 - id: 4e-expand-expression-g1-v002
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 2 — Développer et réduire $9(x+12)-12x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $9x+108-12x=(-3)x+108$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 58c87e09d60b88750f5253c5dfd03ec44a04a18da00649914047c8149603d76c
 - id: 4e-expand-expression-g1-v003
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 3 — Développer et réduire $4(x+3)-3x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $4x+12-3x=(1)x+12$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 12f6dc4143cab7364b8003bd827eb0a4d2f827ae6d3b68502564a56e7184766a
 - id: 4e-expand-expression-g1-v004
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 4 — Développer et réduire $3(x+10)-10x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $3x+30-10x=(-7)x+30$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 7910d3a9dd9f2f00f40871b11ca734ee3eb0a3678c1ccb5c01a613fec658947a
 - id: 4e-expand-expression-g1-v005
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 5 — Développer et réduire $3(x+7)-7x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $3x+21-7x=(-4)x+21$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 9646348ef7bd1be3c75bf8f46bacaa68c5416c228649586d6cd681e09c189c38
 - id: 4e-expand-expression-g1-v006
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 6 — Développer et réduire $7(x+8)-8x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $7x+56-8x=(-1)x+56$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: ea3d2fa6b6c21a81dcfe40e9772ffd42c370e036672fa925f86c701f98369b1c
 - id: 4e-expand-expression-g1-v007
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 7 — Développer et réduire $7(x+4)-4x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $7x+28-4x=(3)x+28$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: eda2eda7b54d29722c486160339ca5a7b01bbf925dc2f598dd8f9cab91348ae4
 - id: 4e-expand-expression-g1-v008
-  title: 4E Expand Expression
+  title: Développer une expression
   statement: Variante 8 — Développer et réduire $8(x+4)-4x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $8x+32-4x=(4)x+32$.
   hints:
   - level: 1

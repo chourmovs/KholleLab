@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 3e-function-antecedent-g1-v001
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 1 — Pour $f(x)=5x+2$, déterminer l'antécédent de $17$ et vérifier.
   curriculum:
     level: troisieme
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $5x+2=17$ donne $x=3$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: a4779c6c44229789055ac8867b4f16e885676360db2bf1d89e980c78b64d1024
 - id: 3e-function-antecedent-g1-v002
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 2 — Pour $f(x)=7x+3$, déterminer l'antécédent de $66$ et vérifier.
   curriculum:
     level: troisieme
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $7x+3=66$ donne $x=9$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 45d854d4348eceef37ef1d42d2516152bfd85eda4beafb4465dbc8e9751ceb69
 - id: 3e-function-antecedent-g1-v003
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 3 — Pour $f(x)=9x+4$, déterminer l'antécédent de $76$ et vérifier.
   curriculum:
     level: troisieme
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $9x+4=76$ donne $x=8$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 75213f94b1c63232eb5e4101919ab9d4c69bf6aa912f65912ce1b6a41981c2a5
 - id: 3e-function-antecedent-g1-v004
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 4 — Pour $f(x)=8x+2$, déterminer l'antécédent de $42$ et vérifier.
   curriculum:
     level: troisieme
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $8x+2=42$ donne $x=5$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 726a3c513d4e5e0a9f4260bf7479b32d9c3913f31dabc135c040ae0215cdc1e6
 - id: 3e-function-antecedent-g1-v005
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 5 — Pour $f(x)=2x+1$, déterminer l'antécédent de $11$ et vérifier.
   curriculum:
     level: troisieme
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $2x+1=11$ donne $x=5$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 3cfd44c42a30be64d1bbb816be626ba83b6a9656d5e0f6983de855cd1990f4d1
 - id: 3e-function-antecedent-g1-v006
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 6 — Pour $f(x)=9x+3$, déterminer l'antécédent de $39$ et vérifier.
   curriculum:
     level: troisieme
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $9x+3=39$ donne $x=4$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 5cbd129a28de5e98876bbaf56b221d3ffdb0b383165f381e8b80a4903ef826db
 - id: 3e-function-antecedent-g1-v007
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 7 — Pour $f(x)=2x+10$, déterminer l'antécédent de $22$ et vérifier.
   curriculum:
     level: troisieme
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $2x+10=22$ donne $x=6$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 967674ad3f393a6242eeceebb1d4d63567423f9f205693e9b87e543d62f60df5
 - id: 3e-function-antecedent-g1-v008
-  title: 3E Function Antecedent
+  title: Déterminer un antécédent
   statement: Variante 8 — Pour $f(x)=5x+4$, déterminer l'antécédent de $49$ et vérifier.
   curriculum:
     level: troisieme
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $5x+4=49$ donne $x=9$.
   hints:
   - level: 1

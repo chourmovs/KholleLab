@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 4e-algebra-justify-g1-v001
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 1 — Développer et réduire $8(x+10)-10x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $8x+80-10x=(-2)x+80$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: c96a576be784efa434fbeb5a6590293ad02a721abc08452c53e048f58d6d2333
 - id: 4e-algebra-justify-g1-v002
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 2 — Développer et réduire $4(x+1)-1x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $4x+4-1x=(3)x+4$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: a116ca51a83768f5a41873bd874a5d287e32c0909ebc79eab007bc99401ad681
 - id: 4e-algebra-justify-g1-v003
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 3 — Développer et réduire $3(x+3)-3x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $3x+9-3x=(0)x+9$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: bf7645b758c864e9437af1f43392440d2fea733a3db626a11c0fbc3a2c84fdff
 - id: 4e-algebra-justify-g1-v004
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 4 — Développer et réduire $8(x+11)-11x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $8x+88-11x=(-3)x+88$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 7f573744b49f9389387458d9c9ea65eb93e93832d83dcd1485a89d4ac9ef2079
 - id: 4e-algebra-justify-g1-v005
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 5 — Développer et réduire $8(x+7)-7x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $8x+56-7x=(1)x+56$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: d6527eacbede7020d060624f9e9143fe1e71c0787c3f8887f168eefdb1520eea
 - id: 4e-algebra-justify-g1-v006
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 6 — Développer et réduire $5(x+12)-12x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $5x+60-12x=(-7)x+60$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: 3a6917199450549333dffc8d0657811d2b227d030d3e24daa425da325d51eae1
 - id: 4e-algebra-justify-g1-v007
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 7 — Développer et réduire $6(x+7)-7x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $6x+42-7x=(-1)x+42$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: d79835aa455bced121ca4c82fb45a5408b2299e514a33063e519882f157dc6b5
 - id: 4e-algebra-justify-g1-v008
-  title: 4E Algebra Justify
+  title: Justifier une identité algébrique
   statement: Variante 8 — Développer et réduire $7(x+3)-3x$. Détailler la distributivité.
   curriculum:
     level: quatrieme
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $7x+21-3x=(4)x+21$.
   hints:
   - level: 1

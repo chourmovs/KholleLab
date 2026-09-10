@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 2de-function-image-g1-v001
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 1 — On définit $f(x)=x^2+8x+5$. Calculer $f(2)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(2)=25$.
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: a92c750610e0c44dce5dae024476f761382f3605dd9f51d96bf054f58bdf303b
 - id: 2de-function-image-g1-v002
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 2 — On définit $f(x)=x^2+5x+2$. Calculer $f(10)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(10)=152$.
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: f42875ee0fd1a810bce8b75e6f5cca999b6ef7b24f81f68cfba4888327cb3b37
 - id: 2de-function-image-g1-v003
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 3 — On définit $f(x)=x^2+3x+10$. Calculer $f(9)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(9)=118$.
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: c57b4f6d79de8df0d9517945f8a601a7c8c79f138bf52ad21e71f0429f690201
 - id: 2de-function-image-g1-v004
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 4 — On définit $f(x)=x^2+6x+6$. Calculer $f(7)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(7)=97$.
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 0b5521dedcc21b2222afaa2be00cd6e9e6e93d1db3709e48c94f7ec92d40604c
 - id: 2de-function-image-g1-v005
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 5 — On définit $f(x)=x^2+8x+7$. Calculer $f(7)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(7)=112$.
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: a70883c4ce76725e94c6597226d50f0bc81b0c560c3fa0470fe8e52331fc015f
 - id: 2de-function-image-g1-v006
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 6 — On définit $f(x)=x^2+4x+8$. Calculer $f(10)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(10)=148$.
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: c543cb6ecf820671d7452e5838d641e7a7c286224802656b3dbb841a574ad07a
 - id: 2de-function-image-g1-v007
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 7 — On définit $f(x)=x^2+5x+11$. Calculer $f(6)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(6)=77$.
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: 963552937e08f34853895d9ac8c5f1f88f6d7390f984d7ddc69d1fd3732e72b1
 - id: 2de-function-image-g1-v008
-  title: 2De Function Image
+  title: Calculer l’image par une fonction quadratique
   statement: Variante 8 — On définit $f(x)=x^2+5x+6$. Calculer $f(2)$ en montrant la substitution.
   curriculum:
     level: seconde
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 17
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: $f(2)=20$.
   hints:
   - level: 1

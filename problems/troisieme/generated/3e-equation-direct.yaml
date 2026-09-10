@@ -1,7 +1,7 @@
 schema_version: 1
 problems:
 - id: 3e-equation-direct-g1-v001
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 1 — Résoudre : $3x+7=19$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -15,7 +15,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$3x=12$, donc $x=4$. Vérification : $3\times4+7=19$.'
   hints:
   - level: 1
@@ -30,7 +30,7 @@ problems:
     variant: 1
     parameter_identity: 78c36cb7a0cc2269b36edd8e9d65ea5535454496b420f7026359cf73cb3d0722
 - id: 3e-equation-direct-g1-v002
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 2 — Résoudre : $7x+9=79$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -44,7 +44,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$7x=70$, donc $x=10$. Vérification : $7\times10+9=79$.'
   hints:
   - level: 1
@@ -59,7 +59,7 @@ problems:
     variant: 2
     parameter_identity: 0c31cd90e3753de740190f02bcbf602ead96db487884c340c010f0d7b65365de
 - id: 3e-equation-direct-g1-v003
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 3 — Résoudre : $5x+5=25$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -73,7 +73,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$5x=20$, donc $x=4$. Vérification : $5\times4+5=25$.'
   hints:
   - level: 1
@@ -88,7 +88,7 @@ problems:
     variant: 3
     parameter_identity: 297f8117470d17b85fe876632aa755a6ff8c02e9ab480fa34198bb46b1cfeb54
 - id: 3e-equation-direct-g1-v004
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 4 — Résoudre : $7x+3=45$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -102,7 +102,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$7x=42$, donc $x=6$. Vérification : $7\times6+3=45$.'
   hints:
   - level: 1
@@ -117,7 +117,7 @@ problems:
     variant: 4
     parameter_identity: 62b1d38e59f2e9af451b0d88bb277fc488209f16fbda96cf80487e4a6859e14d
 - id: 3e-equation-direct-g1-v005
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 5 — Résoudre : $3x+1=19$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -131,7 +131,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$3x=18$, donc $x=6$. Vérification : $3\times6+1=19$.'
   hints:
   - level: 1
@@ -146,7 +146,7 @@ problems:
     variant: 5
     parameter_identity: 91d299cb9a55ec584ec8c1940999f3c435c2b16454a294a70315b0696540add6
 - id: 3e-equation-direct-g1-v006
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 6 — Résoudre : $5x+9=44$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -160,7 +160,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$5x=35$, donc $x=7$. Vérification : $5\times7+9=44$.'
   hints:
   - level: 1
@@ -175,7 +175,7 @@ problems:
     variant: 6
     parameter_identity: e5d6345f086f7448159f9ae6460a3c4291ab89fba656459d19b232fdee2afa0b
 - id: 3e-equation-direct-g1-v007
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 7 — Résoudre : $5x+6=36$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -189,7 +189,7 @@ problems:
   estimated_minutes: 11
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$5x=30$, donc $x=6$. Vérification : $5\times6+6=36$.'
   hints:
   - level: 1
@@ -204,7 +204,7 @@ problems:
     variant: 7
     parameter_identity: e4bb705956db60935937599645905193129b740ac4f3881dc556c2ae452efcdf
 - id: 3e-equation-direct-g1-v008
-  title: 3E Equation Direct
+  title: Résoudre une équation
   statement: 'Variante 8 — Résoudre : $9x+4=67$. Justifier puis vérifier la réponse.'
   curriculum:
     level: troisieme
@@ -218,7 +218,7 @@ problems:
   estimated_minutes: 14
   source:
     type: internal
-    name: Khollelab deterministic corpus factory
+    name: Exercice généré par KHOLLELAB
   reference_solution: '$9x=63$, donc $x=7$. Vérification : $9\times7+4=67$.'
   hints:
   - level: 1

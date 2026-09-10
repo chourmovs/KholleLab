@@ -36,7 +36,7 @@ async def test_strict_structured_completion_records_finish_reason():
 @pytest.mark.parametrize(('content','code'),[('not json','REMOTE_INVALID_JSON'),('{"answer":"wrong"}','REMOTE_SCHEMA'),('', 'REMOTE_PROVIDER')])
 async def test_remote_response_validation(content,code):
     with pytest.raises(RemoteLLMError) as caught:
-        await HuggingFaceProvider(client=Client(content)).structured_response(instructions='',input_text='',response_model=Answer)
+        await HuggingFaceProvider(client=Client([content,content])).structured_response(instructions='',input_text='',response_model=Answer)
     assert caught.value.code==code
 @pytest.mark.asyncio
 async def test_truncation_retries_once_and_succeeds(monkeypatch):

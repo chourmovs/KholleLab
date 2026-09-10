@@ -97,10 +97,10 @@ def generate(family: Family, variant: int) -> dict:
     parameters["wording_slot"] = variant
     identity = hashlib.sha256(json.dumps(parameters, sort_keys=True).encode()).hexdigest()
     difficulty = family.difficulties[(variant - 1) % len(family.difficulties)]
-    return {"id": f"{family.family_id}-g{family.version}-v{variant:03d}", "title": family.family_id.replace("-", " ").title(),
+    return {"id": f"{family.family_id}-g{family.version}-v{variant:03d}", "title": family.title,
             "statement": statement, "curriculum": {"level": family.level, "difficulty": difficulty, "expectations": [family.expectation]},
             "topics": list(family.topics), "skills": list(family.skills), "estimated_minutes": 8 + 3*difficulty,
-            "source": {"type": "internal", "name": "Khollelab deterministic corpus factory"}, "reference_solution": solution,
+            "source": {"type": "internal", "name": "Exercice généré par KHOLLELAB"}, "reference_solution": solution,
             "hints": [{"level": 1, "text": "Identifier les données utiles et écrire la propriété mobilisée."}],
             "tags": ["parametric", "reasoning" if "reasoning" in family.skills or "proof" in family.skills else "fluency"],
             "generation": {"kind": "parametric", "family_id": family.family_id, "version": family.version,

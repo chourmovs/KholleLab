@@ -1,4 +1,5 @@
 import uuid
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -7,6 +8,7 @@ from app.api.attempts import session
 from app.db.base import Base
 from app.main import app
 import app.models as models  # noqa: F401
+from app.providers.llm import RemoteLLMError
 
 engine=create_engine("sqlite://",connect_args={"check_same_thread":False},poolclass=StaticPool)
 Testing=sessionmaker(bind=engine,expire_on_commit=False)
@@ -103,3 +105,27 @@ def test_history_pagination_validation_and_legacy_isolation():
     with TestClient(app) as client:
         assert client.get("/api/sessions?limit=101").status_code==422
         assert client.get("/api/sessions?offset=-1").status_code==422
+
+
+class FailedTutorProvider:
+    name="failed"
+    def __init__(self,code): self.code=code
+    async def structured_response(self,**_):
+        raise RemoteLLMError(self.code,"remote tutor failed")
+
+
+@pytest.mark.parametrize("code",["REMOTE_SCHEMA","REMOTE_TIMEOUT"])
+def test_manual_tutor_failure_persists_safe_fallback(monkeypatch,code):
+    monkeypatch.setattr("app.api.attempts.provider_from_settings",lambda:FailedTutorProvider(code))
+    with TestClient(app) as client:
+        problem=next(item for item in client.get("/api/problems").json() if item["id"]=="1re-derivative-polynomial-g1-v001")
+        learning=client.post("/api/sessions",json={"problem_id":problem["id"]}).json()
+        attempt=learning["attempts"][0]
+        response=client.post(f"/api/attempts/{attempt['id']}/tutor/assess",json={"expected_revision":0,"trigger":"i_am_stuck","requested_help_level":3,"client_request_id":f"failure-{code}"})
+        assert response.status_code==200
+        value=response.json()
+        assert value["intervention_needed"] and value["intervention"]
+        assert value["provider"]=="fallback" and value["model"]=="deterministic-tutor-v1"
+        assert "reference_solution" not in str(value)
+        assert value["resource_recommendation"] is None or value["resource_recommendation"]["type"]=="course"
+        assert client.get(f"/api/attempts/{attempt['id']}/tutor/latest").json()==value
