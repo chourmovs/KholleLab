@@ -1,0 +1,16 @@
+{
+  "packageId": "com.chourmovs.khollelab",
+  "name": "KholleLab",
+  "launcherName": "KholleLab",
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "manifestPath": "/manifest.webmanifest",
+  "startUrl": "/",
+  "display": "standalone",
+  "themeColor": "#10271E",
+  "backgroundColor": "#10271E",
+  "targetSdkVersion": 36,
+  "compileSdkVersion": 36,
+  "enableNotifications": false,
+  "fallbackType": "customtabs"
+}
