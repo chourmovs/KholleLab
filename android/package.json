@@ -1,0 +1,15 @@
+{
+  "name": "khollelab-android-tooling",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reproducible local tooling for the KholleLab Trusted Web Activity",
+  "scripts": {
+    "check": "node scripts/check-config.mjs",
+    "check:generated": "node scripts/check-generated-project.mjs",
+    "twa:doctor": "bubblewrap doctor",
+    "twa:validate": "node scripts/check-config.mjs --validate"
+  },
+  "devDependencies": {
+    "@bubblewrap/cli": "1.25.0"
+  }
+}
