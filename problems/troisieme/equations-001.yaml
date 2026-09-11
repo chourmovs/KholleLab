@@ -4,7 +4,7 @@ statement: 'Résoudre $3x+5=20$.'
 curriculum:
   level: troisieme
   difficulty: 1
-  expectations: [c4-2020-3e-equations]
+  expectations: [c4-2020-3e-equation]
 topics: [equations]
 prerequisites: []
 skills: [calculation]

@@ -7,7 +7,7 @@ problems:
     level: seconde
     difficulty: 2
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -36,7 +36,7 @@ problems:
     level: seconde
     difficulty: 3
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -65,7 +65,7 @@ problems:
     level: seconde
     difficulty: 2
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -94,7 +94,7 @@ problems:
     level: seconde
     difficulty: 3
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -123,7 +123,7 @@ problems:
     level: seconde
     difficulty: 2
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -152,7 +152,7 @@ problems:
     level: seconde
     difficulty: 3
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -181,7 +181,7 @@ problems:
     level: seconde
     difficulty: 2
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:
@@ -210,7 +210,7 @@ problems:
     level: seconde
     difficulty: 3
     expectations:
-    - lycee-2026-2de-algebra
+    - lycee-2026-2de-factorisation
   topics:
   - algebra
   skills:

@@ -4,7 +4,7 @@ statement: 'Lina lit $\frac{2}{5}$ d’un livre lundi puis $\frac{1}{4}$ mardi. 
 curriculum:
   level: quatrieme
   difficulty: 2
-  expectations: [c4-2020-4e-fractions]
+  expectations: [c4-2020-4e-fraction-operations]
 topics: [arithmetic]
 prerequisites: []
 skills: [calculation]

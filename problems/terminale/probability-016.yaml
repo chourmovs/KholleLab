@@ -4,7 +4,7 @@ statement: Une variable suit $\mathcal B(10,0{,}2)$. Donner son espérance.
 curriculum:
   level: terminale
   difficulty: 2
-  expectations: [lycee-2019-tle-probability]
+  expectations: [lycee-2019-tle-binomial]
 topics:
 - probability
 prerequisites:

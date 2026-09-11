@@ -4,7 +4,7 @@ statement: Soit $v_1=5$ et $v_{n+1}=v_n+3$. Exprimer $v_n$ pour $n\geq1$.
 curriculum:
   level: premiere
   difficulty: 3
-  expectations: [lycee-2026-1re-algebra]
+  expectations: [lycee-2026-1re-arithmetic-sequence]
 topics:
 - sequences
 prerequisites:

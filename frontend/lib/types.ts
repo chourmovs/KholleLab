@@ -12,7 +12,7 @@ export interface ResolvedResourcesResponse {problem_id:string;resources:Pedagogi
 export interface LegacyVideoResource {title:string;provider:"youtube";url:string;author?:string;duration_minutes?:number}
 export interface ProblemResources {course_points:CoursePoint[];videos:LegacyVideoResource[]}
 export interface ProblemDetail extends ProblemSummary { statement:string;hintLevels:number[];prerequisites:string[];skills:string[];resources?:ProblemResources }
-export interface CurriculumExpectationOption {id:string;label:string}
+export interface CurriculumExpectationOption {id:string;label:string;theme?:string|null}
 export interface CurriculumDomain {id:string;label:string;expectations:CurriculumExpectationOption[]}
 export interface CurriculumLevelMetadata {id:string;label:string;short_label:string;stage:string;programme:{id:string;label:string};domains:CurriculumDomain[]}
 export interface CurriculumMetadata {academic_year:string;levels:CurriculumLevelMetadata[];difficulties:{id:number;label:string}[]}

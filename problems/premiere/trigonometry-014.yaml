@@ -4,7 +4,7 @@ statement: Résoudre $\cos x=1/2$ sur $[0,2\pi]$.
 curriculum:
   level: premiere
   difficulty: 1
-  expectations: [lycee-2026-1re-algebra]
+  expectations: [lycee-2026-1re-second-degree]
 topics:
 - trigonometry
 prerequisites:

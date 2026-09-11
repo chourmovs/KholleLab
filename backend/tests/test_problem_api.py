@@ -29,12 +29,12 @@ def test_college_selection_and_hard_expectation_filter():
             response = client.get(f"/api/problems/select?level={level}&difficulty=2")
             assert response.status_code == 200
             assert response.json()["problem"]["curriculum"]["level"] == level
-        expectation = "c4-2020-4e-fractions"
+        expectation = "c4-2020-4e-fraction-operations"
         for mode in ("manual", "adaptive"):
             response = client.get(f"/api/problems/select?level=quatrieme&expectation={expectation}&mode={mode}")
             assert response.status_code == 200
             assert expectation in response.json()["problem"]["curriculum"]["expectations"]
-        empty = client.get("/api/problems/select?level=troisieme&expectation=c4-2020-4e-fractions")
+        empty = client.get("/api/problems/select?level=troisieme&expectation=c4-2020-4e-fraction-operations")
         assert empty.status_code == 422
 
 
@@ -75,13 +75,15 @@ def test_public_resource_catalogue_and_resolution_api():
 
 def test_domain_is_a_hard_curriculum_constraint():
     with TestClient(app) as client:
+        level = next(item for item in client.get("/api/curriculum").json()["levels"] if item["id"] == "seconde")
+        by_domain = {domain["id"]: {item["id"] for item in domain["expectations"]} for domain in level["domains"]}
         for domain in ("algebra", "geometry"):
             for mode in ("manual", "adaptive"):
                 response = client.get(f"/api/problems/select?level=seconde&domain={domain}&difficulty=5&mode={mode}")
                 assert response.status_code == 200
                 problem = response.json()["problem"]
-                assert any(expectation.startswith(f"lycee-2026-2de-{domain}") for expectation in problem["curriculum"]["expectations"])
-        valid = client.get("/api/problems/select?level=seconde&domain=algebra&expectation=lycee-2026-2de-algebra")
+                assert set(problem["curriculum"]["expectations"]) & by_domain[domain]
+        valid = client.get("/api/problems/select?level=seconde&domain=algebra&expectation=lycee-2026-2de-factorisation")
         assert valid.status_code == 200
-        mismatch = client.get("/api/problems/select?level=seconde&domain=geometry&expectation=lycee-2026-2de-algebra")
+        mismatch = client.get("/api/problems/select?level=seconde&domain=geometry&expectation=lycee-2026-2de-factorisation")
         assert mismatch.status_code == 422

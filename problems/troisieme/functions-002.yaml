@@ -4,7 +4,7 @@ statement: 'Pour $g(x)=4x+1$, déterminer l’antécédent de 13.'
 curriculum:
   level: troisieme
   difficulty: 3
-  expectations: [c4-2020-3e-functions]
+  expectations: [c4-2020-3e-function-image]
 topics: [functions]
 prerequisites: []
 skills: [calculation]

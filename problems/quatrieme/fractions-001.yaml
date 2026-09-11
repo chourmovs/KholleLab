@@ -4,7 +4,7 @@ statement: 'Calculer $\frac{3}{4}+\frac{1}{8}$.'
 curriculum:
   level: quatrieme
   difficulty: 1
-  expectations: [c4-2020-4e-fractions]
+  expectations: [c4-2020-4e-fraction-operations]
 topics: [arithmetic]
 prerequisites: []
 skills: [calculation]

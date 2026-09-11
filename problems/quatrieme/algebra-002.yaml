@@ -4,7 +4,7 @@ statement: 'On choisit $x$, on le triple puis on ajoute 7. Écrire le résultat 
 curriculum:
   level: quatrieme
   difficulty: 3
-  expectations: [c4-2020-4e-algebra]
+  expectations: [c4-2020-4e-expand]
 topics: [algebra]
 prerequisites: []
 skills: [calculation]

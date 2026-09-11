@@ -7,7 +7,7 @@ problems:
     level: troisieme
     difficulty: 2
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -36,7 +36,7 @@ problems:
     level: troisieme
     difficulty: 3
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -65,7 +65,7 @@ problems:
     level: troisieme
     difficulty: 2
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -94,7 +94,7 @@ problems:
     level: troisieme
     difficulty: 3
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -123,7 +123,7 @@ problems:
     level: troisieme
     difficulty: 2
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -152,7 +152,7 @@ problems:
     level: troisieme
     difficulty: 3
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -181,7 +181,7 @@ problems:
     level: troisieme
     difficulty: 2
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:
@@ -210,7 +210,7 @@ problems:
     level: troisieme
     difficulty: 3
     expectations:
-    - c4-2020-3e-functions
+    - c4-2020-3e-function-antecedent
   topics:
   - functions
   skills:

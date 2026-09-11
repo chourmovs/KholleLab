@@ -21,3 +21,11 @@ Les intervalles sont inclusifs et contrôlés sans chevauchement au chargement :
 La normalisation PR15.3 conserve volontairement un petit nombre d’attentes par grand domaine et réutilise les nœuds de connaissance mathématiquement équivalents. Une décomposition plus fine des attendus officiels reste prévue pour PR15.4.
 
 Le référentiel CPGE historique est conservé pour compatibilité et n'est pas présenté comme un programme officiel normalisé. Avant d'élargir les attentes ou d'ajouter une transition, un mainteneur doit vérifier la publication et sa date d'effet sur le Bulletin officiel ou Éduscol, consigner la date ici, puis ajouter des tests de résolution avant/après transition.
+
+## PR15.4 — normalisation des objectifs (année 2026-2027)
+
+La carte active détaille les rubriques et capacités des seuls textes officiels déjà référencés ci-dessus : annexe 3 du programme de cycle 4 applicable en 4e/3e, BOEN n°14 du 2 avril 2026 pour la seconde et la première, et BO spécial n°8 du 25 juillet 2019 pour la terminale. Les descriptions YAML sont des reformulations concises, rattachées à une section officielle par `source_reference`; elles ne reproduisent pas les textes.
+
+Les rubriques sans exercice (notamment algorithmique, automatismes, logique, certaines parties de géométrie, statistiques et analyse) restent volontairement visibles. Leur absence de couverture est une information éditoriale, jamais un motif pour rattacher un exercice sans rapport. Les programmes 2026 publiés mais pas encore applicables en cycle 4 ou en terminale restent catalogués sans être activés avant leur année d'entrée en vigueur.
+
+**Limite de portée :** la métrique « MODELLED OFFICIAL OBJECTIVE COVERAGE » mesure uniquement les objectifs officiels actuellement normalisés dans KholleLab. Elle ne prouve pas l'exhaustivité du programme français, même si chacun de ces objectifs reçoit ultérieurement un exercice.

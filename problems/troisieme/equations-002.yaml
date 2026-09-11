@@ -4,7 +4,7 @@ statement: 'Un rectangle de largeur $x$ et de longueur $x+3$ a un périmètre de
 curriculum:
   level: troisieme
   difficulty: 3
-  expectations: [c4-2020-3e-equations]
+  expectations: [c4-2020-3e-equation]
 topics: [equations]
 prerequisites: []
 skills: [calculation]

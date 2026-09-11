@@ -183,8 +183,8 @@ def test_generated_variants_share_curriculum_knowledge_resource():
 
 
 @pytest.mark.parametrize("expectation_id", [
-    "c4-2020-4e-fractions", "c4-2020-4e-pythagoras", "c4-2020-4e-statistics",
-    "c4-2020-3e-powers", "c4-2020-3e-thales", "c4-2020-3e-functions",
+    "c4-2020-4e-fraction-operations", "c4-2020-4e-pythagoras", "c4-2020-4e-statistics",
+    "c4-2020-3e-powers", "c4-2020-3e-thales", "c4-2020-3e-function-image",
 ])
 def test_representative_college_expectations_resolve_a_course(expectation_id):
     root = Path(__file__).resolve().parents[2]

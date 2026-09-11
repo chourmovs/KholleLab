@@ -84,7 +84,7 @@ class ProblemRepository:
                     raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nunknown expectation: {expectation_id}")
                 if expectation.level != problem.curriculum.level:
                     raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} belongs to {expectation.level.value}, not {problem.curriculum.level.value}")
-                if self.academic_year and expectation.programme_id != self.curriculum_repository.resolve_programme(problem.curriculum.level, self.academic_year).id:
+                if self.academic_year and (expectation.historical or expectation.programme_id != self.curriculum_repository.resolve_programme(problem.curriculum.level, self.academic_year).id):
                     raise ProblemCorpusError(f"Problem corpus validation failed:\n{path}\nproblem ID: {problem.id}\nexpectation {expectation_id} is not in the active programme for {self.academic_year}")
 
     def _validate_recommendations(self, origins: dict[str, Path]) -> None:
