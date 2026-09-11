@@ -79,6 +79,7 @@ class LearnerProfileBuilder:
         by_session=defaultdict(list); eval_by_attempt={e.attempt_id:e for e in evaluations}; support_by_attempt=defaultdict(list)
         for a in attempts: by_session[a.session_id].append(a)
         for t in tutors:
+            if t.provider == "fallback": continue
             if t.intervention_needed: support_by_attempt[t.attempt_id].append("repeated_support")
             if t.resource_need in {"course_gap","method_gap"}: support_by_attempt[t.attempt_id].append(t.resource_need)
         evidence=[]

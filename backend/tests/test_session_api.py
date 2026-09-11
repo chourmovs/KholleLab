@@ -129,3 +129,23 @@ def test_manual_tutor_failure_persists_safe_fallback(monkeypatch,code):
         assert "reference_solution" not in str(value)
         assert value["resource_recommendation"] is None or value["resource_recommendation"]["type"]=="course"
         assert client.get(f"/api/attempts/{attempt['id']}/tutor/latest").json()==value
+
+
+def test_unexpected_tutor_programming_error_is_not_swallowed(monkeypatch):
+    class BrokenTutorProvider:
+        name = "broken"
+
+        async def structured_response(self, **_):
+            raise TypeError("programming defect")
+
+    monkeypatch.setattr("app.api.attempts.provider_from_settings", lambda: BrokenTutorProvider())
+    with TestClient(app) as client:
+        problem = client.get("/api/problems").json()[0]
+        learning = client.post("/api/sessions", json={"problem_id": problem["id"]}).json()
+        attempt = learning["attempts"][0]
+        with pytest.raises(TypeError, match="programming defect"):
+            client.post(
+                f"/api/attempts/{attempt['id']}/tutor/assess",
+                json={"expected_revision": 0, "trigger": "i_am_stuck", "requested_help_level": 2,
+                      "client_request_id": "unexpected-error"},
+            )

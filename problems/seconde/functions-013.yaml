@@ -4,7 +4,7 @@ statement: Étudier les variations de $f(x)=x^2$ sur $[-3,4]$.
 curriculum:
   level: seconde
   difficulty: 3
-  expectations: [lycee-2019-2de-functions]
+  expectations: [lycee-2026-2de-functions]
 topics:
 - functions
 prerequisites:

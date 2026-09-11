@@ -58,6 +58,7 @@ class AdaptiveContextBuilder:
                    TutorAssessmentRecord.resource_need, TutorAssessmentRecord.created_at)
             .join(TutorAssessmentRecord, TutorAssessmentRecord.attempt_id == Attempt.id)
             .where(Attempt.session_id.in_(session_ids))
+            .where(TutorAssessmentRecord.provider != "fallback")
             .order_by(TutorAssessmentRecord.created_at.desc())
         ).all()
         latest_tutor = {}

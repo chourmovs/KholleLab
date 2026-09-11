@@ -4,7 +4,7 @@ statement: Résoudre $3x-7=11$.
 curriculum:
   level: seconde
   difficulty: 1
-  expectations: [lycee-2019-2de-algebra]
+  expectations: [lycee-2026-2de-algebra]
 topics:
 - equations
 prerequisites:

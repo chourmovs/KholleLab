@@ -5,7 +5,7 @@ statement: Une urne contient 3 boules rouges et 2 bleues. Calculer la probabilit
 curriculum:
   level: seconde
   difficulty: 3
-  expectations: [lycee-2019-2de-data]
+  expectations: [lycee-2026-2de-data]
 topics:
 - probability
 prerequisites:

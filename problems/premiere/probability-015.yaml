@@ -4,7 +4,7 @@ statement: Pour une loi binomiale $X\sim\mathcal B(4,1/2)$, calculer $P(X=2)$.
 curriculum:
   level: premiere
   difficulty: 2
-  expectations: [lycee-2019-1re-probability]
+  expectations: [lycee-2026-1re-probability]
 topics:
 - probability
 prerequisites:

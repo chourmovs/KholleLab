@@ -16,3 +16,15 @@ describe("apiFetch",()=>{
   });
   it("turns invalid success JSON into a controlled error",async()=>{vi.stubGlobal("fetch",vi.fn().mockResolvedValue(new Response("not-json")));await expect(apiFetch("/bad")).rejects.toMatchObject({status:200,message:"Invalid JSON response"})});
 });
+
+describe("selectProblem",()=>{
+  it("sends curriculum domain separately from the legacy topic filter",async()=>{
+    const fetch=vi.fn().mockResolvedValue(new Response(JSON.stringify({problem:null,requested_level:"seconde",requested_difficulty:2,fallback_used:false})));
+    vi.stubGlobal("fetch",fetch);
+    const {selectProblem}=await import("./api");
+    await selectProblem({level:"seconde",difficulty:2,domain:"algebra",expectation:"lycee-2026-2de-algebra"});
+    expect(fetch.mock.calls[0][0]).toContain("domain=algebra");
+    expect(fetch.mock.calls[0][0]).toContain("expectation=lycee-2026-2de-algebra");
+    expect(fetch.mock.calls[0][0]).not.toContain("topic=algebra");
+  });
+});

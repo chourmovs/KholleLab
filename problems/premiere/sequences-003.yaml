@@ -4,7 +4,7 @@ statement: Soit $u_0=2$ et $u_{n+1}=u_n+3$. Exprimer $u_n$.
 curriculum:
   level: premiere
   difficulty: 3
-  expectations: [lycee-2019-1re-algebra]
+  expectations: [lycee-2026-1re-algebra]
 topics:
 - sequences
 prerequisites:

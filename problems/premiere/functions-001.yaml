@@ -4,7 +4,7 @@ statement: Étudier le signe de $x^2-5x+6$.
 curriculum:
   level: premiere
   difficulty: 1
-  expectations: [lycee-2019-1re-analysis]
+  expectations: [lycee-2026-1re-analysis]
 topics:
 - functions
 prerequisites:

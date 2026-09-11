@@ -4,7 +4,7 @@ statement: Montrer que les vecteurs $u=(2,3)$ et $v=(-6,4)$ sont orthogonaux.
 curriculum:
   level: premiere
   difficulty: 2
-  expectations: [lycee-2019-1re-geometry]
+  expectations: [lycee-2026-1re-geometry]
 topics:
 - geometry
 prerequisites:

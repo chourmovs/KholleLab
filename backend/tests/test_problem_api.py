@@ -35,7 +35,7 @@ def test_college_selection_and_hard_expectation_filter():
             assert response.status_code == 200
             assert expectation in response.json()["problem"]["curriculum"]["expectations"]
         empty = client.get("/api/problems/select?level=troisieme&expectation=c4-2020-4e-fractions")
-        assert empty.status_code == 200 and "problem" not in empty.json()
+        assert empty.status_code == 422
 
 
 def test_seconde_difficulty_five_falls_back_to_new_nearest_band():
@@ -71,3 +71,17 @@ def test_public_resource_catalogue_and_resolution_api():
         assert 0 < len(resolved.json()['resources']) <= 3
         assert 'reference_solution' not in resolved.text
         assert client.get('/api/problems/unknown-problem/resources').status_code == 404
+
+
+def test_domain_is_a_hard_curriculum_constraint():
+    with TestClient(app) as client:
+        for domain in ("algebra", "geometry"):
+            for mode in ("manual", "adaptive"):
+                response = client.get(f"/api/problems/select?level=seconde&domain={domain}&difficulty=5&mode={mode}")
+                assert response.status_code == 200
+                problem = response.json()["problem"]
+                assert any(expectation.startswith(f"lycee-2026-2de-{domain}") for expectation in problem["curriculum"]["expectations"])
+        valid = client.get("/api/problems/select?level=seconde&domain=algebra&expectation=lycee-2026-2de-algebra")
+        assert valid.status_code == 200
+        mismatch = client.get("/api/problems/select?level=seconde&domain=geometry&expectation=lycee-2026-2de-algebra")
+        assert mismatch.status_code == 422

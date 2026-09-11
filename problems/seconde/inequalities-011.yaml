@@ -4,7 +4,7 @@ statement: 'Résoudre sur $\mathbb R$ : $3x-5\leq 7$.'
 curriculum:
   level: seconde
   difficulty: 2
-  expectations: [lycee-2019-2de-algebra]
+  expectations: [lycee-2026-2de-algebra]
 topics:
 - inequalities
 prerequisites:

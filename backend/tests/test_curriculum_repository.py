@@ -26,15 +26,22 @@ def test_level_order_and_frozen_academic_year_resolution():
     assert academic_year_for(date(2026, 9, 1)) == "2026-2027"
 
 
-def test_programme_transition_for_same_level(tmp_path: Path):
-    root = copy_catalogue(tmp_path); path = root / "programmes/programmes.yaml"; data = yaml.safe_load(path.read_text())
-    old = next(x for x in data["programmes"] if x["id"] == "lycee-seconde-mathematiques-2019")
-    old["applicability"][0]["academic_year_until"] = "2025-2026"
-    new = dict(old, id="lycee-seconde-mathematiques-2026", label="Programme test 2026", applicability=[{"level":"seconde", "academic_year_from":"2026-2027"}])
-    data["programmes"].append(new); path.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False))
-    repo = CurriculumRepository(root); repo.load()
-    assert repo.resolve_programme("seconde", "2025-2026").id.endswith("2019")
-    assert repo.resolve_programme("seconde", "2026-2027").id.endswith("2026")
+def test_programme_transition_boundaries():
+    repo = repository()
+    transitions = (
+        ("quatrieme", "2026-2027", "cycle4-mathematiques-2020"),
+        ("quatrieme", "2027-2028", "cycle4-mathematiques-2026"),
+        ("troisieme", "2027-2028", "cycle4-mathematiques-2020"),
+        ("troisieme", "2028-2029", "cycle4-mathematiques-2026"),
+        ("seconde", "2025-2026", "lycee-seconde-mathematiques-2019"),
+        ("seconde", "2026-2027", "lycee-seconde-mathematiques-2026"),
+        ("premiere", "2025-2026", "lycee-premiere-specialite-mathematiques-2019"),
+        ("premiere", "2026-2027", "lycee-premiere-specialite-mathematiques-2026"),
+        ("terminale", "2026-2027", "lycee-terminale-specialite-mathematiques-2019"),
+        ("terminale", "2027-2028", "lycee-terminale-specialite-mathematiques-2026"),
+    )
+    for level, year, expected in transitions:
+        assert repo.resolve_programme(level, year).id == expected
 
 
 def test_overlapping_programmes_fail(tmp_path: Path):
