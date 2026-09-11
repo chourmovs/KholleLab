@@ -62,6 +62,14 @@ class Settings(BaseSettings):
     tutor_resource_recommendations_enabled: bool = True
     tutor_resource_auto_min_confidence: float = Field(default=.90, ge=0, le=1)
     tutor_resource_manual_min_confidence: float = Field(default=.85, ge=0, le=1)
+    llm_problem_generation_enabled: bool = False
+    llm_problem_pool_target: int = Field(default=8, ge=1, le=100)
+    llm_problem_pool_min_available: int = Field(default=2, ge=1, le=100)
+    llm_problem_max_generation_attempts: int = Field(default=3, ge=1, le=10)
+    llm_problem_diversity_context_limit: int = Field(default=8, ge=0, le=20)
+    llm_problem_near_duplicate_threshold: float = Field(default=.88, ge=.5, le=1)
+    llm_problem_generator_family: ModelFamily = ModelFamily.QWEN
+    llm_problem_critic_family: ModelFamily = ModelFamily.GEMMA
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
@@ -78,6 +86,8 @@ class Settings(BaseSettings):
             raise ValueError("worker health maximum age must exceed heartbeat interval")
         if self.log_process_role not in {"api", "worker"}:
             raise ValueError("LOG_PROCESS_ROLE must be api or worker")
+        if self.llm_problem_pool_min_available > self.llm_problem_pool_target:
+            raise ValueError("LLM_PROBLEM_POOL_MIN_AVAILABLE must not exceed LLM_PROBLEM_POOL_TARGET")
         return self
 
     @property

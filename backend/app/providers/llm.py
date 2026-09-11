@@ -87,7 +87,16 @@ def retry_after_seconds(exc: Exception) -> float | None:
 
 class FakeLLMProvider:
     name="fake"; model="deterministic-examiner-v1"
+    generator_call_count=0; critic_call_count=0
     async def structured_response(self, *, instructions, input_text, response_model, **_):
+        if response_model.__name__ == "GeneratedProblemDraft":
+            type(self).generator_call_count += 1
+            return response_model(title="Défi de raisonnement", statement="Déterminer tous les entiers naturels n tels que n(n+1)=20, puis justifier qu'il n'y en a pas d'autre.", reference_solution="Deux entiers consécutifs de produit 20 sont 4 et 5. Ainsi n=4. La fonction n(n+1) est strictement croissante sur les entiers naturels, donc cette solution est unique.", hints=("Chercher deux facteurs consécutifs de 20.",), estimated_minutes=12, archetype="equation-entiere")
+        if response_model.__name__ == "ProblemGenerationCriticResult":
+            type(self).critic_call_count += 1
+            return response_model(mathematical_correctness=True, reference_solution_correctness=True,
+                well_posed=True, level_appropriate=True, curriculum_aligned=True,
+                difficulty_plausible=True, unambiguous=True, no_answer_leakage=True, issue_codes=())
         injected="ignore the examiner" in input_text.lower()
         if response_model is CandidateAudit:
             return CandidateAudit(strategy_summary="La copie développe un raisonnement direct.",claims=[],major_errors=[] if not injected else [MathIssue(severity="major",category="other",description="Le texte ne fournit pas de raisonnement mathématique.",candidate_excerpt=None)],minor_errors=[],missing_justifications=[],conclusion_reached=not injected,conclusion_supported=not injected,provisional_status="correct" if not injected else "non_answer")

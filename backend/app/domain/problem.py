@@ -115,13 +115,15 @@ class CurriculumInfo(StrictModel):
 
 
 class ProblemGeneration(StrictModel):
-    """Internal provenance for a materialized deterministic problem."""
+    """Private provenance for deterministic and validated LLM materializations."""
 
-    kind: Literal["parametric"]
+    kind: Literal["parametric", "llm"]
     family_id: Slug
     version: int = Field(ge=1)
-    variant: int = Field(ge=1)
+    variant: int | None = Field(default=None, ge=1)
     parameter_identity: Annotated[str, StringConstraints(pattern=r"^[a-f0-9]{64}$")]
+    prompt_version: Slug | None = None
+    validation_version: Slug | None = None
 
 
 class Problem(StrictModel):

@@ -70,3 +70,8 @@ class ProblemSelectionResult(PublicModel):
     fallback_used: bool
     selection_mode: SelectionMode = SelectionMode.MANUAL
     adaptation: ProblemSelectionAdaptation | None = None
+
+
+class GeneratedSelectionResult(PublicModel):
+    problem: ProblemPublicDetail
+    pool_reused: bool

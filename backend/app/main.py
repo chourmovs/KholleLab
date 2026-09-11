@@ -7,6 +7,8 @@ from app.api.routes import router
 from app.core.config import settings
 from app.core.version import APP_NAME, APP_VERSION
 from app.services.problem_repository import ProblemRepository
+from app.services.problem_catalog import ProblemCatalog
+from app.db.session import SessionLocal
 from app.services.resource_repository import ResourceRepository, validate_problem_resource_refs, validate_resource_curriculum_refs
 from app.services.resource_resolver import ResourceResolver
 from app.core.logging import configure_logging, component_logger
@@ -36,7 +38,10 @@ async def lifespan(app: FastAPI):
         "content_corpus_loaded problem_count={} resource_count={} curriculum_levels={}",
         repository.count, resource_repository.count, curriculum_levels,
     )
-    app.state.problem_repository = repository
+    catalog = ProblemCatalog(repository, SessionLocal)
+    # Compatibility name retained while all consumers now receive the unified catalogue.
+    app.state.problem_repository = catalog
+    app.state.problem_catalog = catalog
     app.state.curriculum_repository = curriculum_repository
     app.state.curriculum_academic_year = academic_year
     app.state.resource_repository = resource_repository

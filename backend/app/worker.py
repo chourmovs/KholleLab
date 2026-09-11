@@ -10,6 +10,9 @@ from app.repositories.attempt_repository import AttemptRepository
 from app.repositories.evaluation_repository import EvaluationRepository
 from app.services.examiner import ExaminerService
 from app.services.problem_repository import ProblemRepository
+from app.services.problem_catalog import ProblemCatalog
+from app.services.curriculum_repository import CurriculumRepository, academic_year_for
+from datetime import date
 
 log = component_logger("evaluation-worker")
 
@@ -29,7 +32,10 @@ async def run_once(problems, provider=None):
 
 async def main():
     configure_logging()
-    problems=ProblemRepository(settings.problems_dir); problems.load()
+    curriculum = CurriculumRepository(settings.curriculum_dir); curriculum.load()
+    academic_year = settings.curriculum_academic_year or academic_year_for(date.today())
+    static = ProblemRepository(settings.problems_dir, curriculum, academic_year); static.load()
+    problems = ProblemCatalog(static, SessionLocal)
     provider=provider_from_settings()
     log.info("evaluation_worker_started concurrency=1")
     heartbeat=asyncio.create_task(worker_heartbeat())
