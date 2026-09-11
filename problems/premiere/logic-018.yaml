@@ -4,7 +4,7 @@ statement: Démontrer par récurrence que $1+3+\cdots +(2n-1)=n^2$ pour $n\geq1$
 curriculum:
   level: premiere
   difficulty: 3
-  expectations: [lycee-2019-1re-algebra]
+  expectations: [lycee-2026-1re-algebra]
 topics:
 - logic
 prerequisites:

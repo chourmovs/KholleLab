@@ -38,13 +38,25 @@ def list_problems(request: Request) -> list[ProblemCatalogueItem]:
 @router.get("/select", response_model=ProblemSelectionResult, response_model_exclude_none=True)
 def select_problem(request: Request, level: CurriculumLevel, difficulty: int | None = None,
                    topic: list[Topic] | None = None, exclude: list[str] | None = None,
-                   expectation: str | None = None,
+                   domain: str | None = None, expectation: str | None = None,
                    mode: SelectionMode = SelectionMode.MANUAL,
                    db: Session = Depends(db_session)) -> ProblemSelectionResult:
     if difficulty is not None and not 1 <= difficulty <= 5:
         raise HTTPException(status_code=422, detail="difficulty must be between 1 and 5")
     problems = repository(request).list()
-    selector = ProblemSelector(problems)
+    curriculum = request.app.state.curriculum_repository
+    programme = curriculum.resolve_programme(level, request.app.state.curriculum_academic_year)
+    active_expectations = [item for item in curriculum.expectations.values()
+                           if item.level == level and item.programme_id == programme.id]
+    if domain and not any(item.domain == domain for item in active_expectations):
+        raise HTTPException(status_code=422, detail="domain is not part of the active programme for this level")
+    requested_expectation = curriculum.expectations.get(expectation) if expectation else None
+    if expectation and (requested_expectation is None or requested_expectation.level != level
+                        or requested_expectation.programme_id != programme.id):
+        raise HTTPException(status_code=422, detail="expectation is not part of the active programme for this level")
+    if domain and requested_expectation and requested_expectation.domain != domain:
+        raise HTTPException(status_code=422, detail="expectation does not belong to the requested domain")
+    selector = ProblemSelector(problems, curriculum, programme.id)
     selected = None
     adaptation = None
     history_count = 0
@@ -52,7 +64,8 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
     if mode == SelectionMode.ADAPTIVE:
         try:
             context = AdaptiveContextBuilder().build(db, learner_id(request), problems)
-            candidates = selector.compatible_candidates(level=level, topics=topic, expectation=expectation)
+            candidates = selector.compatible_candidates(level=level, topics=topic, domain=domain,
+                                                         expectation=expectation)
             candidate_count = len(candidates)
             history_count = len(context.recent_sessions)
             ranked = AdaptiveProblemRanker().rank(candidates, context, difficulty)
@@ -79,7 +92,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
             )
     if selected is None:
         exclusions = (exclude or []) if mode == SelectionMode.MANUAL else []
-        selected = selector.select(level=level, difficulty=difficulty, topics=topic,
+        selected = selector.select(level=level, difficulty=difficulty, topics=topic, domain=domain,
                                    expectation=expectation,
                                    exclude_ids=exclusions)
     if selected is None:

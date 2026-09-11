@@ -4,7 +4,7 @@ statement: Résoudre $x^2-7x+12=0$.
 curriculum:
   level: premiere
   difficulty: 1
-  expectations: [lycee-2019-1re-algebra]
+  expectations: [lycee-2026-1re-algebra]
 topics:
 - polynomials
 prerequisites:

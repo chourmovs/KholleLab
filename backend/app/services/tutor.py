@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.core.logging import component_logger
 from app.models.attempt import Attempt, AttemptStatus
 from app.models.tutor_assessment import TutorAssessmentRecord
-from app.providers.llm import ModelRole, model_identity, resolve_model
+from app.providers.llm import ModelRole, RemoteLLMError, model_identity, resolve_model
 from app.schemas.tutor import *
 from app.domain.resource import ResourceType
 from app.services.resource_resolver import context_for_problem
@@ -104,12 +104,17 @@ class TutorAssessmentService:
         component_logger("tutor").bind(attempt_id=str(attempt_id),revision=attempt.revision,trigger=request.trigger.value,requested_help_level=request.requested_help_level,model=model,provider=getattr(self.provider,"name","unknown")).info("tutor_assessment_started")
         try:
             raw=await self.provider.structured_response(instructions=PROMPT,input_text=json.dumps(payload,ensure_ascii=False),response_model=TutorAssessment,role=ModelRole.FAST)
-        except Exception as exc:
+        except RemoteLLMError as exc:
             if request.trigger not in MANUAL:
                 component_logger("tutor").bind(attempt_id=str(attempt_id),trigger=request.trigger.value,error_type=type(exc).__name__).warning("automatic_tutor_assessment_skipped")
                 raise
             component_logger("tutor").bind(attempt_id=str(attempt_id),trigger=request.trigger.value,error_type=type(exc).__name__).warning("manual_tutor_fallback_used")
             return self._persist_fallback(attempt,problem,request,started)
+        except Exception:
+            component_logger("tutor").bind(
+                attempt_id=str(attempt_id), trigger=request.trigger.value
+            ).exception("unexpected_tutor_assessment_failure")
+            raise
         safe,effective=apply_policy(raw,request.requested_help_level,request.trigger)
         signal=sanitize_resource_signal(safe.resource_signal,vocabulary)
         discarded=sum(len(getattr(safe.resource_signal,key))-len(getattr(signal,key)) for key in ("topics","prerequisites","skills","tags"))

@@ -187,9 +187,15 @@ class OpenAIProvider:
     name="openai"
     def __init__(self): self.model=settings.llm_model
     async def structured_response(self, *, instructions, input_text, response_model, **_):
-        if not settings.openai_api_key: raise RuntimeError("OPENAI_API_KEY is not configured")
-        response=await AsyncOpenAI(api_key=settings.openai_api_key,timeout=settings.llm_timeout_seconds).responses.parse(model=self.model,instructions=instructions,input=input_text,text_format=response_model)
-        if response.output_parsed is None: raise ValueError("provider returned no structured output")
+        if not settings.openai_api_key:
+            raise RemoteLLMError(REMOTE_CODES["auth"], "OPENAI_API_KEY is not configured")
+        try:
+            response=await AsyncOpenAI(api_key=settings.openai_api_key,timeout=settings.llm_timeout_seconds).responses.parse(model=self.model,instructions=instructions,input=input_text,text_format=response_model)
+        except (RateLimitError, APIConnectionError, APITimeoutError, APIStatusError) as exc:
+            code, status, retryable = classify_remote_error(exc)
+            raise RemoteLLMError(code, code, status=status, retryable=retryable) from exc
+        if response.output_parsed is None:
+            raise RemoteLLMError(REMOTE_CODES["schema"], "provider returned no structured output")
         return response.output_parsed
 
 

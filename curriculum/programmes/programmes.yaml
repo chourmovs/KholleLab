@@ -7,29 +7,59 @@ programmes:
     source_reference: BOEN n°31 du 30 juillet 2020, annexe 3
     source_url: https://www.education.gouv.fr/bo/20/Hebdo31/MENE2018714A.htm
     applicability:
-      - {level: quatrieme, academic_year_from: 2020-2021}
-      - {level: troisieme, academic_year_from: 2020-2021}
+      - {level: quatrieme, academic_year_from: 2020-2021, academic_year_until: 2026-2027}
+      - {level: troisieme, academic_year_from: 2020-2021, academic_year_until: 2027-2028}
+  - id: cycle4-mathematiques-2026
+    label: Programme de mathématiques du cycle 4 (2026)
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2026-03-05
+    source_reference: BOEN n°10 du 5 mars 2026, NOR MENE2602912A
+    source_url: https://www.education.gouv.fr/bo/2026/Hebdo10/MENE2602912A.htm
+    applicability:
+      - {level: quatrieme, academic_year_from: 2027-2028}
+      - {level: troisieme, academic_year_from: 2028-2029}
   - id: lycee-seconde-mathematiques-2019
     label: Programme de mathématiques de seconde générale et technologique
     authority: Ministère de l’Éducation nationale — Bulletin officiel
     publication_date: 2019-01-22
     source_reference: BO spécial n°1 du 22 janvier 2019
     source_url: https://www.education.gouv.fr/bo/19/Special1/MENE1901631A.htm
-    applicability: [{level: seconde, academic_year_from: 2019-2020}]
+    applicability: [{level: seconde, academic_year_from: 2019-2020, academic_year_until: 2025-2026}]
+  - id: lycee-seconde-mathematiques-2026
+    label: Programme de mathématiques de seconde générale et technologique (2026)
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2026-04-02
+    source_reference: BOEN n°14 du 2 avril 2026, NOR MENE2602914A
+    source_url: https://www.education.gouv.fr/bo/2026/Hebdo14/MENE2602914A.htm
+    applicability: [{level: seconde, academic_year_from: 2026-2027}]
   - id: lycee-premiere-specialite-mathematiques-2019
     label: Programme de spécialité mathématiques de première générale
     authority: Ministère de l’Éducation nationale — Bulletin officiel
     publication_date: 2019-01-22
     source_reference: BO spécial n°1 du 22 janvier 2019
     source_url: https://www.education.gouv.fr/bo/19/Special1/MENE1901632A.htm
-    applicability: [{level: premiere, academic_year_from: 2019-2020}]
+    applicability: [{level: premiere, academic_year_from: 2019-2020, academic_year_until: 2025-2026}]
+  - id: lycee-premiere-specialite-mathematiques-2026
+    label: Programme de spécialité mathématiques de première générale (2026)
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2026-04-02
+    source_reference: BOEN n°14 du 2 avril 2026, NOR MENE2602917A
+    source_url: https://www.education.gouv.fr/bo/2026/Hebdo14/MENE2602917A.htm
+    applicability: [{level: premiere, academic_year_from: 2026-2027}]
   - id: lycee-terminale-specialite-mathematiques-2019
     label: Programme de spécialité mathématiques de terminale générale
     authority: Ministère de l’Éducation nationale — Bulletin officiel
     publication_date: 2019-07-25
     source_reference: BO spécial n°8 du 25 juillet 2019
     source_url: https://www.education.gouv.fr/bo/19/Special8/MENE1921246A.htm
-    applicability: [{level: terminale, academic_year_from: 2020-2021}]
+    applicability: [{level: terminale, academic_year_from: 2020-2021, academic_year_until: 2026-2027}]
+  - id: lycee-terminale-specialite-mathematiques-2026
+    label: Programme de spécialité mathématiques de terminale générale (2026)
+    authority: Ministère de l’Éducation nationale — Bulletin officiel
+    publication_date: 2026-04-02
+    source_reference: BOEN n°14 du 2 avril 2026, NOR MENE2602919A
+    source_url: https://www.education.gouv.fr/bo/2026/Hebdo14/MENE2602919A.htm
+    applicability: [{level: terminale, academic_year_from: 2027-2028}]
   - id: cpge-khollelab-legacy
     label: Référentiel CPGE historique Khollelab
     authority: Khollelab
