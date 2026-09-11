@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 
 from app.domain.problem import CurriculumLevel, Topic
 from app.api.attempts import session as db_session
-from app.schemas.problem import (ProblemCatalogueItem, ProblemPublicDetail, ProblemSelectionAdaptation,
+from app.schemas.problem import (GeneratedSelectionResult, ProblemCatalogueItem, ProblemPublicDetail, ProblemSelectionAdaptation,
                                  ProblemSelectionResult, SelectionMode, to_public_problem_detail)
+from app.schemas.problem_generation import GeneratedProblemSelectRequest
 from app.services.adaptive_context import AdaptiveContextBuilder
 from app.services.adaptive_problem_ranker import AdaptiveProblemRanker, AdaptationReasonCode
 from app.services.learner_identity import learner_id
@@ -12,12 +13,31 @@ from app.services.problem_selector import ProblemSelector
 from app.services.problem_repository import ProblemRepository
 from app.services.resource_resolver import ResourceResolver, context_for_problem
 from app.core.logging import component_logger
+from app.providers.llm import provider_from_settings, RemoteLLMError
+from app.services.problem_generation import GenerationUnavailable, ProblemGenerationService
 
 router = APIRouter(prefix="/problems", tags=["problems"])
 
 
 def repository(request: Request) -> ProblemRepository:
     return request.app.state.problem_repository
+
+
+@router.post("/generated/select", response_model=GeneratedSelectionResult)
+async def select_generated(body: GeneratedProblemSelectRequest, request: Request,
+                           db: Session = Depends(db_session)) -> GeneratedSelectionResult:
+    """Return shared inventory first; generation is only a validated fallback."""
+    try:
+        problem, reused = await ProblemGenerationService(
+            request.app.state.problem_catalog, request.app.state.curriculum_repository,
+            provider_from_settings(),
+        ).select(db=db, learner_id=learner_id(request), level=body.level,
+                 expectation_id=body.expectation, difficulty=body.difficulty, domain=body.domain)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except (GenerationUnavailable, RemoteLLMError) as exc:
+        raise HTTPException(status_code=503, detail="Impossible de créer un nouvel exercice pour le moment.") from exc
+    return GeneratedSelectionResult(problem=to_public_problem_detail(problem), pool_reused=reused)
 
 
 @router.get("/{problem_id}/resources")
