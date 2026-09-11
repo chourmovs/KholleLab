@@ -54,7 +54,21 @@ for level, label in expected_levels:
     assert "reference_solution" not in json.dumps(selection)
     print(f"[PASS] {label} selection")
 quatrieme = next(item for item in curriculum["levels"] if item["id"] == "quatrieme")
-expectation = quatrieme["domains"][0]["expectations"][0]["id"]
+# The granular curriculum intentionally exposes official objectives without an
+# exercise.  Pick an objective from the corpus, rather than assuming the first
+# pedagogical objective is covered, then verify that the API advertises it.
+smoke_catalogue = get_json(f"{api}/problems")
+covered_problem = next(
+    problem for problem in smoke_catalogue
+    if problem["curriculum"]["level"] == "quatrieme" and problem["curriculum"].get("expectations")
+)
+expectation = covered_problem["curriculum"]["expectations"][0]
+advertised = {
+    item["id"]
+    for domain in quatrieme["domains"]
+    for item in domain["expectations"]
+}
+assert expectation in advertised
 objective_selection = get_json(f"{api}/problems/select?level=quatrieme&expectation={expectation}&mode=adaptive")
 assert expectation in objective_selection["problem"]["curriculum"]["expectations"]
 print("[PASS] Hard curriculum expectation selection")
