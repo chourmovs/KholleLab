@@ -7,7 +7,7 @@ problems:
     level: terminale
     difficulty: 3
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -36,7 +36,7 @@ problems:
     level: terminale
     difficulty: 4
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -65,7 +65,7 @@ problems:
     level: terminale
     difficulty: 3
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -94,7 +94,7 @@ problems:
     level: terminale
     difficulty: 4
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -123,7 +123,7 @@ problems:
     level: terminale
     difficulty: 3
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -152,7 +152,7 @@ problems:
     level: terminale
     difficulty: 4
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -181,7 +181,7 @@ problems:
     level: terminale
     difficulty: 3
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:
@@ -210,7 +210,7 @@ problems:
     level: terminale
     difficulty: 4
     expectations:
-    - lycee-2019-tle-algebra
+    - lycee-2019-tle-induction
   topics:
   - algebra
   skills:

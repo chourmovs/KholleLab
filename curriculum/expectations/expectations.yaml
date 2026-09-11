@@ -1,45 +1,1293 @@
 schema_version: 1
 expectations:
-  - {id: c4-2020-4e-fractions, programme_id: cycle4-mathematiques-2020, level: quatrieme, domain: numbers, label: Calculer avec des fractions, description: Effectuer et interpréter des calculs simples sur les fractions., knowledge_ids: [fractions, fraction-addition], source_reference: Annexe 3 — nombres et calculs}
-  - {id: c4-2020-4e-proportionality, programme_id: cycle4-mathematiques-2020, level: quatrieme, domain: numbers, theme: proportionality, label: Résoudre un problème de proportionnalité, description: Reconnaître et exploiter une situation de proportionnalité., knowledge_ids: [proportionality], source_reference: Annexe 3 — nombres et calculs}
-  - {id: c4-2020-4e-algebra, programme_id: cycle4-mathematiques-2020, level: quatrieme, domain: algebra, label: Utiliser le calcul littéral, description: Produire et transformer une expression littérale simple., knowledge_ids: [algebraic-manipulation], source_reference: Annexe 3 — nombres et calculs}
-  - {id: c4-2020-4e-pythagoras, programme_id: cycle4-mathematiques-2020, level: quatrieme, domain: geometry, label: Mobiliser le théorème de Pythagore, description: Calculer une longueur dans un triangle rectangle., knowledge_ids: [pythagorean-theorem], source_reference: Annexe 3 — espace et géométrie}
-  - {id: c4-2020-4e-statistics, programme_id: cycle4-mathematiques-2020, level: quatrieme, domain: data, label: Interpréter des données, description: Calculer et interpréter des indicateurs statistiques simples., knowledge_ids: [statistics], source_reference: Annexe 3 — organisation et gestion de données}
-  - {id: c4-2020-3e-equations, programme_id: cycle4-mathematiques-2020, level: troisieme, domain: algebra, label: Résoudre une équation, description: Résoudre une équation du premier degré et contrôler le résultat., knowledge_ids: [first-degree-equation], source_reference: Annexe 3 — nombres et calculs}
-  - {id: c4-2020-3e-powers, programme_id: cycle4-mathematiques-2020, level: troisieme, domain: numbers, label: Calculer avec des puissances, description: Utiliser les puissances dans des calculs numériques., knowledge_ids: [powers], source_reference: Annexe 3 — nombres et calculs}
-  - {id: c4-2020-3e-thales, programme_id: cycle4-mathematiques-2020, level: troisieme, domain: geometry, label: Mobiliser le théorème de Thalès, description: Calculer une longueur dans une configuration de Thalès., knowledge_ids: [thales-theorem], source_reference: Annexe 3 — espace et géométrie}
-  - {id: c4-2020-3e-trigonometry, programme_id: cycle4-mathematiques-2020, level: troisieme, domain: geometry, label: Utiliser la trigonométrie, description: Relier angle et longueurs dans un triangle rectangle., knowledge_ids: [trigonometry], source_reference: Annexe 3 — espace et géométrie}
-  - {id: c4-2020-3e-functions, programme_id: cycle4-mathematiques-2020, level: troisieme, domain: functions, label: Lire images et antécédents, description: Exploiter les représentations usuelles d’une fonction., knowledge_ids: [function-image, function-antecedent], source_reference: Annexe 3 — organisation et gestion de données}
-  - {id: lycee-2019-2de-algebra, programme_id: lycee-seconde-mathematiques-2019, level: seconde, domain: algebra, label: Calculer et résoudre algébriquement, description: "Mobiliser calcul littéral, équations et inéquations.", knowledge_ids: [algebraic-manipulation, first-degree-equation], source_reference: Programme — nombres et calculs}
-  - {id: lycee-2019-2de-functions, programme_id: lycee-seconde-mathematiques-2019, level: seconde, domain: functions, label: Étudier des fonctions, description: Exploiter expressions et représentations de fonctions., knowledge_ids: [functions, function-image, function-antecedent], source_reference: Programme — fonctions}
-  - {id: lycee-2019-2de-geometry, programme_id: lycee-seconde-mathematiques-2019, level: seconde, domain: geometry, label: Représenter et calculer en géométrie, description: Utiliser vecteurs et repérage dans le plan., knowledge_ids: [vectors, analytic-geometry], source_reference: Programme — géométrie}
-  - {id: lycee-2019-2de-data, programme_id: lycee-seconde-mathematiques-2019, level: seconde, domain: probability, label: Modéliser données et hasard, description: Interpréter des données et des probabilités., knowledge_ids: [statistics, probability], source_reference: Programme — statistiques et probabilités}
-  - {id: lycee-2019-1re-algebra, programme_id: lycee-premiere-specialite-mathematiques-2019, level: premiere, domain: algebra, label: Approfondir le calcul algébrique, description: Transformer des expressions et résoudre des problèmes algébriques., knowledge_ids: [algebraic-manipulation, mathematical-proof], source_reference: Programme — algèbre}
-  - {id: lycee-2019-1re-analysis, programme_id: lycee-premiere-specialite-mathematiques-2019, level: premiere, domain: analysis, label: Dériver et étudier une fonction, description: Calculer une dérivée et l’utiliser dans une étude., knowledge_ids: [derivatives], source_reference: Programme — analyse}
-  - {id: lycee-2019-1re-geometry, programme_id: lycee-premiere-specialite-mathematiques-2019, level: premiere, domain: geometry, label: Utiliser géométrie et trigonométrie, description: Mobiliser vecteurs et trigonométrie., knowledge_ids: [vectors, trigonometry], source_reference: Programme — géométrie}
-  - {id: lycee-2019-1re-probability, programme_id: lycee-premiere-specialite-mathematiques-2019, level: premiere, domain: probability, label: Modéliser le hasard, description: Calculer avec des probabilités conditionnelles., knowledge_ids: [probability], source_reference: Programme — probabilités et statistiques}
-  - {id: lycee-2019-tle-analysis, programme_id: lycee-terminale-specialite-mathematiques-2019, level: terminale, domain: analysis, label: "Étudier suites, limites et fonctions", description: Mener une étude d’analyse avec limites et dérivation., knowledge_ids: [sequences, derivatives, limits], source_reference: Programme — analyse}
-  - {id: lycee-2019-tle-integrals, programme_id: lycee-terminale-specialite-mathematiques-2019, level: terminale, domain: analysis, theme: integration, label: Calculer et interpréter une intégrale, description: Utiliser primitives et intégrales., knowledge_ids: [integrals], source_reference: Programme — analyse}
-  - {id: lycee-2019-tle-algebra, programme_id: lycee-terminale-specialite-mathematiques-2019, level: terminale, domain: algebra, label: Raisonner en algèbre, description: Résoudre et démontrer dans des situations algébriques., knowledge_ids: [algebraic-manipulation, mathematical-proof], source_reference: Programme — algèbre}
-  - {id: lycee-2019-tle-probability, programme_id: lycee-terminale-specialite-mathematiques-2019, level: terminale, domain: probability, label: Étudier des modèles probabilistes, description: Modéliser des répétitions et lois de probabilité., knowledge_ids: [probability, combinatorics], source_reference: Programme — probabilités}
-  # Minimum viable normalization of the official 2026 programmes; PR15.4 will refine granularity.
-  - {id: c4-2026-4e-fractions, programme_id: cycle4-mathematiques-2026, level: quatrieme, domain: numbers, label: Calculer avec des fractions, description: Effectuer et interpréter des calculs sur les fractions., knowledge_ids: [fractions, fraction-addition], source_reference: "BOEN n°10 du 5 mars 2026, annexe — nombres et calculs"}
-  - {id: c4-2026-4e-proportionality, programme_id: cycle4-mathematiques-2026, level: quatrieme, domain: numbers, theme: proportionality, label: Résoudre un problème de proportionnalité, description: Reconnaître et exploiter une situation de proportionnalité., knowledge_ids: [proportionality], source_reference: "BOEN n°10 du 5 mars 2026, annexe — nombres et calculs"}
-  - {id: c4-2026-4e-algebra, programme_id: cycle4-mathematiques-2026, level: quatrieme, domain: algebra, label: Utiliser le calcul littéral, description: Produire et transformer une expression littérale., knowledge_ids: [algebraic-manipulation], source_reference: "BOEN n°10 du 5 mars 2026, annexe — nombres et calculs"}
-  - {id: c4-2026-4e-pythagoras, programme_id: cycle4-mathematiques-2026, level: quatrieme, domain: geometry, label: Mobiliser le théorème de Pythagore, description: Calculer une longueur dans un triangle rectangle., knowledge_ids: [pythagorean-theorem], source_reference: "BOEN n°10 du 5 mars 2026, annexe — espace et géométrie"}
-  - {id: c4-2026-4e-statistics, programme_id: cycle4-mathematiques-2026, level: quatrieme, domain: data, label: Interpréter des données, description: Calculer et interpréter des indicateurs statistiques., knowledge_ids: [statistics], source_reference: "BOEN n°10 du 5 mars 2026, annexe — données"}
-  - {id: c4-2026-3e-equations, programme_id: cycle4-mathematiques-2026, level: troisieme, domain: algebra, label: Résoudre une équation, description: Résoudre une équation du premier degré et contrôler le résultat., knowledge_ids: [first-degree-equation], source_reference: "BOEN n°10 du 5 mars 2026, annexe — algèbre"}
-  - {id: c4-2026-3e-powers, programme_id: cycle4-mathematiques-2026, level: troisieme, domain: numbers, label: Calculer avec des puissances, description: Utiliser les puissances dans des calculs numériques., knowledge_ids: [powers], source_reference: "BOEN n°10 du 5 mars 2026, annexe — nombres et calculs"}
-  - {id: c4-2026-3e-geometry, programme_id: cycle4-mathematiques-2026, level: troisieme, domain: geometry, label: Mobiliser géométrie et trigonométrie, description: Calculer dans des configurations géométriques., knowledge_ids: [thales-theorem, trigonometry], source_reference: "BOEN n°10 du 5 mars 2026, annexe — espace et géométrie"}
-  - {id: c4-2026-3e-functions, programme_id: cycle4-mathematiques-2026, level: troisieme, domain: functions, label: Lire images et antécédents, description: Exploiter les représentations usuelles d’une fonction., knowledge_ids: [function-image, function-antecedent], source_reference: "BOEN n°10 du 5 mars 2026, annexe — fonctions"}
-  - {id: lycee-2026-2de-algebra, programme_id: lycee-seconde-mathematiques-2026, level: seconde, domain: algebra, label: Calculer et résoudre algébriquement, description: "Mobiliser calcul littéral, équations et inéquations.", knowledge_ids: [algebraic-manipulation, first-degree-equation], source_reference: "BOEN n°14 du 2 avril 2026, annexe — nombres et calculs"}
-  - {id: lycee-2026-2de-functions, programme_id: lycee-seconde-mathematiques-2026, level: seconde, domain: functions, label: Étudier des fonctions, description: Exploiter expressions et représentations de fonctions., knowledge_ids: [functions, function-image, function-antecedent], source_reference: "BOEN n°14 du 2 avril 2026, annexe — fonctions"}
-  - {id: lycee-2026-2de-geometry, programme_id: lycee-seconde-mathematiques-2026, level: seconde, domain: geometry, label: Représenter et calculer en géométrie, description: Utiliser vecteurs et repérage dans le plan., knowledge_ids: [vectors, analytic-geometry], source_reference: "BOEN n°14 du 2 avril 2026, annexe — géométrie"}
-  - {id: lycee-2026-2de-data, programme_id: lycee-seconde-mathematiques-2026, level: seconde, domain: probability, label: Modéliser données et hasard, description: Interpréter des données et des probabilités., knowledge_ids: [statistics, probability], source_reference: "BOEN n°14 du 2 avril 2026, annexe — probabilités et statistiques"}
-  - {id: lycee-2026-1re-algebra, programme_id: lycee-premiere-specialite-mathematiques-2026, level: premiere, domain: algebra, label: Approfondir le calcul algébrique et les suites, description: Transformer des expressions et étudier des suites., knowledge_ids: [algebraic-manipulation, sequences, mathematical-proof], source_reference: "BOEN n°14 du 2 avril 2026, annexe — algèbre"}
-  - {id: lycee-2026-1re-analysis, programme_id: lycee-premiere-specialite-mathematiques-2026, level: premiere, domain: analysis, label: Dériver et étudier une fonction, description: Calculer une dérivée et l’utiliser dans une étude., knowledge_ids: [derivatives], source_reference: "BOEN n°14 du 2 avril 2026, annexe — analyse"}
-  - {id: lycee-2026-1re-geometry, programme_id: lycee-premiere-specialite-mathematiques-2026, level: premiere, domain: geometry, label: Utiliser géométrie et trigonométrie, description: Mobiliser vecteurs et trigonométrie., knowledge_ids: [vectors, trigonometry], source_reference: "BOEN n°14 du 2 avril 2026, annexe — géométrie"}
-  - {id: lycee-2026-1re-probability, programme_id: lycee-premiere-specialite-mathematiques-2026, level: premiere, domain: probability, label: Modéliser le hasard, description: Calculer avec des probabilités conditionnelles., knowledge_ids: [probability], source_reference: "BOEN n°14 du 2 avril 2026, annexe — probabilités et statistiques"}
-  - {id: lycee-2026-tle-analysis, programme_id: lycee-terminale-specialite-mathematiques-2026, level: terminale, domain: analysis, label: "Étudier suites, limites et fonctions", description: Mener une étude d’analyse avec limites et dérivation., knowledge_ids: [sequences, derivatives, limits, integrals], source_reference: "BOEN n°14 du 2 avril 2026, annexe — analyse"}
-  - {id: lycee-2026-tle-algebra, programme_id: lycee-terminale-specialite-mathematiques-2026, level: terminale, domain: algebra, label: Raisonner en algèbre, description: Résoudre et démontrer dans des situations algébriques., knowledge_ids: [algebraic-manipulation, mathematical-proof], source_reference: "BOEN n°14 du 2 avril 2026, annexe — algèbre"}
-  - {id: lycee-2026-tle-probability, programme_id: lycee-terminale-specialite-mathematiques-2026, level: terminale, domain: probability, label: Étudier des modèles probabilistes, description: Modéliser des répétitions et lois de probabilité., knowledge_ids: [probability, combinatorics], source_reference: "BOEN n°14 du 2 avril 2026, annexe — probabilités"}
+- id: c4-2020-4e-fractions
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: numbers
+  label: Calculer avec des fractions
+  description: Effectuer et interpréter des calculs simples sur les fractions.
+  knowledge_ids:
+  - fractions
+  - fraction-addition
+  source_reference: Annexe 3 — nombres et calculs
+  historical: true
+- id: c4-2020-4e-algebra
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: algebra
+  label: Utiliser le calcul littéral
+  description: Produire et transformer une expression littérale simple.
+  knowledge_ids:
+  - algebraic-manipulation
+  source_reference: Annexe 3 — nombres et calculs
+  historical: true
+- id: c4-2020-3e-equations
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: algebra
+  label: Résoudre une équation
+  description: Résoudre une équation du premier degré et contrôler le résultat.
+  knowledge_ids:
+  - first-degree-equation
+  source_reference: Annexe 3 — nombres et calculs
+  historical: true
+- id: c4-2020-3e-functions
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: functions
+  label: Lire images et antécédents
+  description: Exploiter les représentations usuelles d’une fonction.
+  knowledge_ids:
+  - function-image
+  - function-antecedent
+  source_reference: Annexe 3 — organisation et gestion de données
+  historical: true
+- id: lycee-2019-2de-algebra
+  programme_id: lycee-seconde-mathematiques-2019
+  level: seconde
+  domain: algebra
+  label: Calculer et résoudre algébriquement
+  description: Mobiliser calcul littéral, équations et inéquations.
+  knowledge_ids:
+  - algebraic-manipulation
+  - first-degree-equation
+  source_reference: Programme — nombres et calculs
+- id: lycee-2019-2de-functions
+  programme_id: lycee-seconde-mathematiques-2019
+  level: seconde
+  domain: functions
+  label: Étudier des fonctions
+  description: Exploiter expressions et représentations de fonctions.
+  knowledge_ids:
+  - functions
+  - function-image
+  - function-antecedent
+  source_reference: Programme — fonctions
+- id: lycee-2019-2de-geometry
+  programme_id: lycee-seconde-mathematiques-2019
+  level: seconde
+  domain: geometry
+  label: Représenter et calculer en géométrie
+  description: Utiliser vecteurs et repérage dans le plan.
+  knowledge_ids:
+  - vectors
+  - analytic-geometry
+  source_reference: Programme — géométrie
+- id: lycee-2019-2de-data
+  programme_id: lycee-seconde-mathematiques-2019
+  level: seconde
+  domain: probability
+  label: Modéliser données et hasard
+  description: Interpréter des données et des probabilités.
+  knowledge_ids:
+  - statistics
+  - probability
+  source_reference: Programme — statistiques et probabilités
+- id: lycee-2019-1re-algebra
+  programme_id: lycee-premiere-specialite-mathematiques-2019
+  level: premiere
+  domain: algebra
+  label: Approfondir le calcul algébrique
+  description: Transformer des expressions et résoudre des problèmes algébriques.
+  knowledge_ids:
+  - algebraic-manipulation
+  - mathematical-proof
+  source_reference: Programme — algèbre
+- id: lycee-2019-1re-analysis
+  programme_id: lycee-premiere-specialite-mathematiques-2019
+  level: premiere
+  domain: analysis
+  label: Dériver et étudier une fonction
+  description: Calculer une dérivée et l’utiliser dans une étude.
+  knowledge_ids:
+  - derivatives
+  source_reference: Programme — analyse
+- id: lycee-2019-1re-geometry
+  programme_id: lycee-premiere-specialite-mathematiques-2019
+  level: premiere
+  domain: geometry
+  label: Utiliser géométrie et trigonométrie
+  description: Mobiliser vecteurs et trigonométrie.
+  knowledge_ids:
+  - vectors
+  - trigonometry
+  source_reference: Programme — géométrie
+- id: lycee-2019-1re-probability
+  programme_id: lycee-premiere-specialite-mathematiques-2019
+  level: premiere
+  domain: probability
+  label: Modéliser le hasard
+  description: Calculer avec des probabilités conditionnelles.
+  knowledge_ids:
+  - probability
+  source_reference: Programme — probabilités et statistiques
+- id: lycee-2019-tle-analysis
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  label: Étudier suites, limites et fonctions
+  description: Mener une étude d’analyse avec limites et dérivation.
+  knowledge_ids:
+  - sequences
+  - derivatives
+  - limits
+  source_reference: Programme — analyse
+  historical: true
+- id: lycee-2019-tle-integrals
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: integration
+  label: Calculer et interpréter une intégrale
+  description: Utiliser primitives et intégrales.
+  knowledge_ids:
+  - integrals
+  source_reference: Programme — analyse
+  historical: true
+- id: lycee-2019-tle-algebra
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: algebra
+  label: Raisonner en algèbre
+  description: Résoudre et démontrer dans des situations algébriques.
+  knowledge_ids:
+  - algebraic-manipulation
+  - mathematical-proof
+  source_reference: Programme — algèbre
+  historical: true
+- id: lycee-2019-tle-probability
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: probability
+  label: Étudier des modèles probabilistes
+  description: Modéliser des répétitions et lois de probabilité.
+  knowledge_ids:
+  - probability
+  - combinatorics
+  source_reference: Programme — probabilités
+  historical: true
+- id: c4-2026-4e-fractions
+  programme_id: cycle4-mathematiques-2026
+  level: quatrieme
+  domain: numbers
+  label: Calculer avec des fractions
+  description: Effectuer et interpréter des calculs sur les fractions.
+  knowledge_ids:
+  - fractions
+  - fraction-addition
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — nombres et calculs
+- id: c4-2026-4e-proportionality
+  programme_id: cycle4-mathematiques-2026
+  level: quatrieme
+  domain: numbers
+  theme: proportionality
+  label: Résoudre un problème de proportionnalité
+  description: Reconnaître et exploiter une situation de proportionnalité.
+  knowledge_ids:
+  - proportionality
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — nombres et calculs
+- id: c4-2026-4e-algebra
+  programme_id: cycle4-mathematiques-2026
+  level: quatrieme
+  domain: algebra
+  label: Utiliser le calcul littéral
+  description: Produire et transformer une expression littérale.
+  knowledge_ids:
+  - algebraic-manipulation
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — nombres et calculs
+- id: c4-2026-4e-pythagoras
+  programme_id: cycle4-mathematiques-2026
+  level: quatrieme
+  domain: geometry
+  label: Mobiliser le théorème de Pythagore
+  description: Calculer une longueur dans un triangle rectangle.
+  knowledge_ids:
+  - pythagorean-theorem
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — espace et géométrie
+- id: c4-2026-4e-statistics
+  programme_id: cycle4-mathematiques-2026
+  level: quatrieme
+  domain: data
+  label: Interpréter des données
+  description: Calculer et interpréter des indicateurs statistiques.
+  knowledge_ids:
+  - statistics
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — données
+- id: c4-2026-3e-equations
+  programme_id: cycle4-mathematiques-2026
+  level: troisieme
+  domain: algebra
+  label: Résoudre une équation
+  description: Résoudre une équation du premier degré et contrôler le résultat.
+  knowledge_ids:
+  - first-degree-equation
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — algèbre
+- id: c4-2026-3e-powers
+  programme_id: cycle4-mathematiques-2026
+  level: troisieme
+  domain: numbers
+  label: Calculer avec des puissances
+  description: Utiliser les puissances dans des calculs numériques.
+  knowledge_ids:
+  - powers
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — nombres et calculs
+- id: c4-2026-3e-geometry
+  programme_id: cycle4-mathematiques-2026
+  level: troisieme
+  domain: geometry
+  label: Mobiliser géométrie et trigonométrie
+  description: Calculer dans des configurations géométriques.
+  knowledge_ids:
+  - thales-theorem
+  - trigonometry
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — espace et géométrie
+- id: c4-2026-3e-functions
+  programme_id: cycle4-mathematiques-2026
+  level: troisieme
+  domain: functions
+  label: Lire images et antécédents
+  description: Exploiter les représentations usuelles d’une fonction.
+  knowledge_ids:
+  - function-image
+  - function-antecedent
+  source_reference: BOEN n°10 du 5 mars 2026, annexe — fonctions
+- id: lycee-2026-2de-algebra
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: algebra
+  label: Calculer et résoudre algébriquement
+  description: Mobiliser calcul littéral, équations et inéquations.
+  knowledge_ids:
+  - algebraic-manipulation
+  - first-degree-equation
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — nombres et calculs
+  historical: true
+- id: lycee-2026-2de-functions
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: functions
+  label: Étudier des fonctions
+  description: Exploiter expressions et représentations de fonctions.
+  knowledge_ids:
+  - functions
+  - function-image
+  - function-antecedent
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — fonctions
+  historical: true
+- id: lycee-2026-2de-geometry
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: geometry
+  label: Représenter et calculer en géométrie
+  description: Utiliser vecteurs et repérage dans le plan.
+  knowledge_ids:
+  - vectors
+  - analytic-geometry
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — géométrie
+  historical: true
+- id: lycee-2026-2de-data
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: probability
+  label: Modéliser données et hasard
+  description: Interpréter des données et des probabilités.
+  knowledge_ids:
+  - statistics
+  - probability
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — probabilités et statistiques
+  historical: true
+- id: lycee-2026-1re-algebra
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: algebra
+  label: Approfondir le calcul algébrique et les suites
+  description: Transformer des expressions et étudier des suites.
+  knowledge_ids:
+  - algebraic-manipulation
+  - sequences
+  - mathematical-proof
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — algèbre
+  historical: true
+- id: lycee-2026-1re-analysis
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: analysis
+  label: Dériver et étudier une fonction
+  description: Calculer une dérivée et l’utiliser dans une étude.
+  knowledge_ids:
+  - derivatives
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — analyse
+  historical: true
+- id: lycee-2026-1re-geometry
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: geometry
+  label: Utiliser géométrie et trigonométrie
+  description: Mobiliser vecteurs et trigonométrie.
+  knowledge_ids:
+  - vectors
+  - trigonometry
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — géométrie
+  historical: true
+- id: lycee-2026-1re-probability
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: probability
+  label: Modéliser le hasard
+  description: Calculer avec des probabilités conditionnelles.
+  knowledge_ids:
+  - probability
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — probabilités et statistiques
+  historical: true
+- id: lycee-2026-tle-analysis
+  programme_id: lycee-terminale-specialite-mathematiques-2026
+  level: terminale
+  domain: analysis
+  label: Étudier suites, limites et fonctions
+  description: Mener une étude d’analyse avec limites et dérivation.
+  knowledge_ids:
+  - sequences
+  - derivatives
+  - limits
+  - integrals
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — analyse
+- id: lycee-2026-tle-algebra
+  programme_id: lycee-terminale-specialite-mathematiques-2026
+  level: terminale
+  domain: algebra
+  label: Raisonner en algèbre
+  description: Résoudre et démontrer dans des situations algébriques.
+  knowledge_ids:
+  - algebraic-manipulation
+  - mathematical-proof
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — algèbre
+- id: lycee-2026-tle-probability
+  programme_id: lycee-terminale-specialite-mathematiques-2026
+  level: terminale
+  domain: probability
+  label: Étudier des modèles probabilistes
+  description: Modéliser des répétitions et lois de probabilité.
+  knowledge_ids:
+  - probability
+  - combinatorics
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — probabilités
+- id: c4-2020-4e-fraction-operations
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: numbers
+  theme: nombres
+  theme_label: Nombres et calculs
+  order: 1
+  label: Calculer avec des fractions
+  description: Calculer avec des fractions.
+  knowledge_ids:
+  - fractions
+  - fraction-operations
+  source_reference: Annexe 3 du programme du cycle 4 — Nombres et calculs
+- id: c4-2020-4e-proportionality
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: numbers
+  theme: proportionnalite
+  theme_label: Proportionnalité
+  order: 2
+  label: Résoudre un problème de proportionnalité
+  description: Résoudre un problème de proportionnalité.
+  knowledge_ids:
+  - proportionality
+  source_reference: Annexe 3 du programme du cycle 4 — Proportionnalité
+- id: c4-2020-4e-percentage
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: numbers
+  theme: proportionnalite
+  theme_label: Proportionnalité
+  order: 3
+  label: Appliquer un pourcentage
+  description: Appliquer un pourcentage.
+  knowledge_ids:
+  - percentage
+  source_reference: Annexe 3 du programme du cycle 4 — Proportionnalité
+- id: c4-2020-4e-powers
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: numbers
+  theme: nombres
+  theme_label: Nombres et calculs
+  order: 4
+  label: Calculer avec des puissances entières
+  description: Calculer avec des puissances entières.
+  knowledge_ids:
+  - powers
+  source_reference: Annexe 3 du programme du cycle 4 — Nombres et calculs
+- id: c4-2020-4e-expand
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: algebra
+  theme: calcul-litteral
+  theme_label: Calcul littéral
+  order: 5
+  label: Développer une expression littérale
+  description: Développer une expression littérale.
+  knowledge_ids:
+  - algebraic-expansion
+  source_reference: Annexe 3 du programme du cycle 4 — Calcul littéral
+- id: c4-2020-4e-literal-model
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: algebra
+  theme: calcul-litteral
+  theme_label: Calcul littéral
+  order: 6
+  label: Modéliser une situation par une expression
+  description: Modéliser une situation par une expression.
+  knowledge_ids:
+  - algebraic-manipulation
+  source_reference: Annexe 3 du programme du cycle 4 — Calcul littéral
+- id: c4-2020-4e-equation
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: algebra
+  theme: equations
+  theme_label: Équations
+  order: 7
+  label: Résoudre une équation simple
+  description: Résoudre une équation simple.
+  knowledge_ids:
+  - first-degree-equation
+  source_reference: Annexe 3 du programme du cycle 4 — Équations
+- id: c4-2020-4e-pythagoras
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: geometry
+  theme: triangles
+  theme_label: Géométrie des triangles
+  order: 8
+  label: Calculer une longueur avec Pythagore
+  description: Calculer une longueur avec Pythagore.
+  knowledge_ids:
+  - pythagorean-theorem
+  source_reference: Annexe 3 du programme du cycle 4 — Géométrie des triangles
+- id: c4-2020-4e-transformations
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: geometry
+  theme: transformations
+  theme_label: Transformations
+  order: 9
+  label: Utiliser une transformation géométrique
+  description: Utiliser une transformation géométrique.
+  knowledge_ids:
+  - transformations
+  source_reference: Annexe 3 du programme du cycle 4 — Transformations
+- id: c4-2020-4e-space
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: geometry
+  theme: espace
+  theme_label: Géométrie dans l’espace
+  order: 10
+  label: Calculer dans une figure de l’espace
+  description: Calculer dans une figure de l’espace.
+  knowledge_ids:
+  - spatial-geometry
+  source_reference: Annexe 3 du programme du cycle 4 — Géométrie dans l’espace
+- id: c4-2020-4e-statistics
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: data
+  theme: statistiques
+  theme_label: Statistiques
+  order: 11
+  label: Calculer et interpréter une moyenne
+  description: Calculer et interpréter une moyenne.
+  knowledge_ids:
+  - statistics
+  - mean
+  source_reference: Annexe 3 du programme du cycle 4 — Statistiques
+- id: c4-2020-4e-dispersion
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: data
+  theme: statistiques
+  theme_label: Statistiques
+  order: 12
+  label: Interpréter médiane et étendue
+  description: Interpréter médiane et étendue.
+  knowledge_ids:
+  - median-dispersion
+  source_reference: Annexe 3 du programme du cycle 4 — Statistiques
+- id: c4-2020-4e-probability
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: probability
+  theme: hasard
+  theme_label: Probabilités
+  order: 13
+  label: Calculer une probabilité simple
+  description: Calculer une probabilité simple.
+  knowledge_ids:
+  - probability-model
+  source_reference: Annexe 3 du programme du cycle 4 — Probabilités
+- id: c4-2020-4e-algorithm
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: algorithmics
+  theme: programmation
+  theme_label: Algorithmique
+  order: 14
+  label: Écrire un algorithme avec condition ou boucle
+  description: Écrire un algorithme avec condition ou boucle.
+  knowledge_ids:
+  - algorithmic-condition
+  - algorithmic-loop
+  source_reference: Annexe 3 du programme du cycle 4 — Algorithmique
+- id: c4-2020-4e-automatismes
+  programme_id: cycle4-mathematiques-2020
+  level: quatrieme
+  domain: automatismes
+  theme: automatismes
+  theme_label: Automatismes
+  order: 15
+  label: Mobiliser les automatismes numériques et algébriques
+  description: Mobiliser les automatismes numériques et algébriques.
+  knowledge_ids:
+  - automatismes
+  source_reference: Annexe 3 du programme du cycle 4 — Automatismes
+- id: c4-2020-3e-powers
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: numbers
+  theme: nombres
+  theme_label: Nombres et calculs
+  order: 1
+  label: Calculer avec des puissances
+  description: Calculer avec des puissances.
+  knowledge_ids:
+  - powers
+  source_reference: Annexe 3 du programme du cycle 4 — Nombres et calculs
+- id: c4-2020-3e-scientific-notation
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: numbers
+  theme: nombres
+  theme_label: Nombres et calculs
+  order: 2
+  label: Utiliser la notation scientifique
+  description: Utiliser la notation scientifique.
+  knowledge_ids:
+  - scientific-notation
+  source_reference: Annexe 3 du programme du cycle 4 — Nombres et calculs
+- id: c4-2020-3e-square-root
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: numbers
+  theme: nombres
+  theme_label: Nombres et calculs
+  order: 3
+  label: Calculer avec des racines carrées
+  description: Calculer avec des racines carrées.
+  knowledge_ids:
+  - square-root
+  source_reference: Annexe 3 du programme du cycle 4 — Nombres et calculs
+- id: c4-2020-3e-equation
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: algebra
+  theme: equations
+  theme_label: Équations
+  order: 4
+  label: Résoudre une équation du premier degré
+  description: Résoudre une équation du premier degré.
+  knowledge_ids:
+  - first-degree-equation
+  source_reference: Annexe 3 du programme du cycle 4 — Équations
+- id: c4-2020-3e-factorisation
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: algebra
+  theme: calcul-litteral
+  theme_label: Calcul littéral
+  order: 5
+  label: Factoriser une expression
+  description: Factoriser une expression.
+  knowledge_ids:
+  - factorisation
+  source_reference: Annexe 3 du programme du cycle 4 — Calcul littéral
+- id: c4-2020-3e-inequality
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: algebra
+  theme: inequations
+  theme_label: Inéquations
+  order: 6
+  label: Résoudre une inéquation simple
+  description: Résoudre une inéquation simple.
+  knowledge_ids:
+  - inequality
+  source_reference: Annexe 3 du programme du cycle 4 — Inéquations
+- id: c4-2020-3e-thales
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: geometry
+  theme: triangles
+  theme_label: Géométrie des triangles
+  order: 7
+  label: Calculer une longueur avec Thalès
+  description: Calculer une longueur avec Thalès.
+  knowledge_ids:
+  - thales-theorem
+  source_reference: Annexe 3 du programme du cycle 4 — Géométrie des triangles
+- id: c4-2020-3e-trigonometry
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: geometry
+  theme: triangles
+  theme_label: Géométrie des triangles
+  order: 8
+  label: Calculer avec la trigonométrie
+  description: Calculer avec la trigonométrie.
+  knowledge_ids:
+  - trigonometry
+  source_reference: Annexe 3 du programme du cycle 4 — Géométrie des triangles
+- id: c4-2020-3e-geometry-transform
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: geometry
+  theme: transformations
+  theme_label: Transformations
+  order: 9
+  label: Raisonner avec transformations et homothéties
+  description: Raisonner avec transformations et homothéties.
+  knowledge_ids:
+  - transformations
+  source_reference: Annexe 3 du programme du cycle 4 — Transformations
+- id: c4-2020-3e-function-image
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: functions
+  theme: fonctions
+  theme_label: Fonctions
+  order: 10
+  label: Déterminer l’image d’un nombre
+  description: Déterminer l’image d’un nombre.
+  knowledge_ids:
+  - function-image
+  source_reference: Annexe 3 du programme du cycle 4 — Fonctions
+- id: c4-2020-3e-function-antecedent
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: functions
+  theme: fonctions
+  theme_label: Fonctions
+  order: 11
+  label: Déterminer un antécédent
+  description: Déterminer un antécédent.
+  knowledge_ids:
+  - function-antecedent
+  source_reference: Annexe 3 du programme du cycle 4 — Fonctions
+- id: c4-2020-3e-affine
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: functions
+  theme: fonctions-affines
+  theme_label: Fonctions affines
+  order: 12
+  label: Reconnaître et exploiter une fonction affine
+  description: Reconnaître et exploiter une fonction affine.
+  knowledge_ids:
+  - affine-function
+  source_reference: Annexe 3 du programme du cycle 4 — Fonctions affines
+- id: c4-2020-3e-statistics
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: data
+  theme: statistiques
+  theme_label: Statistiques
+  order: 13
+  label: Interpréter des indicateurs statistiques
+  description: Interpréter des indicateurs statistiques.
+  knowledge_ids:
+  - statistics
+  - median-dispersion
+  source_reference: Annexe 3 du programme du cycle 4 — Statistiques
+- id: c4-2020-3e-probability
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: probability
+  theme: hasard
+  theme_label: Probabilités
+  order: 14
+  label: Calculer des probabilités dans une expérience aléatoire
+  description: Calculer des probabilités dans une expérience aléatoire.
+  knowledge_ids:
+  - probability-model
+  source_reference: Annexe 3 du programme du cycle 4 — Probabilités
+- id: c4-2020-3e-algorithm
+  programme_id: cycle4-mathematiques-2020
+  level: troisieme
+  domain: algorithmics
+  theme: programmation
+  theme_label: Algorithmique
+  order: 15
+  label: Programmer avec variables, conditions et boucles
+  description: Programmer avec variables, conditions et boucles.
+  knowledge_ids:
+  - algorithmic-variable
+  - algorithmic-condition
+  - algorithmic-loop
+  source_reference: Annexe 3 du programme du cycle 4 — Algorithmique
+- id: lycee-2026-2de-numbers
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: numbers
+  theme: nombres-reels
+  theme_label: Nombres réels
+  order: 1
+  label: Manipuler les nombres réels et leurs intervalles
+  description: Manipuler les nombres réels et leurs intervalles.
+  knowledge_ids:
+  - sets-logic
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Nombres réels
+- id: lycee-2026-2de-fractions-powers
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: numbers
+  theme: calcul-numerique
+  theme_label: Calcul numérique
+  order: 2
+  label: Calculer avec fractions, puissances et racines
+  description: Calculer avec fractions, puissances et racines.
+  knowledge_ids:
+  - fraction-operations
+  - powers
+  - square-root
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Calcul numérique
+- id: lycee-2026-2de-expand
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: algebra
+  theme: expressions
+  theme_label: Expressions algébriques
+  order: 3
+  label: Développer une expression
+  description: Développer une expression.
+  knowledge_ids:
+  - algebraic-expansion
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Expressions algébriques
+- id: lycee-2026-2de-factorisation
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: algebra
+  theme: expressions
+  theme_label: Expressions algébriques
+  order: 4
+  label: Factoriser une expression
+  description: Factoriser une expression.
+  knowledge_ids:
+  - factorisation
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Expressions algébriques
+- id: lycee-2026-2de-equation
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: algebra
+  theme: equations
+  theme_label: Équations et inéquations
+  order: 5
+  label: Résoudre une équation du premier degré
+  description: Résoudre une équation du premier degré.
+  knowledge_ids:
+  - first-degree-equation
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Équations et inéquations
+- id: lycee-2026-2de-inequality
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: algebra
+  theme: equations
+  theme_label: Équations et inéquations
+  order: 6
+  label: Résoudre une inéquation du premier degré
+  description: Résoudre une inéquation du premier degré.
+  knowledge_ids:
+  - inequality
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Équations et inéquations
+- id: lycee-2026-2de-image-antecedent
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: functions
+  theme: notion-fonction
+  theme_label: Notion de fonction
+  order: 7
+  label: Déterminer images et antécédents
+  description: Déterminer images et antécédents.
+  knowledge_ids:
+  - function-image
+  - function-antecedent
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Notion de fonction
+- id: lycee-2026-2de-reference-functions
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: functions
+  theme: fonctions-reference
+  theme_label: Fonctions de référence
+  order: 8
+  label: Exploiter les fonctions de référence
+  description: Exploiter les fonctions de référence.
+  knowledge_ids:
+  - reference-functions
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Fonctions de référence
+- id: lycee-2026-2de-quadratic
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: functions
+  theme: second-degre
+  theme_label: Second degré
+  order: 9
+  label: Étudier une fonction quadratique
+  description: Étudier une fonction quadratique.
+  knowledge_ids:
+  - quadratic-function
+  - function-variation
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Second degré
+- id: lycee-2026-2de-variation-sign
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: functions
+  theme: variations
+  theme_label: Variations et signe
+  order: 10
+  label: Exploiter variations et signe d’une fonction
+  description: Exploiter variations et signe d’une fonction.
+  knowledge_ids:
+  - function-variation
+  - sign-analysis
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Variations et signe
+- id: lycee-2026-2de-vectors
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: geometry
+  theme: geometrie-reperee
+  theme_label: Géométrie repérée
+  order: 11
+  label: Calculer avec des vecteurs et des coordonnées
+  description: Calculer avec des vecteurs et des coordonnées.
+  knowledge_ids:
+  - vectors
+  - analytic-geometry
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Géométrie repérée
+- id: lycee-2026-2de-lines
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: geometry
+  theme: droites
+  theme_label: Droites du plan
+  order: 12
+  label: Déterminer une équation de droite
+  description: Déterminer une équation de droite.
+  knowledge_ids:
+  - lines-equations
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Droites du plan
+- id: lycee-2026-2de-statistics
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: data
+  theme: statistiques
+  theme_label: Statistiques
+  order: 13
+  label: Décrire et comparer des séries statistiques
+  description: Décrire et comparer des séries statistiques.
+  knowledge_ids:
+  - statistics
+  - median-dispersion
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Statistiques
+- id: lycee-2026-2de-probability
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: probability
+  theme: probabilites
+  theme_label: Probabilités
+  order: 14
+  label: Calculer la probabilité d’un événement
+  description: Calculer la probabilité d’un événement.
+  knowledge_ids:
+  - probability-model
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Probabilités
+- id: lycee-2026-2de-algorithm
+  programme_id: lycee-seconde-mathematiques-2026
+  level: seconde
+  domain: algorithmics
+  theme: python
+  theme_label: Algorithmique et Python
+  order: 15
+  label: Écrire une fonction ou une boucle algorithmique
+  description: Écrire une fonction ou une boucle algorithmique.
+  knowledge_ids:
+  - algorithmic-loop
+  - algorithmic-function
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Algorithmique et Python
+- id: lycee-2026-1re-second-degree
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: algebra
+  theme: second-degre
+  theme_label: Second degré
+  order: 1
+  label: Résoudre une équation du second degré
+  description: Résoudre une équation du second degré.
+  knowledge_ids:
+  - second-degree-equation
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Second degré
+- id: lycee-2026-1re-factor-sign
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: algebra
+  theme: second-degre
+  theme_label: Second degré
+  order: 2
+  label: Factoriser et étudier le signe d’un trinôme
+  description: Factoriser et étudier le signe d’un trinôme.
+  knowledge_ids:
+  - factorisation
+  - sign-analysis
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Second degré
+- id: lycee-2026-1re-arithmetic-sequence
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: algebra
+  theme: suites
+  theme_label: Suites numériques
+  order: 3
+  label: Étudier une suite arithmétique
+  description: Étudier une suite arithmétique.
+  knowledge_ids:
+  - arithmetic-sequence
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Suites numériques
+- id: lycee-2026-1re-geometric-sequence
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: algebra
+  theme: suites
+  theme_label: Suites numériques
+  order: 4
+  label: Étudier une suite géométrique
+  description: Étudier une suite géométrique.
+  knowledge_ids:
+  - geometric-sequence
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Suites numériques
+- id: lycee-2026-1re-derivative
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: analysis
+  theme: derivation
+  theme_label: Dérivation
+  order: 5
+  label: Calculer une dérivée
+  description: Calculer une dérivée.
+  knowledge_ids:
+  - derivatives
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Dérivation
+- id: lycee-2026-1re-variation
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: analysis
+  theme: derivation
+  theme_label: Dérivation
+  order: 6
+  label: Étudier les variations avec la dérivée
+  description: Étudier les variations avec la dérivée.
+  knowledge_ids:
+  - derivatives
+  - function-variation
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Dérivation
+- id: lycee-2026-1re-exponential
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: analysis
+  theme: exponentielle
+  theme_label: Fonction exponentielle
+  order: 7
+  label: Exploiter la fonction exponentielle
+  description: Exploiter la fonction exponentielle.
+  knowledge_ids:
+  - exponential-function
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Fonction exponentielle
+- id: lycee-2026-1re-trigonometric-functions
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: analysis
+  theme: trigonometrie
+  theme_label: Fonctions trigonométriques
+  order: 8
+  label: Exploiter sinus et cosinus
+  description: Exploiter sinus et cosinus.
+  knowledge_ids:
+  - trigonometric-functions
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Fonctions trigonométriques
+- id: lycee-2026-1re-dot-product
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: geometry
+  theme: produit-scalaire
+  theme_label: Produit scalaire
+  order: 9
+  label: Exploiter le produit scalaire
+  description: Exploiter le produit scalaire.
+  knowledge_ids:
+  - dot-product
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Produit scalaire
+- id: lycee-2026-1re-analytic-geometry
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: geometry
+  theme: geometrie-reperee
+  theme_label: Géométrie repérée
+  order: 10
+  label: Résoudre un problème de géométrie repérée
+  description: Résoudre un problème de géométrie repérée.
+  knowledge_ids:
+  - analytic-geometry
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Géométrie repérée
+- id: lycee-2026-1re-conditional-probability
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: probability
+  theme: probabilites-conditionnelles
+  theme_label: Probabilités conditionnelles
+  order: 11
+  label: Calculer une probabilité conditionnelle
+  description: Calculer une probabilité conditionnelle.
+  knowledge_ids:
+  - conditional-probability
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Probabilités conditionnelles
+- id: lycee-2026-1re-independence
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: probability
+  theme: probabilites-conditionnelles
+  theme_label: Probabilités conditionnelles
+  order: 12
+  label: Établir l’indépendance de deux événements
+  description: Établir l’indépendance de deux événements.
+  knowledge_ids:
+  - independence
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Probabilités conditionnelles
+- id: lycee-2026-1re-random-variable
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: probability
+  theme: variables-aleatoires
+  theme_label: Variables aléatoires
+  order: 13
+  label: Calculer espérance et variance d’une variable aléatoire
+  description: Calculer espérance et variance d’une variable aléatoire.
+  knowledge_ids:
+  - random-variable
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Variables aléatoires
+- id: lycee-2026-1re-algorithm
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: algorithmics
+  theme: algorithmique
+  theme_label: Algorithmique
+  order: 14
+  label: Concevoir une fonction algorithmique
+  description: Concevoir une fonction algorithmique.
+  knowledge_ids:
+  - algorithmic-function
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Algorithmique
+- id: lycee-2026-1re-logic
+  programme_id: lycee-premiere-specialite-mathematiques-2026
+  level: premiere
+  domain: logic
+  theme: raisonnement
+  theme_label: Logique
+  order: 15
+  label: Utiliser implications et raisonnement logique
+  description: Utiliser implications et raisonnement logique.
+  knowledge_ids:
+  - sets-logic
+  - mathematical-proof
+  source_reference: BOEN n°14 du 2 avril 2026, annexe — Logique
+- id: lycee-2019-tle-combinatorics
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: algebra
+  theme: combinatoire
+  theme_label: Combinatoire
+  order: 1
+  label: Dénombrer des configurations
+  description: Dénombrer des configurations.
+  knowledge_ids:
+  - combinatorics
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Combinatoire
+- id: lycee-2019-tle-induction
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: algebra
+  theme: raisonnement
+  theme_label: Raisonnement
+  order: 2
+  label: Démontrer une propriété par récurrence
+  description: Démontrer une propriété par récurrence.
+  knowledge_ids:
+  - induction
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Raisonnement
+- id: lycee-2019-tle-sequence-limit
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: suites
+  theme_label: Suites
+  order: 3
+  label: Déterminer la limite d’une suite
+  description: Déterminer la limite d’une suite.
+  knowledge_ids:
+  - sequences
+  - limits
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Suites
+- id: lycee-2019-tle-function-limit
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: limites
+  theme_label: Limites
+  order: 4
+  label: Déterminer la limite d’une fonction
+  description: Déterminer la limite d’une fonction.
+  knowledge_ids:
+  - limits
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Limites
+- id: lycee-2019-tle-continuity
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: continuite
+  theme_label: Continuité
+  order: 5
+  label: Exploiter la continuité d’une fonction
+  description: Exploiter la continuité d’une fonction.
+  knowledge_ids:
+  - continuity
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Continuité
+- id: lycee-2019-tle-logarithm
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: logarithme
+  theme_label: Logarithme
+  order: 6
+  label: Exploiter le logarithme népérien
+  description: Exploiter le logarithme népérien.
+  knowledge_ids:
+  - logarithm
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Logarithme
+- id: lycee-2019-tle-trigonometric-functions
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: trigonometrie
+  theme_label: Trigonométrie
+  order: 7
+  label: Étudier des fonctions trigonométriques
+  description: Étudier des fonctions trigonométriques.
+  knowledge_ids:
+  - trigonometric-functions
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Trigonométrie
+- id: lycee-2019-tle-integration
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: integration
+  theme_label: Intégration
+  order: 8
+  label: Calculer et interpréter une intégrale
+  description: Calculer et interpréter une intégrale.
+  knowledge_ids:
+  - integrals
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Intégration
+- id: lycee-2019-tle-differential-equation
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: analysis
+  theme: equations-differentielles
+  theme_label: Équations différentielles
+  order: 9
+  label: Résoudre une équation différentielle
+  description: Résoudre une équation différentielle.
+  knowledge_ids:
+  - differential-equation
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Équations différentielles
+- id: lycee-2019-tle-space-vectors
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: geometry
+  theme: espace
+  theme_label: Géométrie dans l’espace
+  order: 10
+  label: Représenter droites et plans de l’espace
+  description: Représenter droites et plans de l’espace.
+  knowledge_ids:
+  - vectors
+  - spatial-geometry
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Géométrie dans l’espace
+- id: lycee-2019-tle-space-dot-product
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: geometry
+  theme: espace
+  theme_label: Géométrie dans l’espace
+  order: 11
+  label: Utiliser orthogonalité et produit scalaire dans l’espace
+  description: Utiliser orthogonalité et produit scalaire dans l’espace.
+  knowledge_ids:
+  - dot-product
+  - spatial-geometry
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Géométrie dans l’espace
+- id: lycee-2019-tle-conditional-probability
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: probability
+  theme: probabilites
+  theme_label: Probabilités
+  order: 12
+  label: Calculer avec des probabilités conditionnelles
+  description: Calculer avec des probabilités conditionnelles.
+  knowledge_ids:
+  - conditional-probability
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Probabilités
+- id: lycee-2019-tle-binomial
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: probability
+  theme: loi-binomiale
+  theme_label: Loi binomiale
+  order: 13
+  label: Calculer une probabilité binomiale
+  description: Calculer une probabilité binomiale.
+  knowledge_ids:
+  - binomial-model
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Loi binomiale
+- id: lycee-2019-tle-random-variable
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: probability
+  theme: variables-aleatoires
+  theme_label: Variables aléatoires
+  order: 14
+  label: Modéliser avec une variable aléatoire
+  description: Modéliser avec une variable aléatoire.
+  knowledge_ids:
+  - random-variable
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Variables aléatoires
+- id: lycee-2019-tle-algorithm
+  programme_id: lycee-terminale-specialite-mathematiques-2019
+  level: terminale
+  domain: algorithmics
+  theme: algorithmique
+  theme_label: Algorithmique
+  order: 15
+  label: Analyser ou compléter un algorithme
+  description: Analyser ou compléter un algorithme.
+  knowledge_ids:
+  - algorithmic-function
+  source_reference: Programme de terminale, BO spécial n°8 du 25 juillet 2019 — Algorithmique

@@ -67,3 +67,27 @@ def test_problem_expectation_must_match_level(tmp_path: Path):
     folder=tmp_path/"seconde"; folder.mkdir(); (folder/"bad.yaml").write_text("""id: bad-001\ntitle: Bad\nstatement: Unique\ncurriculum: {level: seconde, difficulty: 1, expectations: [c4-2020-4e-fractions]}\ntopics: [algebra]\nsource: {type: internal, name: Test}\nreference_solution: Test\n""")
     with pytest.raises(ProblemCorpusError, match="belongs to quatrieme"):
         ProblemRepository(tmp_path, repository()).load()
+
+
+def test_active_2026_curriculum_is_granular_sourced_and_mapped():
+    repo = repository()
+    metadata = repo.level_metadata("2026-2027")[:5]
+    counts = {level["id"]: sum(len(domain["expectations"]) for domain in level["domains"]) for level in metadata}
+    assert counts == {"quatrieme": 15, "troisieme": 15, "seconde": 15, "premiere": 15, "terminale": 15}
+    active_ids = {item["id"] for level in metadata for domain in level["domains"] for item in domain["expectations"]}
+    assert len(active_ids) == 75
+    assert all(repo.expectations[item].source_reference for item in active_ids)
+    assert all(repo.expectations[item].knowledge_ids for item in active_ids)
+    assert len(repo.knowledge_nodes) >= 50
+
+
+def test_current_corpus_and_families_only_reference_active_expectations():
+    from corpus_factory.families import FAMILIES
+    repo = repository()
+    active_ids = {item["id"] for level in repo.level_metadata("2026-2027")[:5]
+                  for domain in level["domains"] for item in domain["expectations"]}
+    problems = ProblemRepository(ROOT / "problems", repo, academic_year="2026-2027")
+    problems.load()
+    school = [p for p in problems.list() if p.curriculum.level.value not in {"maths-sup", "maths-spe"}]
+    assert all(set(problem.curriculum.expectations) <= active_ids for problem in school)
+    assert all(family.expectation in active_ids for family in FAMILIES)

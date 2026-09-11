@@ -4,7 +4,7 @@ statement: Résoudre $x^2-4x-5>0$.
 curriculum:
   level: premiere
   difficulty: 3
-  expectations: [lycee-2026-1re-algebra]
+  expectations: [lycee-2026-1re-second-degree]
 topics:
 - inequalities
 prerequisites:

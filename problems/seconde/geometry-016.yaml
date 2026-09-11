@@ -4,7 +4,7 @@ statement: Déterminer le milieu du segment joignant $A(-2,3)$ à $B(6,-1)$.
 curriculum:
   level: seconde
   difficulty: 2
-  expectations: [lycee-2026-2de-geometry]
+  expectations: [lycee-2026-2de-vectors]
 topics:
 - geometry
 prerequisites:

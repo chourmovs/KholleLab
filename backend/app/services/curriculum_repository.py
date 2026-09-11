@@ -60,6 +60,9 @@ class CurriculumExpectation(Model):
     level: CurriculumLevel
     domain: str
     theme: str | None = None
+    theme_label: str | None = None
+    order: int = Field(default=0, ge=0)
+    historical: bool = False
     label: str
     description: str
     knowledge_ids: tuple[str, ...] = Field(min_length=1)
@@ -146,8 +149,23 @@ class CurriculumRepository:
             unknown = [x for x in expectation.knowledge_ids if x not in self.knowledge_nodes]
             if unknown:
                 raise CurriculumCorpusError(f"expectation {expectation.id} references unknown knowledge {unknown[0]}")
+            if len(set(expectation.knowledge_ids)) != len(expectation.knowledge_ids):
+                raise CurriculumCorpusError(f"expectation {expectation.id} contains duplicate knowledge references")
+            if expectation.domain not in domain_labels():
+                raise CurriculumCorpusError(f"expectation {expectation.id} uses unknown domain {expectation.domain}")
             grouped.setdefault((expectation.level, expectation.domain), []).append(expectation)
-        self.expectations_by_level_domain = {key: tuple(sorted(value, key=lambda x: x.id)) for key, value in grouped.items()}
+        ordered_groups: dict[tuple[str, CurriculumLevel, str], list[int]] = {}
+        for expectation in self.expectations.values():
+            if not expectation.historical and expectation.order:
+                ordered_groups.setdefault(
+                    (expectation.programme_id, expectation.level, expectation.domain), []
+                ).append(expectation.order)
+        for key, orders in ordered_groups.items():
+            if len(orders) != len(set(orders)):
+                raise CurriculumCorpusError(f"duplicate pedagogical order in {key[0]}/{key[1].value}/{key[2]}")
+        self.expectations_by_level_domain = {
+            key: tuple(sorted(value, key=lambda x: (x.historical, x.order, x.id))) for key, value in grouped.items()
+        }
 
     def _validate_no_overlaps(self) -> None:
         by_level: dict[CurriculumLevel, list[tuple[int, int, str]]] = {}
@@ -201,12 +219,15 @@ class CurriculumRepository:
             programme = self.resolve_programme(level.id, academic_year)
             domains = []
             for (item_level, domain), expectations in self.expectations_by_level_domain.items():
-                if item_level == level.id and any(x.programme_id == programme.id for x in expectations):
-                    domains.append({"id": domain, "label": domain_labels().get(domain, domain), "expectations": [{"id": x.id, "label": x.label} for x in expectations if x.programme_id == programme.id]})
+                active = [x for x in expectations if x.programme_id == programme.id and not x.historical]
+                if item_level == level.id and active:
+                    domains.append({"id": domain, "label": domain_labels()[domain], "expectations": [
+                        {"id": x.id, "label": x.label, "theme": x.theme_label} for x in active
+                    ]})
             result.append({"id": level.id.value, "label": level.label, "short_label": level.short_label, "stage": level.stage,
                            "programme": {"id": programme.id, "label": programme.label}, "domains": sorted(domains, key=lambda x: x["label"])})
         return result
 
 
 def domain_labels() -> dict[str, str]:
-    return {"numbers": "Nombres et calculs", "algebra": "Algèbre", "geometry": "Géométrie", "data": "Données et statistiques", "functions": "Fonctions", "analysis": "Analyse", "probability": "Probabilités"}
+    return {"numbers": "Nombres et calculs", "algebra": "Algèbre", "geometry": "Géométrie", "data": "Données et statistiques", "functions": "Fonctions", "analysis": "Analyse", "probability": "Probabilités", "logic": "Logique et raisonnement", "algorithmics": "Algorithmique et programmation", "automatismes": "Automatismes"}

@@ -4,7 +4,7 @@ statement: 'Résoudre dans $\mathbb C$ : $z^2+1=0$.'
 curriculum:
   level: terminale
   difficulty: 3
-  expectations: [lycee-2019-tle-algebra]
+  expectations: [lycee-2019-tle-induction]
 topics:
 - complex-numbers
 prerequisites:

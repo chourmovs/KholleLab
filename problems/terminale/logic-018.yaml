@@ -4,7 +4,7 @@ statement: Montrer que l’équation $x^3+x=1$ admet une unique solution réelle
 curriculum:
   level: terminale
   difficulty: 3
-  expectations: [lycee-2019-tle-algebra]
+  expectations: [lycee-2019-tle-induction]
 topics:
 - logic
 prerequisites:

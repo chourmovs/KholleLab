@@ -1,28 +1,377 @@
 schema_version: 1
 knowledge:
-  - {id: numbers, label: Nombres et calculs, kind: domain}
-  - {id: fractions, label: Fractions, kind: concept, parent: numbers}
-  - {id: fraction-addition, label: Addition de fractions, kind: procedure, parent: fractions, prerequisites: [fractions]}
-  - {id: proportionality, label: Proportionnalité, kind: concept, parent: numbers}
-  - {id: powers, label: Puissances, kind: concept, parent: numbers}
-  - {id: algebraic-manipulation, label: Calcul littéral, kind: procedure}
-  - {id: first-degree-equation, label: Équation du premier degré, kind: procedure, prerequisites: [algebraic-manipulation]}
-  - {id: geometry, label: Géométrie, kind: domain}
-  - {id: pythagorean-theorem, label: Théorème de Pythagore, kind: theorem, parent: geometry}
-  - {id: thales-theorem, label: Théorème de Thalès, kind: theorem, parent: geometry, prerequisites: [proportionality]}
-  - {id: trigonometry, label: Trigonométrie, kind: concept, parent: geometry, prerequisites: [pythagorean-theorem]}
-  - {id: statistics, label: Statistiques, kind: domain}
-  - {id: probability, label: Probabilités, kind: domain}
-  - {id: functions, label: Fonctions, kind: domain}
-  - {id: function-image, label: Image par une fonction, kind: concept, parent: functions}
-  - {id: function-antecedent, label: Antécédent par une fonction, kind: concept, parent: functions}
-  - {id: sequences, label: Suites, kind: concept, parent: functions}
-  - {id: derivatives, label: Dérivation, kind: concept, parent: functions, prerequisites: [function-image]}
-  - {id: limits, label: Limites, kind: concept, parent: functions, prerequisites: [function-image]}
-  - {id: integrals, label: Intégration, kind: concept, parent: functions, prerequisites: [derivatives]}
-  - {id: exponential-logarithm, label: Exponentielle et logarithme, kind: concept, parent: functions}
-  - {id: mathematical-proof, label: Démonstration mathématique, kind: competency}
-  - {id: vectors, label: Vecteurs, kind: concept, parent: geometry}
-  - {id: analytic-geometry, label: Géométrie repérée, kind: concept, parent: geometry, prerequisites: [vectors]}
-  - {id: combinatorics, label: Combinatoire, kind: concept}
-  - {id: complex-numbers, label: Nombres complexes, kind: concept, parent: numbers}
+- id: numbers
+  label: Nombres et calculs
+  kind: domain
+- id: integer-arithmetic
+  label: Calcul sur les entiers
+  kind: procedure
+  parent: numbers
+- id: fractions
+  label: Fractions
+  kind: concept
+  parent: numbers
+- id: fraction-operations
+  label: Opérations sur les fractions
+  kind: procedure
+  parent: fractions
+  prerequisites:
+  - fractions
+- id: proportionality
+  label: Proportionnalité
+  kind: concept
+  parent: numbers
+- id: percentage
+  label: Pourcentages
+  kind: procedure
+  parent: proportionality
+  prerequisites:
+  - proportionality
+- id: powers
+  label: Puissances
+  kind: concept
+  parent: numbers
+- id: scientific-notation
+  label: Notation scientifique
+  kind: procedure
+  parent: powers
+  prerequisites:
+  - powers
+- id: square-root
+  label: Racine carrée
+  kind: concept
+  parent: numbers
+  prerequisites:
+  - powers
+- id: algebra
+  label: Algèbre
+  kind: domain
+- id: algebraic-manipulation
+  label: Calcul littéral
+  kind: procedure
+  parent: algebra
+- id: algebraic-expansion
+  label: Développement algébrique
+  kind: procedure
+  parent: algebra
+  prerequisites:
+  - algebraic-manipulation
+- id: factorisation
+  label: Factorisation
+  kind: procedure
+  parent: algebra
+  prerequisites:
+  - algebraic-expansion
+- id: first-degree-equation
+  label: Équation du premier degré
+  kind: procedure
+  parent: algebra
+  prerequisites:
+  - algebraic-manipulation
+- id: inequality
+  label: Inéquation
+  kind: procedure
+  parent: algebra
+  prerequisites:
+  - first-degree-equation
+- id: polynomials
+  label: Polynômes
+  kind: concept
+  parent: algebra
+  prerequisites:
+  - algebraic-manipulation
+- id: second-degree-equation
+  label: Équation du second degré
+  kind: procedure
+  parent: polynomials
+  prerequisites:
+  - factorisation
+- id: mathematical-proof
+  label: Démonstration mathématique
+  kind: competency
+  parent: logic
+- id: induction
+  label: Raisonnement par récurrence
+  kind: procedure
+  parent: logic
+  prerequisites:
+  - mathematical-proof
+- id: geometry
+  label: Géométrie
+  kind: domain
+- id: pythagorean-theorem
+  label: Théorème de Pythagore
+  kind: theorem
+  parent: geometry
+- id: thales-theorem
+  label: Théorème de Thalès
+  kind: theorem
+  parent: geometry
+  prerequisites:
+  - proportionality
+- id: trigonometry
+  label: Trigonométrie du triangle rectangle
+  kind: concept
+  parent: geometry
+  prerequisites:
+  - pythagorean-theorem
+- id: transformations
+  label: Transformations géométriques
+  kind: concept
+  parent: geometry
+- id: spatial-geometry
+  label: Géométrie dans l’espace
+  kind: concept
+  parent: geometry
+- id: vectors
+  label: Vecteurs
+  kind: concept
+  parent: geometry
+- id: vector-collinearity
+  label: Colinéarité de vecteurs
+  kind: procedure
+  parent: vectors
+  prerequisites:
+  - vectors
+- id: dot-product
+  label: Produit scalaire
+  kind: concept
+  parent: vectors
+  prerequisites:
+  - vectors
+- id: analytic-geometry
+  label: Géométrie repérée
+  kind: concept
+  parent: geometry
+  prerequisites:
+  - vectors
+- id: lines-equations
+  label: Équations de droites
+  kind: procedure
+  parent: analytic-geometry
+  prerequisites:
+  - analytic-geometry
+- id: functions
+  label: Fonctions
+  kind: domain
+- id: function-image
+  label: Image par une fonction
+  kind: concept
+  parent: functions
+- id: function-antecedent
+  label: Antécédent par une fonction
+  kind: concept
+  parent: functions
+  prerequisites:
+  - function-image
+- id: affine-function
+  label: Fonction affine
+  kind: concept
+  parent: functions
+  prerequisites:
+  - function-image
+- id: quadratic-function
+  label: Fonction du second degré
+  kind: concept
+  parent: functions
+  prerequisites:
+  - polynomials
+  - function-image
+- id: reference-functions
+  label: Fonctions de référence
+  kind: concept
+  parent: functions
+  prerequisites:
+  - function-image
+- id: function-variation
+  label: Variations d’une fonction
+  kind: concept
+  parent: functions
+  prerequisites:
+  - function-image
+- id: sign-analysis
+  label: Étude de signe
+  kind: procedure
+  parent: functions
+  prerequisites:
+  - function-variation
+- id: analysis
+  label: Analyse
+  kind: domain
+- id: sequences
+  label: Suites
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - functions
+- id: arithmetic-sequence
+  label: Suite arithmétique
+  kind: concept
+  parent: sequences
+  prerequisites:
+  - sequences
+- id: geometric-sequence
+  label: Suite géométrique
+  kind: concept
+  parent: sequences
+  prerequisites:
+  - sequences
+- id: derivatives
+  label: Dérivation
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - function-variation
+- id: exponential-function
+  label: Fonction exponentielle
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - derivatives
+- id: logarithm
+  label: Logarithme népérien
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - exponential-function
+- id: trigonometric-functions
+  label: Fonctions trigonométriques
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - trigonometry
+  - functions
+- id: limits
+  label: Limites
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - function-variation
+- id: continuity
+  label: Continuité
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - limits
+- id: integrals
+  label: Intégration
+  kind: concept
+  parent: analysis
+  prerequisites:
+  - derivatives
+- id: differential-equation
+  label: Équations différentielles
+  kind: procedure
+  parent: analysis
+  prerequisites:
+  - derivatives
+  - exponential-function
+- id: data
+  label: Données et statistiques
+  kind: domain
+- id: statistics
+  label: Statistiques descriptives
+  kind: concept
+  parent: data
+- id: mean
+  label: Moyenne
+  kind: procedure
+  parent: statistics
+  prerequisites:
+  - statistics
+- id: median-dispersion
+  label: Médiane et dispersion
+  kind: concept
+  parent: statistics
+  prerequisites:
+  - statistics
+- id: sampling
+  label: Échantillonnage
+  kind: concept
+  parent: data
+  prerequisites:
+  - statistics
+- id: probability
+  label: Probabilités
+  kind: domain
+- id: probability-model
+  label: Modèle probabiliste
+  kind: concept
+  parent: probability
+- id: conditional-probability
+  label: Probabilité conditionnelle
+  kind: concept
+  parent: probability
+  prerequisites:
+  - probability-model
+- id: independence
+  label: Indépendance
+  kind: concept
+  parent: probability
+  prerequisites:
+  - conditional-probability
+- id: random-variable
+  label: Variable aléatoire
+  kind: concept
+  parent: probability
+  prerequisites:
+  - probability-model
+- id: binomial-model
+  label: Loi binomiale
+  kind: concept
+  parent: probability
+  prerequisites:
+  - independence
+  - combinatorics
+- id: combinatorics
+  label: Dénombrement
+  kind: concept
+  parent: probability
+- id: logic
+  label: Logique et raisonnement
+  kind: domain
+- id: sets-logic
+  label: Ensembles et logique
+  kind: concept
+  parent: logic
+- id: algorithmics
+  label: Algorithmique et programmation
+  kind: domain
+- id: algorithmic-variable
+  label: Variables algorithmiques
+  kind: procedure
+  parent: algorithmics
+- id: algorithmic-condition
+  label: Instructions conditionnelles
+  kind: procedure
+  parent: algorithmics
+  prerequisites:
+  - algorithmic-variable
+- id: algorithmic-loop
+  label: Boucles
+  kind: procedure
+  parent: algorithmics
+  prerequisites:
+  - algorithmic-variable
+- id: algorithmic-function
+  label: Fonctions algorithmiques
+  kind: procedure
+  parent: algorithmics
+  prerequisites:
+  - algorithmic-condition
+  - algorithmic-loop
+- id: automatismes
+  label: Automatismes
+  kind: competency
+- id: complex-numbers
+  label: Nombres complexes
+  kind: concept
+  parent: numbers
+  prerequisites:
+  - square-root
+- id: fraction-addition
+  label: Addition de fractions
+  kind: procedure
+  parent: fractions
+  prerequisites:
+  - fractions

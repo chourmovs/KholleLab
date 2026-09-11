@@ -4,7 +4,7 @@ statement: 'Réduire $3x+5+2x-1$.'
 curriculum:
   level: quatrieme
   difficulty: 1
-  expectations: [c4-2020-4e-algebra]
+  expectations: [c4-2020-4e-expand]
 topics: [algebra]
 prerequisites: []
 skills: [calculation]

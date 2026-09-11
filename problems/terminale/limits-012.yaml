@@ -4,7 +4,7 @@ statement: Calculer $\lim_{x\to0}(e^x-1)/x$.
 curriculum:
   level: terminale
   difficulty: 2
-  expectations: [lycee-2019-tle-analysis]
+  expectations: [lycee-2019-tle-function-limit]
 topics:
 - limits
 prerequisites:
