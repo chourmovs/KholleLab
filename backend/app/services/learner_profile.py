@@ -74,6 +74,7 @@ class LearnerProfileBuilder:
         attempt_ids=[a.id for a in attempts]
         evaluations=list(self.db.scalars(select(Evaluation).where(Evaluation.attempt_id.in_(attempt_ids),Evaluation.status==EvaluationStatus.COMPLETED))) if attempt_ids else []
         tutors=list(self.db.scalars(select(TutorAssessmentRecord).where(TutorAssessmentRecord.attempt_id.in_(attempt_ids)))) if attempt_ids else []
+        problems=self.repository.get_many((s.problem_id for s in sessions),self.db)
         attempts_total=self.db.scalar(select(func.count(Attempt.id)).join(LearningSession,Attempt.session_id==LearningSession.id).where(LearningSession.learner_id==owner)) or 0
         evaluations_total=self.db.scalar(select(func.count(Evaluation.id)).join(Attempt,Evaluation.attempt_id==Attempt.id).join(LearningSession,Attempt.session_id==LearningSession.id).where(LearningSession.learner_id==owner,Evaluation.status==EvaluationStatus.COMPLETED)) or 0
         by_session=defaultdict(list); eval_by_attempt={e.attempt_id:e for e in evaluations}; support_by_attempt=defaultdict(list)
@@ -84,7 +85,7 @@ class LearnerProfileBuilder:
             if t.resource_need in {"course_gap","method_gap"}: support_by_attempt[t.attempt_id].append(t.resource_need)
         evidence=[]
         for s in sessions:
-            problem=self.repository.get(s.problem_id)
+            problem=problems.get(s.problem_id)
             if not problem: continue
             session_attempts=by_session[s.id]; evaluation=next((eval_by_attempt[a.id] for a in reversed(session_attempts) if a.id in eval_by_attempt),None)
             support=tuple(sorted(set(x for a in session_attempts for x in support_by_attempt[a.id])))
