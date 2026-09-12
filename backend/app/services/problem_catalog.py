@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from app.domain.problem import Problem
 from app.models.generated_problem import GeneratedProblem, GeneratedProblemStatus
@@ -42,6 +42,25 @@ class ProblemCatalog:
 
     resolve = get
 
+    def get_many(self, problem_ids, db=None) -> dict[str, Problem]:
+        """Resolve static and generated IDs, including retired rows, with one DB query."""
+        identifiers = tuple(dict.fromkeys(problem_ids))
+        resolved = {identifier: problem for identifier in identifiers
+                    if (problem := self.static.get(identifier)) is not None}
+        generated_ids = [identifier for identifier in identifiers
+                         if identifier not in resolved and identifier.startswith("llm-")]
+        if not generated_ids:
+            return resolved
+        owns = db is None
+        db = db or self.session_factory()
+        try:
+            rows = db.scalars(select(GeneratedProblem).where(GeneratedProblem.id.in_(generated_ids)))
+            resolved.update({row.id: Problem.model_validate(row.payload_json) for row in rows})
+            return resolved
+        finally:
+            if owns:
+                db.close()
+
     @property
     def count(self) -> int:
         return self.static.count
@@ -75,17 +94,24 @@ class ProblemCatalog:
             if owns:
                 db.close()
 
+    def generated_for_comparison(self, db, limit: int = 500) -> list[GeneratedProblem]:
+        """Return a bounded cross-bucket sample for conservative textual comparison."""
+        return list(db.scalars(select(GeneratedProblem).where(
+            GeneratedProblem.status == GeneratedProblemStatus.ACCEPTED,
+        ).order_by(GeneratedProblem.created_at.desc(), GeneratedProblem.id).limit(limit)))
+
     def mark_served(self, problem_id: str, db=None) -> None:
         owns = db is None
         db = db or self.session_factory()
         try:
-            row = db.get(GeneratedProblem, problem_id)
-            if row:
-                row.usage_count += 1
-                row.last_served_at = datetime.now(timezone.utc)
-                row.updated_at = row.last_served_at
-                if owns:
-                    db.commit()
+            now = datetime.now(timezone.utc)
+            db.execute(update(GeneratedProblem).where(GeneratedProblem.id == problem_id).values(
+                usage_count=GeneratedProblem.usage_count + 1,
+                last_served_at=now,
+                updated_at=now,
+            ))
+            if owns:
+                db.commit()
         finally:
             if owns:
                 db.close()

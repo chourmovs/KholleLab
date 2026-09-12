@@ -38,9 +38,9 @@ class AdaptiveContext:
 
 
 class AdaptiveContextBuilder:
-    """Loads a bounded window with three queries, never one query per problem."""
+    """Loads bounded evidence and resolves its catalogue metadata in one batch."""
 
-    def build(self, db: Session, owner: uuid.UUID, problems: list[Problem]) -> AdaptiveContext:
+    def build(self, db: Session, owner: uuid.UUID, catalog) -> AdaptiveContext:
         sessions = list(db.scalars(
             select(LearningSession).where(
                 LearningSession.learner_id == owner,
@@ -64,7 +64,7 @@ class AdaptiveContextBuilder:
         latest_tutor = {}
         for session_id, intervention, need, _created in tutor_rows:
             latest_tutor.setdefault(session_id, (intervention, need))
-        catalogue = {problem.id: problem for problem in problems}
+        catalogue = catalog.get_many((item.problem_id for item in sessions), db)
         recent = tuple(RecentLearning(
             problem_id=item.problem_id, status=item.status, attempt_count=counts.get(item.id, 0),
             intervention_needed=latest_tutor.get(item.id, (False, None))[0],

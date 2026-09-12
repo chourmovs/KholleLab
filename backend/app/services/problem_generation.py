@@ -7,7 +7,7 @@ import unicodedata
 from difflib import SequenceMatcher
 from pathlib import Path
 
-from sqlalchemy import select
+from sqlalchemy import func, select, text
 from sqlalchemy.exc import IntegrityError
 
 from app.core.config import settings
@@ -15,7 +15,7 @@ from app.core.logging import component_logger
 from app.domain.problem import CurriculumInfo, Hint, Problem, ProblemGeneration, Skill, SourceInfo, Topic
 from app.models.generated_problem import GeneratedProblem, GeneratedProblemStatus
 from app.models.learning_session import LearningSession
-from app.providers.llm import ModelRole
+from app.providers.llm import ModelRole, resolve_model
 from app.schemas.problem_generation import GeneratedProblemDraft, ProblemGenerationCriticResult
 
 GENERATOR_VERSION = "problem-generator-v1"
@@ -36,6 +36,10 @@ def content_hash(programme: str, level: str, expectation: str, difficulty: int,
         "difficulty": difficulty, "statement": normalize_statement(statement),
         "solution": normalize_statement(solution)}, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(canonical.encode()).hexdigest()
+
+
+def statement_hash(statement: str) -> str:
+    return hashlib.sha256(normalize_statement(statement).encode()).hexdigest()
 
 
 def topic_for_domain(domain: str) -> Topic:
@@ -70,30 +74,65 @@ class ProblemGenerationService:
         bucket = (programme.id, level, expectation.id, difficulty)
         rows = self.catalog.find_generated(programme_id=programme.id, level=level,
             expectation_id=expectation.id, difficulty=difficulty, domain=domain, db=db)
-        seen = set(db.scalars(select(LearningSession.problem_id).where(LearningSession.learner_id == learner_id)))
+        seen = self._seen(db, learner_id)
         unseen = [row for row in rows if row.id not in seen]
         if unseen:
             self.log.info("generated_pool_hit expectation={} difficulty={} pool_size={} reused=true",
                           expectation.id, difficulty, len(rows))
             return self._serve(unseen[0], db), True
-        # Between minimum and target, reuse rather than synchronously refill.
-        if rows and len(rows) >= self.config.llm_problem_pool_min_available:
+        if len(rows) >= self.config.llm_problem_pool_target:
+            recycled = self._least_recently_seen(rows, db, learner_id)
             self.log.info("generated_pool_hit expectation={} difficulty={} pool_size={} reused=true",
                           expectation.id, difficulty, len(rows))
-            return self._serve(rows[0], db), True
+            return self._serve(recycled, db), True
         self.log.info("generated_pool_miss expectation={} difficulty={} pool_size={} reused=false",
                       expectation.id, difficulty, len(rows))
         if not self.config.llm_problem_generation_enabled:
             raise GenerationUnavailable("problem generation is disabled")
         lock = _locks.setdefault(bucket, asyncio.Lock())
         async with lock:
-            # A concurrent request may have populated the global pool while waiting.
-            refreshed = self.catalog.find_generated(programme_id=programme.id, level=level,
-                expectation_id=expectation.id, difficulty=difficulty, domain=domain, db=db)
-            concurrent = [row for row in refreshed if row.id not in seen]
-            if concurrent:
-                return self._serve(concurrent[0], db), True
-            return await self._generate(db, programme.id, expectation, difficulty), False
+            try:
+                self._acquire_distributed_lock(db, bucket)
+                # Re-read every decision input after waiting for another process.
+                refreshed = self.catalog.find_generated(programme_id=programme.id, level=level,
+                    expectation_id=expectation.id, difficulty=difficulty, domain=domain, db=db)
+                current_seen = self._seen(db, learner_id)
+                concurrent = [row for row in refreshed if row.id not in current_seen]
+                if concurrent:
+                    return self._serve(concurrent[0], db), True
+                if len(refreshed) >= self.config.llm_problem_pool_target:
+                    return self._serve(self._least_recently_seen(refreshed, db, learner_id), db), True
+                return await self._generate(db, programme.id, expectation, difficulty), False
+            except Exception:
+                db.rollback()  # also releases a PostgreSQL transaction advisory lock
+                raise
+
+    @staticmethod
+    def _seen(db, learner_id) -> set[str]:
+        return set(db.scalars(select(LearningSession.problem_id).where(
+            LearningSession.learner_id == learner_id)))
+
+    @staticmethod
+    def _least_recently_seen(rows, db, learner_id):
+        last_seen = dict(db.execute(select(
+            LearningSession.problem_id, func.max(LearningSession.updated_at),
+        ).where(
+            LearningSession.learner_id == learner_id,
+            LearningSession.problem_id.in_([row.id for row in rows]),
+        ).group_by(LearningSession.problem_id)).all())
+        # Exhausted pools have a timestamp for every row. The remaining fields
+        # make ties deterministic and avoid global popularity driving recycling.
+        return min(rows, key=lambda row: (
+            last_seen.get(row.id), row.usage_count, row.created_at, row.id,
+        ))
+
+    @staticmethod
+    def _acquire_distributed_lock(db, bucket) -> None:
+        if db.get_bind().dialect.name != "postgresql":
+            return
+        digest = hashlib.sha256("\x1f".join(map(str, bucket)).encode()).digest()
+        lock_key = int.from_bytes(digest[:8], "big", signed=True)
+        db.execute(text("SELECT pg_advisory_xact_lock(:lock_key)"), {"lock_key": lock_key})
 
     def _serve(self, row, db):
         self.catalog.mark_served(row.id, db)
@@ -119,7 +158,8 @@ class ProblemGenerationService:
         started = time.perf_counter()
         rows = self.catalog.find_generated(programme_id=programme_id, level=expectation.level.value,
             expectation_id=expectation.id, difficulty=difficulty, db=db)
-        examples = self.catalog.list_static() + [Problem.model_validate(row.payload_json) for row in rows]
+        comparison_rows = self.catalog.generated_for_comparison(db)
+        examples = self.catalog.list_static() + [Problem.model_validate(row.payload_json) for row in comparison_rows]
         same = [p for p in examples if expectation.id in p.curriculum.expectations]
         limited = same[:self.config.llm_problem_diversity_context_limit]
         diversity = [{"title": p.title, "statement": p.statement,
@@ -134,12 +174,14 @@ class ProblemGenerationService:
             draft = await self.provider.structured_response(instructions=self.generator_prompt,
                 input_text=json.dumps(context, ensure_ascii=False), response_model=GeneratedProblemDraft,
                 role=ModelRole.DEEP, family=self.config.llm_problem_generator_family)
-            canonical_row = next((row for row in rows if normalize_statement(
-                Problem.model_validate(row.payload_json).statement) == normalize_statement(draft.statement)), None)
-            if canonical_row:
-                return self._serve(canonical_row, db)
-            issues = self._issues(draft, [p.statement for p in self.catalog.list_static()] +
-                                  [Problem.model_validate(row.payload_json).statement for row in rows])
+            draft_statement_hash = statement_hash(draft.statement)
+            duplicate = db.scalar(select(GeneratedProblem).where(
+                GeneratedProblem.statement_hash == draft_statement_hash,
+                GeneratedProblem.status == GeneratedProblemStatus.ACCEPTED,
+            ))
+            issues = self._issues(draft, [p.statement for p in examples])
+            if duplicate and "exact_duplicate" not in issues:
+                issues = (*issues, "exact_duplicate")
             if issues:
                 self.log.info("generation_rejected expectation={} difficulty={} issue_codes={} attempt={}", expectation.id, difficulty, issues, attempt)
                 continue
@@ -159,25 +201,33 @@ class ProblemGenerationService:
             problem = Problem(id=identifier, title=draft.title, statement=draft.statement,
                 reference_solution=draft.reference_solution,
                 curriculum=CurriculumInfo(level=expectation.level, difficulty=difficulty, expectations=(expectation.id,)),
-                topics=(topic_for_domain(expectation.domain),), prerequisites=expectation.knowledge_ids,
+                topics=(topic_for_domain(expectation.domain),),
+                prerequisites=tuple(sorted({item for node in nodes for item in node.prerequisites})),
                 skills=(Skill.REASONING,), estimated_minutes=draft.estimated_minutes,
                 hints=tuple(Hint(level=i + 1, text=text) for i, text in enumerate(draft.hints)),
                 source=SourceInfo(type="llm", name="Exercice KHOLLELAB"),
                 generation=ProblemGeneration(kind="llm", family_id=draft.archetype, version=1,
                     parameter_identity=digest, prompt_version=GENERATOR_VERSION, validation_version=VALIDATION_VERSION))
-            row = GeneratedProblem(id=identifier, content_hash=digest, status=GeneratedProblemStatus.ACCEPTED,
+            row = GeneratedProblem(id=identifier, content_hash=digest, statement_hash=draft_statement_hash,
+                status=GeneratedProblemStatus.ACCEPTED,
                 payload_json=problem.model_dump(mode="json"), level=expectation.level.value, programme_id=programme_id,
                 expectation_id=expectation.id, domain=expectation.domain, difficulty=difficulty,
-                generator_family=self.config.llm_problem_generator_family.value, generator_model=getattr(self.provider, "model", "unknown"),
+                generator_family=self.config.llm_problem_generator_family.value,
+                generator_model=resolve_model(self.config.llm_problem_generator_family.value, ModelRole.DEEP),
                 generator_prompt_version=GENERATOR_VERSION, critic_family=self.config.llm_problem_critic_family.value,
-                critic_model=getattr(self.provider, "model", "unknown"), critic_prompt_version=CRITIC_VERSION,
+                critic_model=resolve_model(self.config.llm_problem_critic_family.value, ModelRole.DEEP),
+                critic_prompt_version=CRITIC_VERSION,
                 validation_version=VALIDATION_VERSION, validation_json=critic.model_dump())
             try:
                 db.add(row); db.commit()
             except IntegrityError:
                 db.rollback()
                 row = db.scalar(select(GeneratedProblem).where(GeneratedProblem.content_hash == digest))
-                if row is None: raise
+                if row is None:
+                    # A different bucket won the global statement fingerprint.
+                    # It is not curriculum-compatible canonical reuse, so retry.
+                    examples.append(problem)
+                    continue
             self.log.info("generation_accepted expectation={} difficulty={} latency_ms={} issue_codes=[]",
                           expectation.id, difficulty, round((time.perf_counter() - started) * 1000, 1))
             return self._serve(row, db)

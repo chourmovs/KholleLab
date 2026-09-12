@@ -83,7 +83,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
     candidate_count = 0
     if mode == SelectionMode.ADAPTIVE:
         try:
-            context = AdaptiveContextBuilder().build(db, learner_id(request), problems)
+            context = AdaptiveContextBuilder().build(db, learner_id(request), request.app.state.problem_catalog)
             candidates = selector.compatible_candidates(level=level, topics=topic, domain=domain,
                                                          expectation=expectation)
             candidate_count = len(candidates)

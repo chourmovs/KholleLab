@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime
 
-from sqlalchemy import JSON, DateTime, Enum, Index, Integer, String, UniqueConstraint
+from sqlalchemy import JSON, DateTime, Enum, Index, Integer, String, UniqueConstraint, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -20,10 +20,13 @@ class GeneratedProblem(Base):
     __table_args__ = (
         UniqueConstraint("content_hash", name="uq_generated_problems_content_hash"),
         Index("ix_generated_problems_bucket", "programme_id", "level", "expectation_id", "difficulty", "status"),
+        Index("uq_generated_problems_accepted_statement_hash", "statement_hash", unique=True,
+              postgresql_where=text("status = 'accepted'"), sqlite_where=text("status = 'accepted'")),
     )
 
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     content_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    statement_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     status: Mapped[GeneratedProblemStatus] = mapped_column(
         Enum(GeneratedProblemStatus, name="generated_problem_status", values_callable=lambda e: [x.value for x in e]),
         nullable=False, default=GeneratedProblemStatus.ACCEPTED,
