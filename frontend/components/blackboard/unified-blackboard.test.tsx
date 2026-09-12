@@ -14,6 +14,7 @@ vi.mock("mathlive",()=>{
  Object.assign(window,{mathVirtualKeyboard:keyboard});
  if(!customElements.get("math-field"))customElements.define("math-field",class extends HTMLElement{
   value="";position=0;lastOffset=20;readOnly=false;defaultMode="text";smartMode=true;smartFence=true;letterShapeStyle="french";mathVirtualKeyboardPolicy="manual";placeholder="";
+  hasFocus=vi.fn(()=>false);
   constructor(){super();const shadow=this.attachShadow({mode:"open"});const sink=document.createElement("span");sink.setAttribute("part","keyboard-sink");shadow.append(sink)}
   setValue=vi.fn((value:string)=>{this.value=value});
   executeCommand=vi.fn((command:string)=>{if(command==="addRowAfter"){this.value=this.value.replace(/}$/,"\\\\ }");this.dispatchEvent(new Event("input"))}return true});
@@ -38,6 +39,11 @@ it("shows and hides the scientific keyboard on the same focused editor without m
  const field=container.querySelector("math-field") as HTMLElement&{position:number};field.position=7;const focus=vi.spyOn(field,"focus");
  act(()=>ref.current?.toggleKeyboard());expect(keyboard.show).toHaveBeenCalledOnce();expect(focus).toHaveBeenCalledOnce();expect(field.position).toBe(7);expect(onChange).not.toHaveBeenCalled();expect(field.shadowRoot?.querySelector("[part=keyboard-sink]")).toHaveAttribute("inputmode","none");
  act(()=>ref.current?.toggleKeyboard());expect(keyboard.hide).toHaveBeenCalledOnce();expect(focus).toHaveBeenCalledOnce();expect(field.position).toBe(7);expect(onChange).not.toHaveBeenCalled();expect(field.shadowRoot?.querySelector("[part=keyboard-sink]")).toHaveAttribute("inputmode","text");
+});
+
+it("focuses an editable field once after a touch places the caret",async()=>{
+ const {container}=render(<UnifiedBlackboard solution="abc" onChange={vi.fn()}/>);await waitFor(()=>expect(container.querySelector("math-field")).toBeTruthy());
+ const field=container.querySelector("math-field") as HTMLElement&{position:number;hasFocus:ReturnType<typeof vi.fn>};field.position=4;const focus=vi.spyOn(field,"focus");field.dispatchEvent(new PointerEvent("pointerup"));expect(focus).toHaveBeenCalledOnce();expect(field.position).toBe(4);field.hasFocus.mockReturnValue(true);field.dispatchEvent(new PointerEvent("pointerup"));expect(focus).toHaveBeenCalledOnce();expect(field.position).toBe(4);
 });
 
 it("propagates normal French/mathematical input through the unified solution",async()=>{

@@ -27,9 +27,13 @@ export const UnifiedBlackboard=forwardRef<UnifiedBlackboardHandle,{solution:stri
    mf.addEventListener("compositionstart",()=>{composing.current=true;compositionChanged.current=false});
    mf.addEventListener("compositionend",()=>{composing.current=false;if(compositionChanged.current)publish();compositionChanged.current=false});
    mf.addEventListener("input",()=>{if(composing.current){compositionChanged.current=true;return}publish()});node.replaceChildren(mf);field.current=mf;setNativeInput(mf,!readOnly);
+   // MathLive 0.110 does not consistently focus its keyboard sink after a
+   // touch tap on empty content. Focus once after pointer placement; subsequent
+   // taps are left entirely to MathLive so they can reposition the caret.
+   const focusFromTouch=()=>{if(!locked.current&&!mf.hasFocus())mf.focus()};mf.addEventListener("pointerup",focusFromTouch);
    const enter=(event:KeyboardEvent)=>{if(event.key!=="Enter"||event.ctrlKey||event.metaKey||event.altKey||event.defaultPrevented||locked.current)return;event.preventDefault();insertLineBreak()};mf.addEventListener("keydown",enter);
    const shadow=mf.shadowRoot;const imeEnter=(event:Event)=>{const input=event as InputEvent;if((input.inputType!=="insertParagraph"&&input.inputType!=="insertLineBreak")||locked.current)return;event.preventDefault();insertLineBreak()};shadow?.addEventListener("beforeinput",imeEnter,{capture:true});
-   const toggle=()=>{const visible=window.mathVirtualKeyboard.visible;setKeyboardOpen(visible);setNativeInput(mf,!visible&&!locked.current)};window.mathVirtualKeyboard.addEventListener("virtual-keyboard-toggle",toggle);(mf as MathfieldElement&{__cleanup?:()=>void}).__cleanup=()=>{window.mathVirtualKeyboard.removeEventListener("virtual-keyboard-toggle",toggle);shadow?.removeEventListener("beforeinput",imeEnter,{capture:true})};
+   const toggle=()=>{const visible=window.mathVirtualKeyboard.visible;setKeyboardOpen(visible);setNativeInput(mf,!visible&&!locked.current)};window.mathVirtualKeyboard.addEventListener("virtual-keyboard-toggle",toggle);(mf as MathfieldElement&{__cleanup?:()=>void}).__cleanup=()=>{window.mathVirtualKeyboard.removeEventListener("virtual-keyboard-toggle",toggle);shadow?.removeEventListener("beforeinput",imeEnter,{capture:true});mf.removeEventListener("pointerup",focusFromTouch)};
  }).catch(()=>!disposed&&setFailed(true));return()=>{disposed=true;(field.current as (MathfieldElement&{__cleanup?:()=>void})|null)?.__cleanup?.();field.current=null;node?.replaceChildren()};// created once: external synchronization is handled separately
  // eslint-disable-next-line react-hooks/exhaustive-deps
  },[]);
