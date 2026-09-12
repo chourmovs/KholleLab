@@ -34,3 +34,11 @@ export const getSessions=()=>sessionRequest<LearningSessionSummary[]>("/sessions
 export const getSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}`);
 export const abandonSession=(id:string)=>sessionRequest<LearningSessionDetail>(`/sessions/${id}/abandon`,{method:"POST",body:JSON.stringify({})});
 export const getLearnerProfile=()=>request<LearnerProfile>("/profile");
+export type Account={authenticated:boolean;email?:string|null;display_name?:string|null;created_at?:string|null;anonymous_sessions_available:number};
+export const getCurrentAccount=()=>request<Account>("/auth/me");
+export const registerAccount=(value:{email:string;password:string;display_name?:string;claim_anonymous_history:boolean})=>request<Account>("/auth/register",{method:"POST",headers:json,body:JSON.stringify(value)});
+export const loginAccount=(email:string,password:string)=>request<Account>("/auth/login",{method:"POST",headers:json,body:JSON.stringify({email,password})});
+export const logoutAccount=()=>request<void>("/auth/logout",{method:"POST"});
+export const logoutAllAccounts=()=>request<void>("/auth/logout-all",{method:"POST"});
+export const claimAnonymousHistory=()=>request<{claimed_sessions:number}>("/auth/claim-anonymous",{method:"POST"});
+export const changePassword=(current_password:string,new_password:string)=>request<void>("/auth/change-password",{method:"POST",headers:json,body:JSON.stringify({current_password,new_password})});

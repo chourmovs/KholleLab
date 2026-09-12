@@ -7,3 +7,5 @@
 @import "../styles/evaluation.css";
 @import "../styles/profile.css";
 @import "../styles/history.css";
+
+.generated-hint{margin:.4rem auto;color:#8b4513;font-weight:700;text-align:center}.modal-backdrop{position:fixed;inset:0;background:#0008;z-index:100;display:grid;place-items:center}.account-dialog{position:relative;background:white;color:#172033;padding:1.5rem;border-radius:14px;width:min(92vw,430px);box-shadow:0 20px 60px #0006}.account-dialog form,.account-dialog label{display:grid;gap:.4rem}.account-dialog form{gap:.8rem;margin-top:1rem}.account-dialog input{border:1px solid #aaa;border-radius:6px;padding:.65rem}.dialog-close{position:absolute;right:.6rem;top:.4rem;font-size:1.5rem}.auth-tabs{display:flex;gap:.5rem}.auth-tabs .active{font-weight:800;border-bottom:3px solid #4a67b0}.claim-check{display:flex!important;grid-template-columns:auto 1fr;align-items:start}.claim-offer{background:#eef4ff;padding:.7rem;border-radius:8px}.account-logout{position:fixed;right:1rem;top:5rem;z-index:10}.danger{margin-top:1rem;color:#8b1c1c}
