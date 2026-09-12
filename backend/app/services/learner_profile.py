@@ -82,6 +82,11 @@ def mastery_state(items: list[ProfileEvidence]) -> MasteryState:
     return MasteryState.EMERGING
 
 
+def prerequisite_is_established(items: list[ProfileEvidence]) -> bool:
+    """A prerequisite is satisfied only by established assessed mastery evidence."""
+    return mastery_state(items) == MasteryState.ESTABLISHED
+
+
 class LearnerProfileBuilder:
     """Read-only synthesis with seven bounded queries, independent of graph size."""
     def __init__(self, db: Session, repository):
@@ -131,31 +136,50 @@ class LearnerProfileBuilder:
         knowledge = self._aggregate_knowledge(evidence)
         topics = self._aggregate_legacy(evidence, "topics")
         skills = self._aggregate_legacy(evidence, "skills")
-        by_id = {item.identifier:item for item in knowledge}
-        candidates = []
-        for item in knowledge:
-            reasons = []
-            recent = [x for x in evidence if item.identifier in x.knowledge_ids][:PROFILE_RECENT_EVIDENCE_PER_ITEM]
-            if sum(x.outcome == EvidenceKind.NEGATIVE for x in recent[:3]) >= 2: reasons.append("repeated_negative")
-            if any(x.outcome == EvidenceKind.PARTIAL for x in recent): reasons.append("partial_results")
-            for signal in ("course_gap", "method_gap"):
-                if signal in item.support_signals: reasons.append(signal)
-            if item.incomplete_sessions: reasons.append("incomplete_work")
-            node = self.curriculum.knowledge_nodes[item.identifier]
-            gaps = [p for p in node.prerequisites if p in by_id and by_id[p].state != MasteryState.ESTABLISHED]
-            if gaps: reasons.append("prerequisite_gap")
-            if item.state in {MasteryState.EMERGING, MasteryState.PRACTICING} and not reasons: reasons.append("inconsistent_results")
-            if reasons: candidates.append((item, reasons, gaps[:2]))
-        candidates.sort(key=lambda x:(-len(x[1]), -x[0].last_practiced_at.timestamp(), x[0].identifier))
-        consolidation = [{"kind":"knowledge", "identifier":item.identifier, "label":item.label,
-                          "state":item.state, "reasons":reasons,
-                          "prerequisites":[{"identifier":p,"label":self.curriculum.knowledge_nodes[p].label} for p in gaps]}
-                         for item,reasons,gaps in candidates[:3]]
+        consolidation = self._consolidation(evidence, knowledge)
         activity = {"sessions_total":row[0] or 0,"sessions_completed":row[1] or 0,"sessions_abandoned":row[2] or 0,"attempts_total":attempts_total,"evaluations_completed":evaluations_total,"sessions_last_7_days":row[3] or 0,"sessions_last_30_days":row[4] or 0,"completed_last_30_days":row[5] or 0}
         return {"activity":activity,"topics":topics,"skills":skills,"knowledge":knowledge,
                 "strengths":[x for x in knowledge if x.state == MasteryState.ESTABLISHED][:3],
                 "needs_consolidation":consolidation,"generated_at":now,
                 "evidence_window":{"sessions_considered":len(sessions),"max_sessions":PROFILE_EVIDENCE_SESSION_LIMIT}}
+
+    def _consolidation(self, evidence, knowledge):
+        by_id = {item.identifier:item for item in knowledge}
+        candidates = []
+        for item in knowledge:
+            reasons = []
+            observations = [x for x in evidence if item.identifier in x.knowledge_ids]
+            recent_activity = observations[:PROFILE_RECENT_EVIDENCE_PER_ITEM]
+            recent_assessed = [x for x in observations if x.outcome in {
+                EvidenceKind.POSITIVE, EvidenceKind.PARTIAL, EvidenceKind.NEGATIVE
+            }][:PROFILE_RECENT_EVIDENCE_PER_ITEM]
+            if sum(x.outcome == EvidenceKind.NEGATIVE for x in recent_assessed[:3]) >= 2: reasons.append("repeated_negative")
+            if any(x.outcome == EvidenceKind.PARTIAL for x in recent_assessed): reasons.append("partial_results")
+            for signal in ("course_gap", "method_gap"):
+                if signal in item.support_signals: reasons.append(signal)
+            node = self.curriculum.knowledge_nodes[item.identifier]
+            gaps = [p for p in node.prerequisites if not prerequisite_is_established(
+                [x for x in evidence if p in x.knowledge_ids]
+            )]
+            if gaps: reasons.append("prerequisite_gap")
+            if item.state in {MasteryState.EMERGING, MasteryState.PRACTICING} and not reasons: reasons.append("inconsistent_results")
+            # Incomplete work is context, never an independent mathematical weakness.
+            if reasons and any(x.outcome == EvidenceKind.INCOMPLETE for x in recent_activity):
+                reasons.append("incomplete_work")
+            if reasons: candidates.append((item, reasons, gaps[:2]))
+        priority = {reason:index for index,reason in enumerate((
+            "repeated_negative", "prerequisite_gap", "partial_results", "course_gap",
+            "method_gap", "inconsistent_results", "incomplete_work"
+        ))}
+        candidates.sort(key=lambda x:(min(priority[reason] for reason in x[1]),
+                                      -x[0].last_practiced_at.timestamp(), x[0].identifier))
+        consolidation = [{"kind":"knowledge", "identifier":item.identifier, "label":item.label,
+                          "state":item.state, "reasons":reasons,
+                          "prerequisites":[{"identifier":p,"label":self.curriculum.knowledge_nodes[p].label,
+                                            "status":"not_practiced" if p not in by_id else "not_established"}
+                                           for p in gaps]}
+                         for item,reasons,gaps in candidates[:3]]
+        return consolidation
 
     def _aggregate_knowledge(self, evidence):
         grouped = defaultdict(list)
@@ -175,21 +199,23 @@ class LearnerProfileBuilder:
 
     def _summary(self, items, identifier, label, node=None):
         items.sort(key=lambda x:x.timestamp, reverse=True)
-        recent = items[:PROFILE_RECENT_EVIDENCE_PER_ITEM]
-        assessed = [x for x in recent if x.outcome in {EvidenceKind.POSITIVE,EvidenceKind.PARTIAL,EvidenceKind.NEGATIVE}]
+        recent_activity = items[:PROFILE_RECENT_EVIDENCE_PER_ITEM]
+        recent_assessed = [x for x in items if x.outcome in {
+            EvidenceKind.POSITIVE,EvidenceKind.PARTIAL,EvidenceKind.NEGATIVE
+        }][:PROFILE_RECENT_EVIDENCE_PER_ITEM]
         difficulties = [x.difficulty for x in items]
         positive_difficulties = [x.difficulty for x in items if x.outcome == EvidenceKind.POSITIVE]
         common = dict(identifier=identifier,label=label,state=mastery_state(items),evidence_count=len(items),
             difficulty_min=min(difficulties),difficulty_max=max(difficulties),highest_positive_difficulty=max(positive_difficulties) if positive_difficulties else None,
-            last_practiced_at=items[0].timestamp,support_signals=sorted(Counter(s for x in recent for s in x.support)))
+            last_practiced_at=items[0].timestamp,support_signals=sorted(Counter(s for x in recent_activity for s in x.support)))
         if node:
             parent = self.curriculum.knowledge_nodes.get(node.parent) if node.parent else None
             return KnowledgeMasterySummary(**common,kind=node.kind,parent=node.parent,parent_label=parent.label if parent else None,
-                assessed_evidence_count=len(assessed),positive_count=sum(x.outcome==EvidenceKind.POSITIVE for x in recent),
-                partial_count=sum(x.outcome==EvidenceKind.PARTIAL for x in recent),negative_count=sum(x.outcome==EvidenceKind.NEGATIVE for x in recent),
-                incomplete_sessions=sum(x.outcome==EvidenceKind.INCOMPLETE for x in recent),unassessed_sessions=sum(x.outcome==EvidenceKind.UNASSESSED for x in recent))
+                assessed_evidence_count=len(recent_assessed),positive_count=sum(x.outcome==EvidenceKind.POSITIVE for x in recent_assessed),
+                partial_count=sum(x.outcome==EvidenceKind.PARTIAL for x in recent_assessed),negative_count=sum(x.outcome==EvidenceKind.NEGATIVE for x in recent_assessed),
+                incomplete_sessions=sum(x.outcome==EvidenceKind.INCOMPLETE for x in recent_activity),unassessed_sessions=sum(x.outcome==EvidenceKind.UNASSESSED for x in recent_activity))
         return MasteryEvidenceSummary(**common,completed_sessions=sum(x.status==LearningSessionStatus.COMPLETED for x in items),
-            abandoned_sessions=sum(x.status==LearningSessionStatus.ABANDONED for x in items),recent_sessions=len(recent))
+            abandoned_sessions=sum(x.status==LearningSessionStatus.ABANDONED for x in items),recent_sessions=len(recent_activity))
 
     @staticmethod
     def _sort(result):

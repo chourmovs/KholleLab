@@ -44,13 +44,13 @@ class KnowledgeMasterySummary(BaseModel):
     parent: str | None
     parent_label: str | None = None
     state: MasteryState
-    evidence_count: int
-    assessed_evidence_count: int
-    positive_count: int
-    partial_count: int
-    negative_count: int
-    incomplete_sessions: int
-    unassessed_sessions: int
+    evidence_count: int = Field(description="All observations for this node in the bounded profile window.")
+    assessed_evidence_count: int = Field(description="Assessed observations in the current mastery window.")
+    positive_count: int = Field(description="Positive observations in the current assessed mastery window.")
+    partial_count: int = Field(description="Partial observations in the current assessed mastery window.")
+    negative_count: int = Field(description="Negative observations in the current assessed mastery window.")
+    incomplete_sessions: int = Field(description="Incomplete observations in the recent activity window.")
+    unassessed_sessions: int = Field(description="Unassessed observations in the recent activity window.")
     difficulty_min: int
     difficulty_max: int
     highest_positive_difficulty: int | None
