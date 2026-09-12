@@ -8,6 +8,7 @@ from app.api.attempts import session
 from app.db.base import Base
 from app.main import app
 import app.models as models  # noqa: F401
+from app.models.learning_session import LearningSession
 from app.providers.llm import RemoteLLMError
 
 engine=create_engine("sqlite://",connect_args={"check_same_thread":False},poolclass=StaticPool)
@@ -27,6 +28,10 @@ def test_session_lifecycle_restore_history_and_retry():
         first=client.post("/api/sessions",json={"problem_id":problem["id"]})
         assert first.status_code==201
         value=first.json(); session_id=value["session_id"]; attempt=value["attempts"][0]
+        with Testing() as db:
+            snapshot=db.get(LearningSession, uuid.UUID(session_id)).curriculum_snapshot
+            assert snapshot["version"] == 1 and snapshot["expectation_ids"] and snapshot["knowledge_ids"]
+            assert snapshot["difficulty"] == problem["curriculum"]["difficulty"]
         duplicate=client.post("/api/sessions",json={"problem_id":problem["id"]}).json()
         assert duplicate["session_id"]==session_id and duplicate["number_of_attempts"]==1
         saved=client.patch(f"/api/attempts/{attempt['id']}",json={"solution_markdown":"Une preuve durable","elapsed_seconds":42,"expected_revision":0}).json()

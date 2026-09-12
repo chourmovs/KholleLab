@@ -15,6 +15,7 @@ from app.schemas.learning_session import SessionDetail, SessionStart, SessionSum
 from app.schemas.problem import to_public_problem_detail
 from app.schemas.tutor import TutorResourceRecommendation, TutorResponse
 from app.services.learner_identity import learner_id
+from app.services.knowledge_resolver import curriculum_snapshot_for_problem
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
@@ -79,14 +80,16 @@ def serialize_many(values, request, db, detail=False):
 @router.post("", response_model=SessionDetail, status_code=201)
 def start(body: SessionStart, request: Request, db: Session = Depends(db_session)):
     owner = learner_id(request)
-    if not request.app.state.problem_repository.get(body.problem_id):
+    problem = request.app.state.problem_repository.get(body.problem_id)
+    if not problem:
         return JSONResponse(status_code=404, content={"error": "problem_not_found", "message": "Problem does not exist."})
     active_query = select(LearningSession).where(LearningSession.learner_id == owner, LearningSession.active_problem_key == body.problem_id)
     existing = db.scalar(active_query)
     # force_new never supersedes an active session: that would violate uniqueness and lose work.
     if existing:
         return serialize_many([existing], request, db, True)[0]
-    value = LearningSession(problem_id=body.problem_id, learner_id=owner, active_problem_key=body.problem_id)
+    value = LearningSession(problem_id=body.problem_id, learner_id=owner, active_problem_key=body.problem_id,
+        curriculum_snapshot=curriculum_snapshot_for_problem(problem, request.app.state.curriculum_repository))
     db.add(value)
     db.flush()
     attempt = Attempt(problem_id=body.problem_id, session_id=value.id)

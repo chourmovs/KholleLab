@@ -17,6 +17,7 @@ vi.mock("mathlive",()=>{
   hasFocus=vi.fn(()=>false);
   constructor(){super();const shadow=this.attachShadow({mode:"open"});const sink=document.createElement("span");sink.setAttribute("part","keyboard-sink");shadow.append(sink)}
   setValue=vi.fn((value:string)=>{this.value=value});
+  insert=vi.fn((value:string)=>{this.value+=value;this.dispatchEvent(new Event("input"));return true});
   executeCommand=vi.fn((command:string)=>{if(command==="addRowAfter"){this.value=this.value.replace(/}$/,"\\\\ }");this.dispatchEvent(new Event("input"))}return true});
  });
  return {};
@@ -63,6 +64,12 @@ it("creates a row for desktop Enter and Android insertParagraph",async()=>{
  const field=container.querySelector("math-field") as HTMLElement&{executeCommand:ReturnType<typeof vi.fn>};const enter=new KeyboardEvent("keydown",{key:"Enter",cancelable:true});field.dispatchEvent(enter);expect(enter.defaultPrevented).toBe(true);expect(field.executeCommand).toHaveBeenCalledWith("addRowAfter");
  const sink=field.shadowRoot!.querySelector("[part=keyboard-sink]")!;const imeEnter=new InputEvent("beforeinput",{inputType:"insertParagraph",cancelable:true,bubbles:true});sink.dispatchEvent(imeEnter);expect(imeEnter.defaultPrevented).toBe(true);expect(field.executeCommand).toHaveBeenCalledTimes(2);
  field.dispatchEvent(new KeyboardEvent("keydown",{key:"Enter",ctrlKey:true,cancelable:true}));expect(field.executeCommand).toHaveBeenCalledTimes(2);
+});
+
+it("preserves native plus input after the scientific keyboard closes",async()=>{
+ const ref=createRef<UnifiedBlackboardHandle>();const {container}=render(<UnifiedBlackboard ref={ref} solution="x" onChange={vi.fn()}/>);await waitFor(()=>expect(container.querySelector("math-field")).toBeTruthy());
+ const field=container.querySelector("math-field") as HTMLElement&{insert:ReturnType<typeof vi.fn>};act(()=>{ref.current?.toggleKeyboard();ref.current?.toggleKeyboard()});
+ const plus=new KeyboardEvent("keydown",{key:"+",cancelable:true});field.dispatchEvent(plus);expect(plus.defaultPrevented).toBe(true);expect(field.insert).toHaveBeenCalledWith("+",{mode:"math",selectionMode:"after",focus:true});
 });
 
 it("exposes addRowAfter on the scientific return keys",async()=>{

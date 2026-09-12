@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MasteryState(StrEnum):
@@ -37,12 +37,34 @@ class MasteryEvidenceSummary(BaseModel):
     support_signals: list[str]
 
 
+class KnowledgeMasterySummary(BaseModel):
+    identifier: str
+    label: str
+    kind: str
+    parent: str | None
+    parent_label: str | None = None
+    state: MasteryState
+    evidence_count: int
+    assessed_evidence_count: int
+    positive_count: int
+    partial_count: int
+    negative_count: int
+    incomplete_sessions: int
+    unassessed_sessions: int
+    difficulty_min: int
+    difficulty_max: int
+    highest_positive_difficulty: int | None
+    last_practiced_at: datetime
+    support_signals: list[str]
+
+
 class ConsolidationItem(BaseModel):
     kind: str
     identifier: str
     label: str
     state: MasteryState
     reasons: list[str]
+    prerequisites: list[dict[str, str]] = Field(default_factory=list)
 
 
 class EvidenceWindow(BaseModel):
@@ -51,10 +73,12 @@ class EvidenceWindow(BaseModel):
 
 
 class LearnerProfileResponse(BaseModel):
+    # Deprecated compatibility projections. KnowledgeNode summaries are canonical.
     activity: ProfileActivitySummary
     topics: list[MasteryEvidenceSummary]
     skills: list[MasteryEvidenceSummary]
-    strengths: list[MasteryEvidenceSummary]
+    knowledge: list[KnowledgeMasterySummary]
+    strengths: list[KnowledgeMasterySummary]
     needs_consolidation: list[ConsolidationItem]
     generated_at: datetime
     evidence_window: EvidenceWindow
