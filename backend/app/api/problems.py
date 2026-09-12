@@ -104,6 +104,7 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
                         targeted_topics=context.target_topics,
                         targeted_skills=context.target_skills,
                         targeted_prerequisites=context.target_prerequisites,
+                        target_knowledge_ids=context.target_knowledge_ids,
                     )
         except Exception:
             component_logger("application").warning(

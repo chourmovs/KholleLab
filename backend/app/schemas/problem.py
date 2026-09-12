@@ -60,6 +60,7 @@ class ProblemSelectionAdaptation(PublicModel):
     targeted_topics: tuple[Topic, ...] = ()
     targeted_skills: tuple[Skill, ...] = ()
     targeted_prerequisites: tuple[str, ...] = ()
+    target_knowledge_ids: tuple[str, ...] = ()
 
 
 class ProblemSelectionResult(PublicModel):

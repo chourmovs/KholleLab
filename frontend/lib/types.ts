@@ -17,7 +17,7 @@ export interface CurriculumDomain {id:string;label:string;expectations:Curriculu
 export interface CurriculumLevelMetadata {id:string;label:string;short_label:string;stage:string;programme:{id:string;label:string};domains:CurriculumDomain[]}
 export interface CurriculumMetadata {academic_year:string;levels:CurriculumLevelMetadata[];difficulties:{id:number;label:string}[]}
 export type SelectionMode="manual"|"adaptive"|"fallback";
-export interface SelectionAdaptation {reason_codes:string[];targeted_topics:string[];targeted_skills:string[];targeted_prerequisites:string[]}
+export interface SelectionAdaptation {reason_codes:string[];targeted_topics:string[];targeted_skills:string[];targeted_prerequisites:string[];target_knowledge_ids?:string[]}
 export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean;selection_mode?:SelectionMode;adaptation?:SelectionAdaptation}
 export type AttemptStatus="draft"|"submitted";
 export interface Attempt { id:string;problem_id:string;status:AttemptStatus;solution_markdown:string;revision:number;elapsed_seconds:number;started_at:string;updated_at:string;submitted_at:string|null }
@@ -34,5 +34,6 @@ export interface LearningSessionDetail extends LearningSessionSummary {problem:P
 export type MasteryState="not_enough_data"|"emerging"|"practicing"|"established";
 export interface ProfileActivity {sessions_total:number;sessions_completed:number;sessions_abandoned:number;attempts_total:number;evaluations_completed:number;sessions_last_7_days:number;sessions_last_30_days:number;completed_last_30_days:number}
 export interface MasterySummary {identifier:string;label:string;state:MasteryState;evidence_count:number;completed_sessions:number;abandoned_sessions:number;recent_sessions:number;difficulty_min:number;difficulty_max:number;highest_positive_difficulty:number|null;last_practiced_at:string;support_signals:string[]}
-export interface ConsolidationItem {kind:"topic"|"skill";identifier:string;label:string;state:MasteryState;reasons:string[]}
-export interface LearnerProfile {activity:ProfileActivity;topics:MasterySummary[];skills:MasterySummary[];strengths:MasterySummary[];needs_consolidation:ConsolidationItem[];generated_at:string;evidence_window:{sessions_considered:number;max_sessions:number}}
+export interface KnowledgeMasterySummary {identifier:string;label:string;kind:string;parent:string|null;parent_label:string|null;state:MasteryState;evidence_count:number;assessed_evidence_count:number;positive_count:number;partial_count:number;negative_count:number;incomplete_sessions:number;unassessed_sessions:number;difficulty_min:number;difficulty_max:number;highest_positive_difficulty:number|null;last_practiced_at:string;support_signals:string[]}
+export interface ConsolidationItem {kind:"knowledge"|"topic"|"skill";identifier:string;label:string;state:MasteryState;reasons:string[];prerequisites?:{identifier:string;label:string}[]}
+export interface LearnerProfile {activity:ProfileActivity;knowledge:KnowledgeMasterySummary[];topics:MasterySummary[];skills:MasterySummary[];strengths:KnowledgeMasterySummary[];needs_consolidation:ConsolidationItem[];generated_at:string;evidence_window:{sessions_considered:number;max_sessions:number}}
