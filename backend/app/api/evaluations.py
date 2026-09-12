@@ -1,7 +1,7 @@
 import uuid
 from fastapi import APIRouter, Depends, Request, status
 from sqlalchemy.orm import Session
-from app.api.attempts import session, error
+from app.api.attempts import session, error, owns_attempt
 from app.repositories.attempt_repository import AttemptRepository
 from app.repositories.evaluation_repository import EvaluationRepository
 from app.providers.llm import provider_from_settings
@@ -18,14 +18,16 @@ def failure(exc):
 
 @router.post("/{attempt_id}/evaluation", status_code=status.HTTP_202_ACCEPTED, response_model=EvaluationResponse)
 def evaluate(attempt_id:uuid.UUID,request:Request,db:Session=Depends(session)):
+    if not owns_attempt(db, request, attempt_id): return error("attempt_not_found","Attempt does not exist.",404)
     try: return public_evaluation(service(request,db).enqueue(attempt_id))
     except (ExaminerAttemptNotFound,AttemptNotSubmitted,ExaminerProblemNotFound) as exc: return failure(exc)
 @router.get("/{attempt_id}/evaluation", response_model=EvaluationResponse)
-def get_evaluation(attempt_id:uuid.UUID,db:Session=Depends(session)):
-    if not AttemptRepository(db).get(attempt_id): return error("attempt_not_found","Attempt does not exist.",404)
+def get_evaluation(attempt_id:uuid.UUID,request:Request,db:Session=Depends(session)):
+    if not owns_attempt(db, request, attempt_id): return error("attempt_not_found","Attempt does not exist.",404)
     value=EvaluationRepository(db).get_for_attempt(attempt_id)
     return public_evaluation(value) if value else error("evaluation_not_found","Evaluation does not exist.",404)
 @router.post("/{attempt_id}/evaluation/retry", status_code=status.HTTP_202_ACCEPTED, response_model=EvaluationResponse)
 def retry(attempt_id:uuid.UUID,request:Request,db:Session=Depends(session)):
+    if not owns_attempt(db, request, attempt_id): return error("attempt_not_found","Attempt does not exist.",404)
     try: return public_evaluation(service(request,db).enqueue(attempt_id,retry=True))
     except (ExaminerAttemptNotFound,AttemptNotSubmitted,EvaluationNotFound,RetryNotAllowed) as exc: return failure(exc)

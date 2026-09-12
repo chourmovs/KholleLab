@@ -6,7 +6,10 @@ from app.db.session import SessionLocal
 from app.repositories.attempt_repository import AttemptAlreadySubmitted, AttemptConflict, AttemptNotFound, AttemptRepository
 from app.schemas.attempt import AttemptCreate, AttemptResponse, AttemptSubmit, AttemptUpdate
 from app.services.attempt_service import AttemptService, ProblemNotFound
-from app.models.attempt import AttemptStatus
+from app.models.attempt import Attempt, AttemptStatus
+from app.models.learning_session import LearningSession
+from app.services.learner_identity import learner_id
+from sqlalchemy import select
 from app.providers.llm import provider_from_settings, RemoteLLMError
 from app.schemas.tutor import TutorRequest, TutorResponse
 from app.services.tutor import TutorAssessmentService, TutorError
@@ -16,6 +19,12 @@ def session():
     db = SessionLocal()
     try: yield db
     finally: db.close()
+def owns_attempt(db: Session, request: Request, attempt_id: uuid.UUID) -> bool:
+    attempt = db.get(Attempt, attempt_id)
+    if not attempt: return False
+    # Pre-session legacy attempts are preserved; current attempts inherit session ownership.
+    return attempt.session_id is None or db.scalar(select(LearningSession.id).where(LearningSession.id == attempt.session_id, LearningSession.learner_id == learner_id(request))) is not None
+
 def error(code: str, message: str, status_code: int, **extra): return JSONResponse(status_code=status_code, content={"error": code, "message": message, **extra})
 
 @router.post("", response_model=AttemptResponse, status_code=status.HTTP_201_CREATED)
@@ -24,13 +33,13 @@ def create(body: AttemptCreate, request: Request, db: Session = Depends(session)
     except ProblemNotFound: return error("problem_not_found", "Problem does not exist.", 404)
 
 @router.get("/{attempt_id}", response_model=AttemptResponse)
-def get(attempt_id: uuid.UUID, db: Session = Depends(session)):
-    value = AttemptRepository(db).get(attempt_id)
+def get(attempt_id: uuid.UUID, request: Request, db: Session = Depends(session)):
+    value = AttemptRepository(db).get(attempt_id) if owns_attempt(db, request, attempt_id) else None
     return value if value else error("attempt_not_found", "Attempt does not exist.", 404)
 
 @router.get("/{attempt_id}/reference-solution")
 def reference_solution(attempt_id: uuid.UUID, request: Request, db: Session = Depends(session)):
-    attempt = AttemptRepository(db).get(attempt_id)
+    attempt = AttemptRepository(db).get(attempt_id) if owns_attempt(db, request, attempt_id) else None
     if not attempt:
         return error("attempt_not_found", "Attempt does not exist.", 404)
     if attempt.status != AttemptStatus.SUBMITTED:
@@ -46,22 +55,25 @@ def domain_error(exc):
     return error("attempt_conflict", f"Attempt has been modified since revision {exc.expected_revision}.", 409, current_revision=exc.current_revision)
 
 @router.patch("/{attempt_id}", response_model=AttemptResponse)
-def patch(attempt_id: uuid.UUID, body: AttemptUpdate, db: Session = Depends(session)):
+def patch(attempt_id: uuid.UUID, body: AttemptUpdate, request: Request, db: Session = Depends(session)):
+    if not owns_attempt(db, request, attempt_id): return error("attempt_not_found", "Attempt does not exist.", 404)
     try: return AttemptRepository(db).save_solution(attempt_id, body.solution_markdown, body.elapsed_seconds, body.expected_revision)
     except (AttemptNotFound, AttemptAlreadySubmitted, AttemptConflict) as exc: return domain_error(exc)
 
 @router.post("/{attempt_id}/submit", response_model=AttemptResponse)
-def submit(attempt_id: uuid.UUID, body: AttemptSubmit, db: Session = Depends(session)):
+def submit(attempt_id: uuid.UUID, body: AttemptSubmit, request: Request, db: Session = Depends(session)):
+    if not owns_attempt(db, request, attempt_id): return error("attempt_not_found", "Attempt does not exist.", 404)
     try: return AttemptRepository(db).submit(attempt_id, body.expected_revision)
     except (AttemptNotFound, AttemptAlreadySubmitted, AttemptConflict) as exc: return domain_error(exc)
 
 @router.post("/{attempt_id}/tutor/assess",response_model=TutorResponse)
 async def tutor_assess(attempt_id:uuid.UUID,body:TutorRequest,request:Request,db:Session=Depends(session)):
+    if not owns_attempt(db, request, attempt_id): return error("attempt_not_found", "Attempt does not exist.", 404)
     try:return await TutorAssessmentService(db,request.app.state.problem_repository,request.app.state.resource_repository,request.app.state.resource_resolver,provider_from_settings()).assess(attempt_id,body)
     except TutorError as exc:return error(exc.code,"Le professeur ne peut pas intervenir pour le moment.",exc.status)
     except RemoteLLMError as exc:return error("tutor_unavailable","Professeur temporairement indisponible.",503,provider_error=exc.code)
 
 @router.get("/{attempt_id}/tutor/latest",response_model=TutorResponse|None)
 def tutor_latest(attempt_id:uuid.UUID,request:Request,db:Session=Depends(session)):
-    if not AttemptRepository(db).get(attempt_id):return error("attempt_not_found","Attempt does not exist.",404)
+    if not owns_attempt(db, request, attempt_id):return error("attempt_not_found","Attempt does not exist.",404)
     return TutorAssessmentService(db,request.app.state.problem_repository,request.app.state.resource_repository,request.app.state.resource_resolver,provider_from_settings()).latest(attempt_id)

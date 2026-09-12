@@ -69,6 +69,11 @@ class Settings(BaseSettings):
     llm_problem_near_duplicate_threshold: float = Field(default=.88, ge=.5, le=1)
     llm_problem_generator_family: ModelFamily = ModelFamily.QWEN
     llm_problem_critic_family: ModelFamily = ModelFamily.GEMMA
+    auth_session_days: int = Field(default=30, ge=1, le=365)
+    auth_cookie_name: str = "khollelab_session"
+    auth_password_min_length: int = Field(default=12, ge=8, le=128)
+    auth_login_max_failures: int = Field(default=5, ge=1, le=100)
+    auth_login_window_seconds: int = Field(default=300, ge=10)
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
