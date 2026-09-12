@@ -12,7 +12,7 @@ from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.models.tutor_assessment import TutorAssessmentRecord
 from app.schemas.profile import MasteryState
 from app.services.knowledge_resolver import knowledge_for_problem
-from app.services.learner_profile import ProfileEvidence, classify, mastery_state
+from app.services.learner_profile import ProfileEvidence, classify, mastery_state, prerequisite_is_established
 
 ADAPTIVE_HISTORY_LIMIT = 20
 TARGET_LIMIT = 3
@@ -103,7 +103,7 @@ class AdaptiveContextBuilder:
         for identifier in targets:
             for prerequisite in curriculum.knowledge_nodes[identifier].prerequisites:
                 observations = evidence_by_node.get(prerequisite, [])
-                if mastery_state(observations) != MasteryState.ESTABLISHED and prerequisite not in prerequisite_targets:
+                if not prerequisite_is_established(observations) and prerequisite not in prerequisite_targets:
                     prerequisite_targets.append(prerequisite)
         return AdaptiveContext(owner, tuple(recent_list), target_knowledge_ids=tuple(targets),
                                prerequisite_knowledge_ids=tuple(prerequisite_targets[:TARGET_LIMIT]), curriculum=curriculum)
