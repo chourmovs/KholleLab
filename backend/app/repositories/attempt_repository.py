@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.models.attempt import Attempt, AttemptStatus, utcnow
 from app.models.learning_session import LearningSession, LearningSessionStatus
+from app.services.progression import ProgressionService
 
 
 class AttemptError(Exception):
@@ -76,4 +77,6 @@ class AttemptRepository:
                 learning.completed_at = now
                 learning.updated_at = now
                 learning.duration_seconds = attempt.elapsed_seconds
+            self.session.flush()
+            ProgressionService(self.session).ensure_completion_award(attempt.session_id)
         self.session.commit(); return self.get(attempt_id)  # type: ignore[return-value]

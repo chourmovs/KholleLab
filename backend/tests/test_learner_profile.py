@@ -104,3 +104,17 @@ def test_abandonment_alone_does_not_contradict_an_established_strength():
     assert summary.state == MasteryState.ESTABLISHED
     assert summary.incomplete_sessions == 1
     assert builder._consolidation(observations, [summary]) == []
+
+
+def test_established_mastery_is_never_also_a_consolidation_target():
+    builder = LearnerProfileBuilder.__new__(LearnerProfileBuilder)
+    prerequisite = SimpleNamespace(label="Prérequis")
+    node = SimpleNamespace(kind="procedure", parent=None, prerequisites=("prerequisite",))
+    builder.curriculum = SimpleNamespace(knowledge_nodes={"target": node, "prerequisite": prerequisite})
+    observations = [evidence(EvidenceKind.PARTIAL, "target")] + [
+        evidence(EvidenceKind.POSITIVE, "target") for _ in range(4)
+    ]
+    summary = builder._summary(observations, "target", "Cible", node)
+    strengths = [summary] if summary.state == MasteryState.ESTABLISHED else []
+    consolidation = builder._consolidation(observations, [summary])
+    assert {item.identifier for item in strengths}.isdisjoint({item["identifier"] for item in consolidation})

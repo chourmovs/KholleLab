@@ -29,7 +29,8 @@ class LearnerIdentityMiddleware(BaseHTTPMiddleware):
             value = uuid.UUID(raw) if raw else uuid.uuid4()
         except (ValueError, AttributeError):
             value = uuid.uuid4()
-        request.state.anonymous_learner_id = value
+        anonymous_value = value
+        request.state.anonymous_learner_id = anonymous_value
         request.state.user = None
         request.state.auth_session = None
         stale_auth = False
@@ -52,9 +53,12 @@ class LearnerIdentityMiddleware(BaseHTTPMiddleware):
                     stale_auth = True
         request.state.learner_id = value
         response = await call_next(request)
-        if raw != str(value):
+        # Authentication changes only the resolved request identity. Never
+        # replace the independent anonymous-browser cookie with account identity,
+        # otherwise logout could expose the account's claimed history.
+        if raw != str(anonymous_value):
             response.set_cookie(
-                COOKIE_NAME, str(value), httponly=True, samesite="lax", path="/",
+                COOKIE_NAME, str(anonymous_value), httponly=True, samesite="lax", path="/",
                 secure=settings.app_env.lower() in {"production", "prod"},
             )
         if stale_auth:

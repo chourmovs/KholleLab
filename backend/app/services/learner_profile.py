@@ -147,6 +147,11 @@ class LearnerProfileBuilder:
         by_id = {item.identifier:item for item in knowledge}
         candidates = []
         for item in knowledge:
+            # Mastery is canonical: an established node can never simultaneously
+            # be presented as needing consolidation, regardless of older signals
+            # or prerequisite evidence.
+            if item.state == MasteryState.ESTABLISHED:
+                continue
             reasons = []
             observations = [x for x in evidence if item.identifier in x.knowledge_ids]
             recent_activity = observations[:PROFILE_RECENT_EVIDENCE_PER_ITEM]

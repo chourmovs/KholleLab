@@ -16,6 +16,7 @@ from app.schemas.problem import to_public_problem_detail
 from app.schemas.tutor import TutorResourceRecommendation, TutorResponse
 from app.services.learner_identity import learner_id
 from app.services.knowledge_resolver import curriculum_snapshot_for_problem
+from app.services.progression import ProgressionService
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
@@ -145,6 +146,8 @@ def transition(session_id, target, request, db):
         owned = db.scalar(select(LearningSession.id).where(LearningSession.id == session_id, LearningSession.learner_id == owner))
         code = 404 if owned is None else 409
         return JSONResponse(status_code=code, content={"error": "session_not_found" if code == 404 else "session_not_active"})
+    if target == LearningSessionStatus.COMPLETED:
+        ProgressionService(db).ensure_completion_award(session_id)
     db.commit()
     value = db.scalar(select(LearningSession).where(LearningSession.id == session_id, LearningSession.learner_id == owner))
     return serialize_many([value], request, db, True)[0]

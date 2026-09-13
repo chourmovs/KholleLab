@@ -61,7 +61,7 @@ export const useAttemptStore=create<State>((set,get)=>({
     while(get().saveState!=="saved"&&await get().save()){/* flush edits made during an earlier PATCH */}
     const snapshot=get();if(!snapshot.attemptId||snapshot.saveState!=="saved")return;
     const submitted=await submitAttempt(snapshot.attemptId,snapshot.revision);
-    if(get().attemptId===snapshot.attemptId)set({...values(submitted),editGeneration:get().editGeneration});
+    if(get().attemptId===snapshot.attemptId){set({...values(submitted),editGeneration:get().editGeneration});window.dispatchEvent(new Event("khollelab:progression-refresh"))}
   },
   useServer(){const attempt=get().serverAttempt;if(attempt)set({...values(attempt),editGeneration:get().editGeneration+1,recovery:undefined})},
   async keepLocal(){const state=get();if(!state.attemptId)return;const latest=await getAttempt(state.attemptId);if(get().attemptId!==state.attemptId)return;set({revision:latest.revision,status:latest.status,serverAttempt:latest,recovery:undefined,saveState:"dirty"});await get().save()},
