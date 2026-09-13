@@ -68,3 +68,28 @@ persisted as achievements.
 `today_xp` is computed in the same aggregate query as lifetime XP and completed sessions. Streaks
 reuse one ordered query of distinct activity dates, so their processing cost scales with active
 days rather than attempts, evaluations, or blackboard edits. No per-event or per-day query is used.
+# Three separate progression concepts
+
+KholleLab deliberately keeps three measurements independent:
+
+* **Engagement progression** is XP, streaks, practice frequency, daily goals, and
+  milestones. The historical public field `grade` is an engagement XP rank, not a
+  school grade. It remains temporarily for frontend compatibility and should be
+  renamed/removed with its consumers in PR17.
+* **Pedagogical mastery** aggregates the shared evidence classifier by knowledge,
+  topic, and skill. It may evolve after later work.
+* **Curriculum progression** stores the learner's initial/current/highest unlocked
+  school levels and counts unique successfully solved stable-corpus exercises.
+
+For a level, `progress = solved_unique_problem_ids / eligible_static_problem_ids`
+(and is zero for an empty corpus). Runtime LLM materializations do not enter the
+denominator, so generated variants cannot dilute progress indefinitely. A problem
+is successfully solved when a **completed learning session** has a **completed
+evaluation**, confidence at least the mastery threshold (`0.65`), and verdict
+`correct` or `mostly_correct`. The mastery engine and curriculum progression use
+the same classifier.
+
+At `progress >= 0.60`, the next entry in `CURRICULUM_ORDER` is permanently unlocked.
+The stored high-water mark never decreases if the corpus later grows. Unlocking
+does not change the current level; only an explicit learner operation does. The
+highest curriculum level has no successor.

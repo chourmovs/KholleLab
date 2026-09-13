@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.models.auth import AuthSession, UserAccount
 from app.models.attempt import utcnow
 from app.models.learning_session import LearningSession, LearningSessionStatus
+from app.models.curriculum_state import LearnerCurriculumState
 
 password_hash = PasswordHash.recommended()
 
@@ -40,7 +41,16 @@ def claim_anonymous_history(db: Session, anonymous_learner_id, account_learner_i
     if anonymous_learner_id == account_learner_id:
         return 0
     anonymous = list(db.scalars(select(LearningSession).where(LearningSession.learner_id == anonymous_learner_id)))
+    anonymous_state = db.get(LearnerCurriculumState, anonymous_learner_id)
+    account_state = db.get(LearnerCurriculumState, account_learner_id)
+    if anonymous_state:
+        if account_state:
+            # Existing account choices win; history is still moved and will refresh unlocks.
+            db.delete(anonymous_state)
+        else:
+            anonymous_state.learner_id = account_learner_id
     if not anonymous:
+        db.flush()
         return 0
     active_keys = set(db.scalars(select(LearningSession.active_problem_key).where(
         LearningSession.learner_id == account_learner_id, LearningSession.active_problem_key.is_not(None))))

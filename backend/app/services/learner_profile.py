@@ -1,7 +1,6 @@
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from enum import StrEnum
 import uuid
 
 from sqlalchemy import case, func, select
@@ -13,27 +12,15 @@ from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.models.tutor_assessment import TutorAssessmentRecord
 from app.schemas.profile import KnowledgeMasterySummary, MasteryEvidenceSummary, MasteryState
 from app.services.knowledge_resolver import knowledge_for_problem
+from app.services.evidence import EvidenceKind, classify_evidence
 
 PROFILE_EVIDENCE_SESSION_LIMIT = 50
 PROFILE_RECENT_EVIDENCE_PER_ITEM = 8
-PROFILE_MIN_EVALUATION_CONFIDENCE = 0.65
 PROFILE_MIN_EVIDENCE = 2
 PROFILE_PRACTICING_MIN_EVIDENCE = 3
 PROFILE_ESTABLISHED_MIN_EVIDENCE = 4
 
 LABELS = {"algebra":"Algèbre","analysis":"Analyse","arithmetic":"Arithmétique","combinatorics":"Combinatoire","geometry":"Géométrie","inequalities":"Inégalités","probability":"Probabilités","sequences":"Suites","functions":"Fonctions","complex-numbers":"Nombres complexes","logic":"Logique","equations":"Équations","trigonometry":"Trigonométrie","derivatives":"Dérivation","integrals":"Intégration","limits":"Limites","linear-algebra":"Algèbre linéaire","polynomials":"Polynômes","differential-equations":"Équations différentielles","calculation":"Calcul","proof":"Démonstration","reasoning":"Raisonnement","modeling":"Modélisation","sign-analysis":"Étude de signe","graph-reading":"Lecture graphique","equation-solving":"Résolution d’équations","inequality-solving":"Résolution d’inéquations","induction":"Récurrence","contradiction":"Raisonnement par l’absurde","case-analysis":"Étude de cas","construction":"Construction","estimation":"Estimation","optimization":"Optimisation"}
-
-
-class EvidenceKind(StrEnum):
-    POSITIVE = "positive"
-    PARTIAL = "partial"
-    NEGATIVE = "negative"
-    UNASSESSED = "unassessed"
-    INCOMPLETE = "incomplete"
-    # Compatibility names for callers from mastery v1.
-    STRONG_POSITIVE = "positive"
-    NEUTRAL_PRACTICE = "partial"
-    WEAK_POSITIVE = "unassessed"
 
 
 @dataclass(frozen=True)
@@ -48,21 +35,7 @@ class ProfileEvidence:
     knowledge_ids: tuple[str, ...] = ()
 
 
-def classify(status: LearningSessionStatus, evaluation: Evaluation | None) -> EvidenceKind:
-    if status == LearningSessionStatus.ABANDONED:
-        return EvidenceKind.INCOMPLETE
-    if (not evaluation or evaluation.status != EvaluationStatus.COMPLETED
-            or evaluation.confidence is None
-            or evaluation.confidence < PROFILE_MIN_EVALUATION_CONFIDENCE):
-        return EvidenceKind.UNASSESSED
-    verdict = (evaluation.verdict or "").lower()
-    if verdict in {"correct", "mostly_correct"}:
-        return EvidenceKind.POSITIVE
-    if verdict == "partial":
-        return EvidenceKind.PARTIAL
-    if verdict in {"incorrect", "non_answer"}:
-        return EvidenceKind.NEGATIVE
-    return EvidenceKind.UNASSESSED
+classify = classify_evidence
 
 
 def mastery_state(items: list[ProfileEvidence]) -> MasteryState:

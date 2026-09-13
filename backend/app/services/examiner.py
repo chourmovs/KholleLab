@@ -11,6 +11,7 @@ from app.repositories.attempt_repository import AttemptRepository
 from app.repositories.evaluation_repository import NOW, EvaluationRepository
 from app.schemas.evaluation import CandidateAudit, EvaluationResult
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import select
 
 log=component_logger("examiner"); PROMPT_VERSION="examiner-v1"
 class AttemptNotSubmitted(Exception): pass
@@ -60,7 +61,21 @@ class ExaminerService:
             self.evaluations.set_stage(value,EvaluationStage.FINALIZING,95)
             elapsed=round((time.perf_counter()-started)*1000,1)
             log.info("evaluation_completed evaluation={} total_elapsed_ms={}",value.id,elapsed)
-            return self.evaluations.complete(value,audit,EvaluationResult.model_validate(result),elapsed)
+            completed = self.evaluations.complete(value,audit,EvaluationResult.model_validate(result),elapsed)
+            # Evaluation completion is the authoritative, low-frequency boundary for
+            # durable curriculum unlock refreshes (never autosaves or keystrokes).
+            from app.models.attempt import Attempt
+            from app.models.learning_session import LearningSession
+            from app.services.curriculum_progression import CurriculumProgressionService
+            learning = self.evaluations.db.scalar(select(LearningSession).join(
+                Attempt, Attempt.session_id == LearningSession.id
+            ).where(Attempt.id == completed.attempt_id))
+            if learning and learning.learner_id:
+                CurriculumProgressionService(self.evaluations.db, self.problems).refresh_unlocks(
+                    learning.learner_id
+                )
+                self.evaluations.db.commit()
+            return completed
         except RemoteLLMError as exc:
             self.evaluations.db.rollback()
             if exc.retryable and value.provider_retry_count < settings.evaluation_provider_max_retries:
