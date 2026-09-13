@@ -3,11 +3,11 @@ from sqlalchemy.orm import Session
 
 from app.domain.problem import CurriculumLevel, Topic
 from app.api.attempts import session as db_session
-from app.schemas.problem import (GeneratedSelectionResult, ProblemCatalogueItem, ProblemPublicDetail, ProblemSelectionAdaptation,
+from app.schemas.problem import (GeneratedSelectionResult, GuidedProblemSelectionResult, ProblemCatalogueItem, ProblemPublicDetail,
                                  ProblemSelectionResult, SelectionMode, to_public_problem_detail)
 from app.schemas.problem_generation import GeneratedProblemSelectRequest
 from app.services.adaptive_context import AdaptiveContextBuilder
-from app.services.adaptive_problem_ranker import AdaptiveProblemRanker, AdaptationReasonCode
+from app.services.adaptive_selection import AdaptiveSelectionService
 from app.services.learner_identity import learner_id
 from app.services.problem_selector import ProblemSelector
 from app.services.problem_repository import ProblemRepository
@@ -15,12 +15,43 @@ from app.services.resource_resolver import ResourceResolver, context_for_problem
 from app.core.logging import component_logger
 from app.providers.llm import provider_from_settings, RemoteLLMError
 from app.services.problem_generation import GenerationUnavailable, ProblemGenerationService
+from app.services.guided_problem import (CurrentLevelInvalid, GuidedProblemService,
+                                         GuidedProblemUnavailable, OnboardingRequired)
 
 router = APIRouter(prefix="/problems", tags=["problems"])
 
 
 def repository(request: Request) -> ProblemRepository:
     return request.app.state.problem_repository
+
+
+@router.get("/next", response_model=GuidedProblemSelectionResult, response_model_exclude_none=True)
+def next_problem(request: Request, db: Session = Depends(db_session)):
+    forbidden = {"level", "difficulty", "topic", "domain", "expectation"} & set(request.query_params)
+    if forbidden:
+        raise HTTPException(status_code=422, detail="guided_selection_has_no_client_filters")
+    owner = learner_id(request)
+    service = GuidedProblemService(db, request.app.state.problem_catalog)
+    try:
+        problem, level, target, pool, adaptation, history_count, eligible, unsolved = service.select_next(owner)
+    except OnboardingRequired as exc:
+        raise HTTPException(status_code=409, detail="onboarding_required") from exc
+    except CurrentLevelInvalid as exc:
+        raise HTTPException(status_code=409, detail="current_level_invalid") from exc
+    except GuidedProblemUnavailable as exc:
+        component_logger("application").warning("guided_problem_unavailable learner_id={}", owner)
+        raise HTTPException(status_code=409, detail="guided_problem_unavailable") from exc
+    progress = service.progression.level_progress(owner, level.value)
+    component_logger("application").info(
+        "guided_problem_selected learner_id={} current_level={} target_difficulty={} actual_difficulty={} "
+        "candidate_pool={} eligible_count={} unsolved_count={} recent_history_count={} selected_problem_id={} reason_codes={}",
+        owner, level.value, target, problem.curriculum.difficulty, pool, eligible, unsolved,
+        history_count, problem.id, adaptation.reason_codes if adaptation else (),
+    )
+    return {"problem": to_public_problem_detail(problem), "current_level": level,
+            "target_difficulty": target, "actual_difficulty": problem.curriculum.difficulty,
+            "candidate_pool": pool, "selection_mode": "guided", "level_progress": progress,
+            "adaptation": adaptation}
 
 
 @router.post("/generated/select", response_model=GeneratedSelectionResult)
@@ -88,24 +119,8 @@ def select_problem(request: Request, level: CurriculumLevel, difficulty: int | N
                                                          expectation=expectation)
             candidate_count = len(candidates)
             history_count = len(context.recent_sessions)
-            ranked = AdaptiveProblemRanker().rank(candidates, context, difficulty)
-            if ranked:
-                winner = ranked[0]
-                selected = winner.problem
-                public_reasons = [reason for reason in winner.reasons
-                                  if reason != AdaptationReasonCode.APPROPRIATE_DIFFICULTY]
-                recent_ids = {item.problem_id for item in context.recent_sessions[:5]}
-                if recent_ids and selected.id not in recent_ids:
-                    public_reasons.append(AdaptationReasonCode.RECENT_PROBLEM_AVOIDANCE)
-                public_reasons = list(dict.fromkeys(public_reasons))[:4]
-                if public_reasons:
-                    adaptation = ProblemSelectionAdaptation(
-                        reason_codes=tuple(reason.value for reason in public_reasons),
-                        targeted_topics=context.target_topics,
-                        targeted_skills=context.target_skills,
-                        targeted_prerequisites=context.target_prerequisites,
-                        target_knowledge_ids=context.target_knowledge_ids,
-                    )
+            result = AdaptiveSelectionService().select(candidates, context, difficulty)
+            selected, adaptation = result.problem, result.adaptation
         except Exception:
             component_logger("application").warning(
                 "adaptive_context_failed level={} difficulty={} topic={}; using deterministic fallback",

@@ -63,13 +63,15 @@ class CurriculumProgressionService:
         except IntegrityError:
             return self.db.get(LearnerCurriculumState, learner_id)
 
-    def _eligible(self, level: str) -> set[str]:
+    def eligible_problem_ids(self, level: str) -> set[str]:
+        CurriculumLevel(level)
         # Only the validated stable shared corpus is a denominator. Runtime LLM
         # materializations are intentionally excluded so generation cannot dilute progress.
         source = self.problems.list_static() if hasattr(self.problems, "list_static") else self.problems.list()
         return {problem.id for problem in source if problem.curriculum.level.value == level}
 
-    def _solved(self, learner_id: uuid.UUID, eligible: set[str]) -> set[str]:
+    def solved_problem_ids(self, learner_id: uuid.UUID, level: str) -> set[str]:
+        eligible = self.eligible_problem_ids(level)
         if not eligible:
             return set()
         rows = self.db.execute(select(LearningSession.problem_id, LearningSession.status, Evaluation).join(
@@ -83,8 +85,8 @@ class CurriculumProgressionService:
 
     def level_progress(self, learner_id: uuid.UUID, level: str) -> dict:
         CurriculumLevel(level)
-        eligible_ids = self._eligible(level)
-        solved = len(self._solved(learner_id, eligible_ids))
+        eligible_ids = self.eligible_problem_ids(level)
+        solved = len(self.solved_problem_ids(learner_id, level))
         eligible = len(eligible_ids)
         progress = solved / eligible if eligible else 0.0
         return {"level": level, "eligible": eligible, "solved": solved, "progress": progress,
