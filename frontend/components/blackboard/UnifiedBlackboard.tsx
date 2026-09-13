@@ -12,13 +12,14 @@ const layouts:VirtualKeyboardLayout[]=[
  {id:"kholle-greek",label:"Grec",rows:[["\\alpha","\\beta","\\gamma","\\delta","\\theta","\\lambda","\\mu"],["\\pi","\\sigma","\\phi","\\omega","\\Delta","\\Sigma","\\Omega"]]},
 ];
 
-export interface UnifiedBlackboardHandle{toggleKeyboard:()=>void;insertLineBreak:()=>void}
+export interface UnifiedBlackboardHandle{toggleKeyboard:()=>void;insertLineBreak:()=>void;insertText:(text:string)=>void}
 export const UnifiedBlackboard=forwardRef<UnifiedBlackboardHandle,{solution:string;onChange:(value:string)=>void;readOnly?:boolean}>(function UnifiedBlackboard({solution,onChange,readOnly=false},ref){
  const host=useRef<HTMLDivElement>(null),field=useRef<MathfieldElement|null>(null),change=useRef(onChange),last=useRef(solution),locked=useRef(readOnly),composing=useRef(false),compositionChanged=useRef(false);change.current=onChange;locked.current=readOnly;
  const[failed,setFailed]=useState(false),[keyboardOpen,setKeyboardOpen]=useState(false);
  const insertLineBreak=useCallback(()=>{const mf=field.current;if(!mf||locked.current)return;mf.focus();mf.executeCommand("addRowAfter");mf.focus()},[]);
  const setNativeInput=useCallback((mf:MathfieldElement,enabled:boolean)=>{const sink=mf.shadowRoot?.querySelector<HTMLElement>("[part=keyboard-sink]");if(!sink)return;sink.setAttribute("inputmode",enabled?"text":"none");sink.setAttribute("enterkeyhint","enter");sink.setAttribute("autocapitalize","sentences");sink.setAttribute("autocorrect","on");sink.spellcheck=enabled},[]);
- useImperativeHandle(ref,()=>({toggleKeyboard(){const mf=field.current;if(!mf||locked.current)return;if(window.mathVirtualKeyboard.visible){window.mathVirtualKeyboard.hide();setNativeInput(mf,true);return}setNativeInput(mf,false);mf.focus();window.mathVirtualKeyboard.show();},insertLineBreak}),[insertLineBreak,setNativeInput]);
+ const insertText=useCallback((text:string)=>{const mf=field.current;if(!mf||locked.current||!text)return;const before=mf.position>1?mf.getValue(mf.position-1,mf.position):"",after=mf.position<mf.lastOffset-1?mf.getValue(mf.position,mf.position+1):"";const separated=`${before&&!/\s|[({[]$/.test(before)?" ":""}${text}${after&&!/\s|[.,;:!?)}\]]/.test(after)?" ":""}`;mf.insert(separated,{mode:"text",selectionMode:"after",focus:true})},[]);
+ useImperativeHandle(ref,()=>({toggleKeyboard(){const mf=field.current;if(!mf||locked.current)return;if(window.mathVirtualKeyboard.visible){window.mathVirtualKeyboard.hide();setNativeInput(mf,true);return}setNativeInput(mf,false);mf.focus();window.mathVirtualKeyboard.show();},insertLineBreak,insertText}),[insertLineBreak,insertText,setNativeInput]);
  useEffect(()=>{let disposed=false;const node=host.current;void import("mathlive").then(()=>{if(disposed||!node)return;const mf=document.createElement("math-field") as MathfieldElement;
    mf.defaultMode="text";mf.smartMode=true;mf.smartFence=true;mf.letterShapeStyle="french";mf.mathVirtualKeyboardPolicy="manual";mf.placeholder="\\text{Expliquez votre raisonnement…}";mf.readOnly=readOnly;mf.setAttribute("aria-label","Tableau de résolution");mf.className="unified-blackboard";
    window.mathVirtualKeyboard.alphabeticLayout="azerty";window.mathVirtualKeyboard.layouts=[...layouts,"alphabetic"];window.mathVirtualKeyboard.setKeycap("[return]",lineBreakKeycap);

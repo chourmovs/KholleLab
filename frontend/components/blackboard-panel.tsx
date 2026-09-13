@@ -4,10 +4,10 @@ import {UnifiedBlackboard,type UnifiedBlackboardHandle} from "./blackboard/Unifi
 import {isSolutionEmpty} from "@/lib/solution-document";
 import {useAttemptStore} from "@/stores/useAttemptStore";
 const labels={idle:"Brouillon local",dirty:"Brouillon local",saving:"Sauvegarde…",saved:"Enregistré",error:"Hors ligne — copie conservée localement",conflict:"⚠ Conflit de version"};
-export interface BlackboardPanelHandle{openKeyboard:()=>void;requestSubmit:()=>void}
+export interface BlackboardPanelHandle{openKeyboard:()=>void;requestSubmit:()=>void;insertText:(text:string)=>void}
 export const BlackboardPanel=forwardRef<BlackboardPanelHandle,{problemId?:string}>(function BlackboardPanel({problemId},forwardedRef){
  const s=useAttemptStore(),timer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined),board=useRef<UnifiedBlackboardHandle>(null);const[confirm,setConfirm]=useState(false);
- useImperativeHandle(forwardedRef,()=>({openKeyboard:()=>board.current?.toggleKeyboard(),requestSubmit:()=>setConfirm(true)}),[]);
+ useImperativeHandle(forwardedRef,()=>({openKeyboard:()=>board.current?.toggleKeyboard(),requestSubmit:()=>setConfirm(true),insertText:text=>board.current?.insertText(text)}),[]);
  useEffect(()=>{if(problemId)void useAttemptStore.getState().load(problemId);return()=>useAttemptStore.getState().reset()},[problemId]);
  useEffect(()=>{const interval=setInterval(()=>useAttemptStore.getState().tick(),1000);return()=>clearInterval(interval)},[]);
  useEffect(()=>{if(s.saveState==="dirty"){clearTimeout(timer.current);timer.current=setTimeout(()=>void useAttemptStore.getState().save(),1000)}return()=>clearTimeout(timer.current)},[s.solution,s.saveState]);

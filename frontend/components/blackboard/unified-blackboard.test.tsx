@@ -17,6 +17,7 @@ vi.mock("mathlive",()=>{
   hasFocus=vi.fn(()=>false);
   constructor(){super();const shadow=this.attachShadow({mode:"open"});const sink=document.createElement("span");sink.setAttribute("part","keyboard-sink");shadow.append(sink)}
   setValue=vi.fn((value:string)=>{this.value=value});
+  getValue=vi.fn((from:number,to:number)=>this.value.slice(from,to));
   insert=vi.fn((value:string)=>{this.value+=value;this.dispatchEvent(new Event("input"));return true});
   executeCommand=vi.fn((command:string)=>{if(command==="addRowAfter"){this.value=this.value.replace(/}$/,"\\\\ }");this.dispatchEvent(new Event("input"))}return true});
  });
@@ -80,4 +81,9 @@ it("exposes addRowAfter on the scientific return keys",async()=>{
 it("keeps a submitted board read-only and cannot open either input path",async()=>{
  const ref=createRef<UnifiedBlackboardHandle>();const {container}=render(<UnifiedBlackboard ref={ref} solution="abc" onChange={vi.fn()} readOnly/>);await waitFor(()=>expect(container.querySelector("math-field")).toBeTruthy());
  const field=container.querySelector("math-field") as HTMLElement&{readOnly:boolean;executeCommand:ReturnType<typeof vi.fn>};expect(field.readOnly).toBe(true);expect(field.shadowRoot?.querySelector("[part=keyboard-sink]")).toHaveAttribute("inputmode","none");act(()=>{ref.current?.toggleKeyboard();ref.current?.insertLineBreak()});expect(keyboard.show).not.toHaveBeenCalled();expect(field.executeCommand).not.toHaveBeenCalled();
+});
+
+it("inserts dictated prose through MathLive at the current caret with word separation",async()=>{
+ const ref=createRef<UnifiedBlackboardHandle>(),onChange=vi.fn();const {container}=render(<UnifiedBlackboard ref={ref} solution="DoncSuite" onChange={onChange}/>);await waitFor(()=>expect(container.querySelector("math-field")).toBeTruthy());
+ const field=container.querySelector("math-field") as HTMLElement&{position:number;insert:ReturnType<typeof vi.fn>};field.position=8;act(()=>ref.current?.insertText("La fonction est croissante"));expect(field.insert).toHaveBeenCalledWith(" La fonction est croissante ",{mode:"text",selectionMode:"after",focus:true});expect(onChange).toHaveBeenCalledOnce();
 });
