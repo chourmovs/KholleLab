@@ -1,6 +1,16 @@
 from datetime import date
+from typing import Literal
 
 from pydantic import BaseModel
+
+
+class PracticeMilestone(BaseModel):
+    id: str
+    label: str
+    kind: Literal["sessions", "xp", "streak"]
+    unlocked: bool
+    current: int
+    target: int
 
 
 class ProgressionSummary(BaseModel):
@@ -14,4 +24,8 @@ class ProgressionSummary(BaseModel):
     active_today: bool
     last_active_date: date | None
     completed_sessions: int
+    today_xp: int
+    daily_goal_xp: int
+    daily_goal_completed: bool
+    milestones: list[PracticeMilestone]
     timezone: str
