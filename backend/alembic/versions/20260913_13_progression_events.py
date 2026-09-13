@@ -1,5 +1,5 @@
 """add durable progression event ledger and backfill eligible sessions"""
-from datetime import timezone
+from datetime import datetime, timezone
 import uuid
 from zoneinfo import ZoneInfo
 
@@ -19,7 +19,7 @@ def upgrade():
         "progression_events",
         sa.Column("id", sa.Uuid(), primary_key=True),
         sa.Column("session_id", sa.Uuid(), sa.ForeignKey("learning_sessions.id", ondelete="CASCADE"), nullable=False),
-        sa.Column("event_type", sa.Enum("session_completed", name="progression_event_type"), nullable=False),
+        sa.Column("event_type", sa.String(32), nullable=False),
         sa.Column("xp", sa.Integer(), nullable=False),
         sa.Column("policy_version", sa.String(32), nullable=False),
         sa.Column("occurred_at", sa.DateTime(timezone=True), nullable=False),
@@ -44,10 +44,10 @@ def upgrade():
                       sa.column("activity_date", sa.Date()),
                       sa.column("created_at", sa.DateTime(timezone=True)))
     rows = connection.execute(sa.select(sessions.c.id, sessions.c.completed_at, sessions.c.updated_at).where(
-        sessions.c.status == "completed",
+        sa.cast(sessions.c.status, sa.String()) == "completed",
         sa.exists(sa.select(attempts.c.session_id).where(
             attempts.c.session_id == sessions.c.id,
-            attempts.c.status == "submitted",
+            sa.cast(attempts.c.status, sa.String()) == "submitted",
             sa.func.length(sa.func.trim(attempts.c.solution_markdown)) > 0,
         )),
     )).all()
@@ -57,7 +57,7 @@ def upgrade():
         connection.execute(events.insert().values(
             id=uuid.uuid4(), session_id=session_id, event_type="session_completed", xp=10,
             policy_version="xp-v1", occurred_at=occurred_at,
-            activity_date=aware.astimezone(PARIS).date(), created_at=occurred_at,
+            activity_date=aware.astimezone(PARIS).date(), created_at=datetime.now(timezone.utc),
         ))
 
 

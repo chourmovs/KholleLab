@@ -2,7 +2,7 @@ import enum
 import uuid
 from datetime import date, datetime
 
-from sqlalchemy import Date, DateTime, Enum, ForeignKey, Index, Integer, String, UniqueConstraint, Uuid
+from sqlalchemy import Date, DateTime, ForeignKey, Index, Integer, String, UniqueConstraint, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -28,10 +28,7 @@ class ProgressionEvent(Base):
     session_id: Mapped[uuid.UUID] = mapped_column(
         Uuid, ForeignKey("learning_sessions.id", ondelete="CASCADE"), nullable=False
     )
-    event_type: Mapped[ProgressionEventType] = mapped_column(
-        Enum(ProgressionEventType, name="progression_event_type", values_callable=lambda e: [x.value for x in e]),
-        nullable=False,
-    )
+    event_type: Mapped[str] = mapped_column(String(32), nullable=False)
     xp: Mapped[int] = mapped_column(Integer, nullable=False)
     policy_version: Mapped[str] = mapped_column(String(32), nullable=False)
     occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
