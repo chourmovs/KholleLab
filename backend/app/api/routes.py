@@ -11,6 +11,7 @@ from app.api.diagnostics import router as diagnostics_router
 from app.api.sessions import router as sessions_router
 from app.api.profile import router as profile_router
 from app.api.auth import router as auth_router
+from app.api.progression import router as progression_router
 from app.services.inference_diagnostics import cached_status, diagnose
 from app.schemas.evaluation import HealthResponse, InferenceStatusResponse
 from app.core.logging import component_logger
@@ -67,3 +68,4 @@ router.include_router(diagnostics_router)
 router.include_router(sessions_router)
 router.include_router(profile_router)
 router.include_router(auth_router)
+router.include_router(progression_router)

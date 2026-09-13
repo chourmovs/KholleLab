@@ -10,3 +10,8 @@ describe("server-authoritative attempt restore",()=>{
  it("recovers only a newer draft belonging to the server-selected attempt",async()=>{localStorage.setItem("khollelab.draft.old",JSON.stringify({solution:"old draft",updatedAt:"2026-09-06T09:00:00Z",serverRevision:1}));localStorage.setItem("khollelab.draft.new",JSON.stringify({solution:"recover me",updatedAt:"2026-09-06T09:00:00Z",serverRevision:1}));const current=attempt("new");vi.mocked(api.startSession).mockResolvedValue(learning(current));await useAttemptStore.getState().load("p1");expect(useAttemptStore.getState().recovery).toBe("recover me");expect(useAttemptStore.getState().solution).toBe("server")});
  it("preserves local text when a later session request fails",async()=>{const current=attempt("new");vi.mocked(api.startSession).mockResolvedValueOnce(learning(current)).mockRejectedValueOnce(new Error("offline"));await useAttemptStore.getState().load("p1");useAttemptStore.getState().updateSolution("offline draft");await useAttemptStore.getState().load("p1");expect(useAttemptStore.getState()).toMatchObject({solution:"offline draft",saveState:"error",attemptId:"new"})});
 });
+
+it("requests a progression refresh immediately after submission",async()=>{
+ const current=attempt("submit-me","solution");vi.mocked(api.startSession).mockResolvedValue(learning(current));vi.mocked(api.submitAttempt).mockResolvedValue({...current,status:"submitted",revision:3,submitted_at:"2026-09-06T08:06:00Z"});
+ await useAttemptStore.getState().load("p1");const listener=vi.fn();window.addEventListener("khollelab:progression-refresh",listener);await useAttemptStore.getState().submit();window.removeEventListener("khollelab:progression-refresh",listener);expect(listener).toHaveBeenCalledOnce();
+});
