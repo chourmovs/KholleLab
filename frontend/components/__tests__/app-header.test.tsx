@@ -1,0 +1,12 @@
+import {act,cleanup,fireEvent,render,screen,waitFor} from "@testing-library/react";
+import {afterEach,beforeEach,expect,it,vi} from "vitest";
+import {AppHeader} from "../app-header";
+import * as api from "@/lib/api";
+vi.mock("@/lib/api",()=>({getCurrentAccount:vi.fn(),getProgression:vi.fn(),logoutAccount:vi.fn()}));
+const summary=(total_xp:number)=>({total_xp,grade:3,current_grade_start_xp:150,next_grade_xp:300,xp_to_next_grade:300-total_xp,current_streak_days:4,longest_streak_days:7,active_today:true,last_active_date:"2026-09-13",completed_sessions:total_xp/10,today_xp:10,daily_goal_xp:20,daily_goal_completed:false,milestones:[],timezone:"Europe/Paris"});
+beforeEach(()=>{vi.mocked(api.getCurrentAccount).mockResolvedValue({authenticated:false,anonymous_sessions_available:0});vi.mocked(api.getProgression).mockResolvedValue(summary(100))});
+afterEach(()=>{cleanup();vi.resetAllMocks();vi.useRealTimers()});
+it("opens the learner profile from the accessible compact progression button",async()=>{const onProfile=vi.fn();render(<AppHeader onRefresh={vi.fn()} onProfile={onProfile}/>);const pill=await screen.findByRole("button",{name:"Progression : grade 3, 100 XP, série de 4 jours. Ouvrir le profil."});fireEvent.click(pill);expect(onProfile).toHaveBeenCalledOnce();expect(pill).toHaveClass("progression-pill");expect(pill.textContent).toContain("100 XP")});
+it("does not show XP feedback on initial load",async()=>{render(<AppHeader onRefresh={vi.fn()}/>);await screen.findByText(/100 XP/);expect(screen.queryByText("+100 XP")).not.toBeInTheDocument()});
+it("shows server-confirmed XP only after a submission refresh",async()=>{vi.mocked(api.getProgression).mockResolvedValueOnce(summary(100)).mockResolvedValueOnce(summary(110));render(<AppHeader onRefresh={vi.fn()}/>);await screen.findByText(/100 XP/);act(()=>window.dispatchEvent(new CustomEvent("khollelab:progression-refresh",{detail:{reason:"submission"}})));expect(await screen.findByText("+10 XP")).toBeInTheDocument();await waitFor(()=>expect(screen.getByText(/110 XP/)).toBeInTheDocument())});
+it("does not show XP feedback after an account claim refresh",async()=>{vi.mocked(api.getProgression).mockResolvedValueOnce(summary(20)).mockResolvedValueOnce(summary(300));render(<AppHeader onRefresh={vi.fn()}/>);await screen.findByText(/20 XP/);act(()=>window.dispatchEvent(new CustomEvent("khollelab:progression-refresh",{detail:{reason:"account-claim"}})));await waitFor(()=>expect(screen.getByText(/300 XP/)).toBeInTheDocument());expect(screen.queryByText("+280 XP")).not.toBeInTheDocument()});

@@ -95,6 +95,15 @@ def test_failed_incorrect_and_generated_evaluation_outcomes_never_change_practic
         assert db.scalar(select(func.sum(ProgressionEvent.xp))) == 20
 
 
+@pytest.mark.parametrize("problem_id", ["static-problem", "parametric-seed-42", "llm-seconde-generated"])
+def test_static_parametric_and_generated_exercises_use_identical_progression(problem_id):
+    with Testing() as db:
+        learning, attempt = completed(db)
+        learning.problem_id = attempt.problem_id = problem_id
+        event = ProgressionService(db).ensure_completion_award(learning.id)
+        assert event and event.xp == SESSION_COMPLETED_XP and event.policy_version == XP_POLICY_VERSION
+
+
 def test_distinct_day_streaks_gap_yesterday_grace_and_historical_longest():
     owner = uuid.uuid4(); today = date(2026, 9, 13)
     with Testing() as db:
@@ -127,7 +136,9 @@ def test_anonymous_claim_multi_device_and_logout_scope_progression(monkeypatch):
     with TestClient(app) as anonymous:
         ids = [item["id"] for item in anonymous.get("/api/problems").json()[:3]]
         for problem_id in ids: submit_one(anonymous, problem_id)
-        assert anonymous.get("/api/progression").json()["total_xp"] == 30
+        claimed_summary = anonymous.get("/api/progression").json()
+        assert claimed_summary["total_xp"] == 30
+        assert {item["id"]: item["unlocked"] for item in claimed_summary["milestones"]}["first-session"] is True
         registered = anonymous.post("/api/auth/register", json={
             "email": "progress@example.com", "password": "progress-password",
             "display_name": "Ada", "claim_anonymous_history": True,
@@ -153,3 +164,59 @@ def test_complete_before_nonempty_submission_awards_when_attempt_later_arrives()
         assert client.get("/api/progression").json()["total_xp"] == 0
         assert client.post(f"/api/attempts/{attempt['id']}/submit", json={"expected_revision":saved["revision"]}).status_code == 200
         assert client.get("/api/progression").json()["total_xp"] == 10
+
+
+def test_paris_activity_date_summer_and_winter_boundaries():
+    from app.services.progression import paris_activity_date
+    assert paris_activity_date(datetime(2026, 9, 12, 21, 59, tzinfo=timezone.utc)) == date(2026, 9, 12)
+    assert paris_activity_date(datetime(2026, 9, 12, 22, 1, tzinfo=timezone.utc)) == date(2026, 9, 13)
+    assert paris_activity_date(datetime(2026, 1, 10, 22, 59, tzinfo=timezone.utc)) == date(2026, 1, 10)
+    assert paris_activity_date(datetime(2026, 1, 10, 23, 1, tzinfo=timezone.utc)) == date(2026, 1, 11)
+
+
+def test_today_xp_uses_same_paris_dates_as_streak_and_accumulates_sessions():
+    owner = uuid.uuid4(); today = date(2026, 9, 13)
+    with Testing() as db:
+        for when in (
+            datetime(2026, 9, 12, 21, 59, tzinfo=timezone.utc),
+            datetime(2026, 9, 12, 22, 1, tzinfo=timezone.utc),
+            datetime(2026, 9, 13, 8, 0, tzinfo=timezone.utc),
+        ):
+            learning, _ = completed(db, owner, when=when)
+            ProgressionService(db).ensure_completion_award(learning.id)
+        db.commit()
+        value = ProgressionService(db).summary(owner, today=today)
+        assert value["today_xp"] == 20
+        assert value["daily_goal_xp"] == 20
+        assert value["daily_goal_completed"] is True
+        assert value["current_streak_days"] == 2
+
+
+def test_daily_goal_below_threshold_and_practice_milestone_boundaries():
+    owner = uuid.uuid4(); today = date(2026, 9, 13)
+    with Testing() as db:
+        learning, _ = completed(db, owner, when=datetime(2026, 9, 13, 10, tzinfo=timezone.utc))
+        ProgressionService(db).ensure_completion_award(learning.id)
+        value = ProgressionService(db).summary(owner, today=today)
+        assert value["today_xp"] == 10 and value["daily_goal_completed"] is False
+        milestones = {item["id"]: item for item in value["milestones"]}
+        assert milestones["first-session"] == {"id":"first-session", "label":"Premier exercice terminé", "kind":"sessions", "target":1, "current":1, "unlocked":True}
+        assert milestones["five-sessions"]["current"] == 1 and milestones["five-sessions"]["target"] == 5
+        assert milestones["xp-100"]["current"] == 10 and milestones["xp-100"]["target"] == 100
+        assert milestones["streak-3"]["current"] == 1 and milestones["streak-3"]["target"] == 3
+
+
+def test_all_practice_milestones_derive_from_sessions_xp_and_longest_streak():
+    owner = uuid.uuid4(); start = date(2026, 1, 1)
+    with Testing() as db:
+        for index in range(50):
+            day = start + timedelta(days=index if index < 7 else 20)
+            learning, _ = completed(db, owner, when=datetime.combine(day, datetime.min.time(), timezone.utc))
+            ProgressionService(db).ensure_completion_award(learning.id)
+        db.commit()
+        value = ProgressionService(db).summary(owner, today=start + timedelta(days=20))
+        milestones = {item["id"]: item for item in value["milestones"]}
+        assert value["completed_sessions"] == 50 and value["total_xp"] == 500
+        assert all(milestones[key]["unlocked"] for key in ("first-session", "five-sessions", "xp-100", "streak-3", "streak-7", "xp-500"))
+        assert milestones["streak-7"]["current"] == 7
+        assert milestones["xp-500"]["current"] == 500

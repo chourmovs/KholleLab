@@ -4,3 +4,6 @@ main{width:var(--app-width);max-width:1720px;margin:auto;padding:18px 0 8px}.she
 .problem-body{padding-top:14px}.problem-meta{align-items:center;margin:4px 0 10px;padding-bottom:12px;border-bottom:1px solid var(--line)}.problem-meta .badge{display:inline-flex;align-items:center;min-height:25px;white-space:nowrap}.problem-body .source{margin:0 0 17px;font-size:11px;letter-spacing:.03em}.problem-statement{padding:2px 0 4px}.resource-actions{align-items:center;flex-wrap:wrap}
 .progression-pill{position:relative;z-index:2;display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border:1px solid rgba(143,214,189,.55);border-radius:999px;color:var(--accent);background:rgba(143,214,189,.08);font-size:11px;font-weight:750;white-space:nowrap}
 @media(max-width:700px){.progression-pill{padding:4px 7px}.progression-pill .progression-grade{display:none}}
+.progression-pill{font-family:inherit;cursor:pointer}.progression-pill:hover,.progression-pill:focus-visible{background:rgba(143,214,189,.18);outline-color:var(--accent)}
+.xp-toast{position:fixed;z-index:20;top:4.5rem;right:1rem;padding:.55rem .9rem;border:1px solid rgba(143,214,189,.55);border-radius:999px;background:var(--surface);color:var(--accent);font-weight:800;box-shadow:var(--shadow)}
+@media(max-width:700px){.xp-toast{top:4rem;right:.5rem}}

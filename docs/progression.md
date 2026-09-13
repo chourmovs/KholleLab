@@ -56,3 +56,15 @@ sessions increase XP but count as a single active day.
 The progression summary endpoint is `GET /api/progression`. It is scoped by the same resolved
 learner identity as sessions, so anonymous browsers, claimed accounts, and all authenticated
 devices see the appropriate shared history while unrelated anonymous identities cannot see it.
+
+## Daily practice goal and milestones
+
+The read model also derives a **20 XP daily practice goal** from events whose `activity_date` is the
+current Europe/Paris date. Missing the goal has no penalty and does not alter streaks. Six compact,
+deterministic milestones cover only completed-session counts, lifetime XP, and the historical
+longest streak. They are computed from the existing ledger on every summary read and are never
+persisted as achievements.
+
+`today_xp` is computed in the same aggregate query as lifetime XP and completed sessions. Streaks
+reuse one ordered query of distinct activity dates, so their processing cost scales with active
+days rather than attempts, evaluations, or blackboard edits. No per-event or per-day query is used.

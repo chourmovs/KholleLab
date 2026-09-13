@@ -2,7 +2,7 @@ import uuid
 from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-from sqlalchemy import distinct, func, select
+from sqlalchemy import case, distinct, func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -11,8 +11,18 @@ from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.models.progression_event import ProgressionEvent, ProgressionEventType
 
 SESSION_COMPLETED_XP = 10
+DAILY_GOAL_XP = 20
 XP_POLICY_VERSION = "xp-v1"
 PROGRESSION_TIMEZONE = "Europe/Paris"
+
+MILESTONE_CATALOGUE = (
+    {"id": "first-session", "label": "Premier exercice terminé", "kind": "sessions", "target": 1},
+    {"id": "five-sessions", "label": "5 exercices terminés", "kind": "sessions", "target": 5},
+    {"id": "xp-100", "label": "Cap des 100 XP", "kind": "xp", "target": 100},
+    {"id": "streak-3", "label": "3 jours de suite", "kind": "streak", "target": 3},
+    {"id": "streak-7", "label": "Une semaine régulière", "kind": "streak", "target": 7},
+    {"id": "xp-500", "label": "Cap des 500 XP", "kind": "xp", "target": 500},
+)
 
 
 def paris_activity_date(value: datetime) -> date:
@@ -78,21 +88,26 @@ class ProgressionService:
             ))
 
     def summary(self, learner_id: uuid.UUID, today: date | None = None) -> dict:
+        current_day = today or datetime.now(ZoneInfo(PROGRESSION_TIMEZONE)).date()
         rows = self.db.execute(select(
             func.coalesce(func.sum(ProgressionEvent.xp), 0),
             func.count(ProgressionEvent.id),
+            func.coalesce(func.sum(case(
+                (ProgressionEvent.activity_date == current_day, ProgressionEvent.xp), else_=0
+            )), 0),
         ).join(LearningSession, ProgressionEvent.session_id == LearningSession.id).where(
             LearningSession.learner_id == learner_id,
             ProgressionEvent.event_type == ProgressionEventType.SESSION_COMPLETED,
         )).one()
+        # Streak work scales with distinct active days, never with attempts,
+        # evaluations, or blackboard edits. Today XP stays in the aggregate query above.
         dates = list(self.db.scalars(select(distinct(ProgressionEvent.activity_date)).join(
             LearningSession, ProgressionEvent.session_id == LearningSession.id
         ).where(
             LearningSession.learner_id == learner_id,
             ProgressionEvent.event_type == ProgressionEventType.SESSION_COMPLETED,
         ).order_by(ProgressionEvent.activity_date)))
-        total_xp, completed_sessions = int(rows[0]), int(rows[1])
-        current_day = today or datetime.now(ZoneInfo(PROGRESSION_TIMEZONE)).date()
+        total_xp, completed_sessions, today_xp = int(rows[0]), int(rows[1]), int(rows[2])
         current, longest, run = 0, 0, 0
         previous = None
         for active_date in dates:
@@ -109,6 +124,12 @@ class ProgressionService:
         grade = grade_for_xp(total_xp)
         current_start = grade_threshold(grade)
         next_xp = grade_threshold(grade + 1)
+        milestone_values = {"sessions": completed_sessions, "xp": total_xp, "streak": longest}
+        milestones = [{
+            **item,
+            "current": milestone_values[item["kind"]],
+            "unlocked": milestone_values[item["kind"]] >= item["target"],
+        } for item in MILESTONE_CATALOGUE]
         return {
             "total_xp": total_xp,
             "grade": grade,
@@ -120,5 +141,9 @@ class ProgressionService:
             "active_today": current_day in set(dates),
             "last_active_date": last,
             "completed_sessions": completed_sessions,
+            "today_xp": today_xp,
+            "daily_goal_xp": DAILY_GOAL_XP,
+            "daily_goal_completed": today_xp >= DAILY_GOAL_XP,
+            "milestones": milestones,
             "timezone": PROGRESSION_TIMEZONE,
         }

@@ -1,5 +1,5 @@
 "use client";
-import {useEffect,useState} from "react";
+import {useEffect,useRef,useState} from "react";
 import Image from "next/image";
 import {Activity,FileText,History,RefreshCw,UserRound} from "lucide-react";
 import {StatusBadge} from "./status-badge";
@@ -16,10 +16,30 @@ export function AppHeader({health,inference,onRefresh,onHistory,onProfile}:{heal
   const[account,setAccount]=useState<Account>({authenticated:false,anonymous_sessions_available:0});
   const[accountOpen,setAccountOpen]=useState(false);
   const[progression,setProgression]=useState<ProgressionSummary>();
-  async function refreshProgression(){try{setProgression(await getProgression())}catch{/* Keep the workspace usable if this summary is unavailable. */}}
+  const[toast,setToast]=useState<string>();
+  const progressionRef=useRef<ProgressionSummary|undefined>(undefined);
+  const toastTimer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined);
+  async function refreshProgression(reason?:string){
+    try{
+      const next=await getProgression();
+      const previous=progressionRef.current;
+      progressionRef.current=next;
+      setProgression(next);
+      if(reason==="submission"&&previous&&next.total_xp>previous.total_xp){
+        setToast(`+${next.total_xp-previous.total_xp} XP`);
+        if(toastTimer.current)clearTimeout(toastTimer.current);
+        toastTimer.current=setTimeout(()=>setToast(undefined),2000);
+      }
+    }catch{/* Keep the workspace usable if this summary is unavailable. */}
+  }
   useEffect(()=>{void Promise.resolve(getCurrentAccount()).then(value=>value&&setAccount(value)).catch(()=>undefined)},[]);
-  useEffect(()=>{queueMicrotask(()=>void refreshProgression());const refresh=()=>void refreshProgression();window.addEventListener("khollelab:progression-refresh",refresh);return()=>window.removeEventListener("khollelab:progression-refresh",refresh)},[]);
+  useEffect(()=>{
+    queueMicrotask(()=>void refreshProgression());
+    const refresh=(event:Event)=>void refreshProgression((event as CustomEvent<{reason?:string}>).detail?.reason);
+    window.addEventListener("khollelab:progression-refresh",refresh);
+    return()=>{window.removeEventListener("khollelab:progression-refresh",refresh);if(toastTimer.current)clearTimeout(toastTimer.current)};
+  },[]);
   useEffect(()=>{const open=()=>setLogs(true);window.addEventListener("khollelab:open-diagnostics",open);return()=>window.removeEventListener("khollelab:open-diagnostics",open)},[]);
   const online=health?.status==="ok"&&health.problem_corpus==="ok"&&health.problem_count>0;
-  return <><header className="app-header"><div className="header-maths" aria-hidden="true"/><div className="brand-lockup"><Image src="/assets/brand/khollelab-logo-dark.svg" alt="KHOLLELAB" width={500} height={125} style={{height:"auto"}} priority/></div><div className="header-utilities"><details className="inference-status"><summary className="status-badge success" title={title(inference)}><Activity/>{inference?.provider==="fake"?"IA simulée":labels[inference?.status??"unavailable"]}</summary><div className="inference-popover"><span style={{whiteSpace:"pre-line"}}>{title(inference)}</span><button onClick={onRefresh}><RefreshCw/> Actualiser</button></div></details><button className="utility-button" title="Historique" onClick={onHistory}><History/><span>Historique</span></button><button className="utility-button" title={account.authenticated?"Mon compte":"Se connecter"} onClick={()=>setAccountOpen(true)}><UserRound/><span>{account.authenticated?(account.display_name||account.email?.split("@")[0]||"Mon compte"):"Se connecter"}</span></button><button className="utility-button" title="Profil" aria-label="Profil d’apprentissage" onClick={onProfile}><UserRound/><span>Profil</span></button><button className="utility-button" title="Logs et diagnostics" aria-label="Ouvrir les logs et diagnostics" onClick={()=>setLogs(true)}><FileText/><span>Logs</span></button>{progression&&<span className="progression-pill" aria-label={`Grade ${progression.grade}, ${progression.total_xp} XP, série de ${progression.current_streak_days} jours`}><span className="progression-grade">G{progression.grade} · </span>{progression.total_xp} XP · 🔥{progression.current_streak_days}</span>}<StatusBadge online={online}/></div></header>{logs&&<DiagnosticsModal onClose={()=>setLogs(false)}/>} {accountOpen&&<AccountDialog account={account} onAccount={value=>{setAccount(value);void refreshProgression()}} onClose={()=>setAccountOpen(false)}/>} {account.authenticated&&<button className="account-logout" onClick={async()=>{await logoutAccount();setAccount({authenticated:false,anonymous_sessions_available:0});await refreshProgression()}}>Se déconnecter</button>}</>;
+  return <><header className="app-header"><div className="header-maths" aria-hidden="true"/><div className="brand-lockup"><Image src="/assets/brand/khollelab-logo-dark.svg" alt="KHOLLELAB" width={500} height={125} style={{height:"auto"}} priority/></div><div className="header-utilities"><details className="inference-status"><summary className="status-badge success" title={title(inference)}><Activity/>{inference?.provider==="fake"?"IA simulée":labels[inference?.status??"unavailable"]}</summary><div className="inference-popover"><span style={{whiteSpace:"pre-line"}}>{title(inference)}</span><button onClick={onRefresh}><RefreshCw/> Actualiser</button></div></details><button className="utility-button" title="Historique" onClick={onHistory}><History/><span>Historique</span></button><button className="utility-button" title={account.authenticated?"Mon compte":"Se connecter"} onClick={()=>setAccountOpen(true)}><UserRound/><span>{account.authenticated?(account.display_name||account.email?.split("@")[0]||"Mon compte"):"Se connecter"}</span></button><button className="utility-button" title="Profil" aria-label="Profil d’apprentissage" onClick={onProfile}><UserRound/><span>Profil</span></button><button className="utility-button" title="Logs et diagnostics" aria-label="Ouvrir les logs et diagnostics" onClick={()=>setLogs(true)}><FileText/><span>Logs</span></button>{progression&&<button type="button" className="progression-pill" onClick={onProfile} aria-label={`Progression : grade ${progression.grade}, ${progression.total_xp} XP, série de ${progression.current_streak_days} jours. Ouvrir le profil.`}><span className="progression-grade">G{progression.grade} · </span>{progression.total_xp} XP · 🔥{progression.current_streak_days}</button>}<StatusBadge online={online}/></div></header>{toast&&<div className="xp-toast" role="status" aria-live="polite">{toast}</div>}{logs&&<DiagnosticsModal onClose={()=>setLogs(false)}/>} {accountOpen&&<AccountDialog account={account} onAccount={value=>{setAccount(value);void refreshProgression()}} onClose={()=>setAccountOpen(false)}/>} {account.authenticated&&<button className="account-logout" onClick={async()=>{await logoutAccount();setAccount({authenticated:false,anonymous_sessions_available:0});await refreshProgression()}}>Se déconnecter</button>}</>;
 }
