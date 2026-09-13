@@ -1,11 +1,11 @@
 "use client";
 import {Mic,Square} from "lucide-react";
-import {useEffect,useRef,useState} from "react";
+import {useEffect,useRef,useState,useSyncExternalStore} from "react";
 import {createSpeechRecognition,normalizeDictation,speechRecognitionSupported,type BrowserSpeechRecognition} from "@/lib/speech-recognition";
 type DictationState="idle"|"listening"|"processing";
 const errors:Record<string,string>={"not-allowed":"Accès au microphone refusé. Vous pouvez continuer avec les claviers.","service-not-allowed":"Reconnaissance vocale indisponible.","audio-capture":"Aucun microphone disponible.","no-speech":"Aucune parole détectée.",network:"Service de reconnaissance vocale indisponible.",aborted:"Dictée arrêtée."};
 export function SpeechDictationControl({onFinal,disabled=false,contextKey}:{onFinal:(text:string)=>void;disabled?:boolean;contextKey?:string}){
- const supported=speechRecognitionSupported(),recognition=useRef<BrowserSpeechRecognition|null>(null),generation=useRef(0),[state,setState]=useState<DictationState>("idle"),[status,setStatus]=useState(""),[interim,setInterim]=useState("");
+ const supported=useSyncExternalStore(()=>()=>{},speechRecognitionSupported,()=>false),recognition=useRef<BrowserSpeechRecognition|null>(null),generation=useRef(0),[state,setState]=useState<DictationState>("idle"),[status,setStatus]=useState(""),[interim,setInterim]=useState("");
  // A context transition must synchronously invalidate callbacks before the old recognizer can emit again.
  // eslint-disable-next-line react-hooks/set-state-in-effect
  useEffect(()=>{generation.current++;const active=recognition.current;recognition.current=null;active?.abort();setState("idle");setInterim("")},[contextKey,disabled]);
