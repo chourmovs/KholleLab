@@ -16,9 +16,7 @@ export interface CurriculumExpectationOption {id:string;label:string;theme?:stri
 export interface CurriculumDomain {id:string;label:string;expectations:CurriculumExpectationOption[]}
 export interface CurriculumLevelMetadata {id:string;label:string;short_label:string;stage:string;programme:{id:string;label:string};domains:CurriculumDomain[]}
 export interface CurriculumMetadata {academic_year:string;levels:CurriculumLevelMetadata[];difficulties:{id:number;label:string}[]}
-export type SelectionMode="manual"|"adaptive"|"fallback";
 export interface SelectionAdaptation {reason_codes:string[];targeted_topics:string[];targeted_skills:string[];targeted_prerequisites:string[];target_knowledge_ids?:string[]}
-export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean;selection_mode?:SelectionMode;adaptation?:SelectionAdaptation}
 export interface CurriculumLevelProgress {level:string;eligible:number;solved:number;progress:number;progress_percent:number;unlocked:boolean;current:boolean}
 export interface CurriculumProgressSummary {initial_level:string;current_level:string;highest_unlocked_level:string;onboarding_completed:boolean;unlock_ratio:number;current:Omit<CurriculumLevelProgress,"unlocked"|"current">;next_level:string|null;next_level_unlocked:boolean;can_advance:boolean;remaining_to_unlock:number;levels:CurriculumLevelProgress[]}
 export interface GuidedSelectionResult {problem:ProblemDetail;current_level:string;target_difficulty:number;actual_difficulty:number;candidate_pool:"resume_active"|"unsolved"|"review";selection_mode:"guided";level_progress:Pick<CurriculumLevelProgress,"eligible"|"solved"|"progress"|"progress_percent">;adaptation?:SelectionAdaptation}
@@ -42,4 +40,4 @@ export interface ConsolidationItem {kind:"knowledge"|"topic"|"skill";identifier:
 export interface LearnerProfile {activity:ProfileActivity;knowledge:KnowledgeMasterySummary[];topics:MasterySummary[];skills:MasterySummary[];strengths:KnowledgeMasterySummary[];needs_consolidation:ConsolidationItem[];generated_at:string;evidence_window:{sessions_considered:number;max_sessions:number}}
 export type PracticeMilestoneKind="sessions"|"xp"|"streak";
 export interface PracticeMilestone {id:string;label:string;kind:PracticeMilestoneKind;unlocked:boolean;current:number;target:number}
-export interface ProgressionSummary {total_xp:number;grade:number;current_grade_start_xp:number;next_grade_xp:number;xp_to_next_grade:number;current_streak_days:number;longest_streak_days:number;active_today:boolean;last_active_date:string|null;completed_sessions:number;today_xp:number;daily_goal_xp:number;daily_goal_completed:boolean;milestones:PracticeMilestone[];timezone:string}
+export interface ProgressionSummary {total_xp:number;xp_rank:number;current_rank_start_xp:number;next_rank_xp:number;xp_to_next_rank:number;current_streak_days:number;longest_streak_days:number;active_today:boolean;last_active_date:string|null;completed_sessions:number;today_xp:number;daily_goal_xp:number;daily_goal_completed:boolean;milestones:PracticeMilestone[];timezone:string}

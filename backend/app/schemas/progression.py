@@ -16,11 +16,9 @@ class PracticeMilestone(BaseModel):
 class ProgressionSummary(BaseModel):
     total_xp: int
     xp_rank: int
-    # Legacy engagement rank retained until frontend migration in PR17.
-    grade: int
-    current_grade_start_xp: int
-    next_grade_xp: int
-    xp_to_next_grade: int
+    current_rank_start_xp: int
+    next_rank_xp: int
+    xp_to_next_rank: int
     current_streak_days: int
     longest_streak_days: int
     active_today: bool

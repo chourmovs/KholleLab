@@ -18,7 +18,7 @@ export async function mockApi(page:Page,{onboardingCompleted=true}:{onboardingCo
       {id:"maths-spe",label:"Maths Spé",short_label:"Spé",stage:"cpge",programme:{id:"cpge",label:"CPGE"},domains:[]},
     ],difficulties:[1,2,3,4,5].map(id=>({id,label:`Niveau ${id}`}))};
     else if(path==="/api/problems")body=[problem];
-    else if(path==="/api/problems/select")body={problem,requested_level:"seconde",requested_difficulty:2,actual_difficulty:2,fallback_used:false};
+    else if(path==="/api/problems/next")body={problem,current_level:"seconde",target_difficulty:2,actual_difficulty:2,candidate_pool:"unsolved",selection_mode:"guided",level_progress:{eligible:1,solved:0,progress:0,progress_percent:0}};
     else if(path==="/api/sessions/active/latest")body=null;
     else if(path===`/api/problems/${problem.id}/resources`)body={problem_id:problem.id,resources:[]};
     else if(path==="/api/health")body={status:"ok",database:"ok",problem_corpus:"ok",problem_count:1,resource_corpus:"ok",resource_count:1,curriculum_levels:1};
@@ -29,7 +29,7 @@ export async function mockApi(page:Page,{onboardingCompleted=true}:{onboardingCo
     }
     else if(path==="/api/curriculum-progress")body={initial_level:onboardingCompleted?"seconde":"",current_level:onboardingCompleted?"seconde":"",highest_unlocked_level:onboardingCompleted?"seconde":"",onboarding_completed:onboardingCompleted,unlock_ratio:.6,current:{level:onboardingCompleted?"seconde":"",eligible:10,solved:onboardingCompleted?7:0,progress:onboardingCompleted?0.7:0,progress_percent:onboardingCompleted?70:0},next_level:onboardingCompleted?"premiere":null,next_level_unlocked:onboardingCompleted,can_advance:onboardingCompleted,remaining_to_unlock:onboardingCompleted?0:6,levels:[]};
     else if(path==="/api/auth/me")body={authenticated:false,anonymous_sessions_available:0};
-    else if(path==="/api/progression")body={total_xp:20,grade:1,current_grade_start_xp:0,next_grade_xp:50,xp_to_next_grade:30,current_streak_days:1,longest_streak_days:1,active_today:true,last_active_date:"2026-01-01",completed_sessions:1,today_xp:10,daily_goal_xp:20,daily_goal_completed:false,milestones:[],timezone:"Europe/Paris"};
+    else if(path==="/api/progression")body={total_xp:20,xp_rank:1,current_rank_start_xp:0,next_rank_xp:50,xp_to_next_rank:30,current_streak_days:1,longest_streak_days:1,active_today:true,last_active_date:"2026-01-01",completed_sessions:1,today_xp:10,daily_goal_xp:20,daily_goal_completed:false,milestones:[],timezone:"Europe/Paris"};
     else if(path==="/api/sessions"&&route.request().method()==="GET")body=[];
     else if(path==="/api/sessions")body={session_id:"00000000-0000-4000-8000-000000000002",problem_id:problem.id,problem_title:problem.title,status:"active",created_at:attempt.started_at,updated_at:savedAttempt.updated_at,started_at:attempt.started_at,completed_at:null,duration_seconds:0,number_of_attempts:1,number_of_tutor_interactions:0,outcome:null,problem,attempts:[savedAttempt],current_attempt_id:savedAttempt.id,final_work:"",tutor_assessment:null,resource_recommendation:null};
     else if(path==="/api/attempts"||path===`/api/attempts/${attempt.id}`){if(route.request().method()==="PATCH"){const update=route.request().postDataJSON() as {solution_markdown:string;elapsed_seconds:number};savedAttempt={...savedAttempt,solution_markdown:update.solution_markdown,elapsed_seconds:update.elapsed_seconds,revision:savedAttempt.revision+1,updated_at:new Date().toISOString()}}body=savedAttempt}

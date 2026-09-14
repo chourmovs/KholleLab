@@ -13,7 +13,7 @@ for(const viewport of viewports)test(`workspace remains structured at ${viewport
     const box=(selector:string)=>document.querySelector(selector)!.getBoundingClientRect();
     const contains=(outer:DOMRect,inner:DOMRect)=>inner.left>=outer.left-.5&&inner.right<=outer.right+.5&&inner.top>=outer.top-.5&&inner.bottom<=outer.bottom+.5;
     const intersects=(a:DOMRect,b:DOMRect)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
-    const header=box(".app-header"),logo=box(".brand-lockup"),utilities=box(".header-utilities"),professor=box(".professor-pane"),portrait=box(".professor-portrait"),navigation=box(".problem-navigation"),workspace=box(".workspace-layout"),tools=box(".tool-rail");
+    const header=box(".app-header"),logo=box(".brand-lockup"),utilities=box(".header-utilities"),professor=box(".professor-pane"),portrait=box(".professor-portrait"),navigation=box(".guided-navigation"),workspace=box(".workspace-layout"),tools=box(".tool-rail");
     return {logoContained:contains(header,logo),logoUtilitiesOverlap:intersects(logo,utilities),portraitContained:contains(professor,portrait),navigationPortraitOverlap:intersects(navigation,portrait),toolsContained:contains(workspace,tools)};
   });
   if(viewport.width>700){expect(geometry.logoContained).toBe(true);expect(geometry.logoUtilitiesOverlap).toBe(false)}
