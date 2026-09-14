@@ -3,7 +3,7 @@ import type {Page} from "@playwright/test";
 const problem={id:"e2e-problem",title:"Functions",curriculum:{level:"seconde",difficulty:2,expectations:["seconde-functions"]},topics:["algebra"],source:{type:"internal",name:"Playwright"},statement:"Pour $f(x)=-2x+7$, déterminer l’antécédent de $1$.",hint_levels:[],prerequisites:[],skills:[]};
 const attempt={id:"00000000-0000-4000-8000-000000000001",problem_id:problem.id,status:"draft",solution_markdown:"",revision:0,elapsed_seconds:0,started_at:"2026-01-01T00:00:00Z",updated_at:"2026-01-01T00:00:00Z",submitted_at:null};
 
-export async function mockApi(page:Page){
+export async function mockApi(page:Page,{onboardingCompleted=true}:{onboardingCompleted?:boolean}={}){
   let savedAttempt={...attempt};
   await page.route("**/api/**",async route=>{
     const path=new URL(route.request().url()).pathname;
@@ -23,7 +23,11 @@ export async function mockApi(page:Page){
     else if(path===`/api/problems/${problem.id}/resources`)body={problem_id:problem.id,resources:[]};
     else if(path==="/api/health")body={status:"ok",database:"ok",problem_corpus:"ok",problem_count:1,resource_corpus:"ok",resource_count:1,curriculum_levels:1};
     else if(path==="/api/inference/status")body={provider:"fake",status:"ready",family:"fake",fast_model:"fake",fast_backend:"fake",deep_model:"fake",deep_backend:"fake"};
-    else if(path==="/api/curriculum-progress")body={initial_level:"seconde",current_level:"seconde",highest_unlocked_level:"seconde",onboarding_completed:true,unlock_ratio:.6,current:{level:"seconde",eligible:10,solved:7,progress:.7,progress_percent:70},next_level:"premiere",next_level_unlocked:true,can_advance:true,remaining_to_unlock:0,levels:[]};
+    else if(path==="/api/curriculum-progress/initial-level"&&route.request().method()==="PUT"){
+      const {level}=route.request().postDataJSON() as {level:string};onboardingCompleted=true;
+      body={initial_level:level,current_level:level,highest_unlocked_level:level,onboarding_completed:true,unlock_ratio:.6,current:{level,eligible:10,solved:0,progress:0,progress_percent:0},next_level:null,next_level_unlocked:false,can_advance:false,remaining_to_unlock:6,levels:[]};
+    }
+    else if(path==="/api/curriculum-progress")body={initial_level:onboardingCompleted?"seconde":"",current_level:onboardingCompleted?"seconde":"",highest_unlocked_level:onboardingCompleted?"seconde":"",onboarding_completed:onboardingCompleted,unlock_ratio:.6,current:{level:onboardingCompleted?"seconde":"",eligible:10,solved:onboardingCompleted?7:0,progress:onboardingCompleted?0.7:0,progress_percent:onboardingCompleted?70:0},next_level:onboardingCompleted?"premiere":null,next_level_unlocked:onboardingCompleted,can_advance:onboardingCompleted,remaining_to_unlock:onboardingCompleted?0:6,levels:[]};
     else if(path==="/api/auth/me")body={authenticated:false,anonymous_sessions_available:0};
     else if(path==="/api/progression")body={total_xp:20,grade:1,current_grade_start_xp:0,next_grade_xp:50,xp_to_next_grade:30,current_streak_days:1,longest_streak_days:1,active_today:true,last_active_date:"2026-01-01",completed_sessions:1,today_xp:10,daily_goal_xp:20,daily_goal_completed:false,milestones:[],timezone:"Europe/Paris"};
     else if(path==="/api/sessions"&&route.request().method()==="GET")body=[];

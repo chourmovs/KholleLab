@@ -1,0 +1,4 @@
+import type {CurriculumLevelMetadata} from "@/lib/types";
+import {LevelCard} from "./level-card";
+const STAGES:Record<string,string>={college:"Collège",lycee:"Lycée",cpge:"Prépa"};
+export function LevelSelector({levels,selected,disabled,onSelect}:{levels:CurriculumLevelMetadata[];selected?:string;disabled:boolean;onSelect:(id:string)=>void}){const groups=levels.reduce<Map<string,CurriculumLevelMetadata[]>>((map,level)=>map.set(level.stage,[...(map.get(level.stage)??[]),level]),new Map());return <div className="level-selector" role="radiogroup" aria-label="Niveau de départ">{[...groups].map(([stage,items])=><section key={stage} aria-labelledby={`stage-${stage}`}><h2 id={`stage-${stage}`}>{STAGES[stage]??stage.replace(/[-_]/g," ").replace(/^./,c=>c.toUpperCase())}</h2><div className="level-grid">{items.map(level=><LevelCard key={level.id} level={level} selected={selected===level.id} disabled={disabled} onSelect={()=>onSelect(level.id)}/>)}</div></section>)}</div>}
