@@ -33,8 +33,8 @@ def require_trusted_browser_origin(request: Request):
         canonical_origin = "invalid"
     if canonical_origin not in settings.auth_trusted_origin_list:
         log.warning(
-            "event=auth_origin_rejected origin={} method={} path={}",
-            canonical_origin, request.method, request.url.path,
+            "event=auth_origin_rejected origin={} trusted_origins={} method={} path={}",
+            origin, settings.auth_trusted_origin_list, request.method, request.url.path,
         )
         raise HTTPException(403, "Origine de la requête refusée.")
 

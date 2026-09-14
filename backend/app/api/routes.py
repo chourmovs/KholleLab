@@ -40,7 +40,7 @@ async def get_health(request: Request):
     except Exception:
         component_logger("application").exception("Inference diagnostic failed during health check")
         inference = "error"
-    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "resource_corpus": "ok", "resource_count": resource_repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference}
+    return {"status": "ok", "service": "khollelab-api", "database": "ok", "problem_corpus": "ok", "problem_count": repository.count, "resource_corpus": "ok", "resource_count": resource_repository.count, "curriculum_levels": len({p.curriculum.level for p in repository.list()}), "inference": inference, "auth_origin_configured": settings.auth_origin_configured}
 
 @router.get("/inference/status", response_model=InferenceStatusResponse)
 async def get_inference_status(refresh: bool = Query(False)):

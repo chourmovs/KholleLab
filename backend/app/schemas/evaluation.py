@@ -114,3 +114,4 @@ class HealthResponse(BaseModel):
     resource_count: int
     curriculum_levels: int
     inference: Literal["disabled", "ready", "unavailable", "error"]
+    auth_origin_configured: bool

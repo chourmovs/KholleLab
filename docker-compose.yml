@@ -23,6 +23,7 @@ services:
       APP_ENV: ${APP_ENV:-development}
       DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://khollelab:khollelab-dev@postgres:5432/khollelab}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      # Required explicitly when APP_ENV=production; there is no production fallback.
       AUTH_TRUSTED_ORIGINS: ${AUTH_TRUSTED_ORIGINS:-}
       PROBLEMS_DIR: /problems
       RESOURCES_DIR: /resources

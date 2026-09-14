@@ -32,14 +32,19 @@ def test_explicit_auth_trusted_origins_are_separate_from_cors():
     assert configured.auth_trusted_origin_list == ["https://kholle.example.test"]
 
 
-def test_production_can_start_before_public_origin_is_configured():
-    configured = Settings(
-        database_url="sqlite://",
-        app_env="production",
-        cors_origins="http://localhost:3000",
-    )
+def test_production_requires_explicit_auth_trusted_origins():
+    with pytest.raises(ValidationError, match="explicitly configured"):
+        Settings(database_url="sqlite://", app_env="production",
+                 cors_origins="https://kholle.example.test")
 
-    # Keep the safe, exact-origin fallback without making the whole API unhealthy.
-    # Authentication mutations from a public origin remain rejected until the
-    # deployment explicitly configures CORS_ORIGINS or AUTH_TRUSTED_ORIGINS.
-    assert configured.auth_trusted_origin_list == ["http://localhost:3000"]
+
+def test_production_rejects_localhost_only_auth_trusted_origins():
+    with pytest.raises(ValidationError, match="public origin"):
+        Settings(database_url="sqlite://", app_env="production",
+                 auth_trusted_origins="https://localhost:3000")
+
+
+def test_production_accepts_an_explicit_https_public_origin():
+    configured = Settings(database_url="sqlite://", app_env="production",
+                          auth_trusted_origins="https://kholle.chouproxai.duckdns.org")
+    assert configured.auth_trusted_origin_list == ["https://kholle.chouproxai.duckdns.org"]

@@ -1,4 +1,5 @@
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 from fastapi.testclient import TestClient
@@ -69,6 +70,22 @@ def test_foreign_and_lookalike_origins_are_rejected(auth_client, origin):
     response = register(auth_client, origin=origin, email=f"student{abs(hash(origin))}@example.com")
     assert response.status_code == 403
     assert response.json()["detail"] == "Origine de la requête refusée."
+
+
+def test_rejected_origin_log_contains_deployment_context(auth_client, monkeypatch):
+    auth_log = Mock()
+    monkeypatch.setattr("app.api.auth.log", auth_log)
+
+    response = register(auth_client, origin="https://evil.example", email="logged@example.com")
+
+    assert response.status_code == 403
+    auth_log.warning.assert_called_once_with(
+        "event=auth_origin_rejected origin={} trusted_origins={} method={} path={}",
+        "https://evil.example",
+        ["https://kholle.example.test"],
+        "POST",
+        "/api/auth/register",
+    )
 
 
 @pytest.mark.parametrize(
