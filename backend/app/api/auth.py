@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.api.attempts import session as db_session
-from app.core.config import settings
+from app.core.config import canonicalize_origin, settings
 from app.core.logging import component_logger
 from app.models.auth import AuthSession, UserAccount
 from app.models.attempt import utcnow
@@ -23,9 +23,19 @@ log = component_logger("authentication")
 _failures: dict[str, deque[float]] = defaultdict(deque)
 _lock = threading.Lock()
 
-def reject_cross_origin(request: Request):
+def require_trusted_browser_origin(request: Request):
     origin = request.headers.get("origin")
-    if origin and origin not in settings.cors_origin_list:
+    if not origin:
+        return
+    try:
+        canonical_origin = canonicalize_origin(origin)
+    except ValueError:
+        canonical_origin = "invalid"
+    if canonical_origin not in settings.auth_trusted_origin_list:
+        log.warning(
+            "event=auth_origin_rejected origin={} method={} path={}",
+            canonical_origin, request.method, request.url.path,
+        )
         raise HTTPException(403, "Origine de la requête refusée.")
 
 def anonymous_count(db: Session, request: Request) -> int:
@@ -62,7 +72,7 @@ def fail(key: str):
 
 @router.post("/register", response_model=AccountView, status_code=201)
 def register(body: RegisterRequest, request: Request, response: Response, db: Session = Depends(db_session)):
-    reject_cross_origin(request); validate_password(body.password)
+    require_trusted_browser_origin(request); validate_password(body.password)
     email, normalized = normalized_or_422(body.email)
     if rate_limited("register:" + normalized): raise HTTPException(429, "Trop de tentatives. Réessayez plus tard.")
     user = UserAccount(email=email, email_normalized=normalized, password_hash=password_hash.hash(body.password),
@@ -80,7 +90,7 @@ def register(body: RegisterRequest, request: Request, response: Response, db: Se
 
 @router.post("/login", response_model=AccountView)
 def login(body: LoginRequest, request: Request, response: Response, db: Session = Depends(db_session)):
-    reject_cross_origin(request)
+    require_trusted_browser_origin(request)
     try: _, normalized = normalize_email(body.email)
     except EmailNotValidError: normalized = body.email.strip().casefold()
     key = "login:" + normalized
@@ -103,27 +113,27 @@ def require_user(request: Request) -> UserAccount:
 
 @router.post("/claim-anonymous")
 def claim(request: Request, db: Session = Depends(db_session)):
-    reject_cross_origin(request); user = require_user(request)
+    require_trusted_browser_origin(request); user = require_user(request)
     count = claim_anonymous_history(db, request.state.anonymous_learner_id, user.learner_id); db.commit()
     log.info("event=anonymous_history_claimed account_id={} session_count={}", user.id, count)
     return {"claimed_sessions": count}
 
 @router.post("/logout", status_code=204)
 def logout(request: Request, response: Response, db: Session = Depends(db_session)):
-    reject_cross_origin(request)
+    require_trusted_browser_origin(request)
     if request.state.auth_session:
         request.state.auth_session.revoked_at = utcnow(); db.commit(); log.info("event=logout account_id={}", request.state.auth_session.user_id)
     response.delete_cookie(settings.auth_cookie_name, path="/", secure=settings.app_env.lower() in {"prod", "production"}, samesite="lax")
 
 @router.post("/logout-all", status_code=204)
 def logout_all(request: Request, response: Response, db: Session = Depends(db_session)):
-    reject_cross_origin(request); user = require_user(request); revoke_sessions(db, user.id); db.commit()
+    require_trusted_browser_origin(request); user = require_user(request); revoke_sessions(db, user.id); db.commit()
     response.delete_cookie(settings.auth_cookie_name, path="/", secure=settings.app_env.lower() in {"prod", "production"}, samesite="lax")
     log.info("event=logout_all account_id={}", user.id)
 
 @router.post("/change-password", status_code=204)
 def change_password(body: ChangePasswordRequest, request: Request, db: Session = Depends(db_session)):
-    reject_cross_origin(request); user = require_user(request); validate_password(body.new_password)
+    require_trusted_browser_origin(request); user = require_user(request); validate_password(body.new_password)
     if not password_hash.verify(body.current_password, user.password_hash): raise HTTPException(400, "Mot de passe actuel incorrect.")
     user.password_hash = password_hash.hash(body.new_password); user.updated_at = utcnow()
     revoke_sessions(db, user.id, request.state.auth_session.id); db.commit()

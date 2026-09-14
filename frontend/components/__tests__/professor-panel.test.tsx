@@ -17,3 +17,19 @@ it.each([["Un indice","ask_hint",2],["Je suis bloqué","i_am_stuck",3]] as const
 it("recovers manual help buttons after a temporary 503",async()=>{draftAttempt();vi.mocked(api.assessTutor).mockRejectedValueOnce(new api.ApiError(503,{error:"tutor_unavailable"})).mockResolvedValueOnce(tutor);render(<ProfessorPanel/>);const button=screen.getByRole("button",{name:"Un indice"});fireEvent.click(button);await waitFor(()=>expect(screen.getByText("Observe")).toBeInTheDocument());fireEvent.click(button);expect(await screen.findByText(/Commence par isoler/)).toBeInTheDocument();expect(api.assessTutor).toHaveBeenCalledTimes(2)});
 
 it("renders Euler artwork and lets the learner pause observation",()=>{draftAttempt();render(<ProfessorPanel/>);const portrait=document.querySelector(".professor-portrait img");expect(portrait).toHaveAttribute("src",expect.stringContaining("professor-euler-hero.png"));expect(portrait).toHaveAttribute("alt","");expect(screen.getByText("M. Euler")).toBeInTheDocument();const observer=screen.getByRole("button",{name:"Mettre l’observation en pause"});expect(observer).toHaveAttribute("aria-pressed","true");fireEvent.click(observer);expect(screen.getByRole("button",{name:"Reprendre l’observation"})).toHaveAttribute("aria-pressed","false");expect(localStorage.getItem("khollelab.autoTutor")).toBe("off")});
+
+it("offers a controlled next action after a completed debrief",()=>{
+  useAttemptStore.setState({attemptId:"attempt-1",status:"submitted",solution:"copie",revision:4,saveState:"saved"});
+  const next=vi.fn();
+  vi.mocked(api.getEvaluation).mockResolvedValue(completed);
+  render(<ProfessorPanel onNextExercise={next}/>);
+  return screen.findByText(/DÉBRIEF DE COLLE/).then(()=>{fireEvent.click(screen.getByRole("button",{name:"Exercice suivant"}));expect(next).toHaveBeenCalledOnce()});
+});
+
+it("keeps retry and allows continuing after terminal correction failure",async()=>{
+  useAttemptStore.setState({attemptId:"attempt-1",status:"submitted",solution:"copie",revision:4,saveState:"saved"});
+  vi.mocked(api.getEvaluation).mockResolvedValue({status:"failed",stage:"failed",progress:100,max_score:20,strengths:[],issues:[],missing_justifications:[]});
+  const next=vi.fn();render(<ProfessorPanel onNextExercise={next}/>);
+  expect(await screen.findByRole("button",{name:"Réessayer"})).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button",{name:"Continuer sans correction"}));expect(next).toHaveBeenCalledOnce();
+});

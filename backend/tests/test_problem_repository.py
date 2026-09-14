@@ -36,3 +36,15 @@ def test_invalid_domain(tmp_path: Path):
 def test_duplicate_normalized_statement(tmp_path: Path):
     (tmp_path/'a.yaml').write_text(VALID); (tmp_path/'b.yaml').write_text(VALID.replace('demo-001','demo-002').replace('statement: Test','statement:   TEST  '))
     with pytest.raises(ProblemCorpusError, match='duplicate normalized statement'): ProblemRepository(tmp_path).load()
+
+
+def test_generation_family_cannot_span_curriculum_levels(tmp_path: Path):
+    generation = ("generation: {kind: parametric, family_id: shared-family, version: 1, "
+                  f"variant: 1, parameter_identity: {'a' * 64}}}\n")
+    (tmp_path / 'a.yaml').write_text(VALID + generation)
+    second = (VALID.replace('demo-001', 'demo-002')
+              .replace('statement: Test', 'statement: Another test')
+              .replace('level: premiere', 'level: terminale') + generation)
+    (tmp_path / 'b.yaml').write_text(second)
+    with pytest.raises(ProblemCorpusError, match='spans curriculum levels'):
+        ProblemRepository(tmp_path).load()

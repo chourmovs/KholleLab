@@ -76,3 +76,21 @@ class ProblemSelectionResult(PublicModel):
 class GeneratedSelectionResult(PublicModel):
     problem: ProblemPublicDetail
     pool_reused: bool
+
+
+class GuidedLevelProgress(PublicModel):
+    eligible: int
+    solved: int
+    progress: float
+    progress_percent: float
+
+
+class GuidedProblemSelectionResult(PublicModel):
+    problem: ProblemPublicDetail
+    current_level: CurriculumLevel
+    target_difficulty: int
+    actual_difficulty: int
+    candidate_pool: str
+    selection_mode: str = "guided"
+    level_progress: GuidedLevelProgress
+    adaptation: ProblemSelectionAdaptation | None = None

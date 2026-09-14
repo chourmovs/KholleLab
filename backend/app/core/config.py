@@ -1,4 +1,6 @@
 from functools import lru_cache
+from ipaddress import ip_address
+from urllib.parse import urlsplit
 
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -9,10 +11,41 @@ class ModelFamily(str, Enum):
     GEMMA = "gemma"
 
 
+def canonicalize_origin(value: str) -> str:
+    """Return the canonical HTTP origin represented by a configured/header value."""
+    candidate = value.strip()
+    if not candidate or "*" in candidate:
+        raise ValueError("origins must be exact HTTP(S) origins; wildcards are not allowed")
+    try:
+        parsed = urlsplit(candidate)
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError(f"invalid origin {value!r}") from exc
+    if parsed.scheme.lower() not in {"http", "https"} or not parsed.hostname:
+        raise ValueError(f"invalid origin {value!r}: an http(s) scheme and hostname are required")
+    if parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path not in {"", "/"}:
+        raise ValueError(f"invalid origin {value!r}: paths, credentials, queries and fragments are not allowed")
+    scheme = parsed.scheme.lower()
+    hostname = parsed.hostname.lower()
+    try:
+        hostname = hostname.encode("idna").decode("ascii")
+    except UnicodeError as exc:
+        raise ValueError(f"invalid origin hostname in {value!r}") from exc
+    host = f"[{hostname}]" if ":" in hostname else hostname
+    if port is not None and port != {"http": 80, "https": 443}[scheme]:
+        host = f"{host}:{port}"
+    return f"{scheme}://{host}"
+
+
+def _origin_list(value: str) -> list[str]:
+    return [canonicalize_origin(origin) for origin in value.split(",") if origin.strip()]
+
+
 class Settings(BaseSettings):
     app_env: str = "development"
     database_url: str = Field(description="SQLAlchemy database URL supplied by the environment")
     cors_origins: str = "http://localhost:3000"
+    auth_trusted_origins: str = ""
     problems_dir: str = "../problems"
     resources_dir: str = "../resources"
     curriculum_dir: str = "../curriculum"
@@ -90,6 +123,16 @@ class Settings(BaseSettings):
             raise ValueError("worker health maximum age must exceed heartbeat interval")
         if self.log_process_role not in {"api", "worker"}:
             raise ValueError("LOG_PROCESS_ROLE must be api or worker")
+        # Resolve both lists during validation so malformed deployment values fail at startup.
+        self.cors_origin_list
+        trusted = self.auth_trusted_origin_list
+        if self.app_env.lower() in {"prod", "production"}:
+            public_https = [origin for origin in trusted if origin.startswith("https://") and not _is_local_origin(origin)]
+            if not public_https:
+                raise ValueError(
+                    "production requires AUTH_TRUSTED_ORIGINS (or its CORS_ORIGINS fallback) "
+                    "to contain at least one public HTTPS origin"
+                )
         return self
 
     @property
@@ -101,7 +144,21 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
-        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+        return _origin_list(self.cors_origins)
+
+    @property
+    def auth_trusted_origin_list(self) -> list[str]:
+        return _origin_list(self.auth_trusted_origins or self.cors_origins)
+
+
+def _is_local_origin(origin: str) -> bool:
+    hostname = urlsplit(origin).hostname or ""
+    if hostname == "localhost" or hostname.endswith(".localhost"):
+        return True
+    try:
+        return ip_address(hostname).is_loopback
+    except ValueError:
+        return False
 
 
 @lru_cache

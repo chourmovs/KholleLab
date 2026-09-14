@@ -5,7 +5,7 @@ import uuid
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.domain.problem import Skill, Topic
+from app.domain.problem import CurriculumLevel, Skill, Topic
 from app.models.attempt import Attempt
 from app.models.evaluation import Evaluation
 from app.models.learning_session import LearningSession, LearningSessionStatus
@@ -13,6 +13,7 @@ from app.models.tutor_assessment import TutorAssessmentRecord
 from app.schemas.profile import MasteryState
 from app.services.knowledge_resolver import knowledge_for_problem
 from app.services.learner_profile import ProfileEvidence, classify, mastery_state, prerequisite_is_established
+from app.services.evidence import EvidenceKind
 
 ADAPTIVE_HISTORY_LIMIT = 20
 TARGET_LIMIT = 3
@@ -31,6 +32,8 @@ class RecentLearning:
     difficulty: int | None = None
     family_id: str | None = None
     knowledge_ids: tuple[str, ...] = ()
+    level: CurriculumLevel | None = None
+    outcome: EvidenceKind = EvidenceKind.UNASSESSED
 
 
 @dataclass(frozen=True)
@@ -86,11 +89,16 @@ class AdaptiveContextBuilder:
             outcome = classify(item.status, evaluation)
             support = latest_tutor.get(item.id, (False, None))
             difficulty = snapshot.get("difficulty", problem.curriculum.difficulty)
+            raw_level = snapshot.get("level", problem.curriculum.level.value)
+            try:
+                level = CurriculumLevel(raw_level)
+            except ValueError:
+                level = problem.curriculum.level
             profile_evidence = ProfileEvidence(item.status, item.completed_at or item.updated_at, difficulty, (), (), outcome, (), knowledge_ids)
             for identifier in knowledge_ids: evidence_by_node.setdefault(identifier, []).append(profile_evidence)
             recent_list.append(RecentLearning(item.problem_id, item.status, counts.get(item.id, 0), support[0], support[1],
                 problem.topics, problem.skills, problem.prerequisites, difficulty,
-                problem.generation.family_id if problem.generation else None, knowledge_ids))
+                problem.generation.family_id if problem.generation else None, knowledge_ids, level, outcome))
         targets = []
         for item in recent_list:
             genuine_support = item.intervention_needed or item.resource_need in {"course_gap", "method_gap"}

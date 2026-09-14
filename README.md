@@ -44,6 +44,7 @@ Pour arrêter l'application : `docker compose down`. Ajoutez `-v` uniquement si 
 | `POSTGRES_PASSWORD` | Secret PostgreSQL (à remplacer) | aucune valeur réelle versionnée |
 | `DATABASE_URL` | URL SQLAlchemy avec driver psycopg | `postgresql+psycopg://…@postgres:5432/khollelab` |
 | `CORS_ORIGINS` | Origines autorisées, séparées par des virgules | `http://localhost:3000` |
+| `AUTH_TRUSTED_ORIGINS` | Origines exactes autorisées pour les mutations d'authentification | `http://localhost:3000` |
 | `INTERNAL_API_URL` | Adresse privée utilisée uniquement par le proxy Next.js | `http://backend:8000` |
 
 `.env.example` ne contient que des valeurs de développement. Ne commitez jamais `.env` ni un secret de production. Les migrations futures pourront être créées et appliquées via `alembic revision --autogenerate` puis `alembic upgrade head` dans `backend/`.
@@ -52,7 +53,16 @@ Pour arrêter l'application : `docker compose down`. Ajoutez `-v` uniquement si 
 
 1. Créez une ressource **Docker Compose** et connectez ce dépôt Git.
 2. Définissez `POSTGRES_DB`, `POSTGRES_USER`, un `POSTGRES_PASSWORD` fort et `DATABASE_URL` avec les mêmes identifiants et l'hôte `postgres`.
-3. Définissez `APP_ENV=production`, `INTERNAL_API_URL=http://backend:8000` et `CORS_ORIGINS=https://votre-domaine`.
+3. Définissez exactement la configuration suivante (en remplaçant `PUBLIC_DOMAIN` par le nom visible dans le navigateur) :
+
+   ```dotenv
+   APP_ENV=production
+   CORS_ORIGINS=https://PUBLIC_DOMAIN
+   AUTH_TRUSTED_ORIGINS=https://PUBLIC_DOMAIN
+   INTERNAL_API_URL=http://backend:8000
+   ```
+
+   Le domaine public doit inclure `https://`, ne contenir aucun chemin et employer le nom d'hôte externe exact. Une barre oblique finale est normalisée, mais il est recommandé de l'omettre. `AUTH_TRUSTED_ORIGINS` devrait toujours être explicite en production ; son repli vers `CORS_ORIGINS` n'existe que pour préserver la compatibilité des déploiements existants. Les jokers et domaines suffixes ne sont pas acceptés, et une configuration de production sans origine HTTPS publique échoue au démarrage.
 4. Exposez uniquement le service `frontend` sur le port `3000`, puis associez-lui votre domaine et TLS dans Coolify.
 5. Laissez `backend` et `postgres` sans domaine : ils communiquent sur le réseau Compose interne. Le volume nommé `postgres_data` assure la persistance.
 

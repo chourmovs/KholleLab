@@ -14,7 +14,7 @@ from app.models.evaluation import Evaluation, EvaluationStage, EvaluationStatus
 from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.models.progression_event import ProgressionEvent, ProgressionEventType
 from app.services.progression import (PROGRESSION_TIMEZONE, SESSION_COMPLETED_XP, XP_POLICY_VERSION,
-                                      ProgressionService, grade_for_xp)
+                                      ProgressionService, xp_rank_for_xp)
 from test_session_api import Testing
 
 
@@ -70,8 +70,8 @@ def test_database_uniqueness_is_final_concurrent_award_guard():
         assert db.scalar(select(func.count(ProgressionEvent.id))) == 1
 
 
-def test_grade_formula_boundaries():
-    assert [(xp, grade_for_xp(xp)) for xp in (0, 49, 50, 149, 150, 299, 300, 500)] == [
+def test_xp_rank_formula_boundaries():
+    assert [(xp, xp_rank_for_xp(xp)) for xp in (0, 49, 50, 149, 150, 299, 300, 500)] == [
         (0, 1), (49, 1), (50, 2), (149, 2), (150, 3), (299, 3), (300, 4), (500, 5)
     ]
 
@@ -220,3 +220,14 @@ def test_all_practice_milestones_derive_from_sessions_xp_and_longest_streak():
         assert all(milestones[key]["unlocked"] for key in ("first-session", "five-sessions", "xp-100", "streak-3", "streak-7", "xp-500"))
         assert milestones["streak-7"]["current"] == 7
         assert milestones["xp-500"]["current"] == 500
+
+
+def test_progression_api_uses_xp_rank_terminology_only():
+    with TestClient(app) as client:
+        value = client.get("/api/progression").json()
+        assert value["xp_rank"] == 1
+        assert value["current_rank_start_xp"] == 0
+        assert value["next_rank_xp"] == 50
+        assert value["xp_to_next_rank"] == 50
+        assert "grade" not in value
+        assert not any("grade" in key for key in value)
