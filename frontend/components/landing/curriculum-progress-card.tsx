@@ -1,0 +1,9 @@
+import type {CurriculumMetadata,CurriculumProgressSummary} from "@/lib/types";
+
+const levelName=(id:string|null,metadata:CurriculumMetadata|undefined,short=false)=>metadata?.levels.find(level=>level.id===id)?.[short?"short_label":"label"]??"Niveau indisponible";
+export function CurriculumProgressCard({progress,metadata}:{progress:CurriculumProgressSummary;metadata?:CurriculumMetadata}){
+ const percent=Math.max(0,Math.min(100,progress.current.progress_percent));
+ const next=progress.next_level?levelName(progress.next_level,metadata):null;
+ return <section className="curriculum-card" aria-labelledby="curriculum-title"><div><p className="eyebrow">Niveau actuel</p><h1 id="curriculum-title"><span className="level-short">{levelName(progress.current_level,metadata,true)}</span><span>{levelName(progress.current_level,metadata)}</span></h1></div><div className="curriculum-measure"><p><strong>{progress.current.solved}</strong> exercices réussis sur <strong>{progress.current.eligible}</strong></p><div className="progress-line"><div className="progress-track" role="progressbar" aria-label={`Progression au niveau ${levelName(progress.current_level,metadata)}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}><span style={{width:`${percent}%`}}/></div><strong>{percent} %</strong></div></div>{next&&<div className="next-level"><span>Niveau suivant : <strong>{next}</strong></span>{progress.next_level_unlocked?<strong className="unlocked">Niveau débloqué</strong>:<span>Encore <strong>{progress.remaining_to_unlock}</strong> exercice{progress.remaining_to_unlock>1?"s":""} réussi{progress.remaining_to_unlock>1?"s":""} pour le débloquer</span>}</div>}</section>
+}
+export function CurriculumProgressSkeleton(){return <section className="curriculum-card curriculum-skeleton" aria-label="Chargement de la progression"><span/><span/><span/></section>}

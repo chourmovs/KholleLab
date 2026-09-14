@@ -11,7 +11,7 @@ for(const viewport of viewports)test(`visual regression — ${viewport.width}x${
   // ordinary reliability changes independent from generated image artifacts.
   test.skip(process.env.VISUAL_REGRESSION!=="1","visual baselines are not installed in functional CI");
   await page.setViewportSize(viewport);
-  await page.goto("/");
+  await page.goto("/kholle");
   await page.locator("main").waitFor();
   await expect(page).toHaveScreenshot(`workspace-${viewport.name}.png`,{animations:"disabled",fullPage:true});
 });
