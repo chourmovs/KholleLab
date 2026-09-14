@@ -2,6 +2,7 @@
 """Report modelled official-objective and knowledge coverage for an academic year."""
 from collections import Counter
 from datetime import date
+import math
 from pathlib import Path
 import os
 import sys
@@ -11,21 +12,40 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT), str(ROOT / "backend")]
 from app.services.curriculum_repository import CurriculumRepository, academic_year_for  # noqa: E402
 from app.services.problem_repository import ProblemRepository  # noqa: E402
+from app.services.curriculum_progression import NEXT_LEVEL_UNLOCK_RATIO  # noqa: E402
+from app.domain.problem import progression_unit_id  # noqa: E402
 from corpus_factory.families import FAMILIES  # noqa: E402
 
 curriculum = CurriculumRepository(ROOT / "curriculum"); curriculum.load()
 year = os.getenv("CURRICULUM_ACADEMIC_YEAR") or academic_year_for(date.today())
 repository = ProblemRepository(ROOT / "problems", curriculum, academic_year=year); repository.load()
-school = [p for p in repository.list() if p.curriculum.level.value not in {"maths-sup", "maths-spe"}]
+all_problems = repository.list()
+school = [p for p in all_problems if p.curriculum.level.value not in {"maths-sup", "maths-spe"}]
 active = []
 print(f"MODELLED OFFICIAL OBJECTIVE COVERAGE — academic year {year}")
 print("Warning: modelled-objective coverage is not a claim of complete French-programme coverage.")
 for level in curriculum.levels:
-    if level.stage == "cpge": continue
+    level_problems = [p for p in all_problems if p.curriculum.level == level.id]
+    standalone = sum(p.generation is None for p in level_problems)
+    families = {p.generation.family_id for p in level_problems if p.generation}
+    units = {progression_unit_id(p) for p in level_problems}
+    if level.stage == "cpge":
+        print(f"\n{level.label}")
+        print(f"  raw_problem_count: {len(level_problems)}")
+        print(f"  standalone_unit_count: {standalone}")
+        print(f"  parametric_family_count: {len(families)}")
+        print(f"  progression_unit_count: {len(units)}")
+        print(f"  unlock_required_count: {math.ceil(len(units) * NEXT_LEVEL_UNLOCK_RATIO)}")
+        continue
     programme = curriculum.resolve_programme(level.id, year)
     expectations = sorted((x for x in curriculum.expectations.values() if x.level == level.id and x.programme_id == programme.id and not x.historical), key=lambda x: (x.order, x.id))
     active.extend(expectations); covered = 0
     print(f"\n{level.label} — {programme.label} — expectations={len(expectations)}")
+    print(f"  raw_problem_count: {len(level_problems)}")
+    print(f"  standalone_unit_count: {standalone}")
+    print(f"  parametric_family_count: {len(families)}")
+    print(f"  progression_unit_count: {len(units)}")
+    print(f"  unlock_required_count: {math.ceil(len(units) * NEXT_LEVEL_UNLOCK_RATIO)}")
     print("  objective | problems | families | D1 D2 D3 D4 D5")
     for expectation in expectations:
         items = [p for p in school if expectation.id in p.curriculum.expectations]

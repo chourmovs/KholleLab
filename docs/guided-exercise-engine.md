@@ -9,9 +9,14 @@ Without active work, `LearnerCurriculumState.current_level` is authoritative. An
 unlocked higher level does not promote or redirect the learner. The eligible set is
 the validated static `ProblemCatalog.list_static()` corpus at exactly that level;
 generated material is neither selected nor included in curriculum progress. The
-engine ranks unsolved eligible IDs first, using the canonical positive-evidence
-definition from curriculum progression. Once all are solved, every eligible item
+engine ranks unsolved progression units first, using the same canonical unit identity and
+positive-evidence definition as curriculum progression. A standalone problem is one unit and
+variants sharing `generation.family_id` are one unit. After any variant succeeds, its siblings
+no longer crowd unseen units out of the primary pool. Once every unit is solved, every eligible item
 becomes a deterministic review pool. Empty pools are explicit errors.
+
+Alternate family variants remain static eligible exercises and can therefore be selected for
+review and consolidation; only their unsolved-first and progress-counting semantics change.
 
 Adaptive ranking remains shared with legacy adaptive selection. It targets weak
 knowledge and prerequisites, follows recommended sequences, rewards diversity,

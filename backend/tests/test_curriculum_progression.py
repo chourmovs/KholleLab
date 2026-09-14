@@ -8,7 +8,7 @@ from sqlalchemy import select
 
 from app.api.attempts import session
 from app.db.base import Base
-from app.domain.problem import CURRICULUM_ORDER
+from app.domain.problem import CURRICULUM_ORDER, progression_unit_id
 from app.main import app
 from app.models.attempt import Attempt, AttemptStatus
 from app.models.curriculum_state import LearnerCurriculumState
@@ -27,9 +27,13 @@ from test_session_api import Testing
 
 
 class Corpus:
-    def __init__(self, counts):
+    def __init__(self, counts, families=None):
+        families = families or {}
         self.items = [SimpleNamespace(id=f"{level}-{index}", curriculum=SimpleNamespace(
-            level=SimpleNamespace(value=level))) for level, count in counts.items() for index in range(count)]
+            level=SimpleNamespace(value=level)), generation=(
+                SimpleNamespace(family_id=families[(level, index)])
+                if (level, index) in families else None
+            )) for level, count in counts.items() for index in range(count)]
 
     def list_static(self):
         return self.items
@@ -109,6 +113,44 @@ def test_unique_success_is_permanent_across_duplicate_and_later_failed_observati
         value = CurriculumProgressionService(db, corpus).level_progress(owner, "quatrieme")
         assert value == {"level":"quatrieme", "eligible":2, "solved":1,
                          "progress":.5, "progress_percent":50.0}
+
+
+def test_progression_unit_identity_uses_structured_family_metadata():
+    standalone = Corpus({"quatrieme": 1}).items[0]
+    first = SimpleNamespace(id="variant-1", generation=SimpleNamespace(family_id="family-x"))
+    sibling = SimpleNamespace(id="variant-2", generation=SimpleNamespace(family_id="family-x"))
+    other = SimpleNamespace(id="variant-3", generation=SimpleNamespace(family_id="family-y"))
+    assert progression_unit_id(standalone) == "problem:quatrieme-0"
+    assert progression_unit_id(first) == progression_unit_id(sibling) == "family:family-x"
+    assert progression_unit_id(first) != progression_unit_id(other)
+
+
+def test_family_variants_deduplicate_and_success_is_level_isolated():
+    families = {("quatrieme", index): "family-f" for index in range(1, 9)}
+    corpus = Corpus({"quatrieme": 9, "troisieme": 1}, families)
+    owner = uuid.uuid4()
+    with Testing() as db:
+        service = CurriculumProgressionService(db, corpus)
+        assert service.eligible_progression_units("quatrieme") == {
+            "problem:quatrieme-0", "family:family-f"}
+        observation(db, owner, "quatrieme-3")
+        observation(db, owner, "quatrieme-5")
+        observation(db, owner, "quatrieme-8")
+        observation(db, owner, "troisieme-0")
+        assert service.level_progress(owner, "quatrieme")["solved"] == 1
+        observation(db, owner, "quatrieme-0")
+        assert service.level_progress(owner, "quatrieme")["solved"] == 2
+
+
+def test_nineteen_progression_units_use_exact_integer_unlock_boundary():
+    owner = uuid.uuid4(); corpus = Corpus({"quatrieme": 19, "troisieme": 1})
+    with Testing() as db:
+        service = CurriculumProgressionService(db, corpus)
+        for index in range(11):
+            observation(db, owner, f"quatrieme-{index}")
+        assert service.refresh_unlocks(owner).highest_unlocked_level == "quatrieme"
+        observation(db, owner, "quatrieme-11")
+        assert service.refresh_unlocks(owner).highest_unlocked_level == "troisieme"
 
 
 @pytest.mark.parametrize("solved,unlocked", [(59, False), (60, True), (61, True)])

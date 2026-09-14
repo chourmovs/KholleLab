@@ -110,6 +110,13 @@ any earlier, already-accessible level. Unlock is not promotion: promotion occurs
 `POST /api/curriculum-progress/advance`, and both operations reject changes while an active
 learning session exists so drafts remain untouched.
 
+Curriculum progress counts pedagogical progression units, rather than raw YAML problems. A
+standalone static problem is one unit; all static parametric variants with the same structured
+`generation.family_id` collectively form one unit. Both eligible and solved sets are built only
+from the requested level, and any positive evaluation of a family variant solves that unit.
+Runtime LLM materializations remain excluded. Thus the compatible API fields `eligible` and
+`solved` describe progression units, not file counts.
+
 The progress response exposes the current-level metrics, successor, unlock/advance flags, and
 the exact additional successes required. That value is
 `max(0, ceil(eligible * NEXT_LEVEL_UNLOCK_RATIO) - solved)` for a non-empty current corpus; it is

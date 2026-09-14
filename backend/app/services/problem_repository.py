@@ -53,7 +53,22 @@ class ProblemRepository:
                 self._add_problem(problem, path, loaded, origins, statements)
         self._problems = tuple(loaded[key] for key in sorted(loaded))
         self._by_id = dict(loaded)
+        self._validate_generation_families(origins)
         self._validate_recommendations(origins)
+
+    def _validate_generation_families(self, origins: dict[str, Path]) -> None:
+        levels: dict[str, CurriculumLevel] = {}
+        for problem in self._problems:
+            if not problem.generation:
+                continue
+            family_id = problem.generation.family_id
+            previous = levels.setdefault(family_id, problem.curriculum.level)
+            if previous != problem.curriculum.level:
+                raise ProblemCorpusError(
+                    f"Problem corpus validation failed:\n{origins[problem.id]}\nproblem ID: {problem.id}\n"
+                    f"generation family {family_id} spans curriculum levels "
+                    f"{previous.value} and {problem.curriculum.level.value}"
+                )
 
     def _add_problem(self, problem: Problem, path: Path, loaded: dict[str, Problem],
                      origins: dict[str, Path], statements: dict[str, Path]) -> None:

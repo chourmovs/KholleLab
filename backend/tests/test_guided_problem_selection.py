@@ -1,4 +1,5 @@
 from pathlib import Path
+from types import SimpleNamespace
 
 from fastapi.testclient import TestClient
 from sqlalchemy import func, select
@@ -100,6 +101,22 @@ def test_difficulty_v1_policy_is_conservative_and_bounded():
     assert GuidedProblemService.resolve_target_difficulty(Context(), "seconde")[0] == 1
     Context.recent_sessions = (Item(EvidenceKind.POSITIVE, 4, "premiere"),)
     assert GuidedProblemService.resolve_target_difficulty(Context(), "seconde")[0] == 2
+
+
+def test_guided_prioritizes_unsolved_units_then_keeps_variants_for_review():
+    level = SimpleNamespace(value="quatrieme")
+    family_1 = SimpleNamespace(id="family-f-v1", generation=SimpleNamespace(family_id="family-f"),
+                               curriculum=SimpleNamespace(level=level))
+    family_2 = SimpleNamespace(id="family-f-v2", generation=SimpleNamespace(family_id="family-f"),
+                               curriculum=SimpleNamespace(level=level))
+    standalone = SimpleNamespace(id="standalone-a", generation=None,
+                                 curriculum=SimpleNamespace(level=level))
+    candidates = [family_1, family_2, standalone]
+    assert GuidedProblemService.unsolved_candidates(candidates, {"family:family-f"}) == [standalone]
+    # With all units solved the caller falls back to the complete review pool.
+    unsolved = GuidedProblemService.unsolved_candidates(
+        candidates, {"family:family-f", "problem:standalone-a"})
+    assert (unsolved or candidates) == candidates
 
 
 def _side_effect_counts():
