@@ -159,3 +159,10 @@ class Problem(StrictModel):
             if len(values) != len(set(values)):
                 raise ValueError(f"{name} must not contain duplicates")
         return self
+
+
+def progression_unit_id(problem: Problem) -> str:
+    """Return the stable pedagogical unit represented by a static problem."""
+    generation = getattr(problem, "generation", None)
+    family_id = getattr(generation, "family_id", None)
+    return f"family:{family_id}" if family_id else f"problem:{problem.id}"

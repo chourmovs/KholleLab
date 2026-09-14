@@ -3,7 +3,7 @@ import uuid
 
 from sqlalchemy import select
 
-from app.domain.problem import CurriculumLevel
+from app.domain.problem import CurriculumLevel, progression_unit_id
 from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.services.adaptive_context import AdaptiveContextBuilder
 from app.services.adaptive_selection import AdaptiveSelectionService
@@ -30,6 +30,12 @@ class GuidedProblemService:
             return CurriculumLevel(state.current_level)
         except ValueError as exc:
             raise CurrentLevelInvalid from exc
+
+    @staticmethod
+    def unsolved_candidates(candidates, solved_units):
+        """Exclude every concrete variant of an already-solved progression unit."""
+        return [problem for problem in candidates
+                if progression_unit_id(problem) not in solved_units]
 
     @staticmethod
     def resolve_target_difficulty(context, level):
@@ -62,8 +68,8 @@ class GuidedProblemService:
         eligible = ProblemSelector(self.catalog.list_static(), curriculum, programme.id).compatible_candidates(level=level)
         if not eligible:
             raise GuidedProblemUnavailable
-        solved = self.progression.solved_problem_ids(learner_id, level.value)
-        unsolved = [problem for problem in eligible if problem.id not in solved]
+        solved = self.progression.solved_progression_units(learner_id, level.value)
+        unsolved = self.unsolved_candidates(eligible, solved)
         pool = unsolved or eligible
         result = AdaptiveSelectionService().select(pool, context, target)
         if result.problem is None:

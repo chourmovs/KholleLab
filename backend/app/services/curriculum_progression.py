@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.domain.problem import CURRICULUM_ORDER, CurriculumLevel
+from app.domain.problem import CURRICULUM_ORDER, CurriculumLevel, progression_unit_id
 from app.models.attempt import Attempt, utcnow
 from app.models.curriculum_state import LearnerCurriculumState
 from app.models.evaluation import Evaluation
@@ -133,29 +133,34 @@ class CurriculumProgressionService:
         if highest < initial or current > highest:
             raise InvalidCurriculumState("inconsistent curriculum high-water mark")
 
-    def eligible_problem_ids(self, level: str) -> set[str]:
+    def _level_problems(self, level: str):
         CurriculumLevel(level)
         source = self.problems.list_static() if hasattr(self.problems, "list_static") else self.problems.list()
-        return {problem.id for problem in source if problem.curriculum.level.value == level}
+        return [problem for problem in source if problem.curriculum.level.value == level]
 
-    def solved_problem_ids(self, learner_id: uuid.UUID, level: str,
-                           eligible: set[str] | None = None) -> set[str]:
-        eligible = self.eligible_problem_ids(level) if eligible is None else eligible
-        if not eligible:
+    def eligible_progression_units(self, level: str) -> set[str]:
+        """Return pedagogical units in the validated static corpus for one level."""
+        return {progression_unit_id(problem) for problem in self._level_problems(level)}
+
+    def solved_progression_units(self, learner_id: uuid.UUID, level: str) -> set[str]:
+        """Return level-local units having at least one canonical positive evaluation."""
+        level_problems = self._level_problems(level)
+        units_by_problem = {problem.id: progression_unit_id(problem) for problem in level_problems}
+        if not units_by_problem:
             return set()
         rows = self.db.execute(select(LearningSession.problem_id, LearningSession.status, Evaluation).join(
             Attempt, Attempt.session_id == LearningSession.id,
         ).join(Evaluation, Evaluation.attempt_id == Attempt.id).where(
             LearningSession.learner_id == learner_id,
-            LearningSession.problem_id.in_(eligible),
+            LearningSession.problem_id.in_(units_by_problem),
         )).all()
-        return {problem_id for problem_id, status, evaluation in rows
+        return {units_by_problem[problem_id] for problem_id, status, evaluation in rows
                 if classify_evidence(status, evaluation) == EvidenceKind.POSITIVE}
 
     def level_progress(self, learner_id: uuid.UUID, level: str) -> dict:
-        eligible_ids = self.eligible_problem_ids(level)
-        solved = len(self.solved_problem_ids(learner_id, level, eligible_ids))
-        eligible = len(eligible_ids)
+        eligible_units = self.eligible_progression_units(level)
+        solved = len(self.solved_progression_units(learner_id, level))
+        eligible = len(eligible_units)
         progress = solved / eligible if eligible else 0.0
         return {"level": level, "eligible": eligible, "solved": solved,
                 "progress": progress, "progress_percent": progress * 100}
