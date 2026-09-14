@@ -1,4 +1,6 @@
+import math
 import uuid
+from dataclasses import dataclass
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -8,7 +10,7 @@ from app.domain.problem import CURRICULUM_ORDER, CurriculumLevel
 from app.models.attempt import Attempt, utcnow
 from app.models.curriculum_state import LearnerCurriculumState
 from app.models.evaluation import Evaluation
-from app.models.learning_session import LearningSession
+from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.services.evidence import EvidenceKind, classify_evidence
 
 
@@ -16,16 +18,75 @@ NEXT_LEVEL_UNLOCK_RATIO = 0.60
 DEFAULT_CURRICULUM_LEVEL = CURRICULUM_ORDER[0]
 
 
-class LockedCurriculumLevel(ValueError):
+def curriculum_index(level: str) -> int:
+    """Return the canonical ordering index, rejecting corrupt/unknown values."""
+    try:
+        return CURRICULUM_ORDER.index(level)
+    except ValueError as exc:
+        raise InvalidCurriculumState(level) from exc
+
+
+def previous_curriculum_level(level: str) -> str | None:
+    index = curriculum_index(level)
+    return CURRICULUM_ORDER[index - 1] if index else None
+
+
+def next_curriculum_level(level: str) -> str | None:
+    index = curriculum_index(level) + 1
+    return CURRICULUM_ORDER[index] if index < len(CURRICULUM_ORDER) else None
+
+
+class CurriculumProgressionError(ValueError):
     pass
 
 
-class InitialLevelAlreadySet(ValueError):
+class LockedCurriculumLevel(CurriculumProgressionError):
     pass
+
+
+class InitialLevelAlreadySet(CurriculumProgressionError):
+    pass
+
+
+class ActiveSessionExists(CurriculumProgressionError):
+    pass
+
+
+class NextLevelLocked(CurriculumProgressionError):
+    pass
+
+
+class AlreadyHighestCurriculum(CurriculumProgressionError):
+    pass
+
+
+class OnboardingRequired(CurriculumProgressionError):
+    pass
+
+
+class InvalidCurriculumState(CurriculumProgressionError):
+    pass
+
+
+@dataclass(frozen=True)
+class UnlockRefreshResult:
+    state: LearnerCurriculumState
+    previous_highest_unlocked_level: str
+    highest_unlocked_level: str
+    newly_unlocked_levels: tuple[str, ...]
+
+    @property
+    def changed(self) -> bool:
+        return bool(self.newly_unlocked_levels)
+
+    @property
+    def current_level(self) -> str:
+        """Small compatibility bridge for callers that formerly received state."""
+        return self.state.current_level
 
 
 class CurriculumProgressionService:
-    """Persistent school-level progression, deliberately independent from XP."""
+    """Persistent curriculum progression. Callers own commit/rollback boundaries."""
 
     def __init__(self, db: Session, problem_repository):
         self.db = db
@@ -45,8 +106,10 @@ class CurriculumProgressionService:
                 return problem.curriculum.level.value
         return DEFAULT_CURRICULUM_LEVEL
 
-    def get_or_create_state(self, learner_id: uuid.UUID) -> LearnerCurriculumState:
-        existing = self.db.get(LearnerCurriculumState, learner_id)
+    def get_or_create_state(self, learner_id: uuid.UUID, *, for_update: bool = False) -> LearnerCurriculumState:
+        query = select(LearnerCurriculumState).where(
+            LearnerCurriculumState.learner_id == learner_id)
+        existing = self.db.scalar(query.with_for_update() if for_update else query)
         if existing:
             return existing
         level = self._bootstrap_level(learner_id)
@@ -55,23 +118,29 @@ class CurriculumProgressionService:
             highest_unlocked_level=level, onboarding_completed=False,
         )
         try:
-            # The primary key is the final guard when concurrent first requests race.
             with self.db.begin_nested():
                 self.db.add(value)
                 self.db.flush()
             return value
         except IntegrityError:
-            return self.db.get(LearnerCurriculumState, learner_id)
+            # The primary key serializes concurrent first requests.
+            return self.db.scalar(query.with_for_update() if for_update else query)
+
+    def _validate_state(self, state: LearnerCurriculumState) -> None:
+        initial = curriculum_index(state.initial_level)
+        current = curriculum_index(state.current_level)
+        highest = curriculum_index(state.highest_unlocked_level)
+        if highest < initial or current > highest:
+            raise InvalidCurriculumState("inconsistent curriculum high-water mark")
 
     def eligible_problem_ids(self, level: str) -> set[str]:
         CurriculumLevel(level)
-        # Only the validated stable shared corpus is a denominator. Runtime LLM
-        # materializations are intentionally excluded so generation cannot dilute progress.
         source = self.problems.list_static() if hasattr(self.problems, "list_static") else self.problems.list()
         return {problem.id for problem in source if problem.curriculum.level.value == level}
 
-    def solved_problem_ids(self, learner_id: uuid.UUID, level: str) -> set[str]:
-        eligible = self.eligible_problem_ids(level)
+    def solved_problem_ids(self, learner_id: uuid.UUID, level: str,
+                           eligible: set[str] | None = None) -> set[str]:
+        eligible = self.eligible_problem_ids(level) if eligible is None else eligible
         if not eligible:
             return set()
         rows = self.db.execute(select(LearningSession.problem_id, LearningSession.status, Evaluation).join(
@@ -84,61 +153,117 @@ class CurriculumProgressionService:
                 if classify_evidence(status, evaluation) == EvidenceKind.POSITIVE}
 
     def level_progress(self, learner_id: uuid.UUID, level: str) -> dict:
-        CurriculumLevel(level)
         eligible_ids = self.eligible_problem_ids(level)
-        solved = len(self.solved_problem_ids(learner_id, level))
+        solved = len(self.solved_problem_ids(learner_id, level, eligible_ids))
         eligible = len(eligible_ids)
         progress = solved / eligible if eligible else 0.0
-        return {"level": level, "eligible": eligible, "solved": solved, "progress": progress,
-                "progress_percent": progress * 100}
+        return {"level": level, "eligible": eligible, "solved": solved,
+                "progress": progress, "progress_percent": progress * 100}
 
-    def refresh_unlocks(self, learner_id: uuid.UUID) -> LearnerCurriculumState:
-        state = self.get_or_create_state(learner_id)
-        highest = CURRICULUM_ORDER.index(state.highest_unlocked_level)
-        # Unlock sequentially from every currently unlocked level. Persistent maximum
-        # means corpus growth can never take access away.
-        while highest < len(CURRICULUM_ORDER) - 1:
-            progress = self.level_progress(learner_id, CURRICULUM_ORDER[highest])
-            if progress["eligible"] == 0 or progress["progress"] < NEXT_LEVEL_UNLOCK_RATIO:
+    def refresh_unlocks(self, learner_id: uuid.UUID) -> UnlockRefreshResult:
+        """Lock and advance the durable high-water mark, without committing."""
+        state = self.get_or_create_state(learner_id, for_update=True)
+        self._validate_state(state)
+        previous = state.highest_unlocked_level
+        newly_unlocked = []
+        while (successor := next_curriculum_level(state.highest_unlocked_level)) is not None:
+            progress = self.level_progress(learner_id, state.highest_unlocked_level)
+            if (progress["eligible"] == 0
+                    or progress["solved"] < math.ceil(progress["eligible"] * NEXT_LEVEL_UNLOCK_RATIO)):
                 break
-            highest += 1
-            state.highest_unlocked_level = CURRICULUM_ORDER[highest]
+            state.highest_unlocked_level = successor
             state.updated_at = utcnow()
+            newly_unlocked.append(successor)
         self.db.flush()
-        return state
+        return UnlockRefreshResult(state, previous, state.highest_unlocked_level,
+                                   tuple(newly_unlocked))
 
-    def summary(self, learner_id: uuid.UUID) -> dict:
-        state = self.refresh_unlocks(learner_id)
-        highest = CURRICULUM_ORDER.index(state.highest_unlocked_level)
+    def reconcile_unlocks(self, learner_id: uuid.UUID) -> UnlockRefreshResult:
+        """Explicit legacy-history reconciliation entry point."""
+        return self.refresh_unlocks(learner_id)
+
+    def build_summary(self, learner_id: uuid.UUID, state: LearnerCurriculumState) -> dict:
+        """Build a read model without mutating or committing."""
+        self._validate_state(state)
+        highest = curriculum_index(state.highest_unlocked_level)
         levels = []
+        by_level = {}
         for index, level in enumerate(CURRICULUM_ORDER):
             item = self.level_progress(learner_id, level)
             item.update(unlocked=index <= highest, current=level == state.current_level)
             levels.append(item)
-        self.db.commit()
-        return {"initial_level": state.initial_level, "current_level": state.current_level,
-                "highest_unlocked_level": state.highest_unlocked_level,
-                "onboarding_completed": state.onboarding_completed,
-                "unlock_ratio": NEXT_LEVEL_UNLOCK_RATIO, "levels": levels}
+            by_level[level] = item
+        current = by_level[state.current_level]
+        successor = next_curriculum_level(state.current_level)
+        next_unlocked = successor is not None and curriculum_index(successor) <= highest
+        required = math.ceil(current["eligible"] * NEXT_LEVEL_UNLOCK_RATIO)
+        remaining = (max(0, required - current["solved"])
+                     if successor is not None and not next_unlocked and current["eligible"] else 0)
+        return {
+            "initial_level": state.initial_level,
+            "current_level": state.current_level,
+            "highest_unlocked_level": state.highest_unlocked_level,
+            "onboarding_completed": state.onboarding_completed,
+            "unlock_ratio": NEXT_LEVEL_UNLOCK_RATIO,
+            "current": {key: current[key] for key in
+                        ("level", "eligible", "solved", "progress", "progress_percent")},
+            "next_level": successor,
+            "next_level_unlocked": next_unlocked,
+            "can_advance": bool(state.onboarding_completed and next_unlocked),
+            "remaining_to_unlock": remaining,
+            "levels": levels,
+        }
+
+    def summary(self, learner_id: uuid.UUID) -> dict:
+        """Compatibility convenience; deliberately never commits."""
+        result = self.reconcile_unlocks(learner_id)
+        return self.build_summary(learner_id, result.state)
+
+    def _require_no_active_session(self, learner_id: uuid.UUID) -> None:
+        active = self.db.scalar(select(LearningSession.id).where(
+            LearningSession.learner_id == learner_id,
+            LearningSession.status == LearningSessionStatus.ACTIVE,
+        ).limit(1))
+        if active is not None:
+            raise ActiveSessionExists
 
     def set_initial_level(self, learner_id: uuid.UUID, level: str) -> LearnerCurriculumState:
         CurriculumLevel(level)
-        state = self.get_or_create_state(learner_id)
+        state = self.get_or_create_state(learner_id, for_update=True)
+        self._validate_state(state)
         if state.onboarding_completed and state.initial_level != level:
             raise InitialLevelAlreadySet(level)
         if not state.onboarding_completed:
+            self._require_no_active_session(learner_id)
             state.initial_level = state.current_level = state.highest_unlocked_level = level
             state.onboarding_completed = True
             state.updated_at = utcnow()
-        self.db.commit()
+            self.db.flush()
         return state
 
     def set_current_level(self, learner_id: uuid.UUID, level: str) -> LearnerCurriculumState:
         CurriculumLevel(level)
-        state = self.refresh_unlocks(learner_id)
-        if CURRICULUM_ORDER.index(level) > CURRICULUM_ORDER.index(state.highest_unlocked_level):
+        state = self.refresh_unlocks(learner_id).state
+        if curriculum_index(level) > curriculum_index(state.highest_unlocked_level):
             raise LockedCurriculumLevel(level)
-        state.current_level = level
+        if state.current_level != level:
+            self._require_no_active_session(learner_id)
+            state.current_level = level
+            state.updated_at = utcnow()
+            self.db.flush()
+        return state
+
+    def advance(self, learner_id: uuid.UUID) -> LearnerCurriculumState:
+        state = self.refresh_unlocks(learner_id).state
+        if not state.onboarding_completed:
+            raise OnboardingRequired
+        successor = next_curriculum_level(state.current_level)
+        if successor is None:
+            raise AlreadyHighestCurriculum
+        if curriculum_index(successor) > curriculum_index(state.highest_unlocked_level):
+            raise NextLevelLocked
+        self._require_no_active_session(learner_id)
+        state.current_level = successor
         state.updated_at = utcnow()
-        self.db.commit()
+        self.db.flush()
         return state

@@ -64,6 +64,22 @@ def test_active_work_wins_even_after_current_level_changes():
         assert client.get("/api/sessions/active/latest").json()["session_id"] == active["session_id"]
 
 
+def test_explicit_advance_immediately_changes_guided_curriculum():
+    with TestClient(app) as client:
+        client.put("/api/curriculum-progress/initial-level", json={"level": "quatrieme"})
+        with Testing() as db:
+            state = db.get(LearnerCurriculumState, _learner_id(db))
+            state.highest_unlocked_level = "troisieme"
+            db.commit()
+        advanced = client.post("/api/curriculum-progress/advance")
+        assert advanced.status_code == 200
+        assert advanced.json()["current_level"] == "troisieme"
+        guided = client.get("/api/problems/next")
+        assert guided.status_code == 200
+        assert guided.json()["current_level"] == "troisieme"
+        assert guided.json()["problem"]["curriculum"]["level"] == "troisieme"
+
+
 def test_difficulty_v1_policy_is_conservative_and_bounded():
     class Item:
         def __init__(self, outcome, difficulty=3, level="seconde"):

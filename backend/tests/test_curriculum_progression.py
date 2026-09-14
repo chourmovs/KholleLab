@@ -16,8 +16,13 @@ from app.models.evaluation import Evaluation, EvaluationStage, EvaluationStatus
 from app.models.learning_session import LearningSession, LearningSessionStatus
 from app.services.authentication import claim_anonymous_history
 from app.services.curriculum_progression import (CurriculumProgressionService,
+                                                 ActiveSessionExists,
+                                                 AlreadyHighestCurriculum,
                                                  LockedCurriculumLevel,
-                                                 NEXT_LEVEL_UNLOCK_RATIO)
+                                                 NEXT_LEVEL_UNLOCK_RATIO,
+                                                 NextLevelLocked,
+                                                 next_curriculum_level,
+                                                 previous_curriculum_level)
 from test_session_api import Testing
 
 
@@ -159,3 +164,67 @@ def test_anonymous_api_initial_level_is_idempotent_and_rejects_locked_switch():
         assert again.status_code == 200
         assert client.put("/api/curriculum-progress/current-level", json={"level":"premiere"}).status_code == 409
         assert client.put("/api/curriculum-progress/initial-level", json={"level":"premiere"}).status_code == 409
+
+
+def test_summary_exposes_exact_integer_threshold_and_transition_state():
+    owner = uuid.uuid4(); corpus = Corpus({"quatrieme": 41, "troisieme": 1})
+    with Testing() as db:
+        service = CurriculumProgressionService(db, corpus)
+        service.set_initial_level(owner, "quatrieme")
+        for index in range(24): observation(db, owner, f"quatrieme-{index}")
+        locked = service.summary(owner)
+        assert locked["current"]["solved"] == 24
+        assert locked["next_level"] == "troisieme"
+        assert locked["next_level_unlocked"] is locked["can_advance"] is False
+        assert locked["remaining_to_unlock"] == 1
+        observation(db, owner, "quatrieme-24")
+        unlocked = service.summary(owner)
+        assert unlocked["remaining_to_unlock"] == 0
+        assert unlocked["next_level_unlocked"] is unlocked["can_advance"] is True
+        assert unlocked["current_level"] == "quatrieme"  # Unlock is not promotion.
+
+
+def test_advance_is_explicit_preserves_history_and_active_work_blocks_changes():
+    owner = uuid.uuid4(); corpus = Corpus({"quatrieme": 1, "troisieme": 1})
+    with Testing() as db:
+        service = CurriculumProgressionService(db, corpus)
+        service.set_initial_level(owner, "quatrieme")
+        with pytest.raises(NextLevelLocked): service.advance(owner)
+        solved_session = observation(db, owner, "quatrieme-0")
+        refresh = service.refresh_unlocks(owner)
+        assert refresh.changed and refresh.newly_unlocked_levels == ("troisieme",)
+        assert not service.refresh_unlocks(owner).changed
+        active = LearningSession(problem_id="quatrieme-0", learner_id=owner,
+                                 status=LearningSessionStatus.ACTIVE)
+        db.add(active); db.flush()
+        with pytest.raises(ActiveSessionExists): service.advance(owner)
+        with pytest.raises(ActiveSessionExists): service.set_current_level(owner, "troisieme")
+        assert service.get_or_create_state(owner).current_level == "quatrieme"
+        assert active.status == LearningSessionStatus.ACTIVE
+        db.delete(active); db.flush()
+        service.advance(owner)
+        assert service.get_or_create_state(owner).current_level == "troisieme"
+        assert db.get(LearningSession, solved_session.id) is not None
+        service.set_current_level(owner, "quatrieme")  # Consolidation remains valid.
+        assert service.get_or_create_state(owner).current_level == "quatrieme"
+
+
+def test_final_level_and_empty_corpus_are_safe():
+    owner = uuid.uuid4(); corpus = Corpus({level: 0 for level in CURRICULUM_ORDER})
+    with Testing() as db:
+        service = CurriculumProgressionService(db, corpus)
+        service.set_initial_level(owner, CURRICULUM_ORDER[-1])
+        summary = service.summary(owner)
+        assert summary["next_level"] is None and summary["can_advance"] is False
+        assert summary["remaining_to_unlock"] == 0
+        with pytest.raises(AlreadyHighestCurriculum): service.advance(owner)
+        empty_owner = uuid.uuid4()
+        service.set_initial_level(empty_owner, CURRICULUM_ORDER[0])
+        assert service.refresh_unlocks(empty_owner).highest_unlocked_level == CURRICULUM_ORDER[0]
+
+
+def test_curriculum_order_helpers_have_safe_boundaries():
+    assert previous_curriculum_level(CURRICULUM_ORDER[0]) is None
+    assert next_curriculum_level(CURRICULUM_ORDER[-1]) is None
+    for index, level in enumerate(CURRICULUM_ORDER[:-1]):
+        assert next_curriculum_level(level) == CURRICULUM_ORDER[index + 1]

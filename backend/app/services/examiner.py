@@ -71,9 +71,12 @@ class ExaminerService:
                 Attempt, Attempt.session_id == LearningSession.id
             ).where(Attempt.id == completed.attempt_id))
             if learning and learning.learner_id:
-                CurriculumProgressionService(self.evaluations.db, self.problems).refresh_unlocks(
-                    learning.learner_id
-                )
+                refresh = CurriculumProgressionService(
+                    self.evaluations.db, self.problems).refresh_unlocks(learning.learner_id)
+                if refresh.changed:
+                    log.info("curriculum_unlocked learner={} previous={} highest={} newly_unlocked={}",
+                             learning.learner_id, refresh.previous_highest_unlocked_level,
+                             refresh.highest_unlocked_level, refresh.newly_unlocked_levels)
                 self.evaluations.db.commit()
             return completed
         except RemoteLLMError as exc:
