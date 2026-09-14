@@ -1,5 +1,4 @@
 from functools import lru_cache
-from ipaddress import ip_address
 from urllib.parse import urlsplit
 
 from pydantic import Field, model_validator
@@ -125,14 +124,7 @@ class Settings(BaseSettings):
             raise ValueError("LOG_PROCESS_ROLE must be api or worker")
         # Resolve both lists during validation so malformed deployment values fail at startup.
         self.cors_origin_list
-        trusted = self.auth_trusted_origin_list
-        if self.app_env.lower() in {"prod", "production"}:
-            public_https = [origin for origin in trusted if origin.startswith("https://") and not _is_local_origin(origin)]
-            if not public_https:
-                raise ValueError(
-                    "production requires AUTH_TRUSTED_ORIGINS (or its CORS_ORIGINS fallback) "
-                    "to contain at least one public HTTPS origin"
-                )
+        self.auth_trusted_origin_list
         return self
 
     @property
@@ -149,16 +141,6 @@ class Settings(BaseSettings):
     @property
     def auth_trusted_origin_list(self) -> list[str]:
         return _origin_list(self.auth_trusted_origins or self.cors_origins)
-
-
-def _is_local_origin(origin: str) -> bool:
-    hostname = urlsplit(origin).hostname or ""
-    if hostname == "localhost" or hostname.endswith(".localhost"):
-        return True
-    try:
-        return ip_address(hostname).is_loopback
-    except ValueError:
-        return False
 
 
 @lru_cache

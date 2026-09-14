@@ -62,7 +62,7 @@ Pour arrêter l'application : `docker compose down`. Ajoutez `-v` uniquement si 
    INTERNAL_API_URL=http://backend:8000
    ```
 
-   Le domaine public doit inclure `https://`, ne contenir aucun chemin et employer le nom d'hôte externe exact. Une barre oblique finale est normalisée, mais il est recommandé de l'omettre. `AUTH_TRUSTED_ORIGINS` devrait toujours être explicite en production ; son repli vers `CORS_ORIGINS` n'existe que pour préserver la compatibilité des déploiements existants. Les jokers et domaines suffixes ne sont pas acceptés, et une configuration de production sans origine HTTPS publique échoue au démarrage.
+   Le domaine public doit inclure `https://`, ne contenir aucun chemin et employer le nom d'hôte externe exact. Une barre oblique finale est normalisée, mais il est recommandé de l'omettre. `AUTH_TRUSTED_ORIGINS` devrait toujours être explicite en production ; son repli vers `CORS_ORIGINS` n'existe que pour préserver la compatibilité des déploiements existants. Les jokers et domaines suffixes ne sont pas acceptés. Une configuration encore limitée à `localhost` n'empêche pas le backend de démarrer, mais les mutations d'authentification venant du domaine public restent refusées jusqu'à la configuration de son origine exacte.
 4. Exposez uniquement le service `frontend` sur le port `3000`, puis associez-lui votre domaine et TLS dans Coolify.
 5. Laissez `backend` et `postgres` sans domaine : ils communiquent sur le réseau Compose interne. Le volume nommé `postgres_data` assure la persistance.
 
