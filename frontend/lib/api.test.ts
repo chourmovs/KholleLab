@@ -41,9 +41,9 @@ describe("guided curriculum contracts",()=>{
   it("uses PR12 curriculum progress endpoints",async()=>{
     const payload={initial_level:"seconde",current_level:"seconde",highest_unlocked_level:"seconde",onboarding_completed:true,unlock_ratio:.6,levels:[]};
     const fetch=vi.fn().mockImplementation(()=>Promise.resolve(new Response(JSON.stringify(payload))));vi.stubGlobal("fetch",fetch);
-    const {getCurriculumProgress,setInitialCurriculumLevel,setCurrentCurriculumLevel}=await import("./api");
-    await getCurriculumProgress();await setInitialCurriculumLevel("seconde");await setCurrentCurriculumLevel("seconde");
-    expect(fetch.mock.calls.map(call=>call[0])).toEqual(["/api/curriculum-progress","/api/curriculum-progress/initial-level","/api/curriculum-progress/current-level"]);
+    const {getCurriculumProgress,setInitialCurriculumLevel,setCurrentCurriculumLevel,advanceCurriculumLevel}=await import("./api");
+    await getCurriculumProgress();await setInitialCurriculumLevel("seconde");await setCurrentCurriculumLevel("seconde");await advanceCurriculumLevel();
+    expect(fetch.mock.calls.map(call=>call[0])).toEqual(["/api/curriculum-progress","/api/curriculum-progress/initial-level","/api/curriculum-progress/current-level","/api/curriculum-progress/advance"]);
     expect(fetch.mock.calls[1][1]).toMatchObject({method:"PUT"});
   });
 });

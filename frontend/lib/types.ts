@@ -20,7 +20,7 @@ export type SelectionMode="manual"|"adaptive"|"fallback";
 export interface SelectionAdaptation {reason_codes:string[];targeted_topics:string[];targeted_skills:string[];targeted_prerequisites:string[];target_knowledge_ids?:string[]}
 export interface SelectionResult {problem:ProblemDetail|null;requested_level:string;requested_difficulty?:number;actual_difficulty?:number;fallback_used:boolean;selection_mode?:SelectionMode;adaptation?:SelectionAdaptation}
 export interface CurriculumLevelProgress {level:string;eligible:number;solved:number;progress:number;progress_percent:number;unlocked:boolean;current:boolean}
-export interface CurriculumProgressSummary {initial_level:string;current_level:string;highest_unlocked_level:string;onboarding_completed:boolean;unlock_ratio:number;levels:CurriculumLevelProgress[]}
+export interface CurriculumProgressSummary {initial_level:string;current_level:string;highest_unlocked_level:string;onboarding_completed:boolean;unlock_ratio:number;current:Omit<CurriculumLevelProgress,"unlocked"|"current">;next_level:string|null;next_level_unlocked:boolean;can_advance:boolean;remaining_to_unlock:number;levels:CurriculumLevelProgress[]}
 export interface GuidedSelectionResult {problem:ProblemDetail;current_level:string;target_difficulty:number;actual_difficulty:number;candidate_pool:"resume_active"|"unsolved"|"review";selection_mode:"guided";level_progress:Pick<CurriculumLevelProgress,"eligible"|"solved"|"progress"|"progress_percent">;adaptation?:SelectionAdaptation}
 export type AttemptStatus="draft"|"submitted";
 export interface Attempt { id:string;problem_id:string;status:AttemptStatus;solution_markdown:string;revision:number;elapsed_seconds:number;started_at:string;updated_at:string;submitted_at:string|null }

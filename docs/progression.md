@@ -93,3 +93,31 @@ At `progress >= 0.60`, the next entry in `CURRICULUM_ORDER` is permanently unloc
 The stored high-water mark never decreases if the corpus later grows. Unlocking
 does not change the current level; only an explicit learner operation does. The
 highest curriculum level has no successor.
+
+The transition lifecycle is deliberately explicit:
+
+```text
+practice the current curriculum -> reach 60% -> unlock the next curriculum permanently
+-> remain on the current level -> choose "advance" between exercises
+-> current_level changes -> the guided engine serves the new curriculum
+```
+
+`initial_level`, `current_level`, and `highest_unlocked_level` are independent concepts.
+Choosing an initial level sets all three to that level; earlier levels are logically accessible,
+so a Terminale learner is not required to unlock lower curricula first. The high-water mark is
+an upward progression gate, while `PUT /api/curriculum-progress/current-level` permits review of
+any earlier, already-accessible level. Unlock is not promotion: promotion occurs only through
+`POST /api/curriculum-progress/advance`, and both operations reject changes while an active
+learning session exists so drafts remain untouched.
+
+The progress response exposes the current-level metrics, successor, unlock/advance flags, and
+the exact additional successes required. That value is
+`max(0, ceil(eligible * NEXT_LEVEL_UNLOCK_RATIO) - solved)` for a non-empty current corpus; it is
+zero for an empty corpus, which can never unlock a successor. Refresh takes a row lock, advances
+only sequentially through `CURRICULUM_ORDER`, and returns the previous/new high-water marks plus
+the newly unlocked levels. It is deterministic, idempotent, permanent, and runs primarily in the
+same transaction as completed evaluation persistence. No popup or notification state is stored.
+
+The workspace keys `khollelab.preferences.curriculumLevel` and
+`khollelab.preferences.difficulty` remain solely for the legacy manual selector. Guided APIs do
+not consume them; they are scheduled for deletion with Focus Mode rather than in PR14.
