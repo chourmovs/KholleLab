@@ -44,11 +44,6 @@ def xp_rank_for_xp(total_xp: int) -> int:
     return xp_rank
 
 
-# TODO(PR17): remove these aliases and the public `grade` compatibility field after
-# the existing frontend engagement widget has migrated to `xp_rank`.
-grade_threshold = xp_rank_threshold
-grade_for_xp = xp_rank_for_xp
-
 
 class ProgressionService:
     def __init__(self, db: Session):
@@ -139,10 +134,9 @@ class ProgressionService:
         return {
             "total_xp": total_xp,
             "xp_rank": xp_rank,
-            "grade": xp_rank,  # Legacy engagement-rank compatibility; remove in PR17.
-            "current_grade_start_xp": current_start,
-            "next_grade_xp": next_xp,
-            "xp_to_next_grade": next_xp - total_xp,
+            "current_rank_start_xp": current_start,
+            "next_rank_xp": next_xp,
+            "xp_to_next_rank": next_xp - total_xp,
             "current_streak_days": current,
             "longest_streak_days": longest,
             "active_today": current_day in set(dates),
