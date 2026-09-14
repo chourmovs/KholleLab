@@ -1,4 +1,5 @@
 from functools import lru_cache
+from ipaddress import ip_address
 from urllib.parse import urlsplit
 
 from pydantic import Field, model_validator
@@ -38,6 +39,16 @@ def canonicalize_origin(value: str) -> str:
 
 def _origin_list(value: str) -> list[str]:
     return [canonicalize_origin(origin) for origin in value.split(",") if origin.strip()]
+
+
+def _is_local_origin(origin: str) -> bool:
+    hostname = urlsplit(origin).hostname or ""
+    if hostname == "localhost" or hostname.endswith(".localhost"):
+        return True
+    try:
+        return not ip_address(hostname).is_global
+    except ValueError:
+        return False
 
 
 class Settings(BaseSettings):
@@ -124,7 +135,14 @@ class Settings(BaseSettings):
             raise ValueError("LOG_PROCESS_ROLE must be api or worker")
         # Resolve both lists during validation so malformed deployment values fail at startup.
         self.cors_origin_list
-        self.auth_trusted_origin_list
+        trusted_origins = self.auth_trusted_origin_list
+        if self.app_env.lower() in {"prod", "production"}:
+            if not self.auth_origin_configured:
+                raise ValueError("AUTH_TRUSTED_ORIGINS must be explicitly configured in production")
+            if not trusted_origins or all(_is_local_origin(origin) for origin in trusted_origins):
+                raise ValueError("AUTH_TRUSTED_ORIGINS must include a public origin in production")
+            if any(not origin.startswith("https://") for origin in trusted_origins):
+                raise ValueError("AUTH_TRUSTED_ORIGINS must use HTTPS in production")
         return self
 
     @property
@@ -140,7 +158,15 @@ class Settings(BaseSettings):
 
     @property
     def auth_trusted_origin_list(self) -> list[str]:
-        return _origin_list(self.auth_trusted_origins or self.cors_origins)
+        if self.auth_origin_configured:
+            return _origin_list(self.auth_trusted_origins)
+        if self.app_env.lower() in {"prod", "production"}:
+            return []
+        return self.cors_origin_list
+
+    @property
+    def auth_origin_configured(self) -> bool:
+        return bool(self.auth_trusted_origins.strip())
 
 
 @lru_cache

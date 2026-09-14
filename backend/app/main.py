@@ -20,7 +20,10 @@ from datetime import date
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     configure_logging()
-    component_logger("application").info("Startup version={} env={}", APP_VERSION, settings.app_env)
+    component_logger("application").info(
+        "event=startup_config version={} app_env={} cors_origins={} auth_trusted_origins={}",
+        APP_VERSION, settings.app_env, settings.cors_origin_list, settings.auth_trusted_origin_list,
+    )
     component_logger("inference").info("Provider={} family={}", settings.llm_provider, settings.llm_model_family.value)
     curriculum_repository = CurriculumRepository(settings.curriculum_dir)
     curriculum_repository.load()
