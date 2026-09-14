@@ -32,7 +32,14 @@ def test_explicit_auth_trusted_origins_are_separate_from_cors():
     assert configured.auth_trusted_origin_list == ["https://kholle.example.test"]
 
 
-@pytest.mark.parametrize("origins", ["", "http://localhost:3000", "https://localhost"])
-def test_production_requires_a_public_https_trusted_origin(origins):
-    with pytest.raises(ValidationError, match="public HTTPS origin"):
-        Settings(database_url="sqlite://", app_env="production", cors_origins=origins)
+def test_production_can_start_before_public_origin_is_configured():
+    configured = Settings(
+        database_url="sqlite://",
+        app_env="production",
+        cors_origins="http://localhost:3000",
+    )
+
+    # Keep the safe, exact-origin fallback without making the whole API unhealthy.
+    # Authentication mutations from a public origin remain rejected until the
+    # deployment explicitly configures CORS_ORIGINS or AUTH_TRUSTED_ORIGINS.
+    assert configured.auth_trusted_origin_list == ["http://localhost:3000"]
