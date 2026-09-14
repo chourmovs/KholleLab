@@ -62,7 +62,10 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      # Match the image healthcheck exactly.  Some container runtimes resolve
+      # localhost to IPv6 first while Uvicorn is deliberately bound to IPv4;
+      # depending services must not mark a healthy API unavailable for that.
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=4)"]
       interval: 10s
       timeout: 5s
       start_period: 20s

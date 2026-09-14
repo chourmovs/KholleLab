@@ -33,15 +33,21 @@ def paris_activity_date(value: datetime) -> date:
     return value.astimezone(ZoneInfo(PROGRESSION_TIMEZONE)).date()
 
 
-def grade_threshold(grade: int) -> int:
-    return 25 * grade * (grade - 1)
+def xp_rank_threshold(xp_rank: int) -> int:
+    return 25 * xp_rank * (xp_rank - 1)
 
 
-def grade_for_xp(total_xp: int) -> int:
-    grade = 1
-    while grade_threshold(grade + 1) <= total_xp:
-        grade += 1
-    return grade
+def xp_rank_for_xp(total_xp: int) -> int:
+    xp_rank = 1
+    while xp_rank_threshold(xp_rank + 1) <= total_xp:
+        xp_rank += 1
+    return xp_rank
+
+
+# TODO(PR17): remove these aliases and the public `grade` compatibility field after
+# the existing frontend engagement widget has migrated to `xp_rank`.
+grade_threshold = xp_rank_threshold
+grade_for_xp = xp_rank_for_xp
 
 
 class ProgressionService:
@@ -121,9 +127,9 @@ class ProgressionService:
             while cursor in active_dates:
                 current += 1
                 cursor -= timedelta(days=1)
-        grade = grade_for_xp(total_xp)
-        current_start = grade_threshold(grade)
-        next_xp = grade_threshold(grade + 1)
+        xp_rank = xp_rank_for_xp(total_xp)
+        current_start = xp_rank_threshold(xp_rank)
+        next_xp = xp_rank_threshold(xp_rank + 1)
         milestone_values = {"sessions": completed_sessions, "xp": total_xp, "streak": longest}
         milestones = [{
             **item,
@@ -132,7 +138,8 @@ class ProgressionService:
         } for item in MILESTONE_CATALOGUE]
         return {
             "total_xp": total_xp,
-            "grade": grade,
+            "xp_rank": xp_rank,
+            "grade": xp_rank,  # Legacy engagement-rank compatibility; remove in PR17.
             "current_grade_start_xp": current_start,
             "next_grade_xp": next_xp,
             "xp_to_next_grade": next_xp - total_xp,

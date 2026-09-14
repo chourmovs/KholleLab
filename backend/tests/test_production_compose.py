@@ -18,3 +18,9 @@ def test_backend_and_frontend_images_publish_health_metadata():
     root=Path(__file__).resolve().parents[2]
     assert "HEALTHCHECK" in (root/"backend/Dockerfile").read_text()
     assert "HEALTHCHECK" in (root/"frontend/Dockerfile").read_text()
+
+
+def test_compose_backend_healthcheck_uses_ipv4_loopback_and_bounded_request():
+    compose = (Path(__file__).resolve().parents[2] / "docker-compose.yml").read_text()
+    assert "http://127.0.0.1:8000/api/health" in compose
+    assert "urlopen('http://127.0.0.1:8000/api/health', timeout=4)" in compose
