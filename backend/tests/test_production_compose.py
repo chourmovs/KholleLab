@@ -18,3 +18,8 @@ def test_backend_and_frontend_images_publish_health_metadata():
     root=Path(__file__).resolve().parents[2]
     assert "HEALTHCHECK" in (root/"backend/Dockerfile").read_text()
     assert "HEALTHCHECK" in (root/"frontend/Dockerfile").read_text()
+
+
+def test_backend_receives_auth_trusted_origins_from_the_environment():
+    compose = (Path(__file__).resolve().parents[2] / "docker-compose.yml").read_text()
+    assert "AUTH_TRUSTED_ORIGINS: ${AUTH_TRUSTED_ORIGINS:-}" in compose
