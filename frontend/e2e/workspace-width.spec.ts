@@ -3,7 +3,7 @@ import {mockApi} from "./mock-api";
 
 const viewports=[{width:1920,height:1080},{width:1440,height:900},{width:1366,height:768},{width:1180,height:820},{width:1024,height:768},{width:768,height:1024},{width:390,height:844},{width:360,height:800}];
 for(const viewport of viewports)test(`workspace remains structured at ${viewport.width}px`,async({page})=>{
-  await mockApi(page);await page.setViewportSize(viewport);await page.goto("/");
+  await mockApi(page);await page.setViewportSize(viewport);await page.goto("/kholle");
   const main=page.locator("main");await expect(main).toBeVisible();
   const box=await main.boundingBox();expect(box).not.toBeNull();expect(box!.width).toBeLessThanOrEqual(1722);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
@@ -39,7 +39,7 @@ for(const viewport of viewports)test(`workspace remains structured at ${viewport
 });
 
 test("l’énoncé compact se replie sans masquer l’espace de travail",async({page})=>{
-  await mockApi(page);await page.setViewportSize({width:1366,height:768});await page.goto("/");const toggle=page.locator(".problem-toggle");
+  await mockApi(page);await page.setViewportSize({width:1366,height:768});await page.goto("/kholle");const toggle=page.locator(".problem-toggle");
   await expect(toggle).toHaveAttribute("aria-expanded","true");
   const expandedStatement=await page.locator(".statement-pane").boundingBox(),expandedBoard=await page.locator(".blackboard-pane").boundingBox();
   expect(expandedStatement!.width).toBeGreaterThanOrEqual(329);expect(expandedStatement!.width).toBeLessThanOrEqual(380);

@@ -2,7 +2,7 @@ import {expect,test} from "@playwright/test";
 import {mockApi} from "./mock-api";
 
 test("touch input and scientific keyboard share the mobile MathLive field",async({browser})=>{
- const context=await browser.newContext({viewport:{width:412,height:915},screen:{width:412,height:915},deviceScaleFactor:2.625,isMobile:true,hasTouch:true});const page=await context.newPage();await mockApi(page);await page.goto("/");
+ const context=await browser.newContext({viewport:{width:412,height:915},screen:{width:412,height:915},deviceScaleFactor:2.625,isMobile:true,hasTouch:true});const page=await context.newPage();await mockApi(page);await page.goto("/kholle");
  const field=page.locator("math-field[aria-label='Tableau de résolution']");await expect(field).toBeVisible();await field.tap();
  await expect.poll(()=>field.evaluate(element=>element.shadowRoot?.querySelector("[part=keyboard-sink]")?.getAttribute("inputmode"))).toBe("text");
  await expect.poll(()=>field.evaluate(element=>(element as HTMLElement&{hasFocus:()=>boolean}).hasFocus())).toBe(true);
