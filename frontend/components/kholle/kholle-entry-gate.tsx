@@ -11,5 +11,8 @@ export function KholleEntryGate(){
  useEffect(()=>{queueMicrotask(()=>void check())},[check]);
  if(state==="authorized")return <KholleWorkspace/>;
  if(state==="error")return <main className="entry-state"><h1>Impossible d’ouvrir la khôlle</h1><p>Nous n’avons pas pu vérifier ton parcours.</p><button onClick={()=>void check()}>Réessayer</button></main>;
- return <main className="entry-state" aria-live="polite"><p>{state==="redirecting"?"Redirection vers le choix du niveau…":"Vérification de ton parcours…"}</p></main>;
+ // Keep the route's semantic <main> reserved for the workspace. In particular,
+ // this prevents assistive technology (and browser automation) from latching on
+ // to a transient main landmark which disappears as authorization resolves.
+ return <div className="entry-state" role="status" aria-live="polite"><p>{state==="redirecting"?"Redirection vers le choix du niveau…":"Vérification de ton parcours…"}</p></div>;
 }
