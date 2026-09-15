@@ -38,9 +38,9 @@ it("renders one editor configured for native text input without opening the scie
 it("shows and hides the scientific keyboard on the same focused editor without moving its caret or changing content",async()=>{
  const ref=createRef<UnifiedBlackboardHandle>(),onChange=vi.fn();const {container}=render(<UnifiedBlackboard ref={ref} solution="abcDEF" onChange={onChange}/>);
  await waitFor(()=>expect(container.querySelector("math-field")).toBeTruthy());
- const field=container.querySelector("math-field") as HTMLElement&{position:number};field.position=7;const focus=vi.spyOn(field,"focus");
+ const field=container.querySelector("math-field") as HTMLElement&{position:number};field.position=7;const focus=vi.spyOn(field,"focus"),blur=vi.spyOn(field,"blur");
  act(()=>ref.current?.toggleKeyboard());expect(keyboard.show).toHaveBeenCalledOnce();expect(focus).toHaveBeenCalledOnce();expect(field.position).toBe(7);expect(onChange).not.toHaveBeenCalled();expect(field.shadowRoot?.querySelector("[part=keyboard-sink]")).toHaveAttribute("inputmode","none");
- act(()=>ref.current?.toggleKeyboard());expect(keyboard.hide).toHaveBeenCalledOnce();expect(focus).toHaveBeenCalledOnce();expect(field.position).toBe(7);expect(onChange).not.toHaveBeenCalled();expect(field.shadowRoot?.querySelector("[part=keyboard-sink]")).toHaveAttribute("inputmode","text");
+ act(()=>ref.current?.toggleKeyboard());expect(keyboard.hide).toHaveBeenCalledOnce();expect(blur).toHaveBeenCalledOnce();expect(focus).toHaveBeenCalledTimes(2);expect(field.position).toBe(7);expect(onChange).not.toHaveBeenCalled();expect(field.shadowRoot?.querySelector("[part=keyboard-sink]")).toHaveAttribute("inputmode","text");
 });
 
 it("focuses an editable field once after a touch places the caret",async()=>{

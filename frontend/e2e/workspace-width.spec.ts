@@ -56,6 +56,6 @@ test("le coach de première utilisation se termine puis libère l’espace",asyn
   await page.getByRole("button",{name:"Suivant"}).click();await expect(dialog).toContainText("Tableau");
   await page.getByRole("button",{name:"Suivant"}).click();await expect(dialog).toContainText("Professeur");
   await page.getByRole("button",{name:"Commencer"}).click();await expect(dialog).toBeHidden();
-  await page.locator("math-field[aria-label='Tableau de résolution']").tap();
+  await page.locator("math-field[aria-label='Tableau de résolution']").click();
   expect(await page.evaluate(()=>localStorage.getItem("khollelab.coach.kholle-v1"))).toBe("done");
 });
