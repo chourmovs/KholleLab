@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 from app.domain.problem import CurriculumLevel
@@ -32,3 +33,16 @@ class CurriculumProgressSummary(BaseModel):
 
 class CurriculumLevelChoice(BaseModel):
     level: CurriculumLevel
+
+
+class CurriculumProgressHistoryPoint(BaseModel):
+    at: datetime
+    solved: int
+    progress_percent: float
+
+
+class CurriculumProgressHistory(BaseModel):
+    level: CurriculumLevel
+    eligible: int
+    unlock_required: int
+    points: list[CurriculumProgressHistoryPoint]

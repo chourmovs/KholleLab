@@ -165,6 +165,36 @@ class CurriculumProgressionService:
         return {"level": level, "eligible": eligible, "solved": solved,
                 "progress": progress, "progress_percent": progress * 100}
 
+    def progress_history(self, learner_id: uuid.UUID, level: str, limit: int = 12) -> dict:
+        """Reconstruct bounded, level-local acquisition history from canonical evidence."""
+        level_problems = self._level_problems(level)
+        units_by_problem = {problem.id: progression_unit_id(problem) for problem in level_problems}
+        eligible = len(set(units_by_problem.values()))
+        points = []
+        acquired = set()
+        if units_by_problem:
+            rows = self.db.execute(select(
+                LearningSession.problem_id, LearningSession.status, Evaluation,
+            ).join(Attempt, Attempt.session_id == LearningSession.id).join(
+                Evaluation, Evaluation.attempt_id == Attempt.id,
+            ).where(
+                LearningSession.learner_id == learner_id,
+                LearningSession.problem_id.in_(units_by_problem),
+                Evaluation.completed_at.is_not(None),
+            ).order_by(Evaluation.completed_at.asc(), Evaluation.id.asc())).all()
+            for problem_id, session_status, evaluation in rows:
+                unit = units_by_problem[problem_id]
+                if (unit in acquired
+                        or classify_evidence(session_status, evaluation) != EvidenceKind.POSITIVE):
+                    continue
+                acquired.add(unit)
+                solved = len(acquired)
+                points.append({"at": evaluation.completed_at, "solved": solved,
+                               "progress_percent": solved / eligible * 100 if eligible else 0.0})
+        return {"level": level, "eligible": eligible,
+                "unlock_required": math.ceil(eligible * NEXT_LEVEL_UNLOCK_RATIO),
+                "points": points[-limit:]}
+
     def refresh_unlocks(self, learner_id: uuid.UUID) -> UnlockRefreshResult:
         """Lock and advance the durable high-water mark, without committing."""
         state = self.get_or_create_state(learner_id, for_update=True)
