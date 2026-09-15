@@ -49,3 +49,13 @@ test("l’énoncé compact se replie sans masquer l’espace de travail",async({
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
   await expect(page.locator(".blackboard-pane")).toBeVisible()
 });
+
+test("le coach de première utilisation se termine puis libère l’espace",async({page})=>{
+  await mockApi(page,{showCoach:true});await page.setViewportSize({width:390,height:844});await page.goto("/kholle");
+  const dialog=page.getByRole("dialog");await expect(dialog).toContainText("Énoncé");
+  await page.getByRole("button",{name:"Suivant"}).click();await expect(dialog).toContainText("Tableau");
+  await page.getByRole("button",{name:"Suivant"}).click();await expect(dialog).toContainText("Professeur");
+  await page.getByRole("button",{name:"Commencer"}).click();await expect(dialog).toBeHidden();
+  await page.locator("math-field[aria-label='Tableau de résolution']").tap();
+  expect(await page.evaluate(()=>localStorage.getItem("khollelab.coach.kholle-v1"))).toBe("done");
+});
