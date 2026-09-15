@@ -54,10 +54,10 @@ def setup_function():
     app.dependency_overrides[session] = lambda: Testing()
 
 
-def observation(db, owner, problem_id, *, verdict="correct", confidence=.9,
+def observation(db, owner, problem_id, *, verdict="correct", confidence=.9, at=None,
                 evaluation_status=EvaluationStatus.COMPLETED,
                 session_status=LearningSessionStatus.COMPLETED):
-    now = datetime.now(timezone.utc)
+    now = at or datetime.now(timezone.utc)
     learning = LearningSession(problem_id=problem_id, learner_id=owner, status=session_status,
                                active_problem_key=None, updated_at=now,
                                completed_at=now if session_status == LearningSessionStatus.COMPLETED else None)
@@ -68,7 +68,8 @@ def observation(db, owner, problem_id, *, verdict="correct", confidence=.9,
     evaluation = Evaluation(attempt_id=attempt.id, status=evaluation_status,
                             stage=EvaluationStage.COMPLETED if evaluation_status == EvaluationStatus.COMPLETED else EvaluationStage.FAILED,
                             verdict=verdict, confidence=confidence, provider="fake", model="fake",
-                            prompt_version="test")
+                            prompt_version="test",
+                            completed_at=now if evaluation_status == EvaluationStatus.COMPLETED else None)
     db.add(evaluation); db.flush()
     return learning
 
@@ -140,6 +141,38 @@ def test_family_variants_deduplicate_and_success_is_level_isolated():
         assert service.level_progress(owner, "quatrieme")["solved"] == 1
         observation(db, owner, "quatrieme-0")
         assert service.level_progress(owner, "quatrieme")["solved"] == 2
+
+
+def test_history_deduplicates_families_isolates_levels_and_orders_acquisitions():
+    from datetime import timedelta
+    families = {("quatrieme", 0): "family-f", ("quatrieme", 1): "family-f"}
+    corpus = Corpus({"quatrieme": 19, "troisieme": 1}, families)
+    owner = uuid.uuid4(); start = datetime(2026, 9, 12, tzinfo=timezone.utc)
+    with Testing() as db:
+        observation(db, owner, "quatrieme-0", at=start)
+        observation(db, owner, "troisieme-0", at=start + timedelta(hours=1))
+        observation(db, owner, "quatrieme-1", at=start + timedelta(hours=2))
+        observation(db, owner, "quatrieme-2", at=start + timedelta(hours=3))
+        observation(db, owner, "quatrieme-3", at=start + timedelta(hours=4))
+        history = CurriculumProgressionService(db, corpus).progress_history(owner, "quatrieme")
+        assert history["eligible"] == 18
+        assert history["unlock_required"] == 11
+        assert [point["solved"] for point in history["points"]] == [1, 2, 3]
+        assert [point["at"] for point in history["points"]] == sorted(
+            point["at"] for point in history["points"])
+        assert all(history["points"][index]["progress_percent"] <= history["points"][index + 1]["progress_percent"]
+                   for index in range(len(history["points"]) - 1))
+
+
+def test_history_uses_canonical_sixty_percent_reference_and_bounded_tail():
+    corpus = Corpus({"quatrieme": 19}); owner = uuid.uuid4()
+    with Testing() as db:
+        for index in range(14):
+            observation(db, owner, f"quatrieme-{index}")
+        history = CurriculumProgressionService(db, corpus).progress_history(owner, "quatrieme", 12)
+        assert history["unlock_required"] == 12
+        assert len(history["points"]) == 12
+        assert history["points"][0]["solved"] == 3
 
 
 def test_nineteen_progression_units_use_exact_integer_unlock_boundary():

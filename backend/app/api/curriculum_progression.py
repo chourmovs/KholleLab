@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from sqlalchemy.orm import Session
 
 from app.api.attempts import session as db_session
-from app.schemas.curriculum_progression import CurriculumLevelChoice, CurriculumProgressSummary
+from app.schemas.curriculum_progression import (CurriculumLevelChoice,
+                                                CurriculumProgressHistory,
+                                                CurriculumProgressSummary)
 from app.services.curriculum_progression import (CurriculumProgressionService,
                                                  ActiveSessionExists,
                                                  AlreadyHighestCurriculum,
@@ -29,6 +31,18 @@ def curriculum_progress(request: Request, db: Session = Depends(db_session)):
         return progression.build_summary(learner_id(request), result.state)
     except InvalidCurriculumState:
         db.rollback()
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="invalid_curriculum_state")
+
+
+@router.get("/history", response_model=CurriculumProgressHistory)
+def curriculum_progress_history(request: Request, limit: int = Query(12, ge=1, le=30),
+                                db: Session = Depends(db_session)):
+    progression = service(request, db)
+    try:
+        state = progression.get_or_create_state(learner_id(request))
+        progression._validate_state(state)
+        return progression.progress_history(learner_id(request), state.current_level, limit)
+    except InvalidCurriculumState:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="invalid_curriculum_state")
 
 

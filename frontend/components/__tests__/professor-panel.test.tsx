@@ -22,14 +22,14 @@ it("offers a controlled next action after a completed debrief",()=>{
   useAttemptStore.setState({attemptId:"attempt-1",status:"submitted",solution:"copie",revision:4,saveState:"saved"});
   const next=vi.fn();
   vi.mocked(api.getEvaluation).mockResolvedValue(completed);
-  render(<ProfessorPanel onNextExercise={next}/>);
-  return screen.findByText(/DÉBRIEF DE COLLE/).then(()=>{fireEvent.click(screen.getByRole("button",{name:"Exercice suivant"}));expect(next).toHaveBeenCalledOnce()});
+  render(<ProfessorPanel onContinueFromDebrief={next}/>);
+  return screen.findByText(/DÉBRIEF DE COLLE/).then(()=>{fireEvent.click(screen.getByRole("button",{name:"Voir ma progression"}));expect(next).toHaveBeenCalledOnce()});
 });
 
 it("keeps retry and allows continuing after terminal correction failure",async()=>{
   useAttemptStore.setState({attemptId:"attempt-1",status:"submitted",solution:"copie",revision:4,saveState:"saved"});
   vi.mocked(api.getEvaluation).mockResolvedValue({status:"failed",stage:"failed",progress:100,max_score:20,strengths:[],issues:[],missing_justifications:[]});
-  const next=vi.fn();render(<ProfessorPanel onNextExercise={next}/>);
+  const next=vi.fn();render(<ProfessorPanel onContinueFromDebrief={next}/>);
   expect(await screen.findByRole("button",{name:"Réessayer"})).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button",{name:"Continuer sans correction"}));expect(next).toHaveBeenCalledOnce();
 });
